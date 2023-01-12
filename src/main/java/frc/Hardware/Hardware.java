@@ -29,16 +29,20 @@ import edu.wpi.first.wpilibj.PowerDistribution;
  * @written Jan 2, 2011 -------------------------------------------------------
  */
 
-public class Hardware {
+public class Hardware
+    {
 
-    enum Identifier {
+    enum Identifier
+        {
         CurrentYear, PrevYear
-    };
+        };
 
-    public static Identifier robotIdentity = Identifier.CurrentYear;
+    public static Identifier robotIdentity = Identifier.PrevYear;
 
-    public static void initialize() {
-        if (robotIdentity == Identifier.CurrentYear) {
+    public static void initialize()
+    {
+        if (robotIdentity == Identifier.CurrentYear)
+            {
             // ==============DIO INIT=============
 
             // ============ANALOG INIT============
@@ -52,7 +56,9 @@ public class Hardware {
 
             // =============OTHER INIT============
 
-        } else if (robotIdentity == Identifier.PrevYear) {
+            }
+        else if (robotIdentity == Identifier.PrevYear)
+            {
             // ==============DIO INIT=============
 
             // ============ANALOG INIT============
@@ -63,18 +69,16 @@ public class Hardware {
 
             // =============OTHER INIT============
 
-        }
+            }
     }
 
     // **********************************************************
     // CAN DEVICES
     // **********************************************************
 
-
     // **********************************************************
     // DIGITAL I/O
     // **********************************************************
-
 
     // **********************************************************
     // ANALOG I/O
@@ -89,7 +93,6 @@ public class Hardware {
     // **********************************************************
 
     public static PowerDistribution pdp = new PowerDistribution();
-
 
     // **********************************************************
     // DRIVER STATION CLASSES
@@ -122,4 +125,4 @@ public class Hardware {
     // Subassemblies
     // -------------------
 
-} // end class
+    } // end class
