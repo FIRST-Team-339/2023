@@ -90,6 +90,8 @@ public class Hardware
             transmission = new LeftRightTransmission(leftSideMotors, rightSideMotors);
             transmission.setJoystickDeadband(PREV_DEADBAND);
             transmission.setAllGearPercentages(PREV_GEAR1_MAX_SPEED, PREV_GEAR2_MAX_SPEED, PREV_GEAR3_MAX_SPEED);
+
+            drive = new Drive(transmission, null, null, null);
             }
     }
 
