@@ -84,7 +84,7 @@ public class Hardware
             leftTopMotor.setInverted(true);
 
             rightBottomMotor = new WPI_TalonFX(16);
-            rightBottomMotor.setInverted(true);
+            rightBottomMotor.setInverted(false);
             rightTopMotor = new WPI_TalonFX(19);
             rightTopMotor.setInverted(false);
 
