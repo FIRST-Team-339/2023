@@ -26,6 +26,8 @@ import frc.HardwareInterfaces.Transmission.LeftRightTransmission;
 import frc.HardwareInterfaces.Transmission.TransmissionBase;
 import frc.HardwareInterfaces.Transmission.TransmissionBase.TransmissionType;
 import frc.Utils.drive.Drive;
+import frc.HardwareInterfaces.SingleThrowSwitch;
+import frc.HardwareInterfaces.SixPositionSwitch;
 
 /**
  * ------------------------------------------------------- puts all of the
@@ -68,6 +70,7 @@ public class Hardware
         else if (robotIdentity == Identifier.PrevYear)
             {
             // ==============DIO INIT=============
+            sixPosSwitch = new SixPositionSwitch(3, 4, 5, 6, 7, 8);
 
             // ============ANALOG INIT============
 
@@ -87,6 +90,7 @@ public class Hardware
 
             // =============OTHER INIT============
             transmission = new LeftRightTransmission(leftSideMotors, rightSideMotors);
+            drive = new Drive(transmission, null, null, null);
             transmission.setJoystickDeadband(PREV_DEADBAND);
             transmission.setAllGearPercentages(PREV_GEAR1_MAX_SPEED, PREV_GEAR2_MAX_SPEED, PREV_GEAR3_MAX_SPEED);
             }
@@ -106,6 +110,7 @@ public class Hardware
     // **********************************************************
     // ANALOG I/O
     // **********************************************************
+    public static SixPositionSwitch sixPosSwitch = null;
 
     // **********************************************************
     // PNEUMATIC DEVICES
