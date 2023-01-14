@@ -14,9 +14,18 @@
 // ====================================================================
 package frc.Hardware;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.drive.RobotDriveBase;
+import edu.wpi.first.wpilibj.motorcontrol.MotorController;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import frc.HardwareInterfaces.Transmission.TankTransmission;
+import frc.HardwareInterfaces.Transmission.TransmissionBase;
+import frc.HardwareInterfaces.Transmission.TransmissionBase.TransmissionType;
+import frc.Utils.drive.Drive;
 
 /**
  * ------------------------------------------------------- puts all of the
@@ -55,7 +64,6 @@ public class Hardware
             // ==============RIO INIT==============
 
             // =============OTHER INIT============
-
             }
         else if (robotIdentity == Identifier.PrevYear)
             {
@@ -64,18 +72,33 @@ public class Hardware
             // ============ANALOG INIT============
 
             // ==============CAN INIT=============
+            leftBottomMotor = new WPI_TalonFX(8);
+            leftTopMotor = new WPI_TalonFX(9);
 
+            leftBottomMotor.setInverted(true);
+            leftTopMotor.setInverted(true);
+
+            rightBottomMotor = new WPI_TalonFX(16);
+            rightTopMotor = new WPI_TalonFX(19);
+
+            leftSideMotors = new MotorControllerGroup(leftBottomMotor, leftTopMotor);
+            rightSideMotors = new MotorControllerGroup(rightBottomMotor, rightTopMotor);
             // ==============RIO INIT=============
 
             // =============OTHER INIT============
-
+            transmission = new TankTransmission(leftSideMotors, rightSideMotors);
+            transmission.setJoystickDeadband(PREV_DEADBAND);
+            transmission.setAllGearPercentages(PREV_GEAR1_MAX_SPEED, PREV_GEAR2_MAX_SPEED, PREV_GEAR3_MAX_SPEED);
             }
     }
 
     // **********************************************************
     // CAN DEVICES
     // **********************************************************
-
+    public static MotorController leftBottomMotor = null;
+    public static MotorController leftTopMotor = null;
+    public static MotorController rightBottomMotor = null;
+    public static MotorController rightTopMotor = null;
     // **********************************************************
     // DIGITAL I/O
     // **********************************************************
@@ -116,6 +139,11 @@ public class Hardware
     // ------------------------------------
     // Drive system
     // ------------------------------------
+    public static MotorControllerGroup leftSideMotors = null;
+    public static MotorControllerGroup rightSideMotors = null;
+
+    public static TankTransmission transmission = null;
+    public static Drive driverDrive = null;
 
     // ------------------------------------------
     // Vision stuff
@@ -125,4 +153,8 @@ public class Hardware
     // Subassemblies
     // -------------------
 
+    private final static double PREV_DEADBAND = 0.2;
+    private final static double PREV_GEAR1_MAX_SPEED = 0.3;
+    private final static double PREV_GEAR2_MAX_SPEED = 0.5;
+    private final static double PREV_GEAR3_MAX_SPEED = 0.7;
     } // end class

@@ -29,6 +29,9 @@
 // ====================================================================
 package frc.robot;
 
+import frc.Hardware.Hardware;
+import frc.Utils.SpeedTester;
+
 /**
  * This class contains all of the user code for the Autonomous part of the
  * match, namely, the Init and Periodic code
@@ -36,7 +39,8 @@ package frc.robot;
  * @author Nathanial Lydick
  * @written Jan 13, 2015
  */
-public class Teleop {
+public class Teleop
+    {
 
     /**
      * User Initialization code for teleop mode should go here. Will be called once
@@ -45,7 +49,8 @@ public class Teleop {
      * @author Nathanial Lydick
      * @written Jan 13, 2015
      */
-    public static void init() {
+    public static void init()
+    {
 
     } // end Init
 
@@ -57,21 +62,26 @@ public class Teleop {
      * @written Jan 13, 2015
      */
 
-    public static void periodic() {
+    public static void periodic()
+    {
         // =============== AUTOMATED SUBSYSTEMS ===============
 
         // ================= OPERATOR CONTROLS ================
 
         // ================== DRIVER CONTROLS =================
-
+        Hardware.transmission.shiftGears(Hardware.rightDriver.getTrigger(), Hardware.leftDriver.getTrigger());
+        Hardware.transmission.drive(Hardware.leftDriver.getY(), Hardware.rightDriver.getY());
+        printStatements();
         individualTest();
     } // end Periodic()
 
-    public static void individualTest() {
+    public static void individualTest()
+    {
         // people test functions
-    }
+    } // end individualTest()
 
-    public static void printStatements() {
+    public static void printStatements()
+    {
         // ========== INPUTS ==========
 
         // ---------- DIGITAL ----------
@@ -90,19 +100,23 @@ public class Teleop {
 
         // ---------- OTHER ------------
 
-
         // ========== OUTPUTS ==========
 
         // ---------- DIGITAL ----------
 
         // ---------- ANALOG -----------
-
+        // System.out.println("RJoystick " + Hardware.leftDriver.getY());
+        // System.out.println("LJoystick " + Hardware.leftDriver.getY());
         // ----------- CAN -------------
+        // System.out.println("RTMotor " + Hardware.rightSideMotors.get());
+        // System.out.println("RBMotor " + Hardware.rightSideMotors.get());
+        // System.out.println("LTMotor " + Hardware.leftSideMotors.get());
+        // System.out.println("LBMotor " + Hardware.leftSideMotors.get());
 
         // -------- SUBSYSTEMS ---------
 
         // ---------- OTHER ------------
 
-    }
+    } // end printStatements()
 
-} // end class
+    } // end class
