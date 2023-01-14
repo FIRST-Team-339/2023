@@ -26,7 +26,7 @@ public class LeftRightTransmission extends TransmissionBase
                         super(leftSide, rightSide);
 
                         super.type = TransmissionType.TANK;
-                }
+                } // end constructor
 
         /**
          * Drives the transmission based on a Tank drive system, where left controls the
@@ -45,5 +45,5 @@ public class LeftRightTransmission extends TransmissionBase
                 double rightOut = super.scaleJoystickForDeadband(rightVal) * super.getCurrentGearRatio();
 
                 super.driveRaw(leftOut, rightOut);
-        }
-        }
+        } // end drive()
+        } // end class
