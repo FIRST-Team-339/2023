@@ -27,7 +27,8 @@ public class KilroyUSBCamera
      * constructor
      *
      * @param twoFeeds
-     *            - states whether we are using two camera feeds
+     *            - states whether we are using two camera feeds true = 2 USB
+     *            cameras false = 1 USB cameras
      *
      * @Author Alice Marchant
      * @Written Feb 15th, 2020
@@ -51,13 +52,14 @@ public class KilroyUSBCamera
                 this.server = CameraServer.getInstance().getServer("serve_usb0");
                 setCameraValues(1);
                 }
-        }
+        } // end constructor - overloaded
 
     /**
      * constructor
      *
      * @param twoFeeds
-     *            - states whether we are using two camera feeds
+     *            - states whether we are using two camera feeds true = 2 USB
+     *            cameras false = 1 USB cameras
      * @param width
      *            - the width
      * @param height
@@ -89,12 +91,13 @@ public class KilroyUSBCamera
                 this.server = CameraServer.getInstance().getServer("serve_usb0");
                 setCameraValues(width, height, FPS, compression, 1);
                 }
-        }
+        } // end constructor - overloaded
 
     /**
      * constructor
      *
      * @param button
+     *            button used to switch views
      *
      * @Author Alice Marchant
      * @Written Feb 15th, 2020
@@ -108,12 +111,13 @@ public class KilroyUSBCamera
             this.server = CameraServer.getInstance().getServer("serve_usb0");
             setCameraValues(2);
             this.button = button;
-        }
+        } // end constructor - overloaded
 
     /**
      * constructor
      *
      * @param button
+     *            button used to switch views
      * @param width
      *            - the width
      * @param height
@@ -136,15 +140,15 @@ public class KilroyUSBCamera
             this.server = CameraServer.getInstance().getServer("serve_usb0");
             setCameraValues(width, height, FPS, compression, 2);
             this.button = button;
-        }
+        } // end constructor - overloaded
 
     /**
      * constructor
      *
      * @param switch1
-     *            - button
+     *            - button button used to switch USB camera 2
      * @param switch2
-     *            - button
+     *            - button button used to switch USB camera 1
      *
      * @Author Alice Marchant
      * @Written Feb 15th, 2020
@@ -159,15 +163,15 @@ public class KilroyUSBCamera
             setCameraValues(2);
             this.switch1 = switch1;
             this.switch2 = switch2;
-        }
+        } // end constructor - overloaded
 
     /**
      * constructor
      *
      * @param switch1
-     *            - button
+     *            - button button used to switch USB camera 2
      * @param switch2
-     *            - button
+     *            - button button used to switch USB camera 1
      * @param width
      *            - the width
      * @param height
@@ -191,13 +195,15 @@ public class KilroyUSBCamera
             setCameraValues(width, height, FPS, compression, 2);
             this.switch1 = switch1;
             this.switch2 = switch2;
-        }
+        } // end constructor - overloaded
 
     /**
      * constructor
      *
      * @param button1
+     *            button used to switch to view 2
      * @param button2
+     *            button used to switch to view 1
      *
      * @Author Alice Marchant
      * @Written Feb 15th, 2020
@@ -213,13 +219,15 @@ public class KilroyUSBCamera
             setCameraValues(2);
             this.button1 = button1;
             this.button2 = button2;
-        }
+        } // end constructor - overloaded
 
     /**
      * constructor
      *
      * @param button1
+     *            button used to switch to view 2
      * @param button2
+     *            button used to switch to view 1
      * @param width
      *            - the width
      * @param height
@@ -243,7 +251,7 @@ public class KilroyUSBCamera
             setCameraValues(width, height, FPS, compression, 2);
             this.button1 = button1;
             this.button2 = button2;
-        }
+        } // end constructor - overloaded
 
     /**
      * Gets the compression rate of the server
@@ -256,7 +264,7 @@ public class KilroyUSBCamera
     public int getCompression()
     {
         return this.server.getProperty("compression").get();
-    }
+    } // end getCompression()
 
     /**
      * Gets the fps of a given camera
@@ -285,7 +293,7 @@ public class KilroyUSBCamera
             {
             return 0.0;
             }
-    }
+    } // end getFPS()
 
     /**
      * Sets a given camera to be diplayed to the driver's station
@@ -308,7 +316,7 @@ public class KilroyUSBCamera
             {
             this.server.setSource(this.cam1);
             }
-    }
+    } // end setCamera()
 
     /**
      * Sets the values for fps, resolution, and compression on the camera(s)
@@ -335,7 +343,7 @@ public class KilroyUSBCamera
             this.cam1.setFPS(CAMERA_FPS);
             this.server.getProperty("compression").set(COMPRESSION);
             }
-    }
+    } // end setCameraValues()
 
     /**
      * Passes in the values for fps, resolution, and compression on the camera(s)

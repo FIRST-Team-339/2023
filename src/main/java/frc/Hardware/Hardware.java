@@ -16,6 +16,7 @@ package frc.Hardware;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -93,6 +94,8 @@ public class Hardware
             drive = new Drive(transmission, null, null, null);
             transmission.setJoystickDeadband(PREV_DEADBAND);
             transmission.setAllGearPercentages(PREV_GEAR1_MAX_SPEED, PREV_GEAR2_MAX_SPEED, PREV_GEAR3_MAX_SPEED);
+
+            drive = new Drive(transmission, null, null, null);
             }
     }
 
