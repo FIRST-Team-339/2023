@@ -16,20 +16,16 @@ package frc.Hardware;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import frc.HardwareInterfaces.KilroyEncoder;
-import frc.HardwareInterfaces.Transmission.LeftRightTransmission;
-import frc.Utils.drive.Drive;
-
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistribution;
-import edu.wpi.first.wpilibj.Joystick.ButtonType;
-import edu.wpi.first.wpilibj.buttons.Trigger;
+import edu.wpi.first.wpilibj.drive.RobotDriveBase;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-import edu.wpi.first.wpilibj.simulation.JoystickSim;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.HardwareInterfaces.Transmission.LeftRightTransmission;
+import frc.HardwareInterfaces.Transmission.TransmissionBase;
+import frc.HardwareInterfaces.Transmission.TransmissionBase.TransmissionType;
+import frc.Utils.drive.Drive;
 
 /**
  * ------------------------------------------------------- puts all of the
@@ -68,7 +64,6 @@ public class Hardware
             // ==============RIO INIT==============
 
             // =============OTHER INIT============
-
             }
         else if (robotIdentity == Identifier.PrevYear)
             {
@@ -77,53 +72,33 @@ public class Hardware
             // ============ANALOG INIT============
 
             // ==============CAN INIT=============
-            // Motor Controllers
             leftBottomMotor = new WPI_TalonFX(8);
-            leftBottomMotor.setInverted(true);
             leftTopMotor = new WPI_TalonFX(9);
+
+            leftBottomMotor.setInverted(true);
             leftTopMotor.setInverted(true);
 
             rightBottomMotor = new WPI_TalonFX(16);
-            rightBottomMotor.setInverted(false);
             rightTopMotor = new WPI_TalonFX(19);
-            rightTopMotor.setInverted(false);
 
-            leftDriveGroup = new MotorControllerGroup(leftBottomMotor, leftTopMotor);
-            rightDriveGroup = new MotorControllerGroup(rightBottomMotor, rightTopMotor);
-
-            // Encoders
-            leftSideEncoder = new KilroyEncoder((WPI_TalonFX) leftTopMotor);
-            rightSideEncoder = new KilroyEncoder((WPI_TalonFX) rightBottomMotor);
-
+            leftSideMotors = new MotorControllerGroup(leftBottomMotor, leftTopMotor);
+            rightSideMotors = new MotorControllerGroup(rightBottomMotor, rightTopMotor);
             // ==============RIO INIT=============
 
             // =============OTHER INIT============
-
-            transmission = new LeftRightTransmission(leftDriveGroup, rightDriveGroup);
-
-            drive = new Drive(transmission, leftSideEncoder, rightSideEncoder, null);
-            drive.setJoystickDeadband(PREV_DEADBAND);
-            transmission.setAllGearPercentages(FIRSTGEAR_PERCENTAGE_PREVYEAR, SECONDGEAR_PERCENTAGE_PREVYEAR,
-                    THIRDGEAR_PERCENTAGE_PREVYEAR);
-
-            } // end if
-    } // end teleop()
+            transmission = new LeftRightTransmission(leftSideMotors, rightSideMotors);
+            transmission.setJoystickDeadband(PREV_DEADBAND);
+            transmission.setAllGearPercentages(PREV_GEAR1_MAX_SPEED, PREV_GEAR2_MAX_SPEED, PREV_GEAR3_MAX_SPEED);
+            }
+    }
 
     // **********************************************************
     // CAN DEVICES
     // **********************************************************
-
     public static MotorController leftBottomMotor = null;
     public static MotorController leftTopMotor = null;
     public static MotorController rightBottomMotor = null;
     public static MotorController rightTopMotor = null;
-
-    public static MotorControllerGroup leftDriveGroup = null;
-    public static MotorControllerGroup rightDriveGroup = null;
-
-    public static KilroyEncoder leftSideEncoder = null;
-    public static KilroyEncoder rightSideEncoder = null;
-
     // **********************************************************
     // DIGITAL I/O
     // **********************************************************
@@ -164,24 +139,11 @@ public class Hardware
     // ------------------------------------
     // Drive system
     // ------------------------------------
+    public static MotorControllerGroup leftSideMotors = null;
+    public static MotorControllerGroup rightSideMotors = null;
 
     public static LeftRightTransmission transmission = null;
-
     public static Drive drive = null;
-
-    public static final double CURRENT_DEADBAND = 0.2;
-    public static final double PREV_DEADBAND = 0.2;
-
-    // Gear Variables
-
-    private static final double FIRSTGEAR_PERCENTAGE_PREVYEAR = 0.3; // FIRSTGEAR_PERCENTAGE_PREVYEAR
-    public static final double FIRSTGEAR_PERCENTAGE_CURRENTYEAR = 0.3; // FIRSTGEAR_PERCENTAGE_CURRENTYEAR
-
-    private static final double SECONDGEAR_PERCENTAGE_PREVYEAR = 0.5; // SECONDGEAR_PERCENTAGE_PREVYEAR
-    private static final double SECONDGEAR_PERCENTAGE_CURRENTYEAR = 0.5; // SECONDGEAR_PERCENTAGE_CURRENTYEAR
-
-    private static final double THIRDGEAR_PERCENTAGE_PREVYEAR = 0.7; // THIRDGEAR_PERCENTAGE_PREVYEAR
-    private static final double THIRDGEAR_PERCENTAGE_CURRENTYEAR = 0.7; // THIRDGEAR_PERCENTAGE_CURRENTYEAR
 
     // ------------------------------------------
     // Vision stuff
@@ -191,4 +153,8 @@ public class Hardware
     // Subassemblies
     // -------------------
 
+    private final static double PREV_DEADBAND = 0.2;
+    private final static double PREV_GEAR1_MAX_SPEED = 0.3;
+    private final static double PREV_GEAR2_MAX_SPEED = 0.5;
+    private final static double PREV_GEAR3_MAX_SPEED = 0.7;
     } // end class
