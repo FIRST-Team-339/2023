@@ -2,7 +2,7 @@ package frc.Utils.drive;
 
 import frc.HardwareInterfaces.KilroyEncoder;
 import frc.HardwareInterfaces.Transmission.MecanumTransmission;
-import frc.HardwareInterfaces.Transmission.TankTransmission;
+import frc.HardwareInterfaces.Transmission.LeftRightTransmission;
 import frc.HardwareInterfaces.Transmission.TransmissionBase;
 import frc.HardwareInterfaces.Transmission.TransmissionBase.MotorPosition;
 import frc.HardwareInterfaces.Transmission.TransmissionBase.TransmissionType;
@@ -268,12 +268,11 @@ public class Drive
             leftSide = 1;
             rightSide = innerCircle / outerCircle;
             }
-        else
-            if (radius < 0)
-                {
-                rightSide = 1;
-                leftSide = innerCircle / outerCircle;
-                }
+        else if (radius < 0)
+            {
+            rightSide = 1;
+            leftSide = innerCircle / outerCircle;
+            }
 
         double leftRate = getEncoderRate(MotorPosition.LEFT);
         double rightRate = getEncoderRate(MotorPosition.RIGHT);
@@ -542,12 +541,11 @@ public class Drive
             }
         // if Braketype is AFTER_TURN set the deadband to brakeTurnDeadband
         // and set power to brakeTurnPower
-        else
-            if (type == BrakeType.AFTER_TURN)
-                {
-                deadband = brakeTurnDeadband;
-                power = brakeTurnPower;
-                }
+        else if (type == BrakeType.AFTER_TURN)
+            {
+            deadband = brakeTurnDeadband;
+            power = brakeTurnPower;
+            }
 
         if (System.currentTimeMillis() - previousBrakeTime > INIT_TIMEOUT)
             {
@@ -794,23 +792,22 @@ public class Drive
     public void drive(double leftVal, double rightVal)
     {
         // If the transmission input into Drive is of type Tank, then use it.
-        if (transmission instanceof TankTransmission)
-            ((TankTransmission) transmission).drive(leftVal, rightVal);
+        if (transmission instanceof LeftRightTransmission)
+            ((LeftRightTransmission) transmission).drive(leftVal, rightVal);
         // If the transmission input into Drive is some sort of Omni-Directional,
         // then use tank drive on it.
-        else
-            if (transmission.getType() == TransmissionType.OMNI_DIR)
-                {
-                double direction = 0;
-                double magnitude = (leftVal + rightVal) / 2.0;
-                double rotation = (leftVal - rightVal) / 2.0;
+        else if (transmission.getType() == TransmissionType.OMNI_DIR)
+            {
+            double direction = 0;
+            double magnitude = (leftVal + rightVal) / 2.0;
+            double rotation = (leftVal - rightVal) / 2.0;
 
-                if (magnitude < 0)
-                    direction = 180;
-                magnitude = Math.abs(magnitude);
+            if (magnitude < 0)
+                direction = 180;
+            magnitude = Math.abs(magnitude);
 
-                this.drive(magnitude, direction, rotation);
-                }
+            this.drive(magnitude, direction, rotation);
+            }
     }
 
     /**
@@ -848,17 +845,16 @@ public class Drive
 
         // AHHH! we are a Tank transmission! ...Switching to arcade drive I
         // guess?
-        else
-            if (transmission instanceof TankTransmission)
-                {
-                // Arcade Drive
-                double yVal = magnitude * Math.cos(Math.toRadians(direction));
-                double xVal = magnitude * Math.sin(Math.toRadians(direction));
-                double leftVal = Math.min(Math.max(yVal + xVal, -1), 1);
-                double rightVal = Math.min(Math.max(yVal - xVal, -1), 1);
+        else if (transmission instanceof LeftRightTransmission)
+            {
+            // Arcade Drive
+            double yVal = magnitude * Math.cos(Math.toRadians(direction));
+            double xVal = magnitude * Math.sin(Math.toRadians(direction));
+            double leftVal = Math.min(Math.max(yVal + xVal, -1), 1);
+            double rightVal = Math.min(Math.max(yVal - xVal, -1), 1);
 
-                ((TankTransmission) transmission).drive(leftVal, rightVal);
-                }
+            ((LeftRightTransmission) transmission).drive(leftVal, rightVal);
+            }
     }
 
     /**
@@ -1309,9 +1305,8 @@ public class Drive
             if (degrees > 0
                     && Math.abs(getEncoderDistanceAverage(MotorPosition.LEFT)) > degreesToEncoderInches(degrees, true))
                 finished = true;
-            else
-                if (Math.abs(getEncoderDistanceAverage(MotorPosition.RIGHT)) > degreesToEncoderInches(degrees, true))
-                    finished = true;
+            else if (Math.abs(getEncoderDistanceAverage(MotorPosition.RIGHT)) > degreesToEncoderInches(degrees, true))
+                finished = true;
             }
 
         // We have reached the angle, so stop.
@@ -1912,17 +1907,16 @@ public class Drive
             return true;
             // not using gyro
             }
-        else
-            if (!usingGyro && this.getEncoderDistanceAverage(MotorPosition.ALL) > degreesToEncoderInches(
-                    Math.abs(degrees) - turnDegreesFudgeFactor, false))
-                {
-                System.out.println("encoder required: "
-                        + degreesToEncoderInches(Math.abs(degrees) - turnDegreesFudgeFactor, false));
+        else if (!usingGyro && this.getEncoderDistanceAverage(MotorPosition.ALL) > degreesToEncoderInches(
+                Math.abs(degrees) - turnDegreesFudgeFactor, false))
+            {
+            System.out.println(
+                    "encoder required: " + degreesToEncoderInches(Math.abs(degrees) - turnDegreesFudgeFactor, false));
 
-                this.transmission.stop();
-                turnDegreesInit = true;
-                return true;
-                }
+            this.transmission.stop();
+            turnDegreesInit = true;
+            return true;
+            }
 
         // If degrees is positive, then turn left. If not, then turn right.
         if (degrees > 0)
@@ -1969,9 +1963,8 @@ public class Drive
     {
         if (val > upperVal)
             return upperVal;
-        else
-            if (val < lowerVal)
-                return lowerVal;
+        else if (val < lowerVal)
+            return lowerVal;
 
         return val;
     } // end inRange ()
