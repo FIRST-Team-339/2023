@@ -98,7 +98,8 @@ public class Hardware
     // DRIVER STATION CLASSES
     // **********************************************************
 
-    public static DriverStation driverStation = DriverStation.getInstance();
+    // getInstance() method no longer works!
+    public static DriverStation driverStation;
 
     public static Joystick leftDriver = new Joystick(0);
     public static Joystick rightDriver = new Joystick(1);
