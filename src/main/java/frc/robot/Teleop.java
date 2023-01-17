@@ -31,7 +31,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import frc.Hardware.Hardware;
-import frc.HardwareInterfaces.SixPositionSwitch;
 import frc.HardwareInterfaces.Transmission.LeftRightTransmission;
 import frc.HardwareInterfaces.Transmission.TransmissionBase;
 
@@ -88,7 +87,11 @@ public class Teleop
     public static void printStatements()
     {
         // ========== INPUTS ==========
+     {
+     
 
+
+ }
         // ---------- DIGITAL ----------
 
         // Encoder Distances
@@ -97,8 +100,11 @@ public class Teleop
 
         // Switch Values
 
+<<<<<<< HEAD
         /////////// SIX POSITION SWITCH ///////////
         System.out.println("Six Position Switch value: " + Hardware.sixPosSwitch.getPosition());
+=======
+>>>>>>> 2f198a5848742ccdcbf031054e8a86be1ace7234
 
         // ---------- ANALOG -----------
 

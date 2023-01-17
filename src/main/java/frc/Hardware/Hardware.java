@@ -16,9 +16,11 @@ package frc.Hardware;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.drive.RobotDriveBase;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
@@ -72,6 +74,7 @@ public class Hardware
             {
             // ==============DIO INIT=============
             sixPosSwitch = new SixPositionSwitch(3, 4, 5, 6, 7, 8);
+            disableAutoSwitch = new SingleThrowSwitch(12);
 
             // ============ANALOG INIT============
 
@@ -110,14 +113,23 @@ public class Hardware
     // DIGITAL I/O
     // **********************************************************
     public static SixPositionSwitch sixPosSwitch = null;
+<<<<<<< HEAD
 
     // **********************************************************
     // ANALOG I/O
     // **********************************************************
 
+=======
+    public static SingleThrowSwitch disableAutoSwitch = null;
+    // **********************************************************
+    // ANALOG I/O
+    // **********************************************************
+    
+>>>>>>> 2f198a5848742ccdcbf031054e8a86be1ace7234
     // **********************************************************
     // PNEUMATIC DEVICES
     // **********************************************************
+    public static Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
 
     // **********************************************************
     // roboRIO CONNECTIONS CLASSES
