@@ -72,6 +72,7 @@ public class Hardware
             {
             // ==============DIO INIT=============
             sixPosSwitch = new SixPositionSwitch(3, 4, 5, 6, 7, 8);
+            disableAutoSwitch = new SingleThrowSwitch(12);
 
             // ============ANALOG INIT============
 
@@ -109,12 +110,12 @@ public class Hardware
     // **********************************************************
     // DIGITAL I/O
     // **********************************************************
-
+    public static SixPositionSwitch sixPosSwitch = null;
+    public static SingleThrowSwitch disableAutoSwitch = null;
     // **********************************************************
     // ANALOG I/O
     // **********************************************************
-    public static SixPositionSwitch sixPosSwitch = null;
-
+    
     // **********************************************************
     // PNEUMATIC DEVICES
     // **********************************************************

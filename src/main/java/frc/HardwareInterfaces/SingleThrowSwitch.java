@@ -51,6 +51,8 @@ public SingleThrowSwitch (final int channel)
     super(channel);
 } // end constructor
 
+    
+
 // ------------------------------------------------------
 /**
  * This function overrides the parent function get() but

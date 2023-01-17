@@ -31,7 +31,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import frc.Hardware.Hardware;
-import frc.HardwareInterfaces.SixPositionSwitch;
 import frc.HardwareInterfaces.Transmission.LeftRightTransmission;
 import frc.HardwareInterfaces.Transmission.TransmissionBase;
 
@@ -76,31 +75,6 @@ public class Teleop
         Hardware.transmission.shiftGears(Hardware.rightDriver.getTrigger(), Hardware.leftDriver.getTrigger());
         Hardware.transmission.drive(Hardware.leftDriver.getY(), Hardware.rightDriver.getY());
 
-        if (Hardware.sixPosSwitch.getPosition() == 13)
-            {
-            sixPosTest = "1";
-            }
-        else if (Hardware.sixPosSwitch.getPosition() == 14)
-            {
-            sixPosTest = "2";
-            }
-        else if (Hardware.sixPosSwitch.getPosition() == 15)
-            {
-            sixPosTest = "3";
-            }
-        else if (Hardware.sixPosSwitch.getPosition() == 16)
-            {
-            sixPosTest = "4";
-            }
-        else if (Hardware.sixPosSwitch.getPosition() == 17)
-            {
-            sixPosTest = "5";
-            }
-        else if (Hardware.sixPosSwitch.getPosition() == 18)
-            {
-            sixPosTest = "6";
-            }
-
         printStatements();
         individualTest();
     } // end Periodic()
@@ -113,7 +87,11 @@ public class Teleop
     public static void printStatements()
     {
         // ========== INPUTS ==========
+     {
+     
 
+
+ }
         // ---------- DIGITAL ----------
 
         // Encoder Distances
@@ -121,7 +99,7 @@ public class Teleop
         // Encoder Raw Values
 
         // Switch Values
-        /////////// SIX POSITION SWITCH ///////////
+
 
         // ---------- ANALOG -----------
 
@@ -154,6 +132,4 @@ public class Teleop
         // ---------- OTHER ------------
 
     }
-
-    static String sixPosTest = "";
     } // end class
