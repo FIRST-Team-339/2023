@@ -76,31 +76,6 @@ public class Teleop
         Hardware.transmission.shiftGears(Hardware.rightDriver.getTrigger(), Hardware.leftDriver.getTrigger());
         Hardware.transmission.drive(Hardware.leftDriver.getY(), Hardware.rightDriver.getY());
 
-        if (Hardware.sixPosSwitch.getPosition() == 13)
-            {
-            sixPosTest = "1";
-            }
-        else if (Hardware.sixPosSwitch.getPosition() == 14)
-            {
-            sixPosTest = "2";
-            }
-        else if (Hardware.sixPosSwitch.getPosition() == 15)
-            {
-            sixPosTest = "3";
-            }
-        else if (Hardware.sixPosSwitch.getPosition() == 16)
-            {
-            sixPosTest = "4";
-            }
-        else if (Hardware.sixPosSwitch.getPosition() == 17)
-            {
-            sixPosTest = "5";
-            }
-        else if (Hardware.sixPosSwitch.getPosition() == 18)
-            {
-            sixPosTest = "6";
-            }
-
         printStatements();
         individualTest();
     } // end Periodic()
@@ -121,7 +96,9 @@ public class Teleop
         // Encoder Raw Values
 
         // Switch Values
+
         /////////// SIX POSITION SWITCH ///////////
+        System.out.println("Six Position Switch value: " + Hardware.sixPosSwitch.getPosition());
 
         // ---------- ANALOG -----------
 
@@ -154,6 +131,4 @@ public class Teleop
         // ---------- OTHER ------------
 
     }
-
-    static String sixPosTest = "";
     } // end class
