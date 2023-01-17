@@ -16,9 +16,11 @@ package frc.Hardware;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.drive.RobotDriveBase;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
@@ -119,6 +121,7 @@ public class Hardware
     // **********************************************************
     // PNEUMATIC DEVICES
     // **********************************************************
+    public static Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
 
     // **********************************************************
     // roboRIO CONNECTIONS CLASSES
