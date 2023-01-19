@@ -93,7 +93,7 @@ public class Teleop
                         || ((Math.abs(Hardware.leftDriver.getY()) >= Hardware.PREV_DEADBAND))))
             {
             Hardware.breakTestPistion.setForward(false);
-            testTimer.start();
+            // testTimer.start();
 
             }
 
@@ -161,18 +161,11 @@ public class Teleop
 
         // ---------- OTHER ------------
 
-<<<<<<< HEAD
-        // ??????? // TEST TEMP // ??????? //
-
-    }
-
-    private static Timer testTimer = new Timer();
-=======
     } // end printStatements()
 
     // =========================================
     // class private data goes here
     // =========================================
+    private static Timer testTimer = new Timer();
 
->>>>>>> 1532703ac40d391288a97d1b8fa881652099a467
     } // end class
