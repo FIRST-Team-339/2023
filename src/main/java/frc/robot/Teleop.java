@@ -54,7 +54,7 @@ public class Teleop
     public static void init()
     {
         Hardware.drive.setGear(0);
-    } // end Init
+    } // end init()
 
     /**
      * User Periodic code for teleop mode should go here. Will be called
@@ -77,12 +77,12 @@ public class Teleop
 
         printStatements();
         individualTest();
-    } // end Periodic()
+    } // end periodic()
 
     public static void individualTest()
     {
         // people test functions
-    }
+    } // end individualTest()
 
     public static void printStatements()
     {
@@ -131,5 +131,10 @@ public class Teleop
 
         // ---------- OTHER ------------
 
-    }
+    } // end printStatements()
+
+    // =========================================
+    // class private data goes here
+    // =========================================
+
     } // end class

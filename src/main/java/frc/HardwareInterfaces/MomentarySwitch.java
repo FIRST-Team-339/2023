@@ -86,7 +86,7 @@ public class MomentarySwitch
             this.isOn = false;
             this.previouslyOn = false;
             this.joystickToCheck = null;
-        } // end MomentarySwitch
+        } // end constructor - overloaded
 
     // -----------------------------------------------------
     /**
@@ -103,7 +103,7 @@ public class MomentarySwitch
             this.isOn = startingState;
             this.previouslyOn = false;
             this.joystickToCheck = null;
-        } // end MomentarySwitch
+        } // end constructor - overloaded
 
     // -----------------------------------------------------
     /**
@@ -126,7 +126,7 @@ public class MomentarySwitch
             this.previouslyOn = false;
             this.joystickToCheck = joystick;
             this.buttonNumber = buttonNumber;
-        } // end MomentarySwitch
+        } // end constructor - overloaded
 
     // ---------------------------------------------------------
     /**
@@ -239,7 +239,7 @@ public class MomentarySwitch
     public Joystick setJoystick()
     {
         return this.joystickToCheck;
-    } // end getJoystick()
+    } // end setJoystick()
 
     /**
      *
@@ -252,7 +252,7 @@ public class MomentarySwitch
     {
         this.isOn = on;
 
-    }
+    } // end setValue()
 
     // ---------------------------------------------------------
     /**
@@ -272,7 +272,7 @@ public class MomentarySwitch
         // -------------------------------------
         if (this.getJoystick() != null)
             this.update(this.getJoystick().getRawButton(this.getButtonNumber()));
-    } // end update
+    } // end update()
 
     // ---------------------------------------------------------
     /**
@@ -312,4 +312,5 @@ public class MomentarySwitch
             // -------------------------------------
             this.previouslyOn = false;
     } // end update()
+
     } // end class

@@ -43,7 +43,7 @@ public class SixPositionSwitch
             position3 = new SingleThrowSwitch(portThree);
             position4 = new SingleThrowSwitch(portFour);
             position5 = new SingleThrowSwitch(portFive);
-        }
+        } // end constructor - overloaded
 
     /**
      * Define a six-position switch with six digital input ports. Extra parameter to
@@ -71,7 +71,7 @@ public class SixPositionSwitch
                 position3 = new SingleThrowSwitch(portThree);
                 position4 = new SingleThrowSwitch(portFour);
                 position5 = new SingleThrowSwitch(portFive);
-                }
+                } // end if
             else
             // invert it.
                 {
@@ -81,8 +81,8 @@ public class SixPositionSwitch
                 position3 = new SingleThrowSwitch(portTwo);
                 position4 = new SingleThrowSwitch(portOne);
                 position5 = new SingleThrowSwitch(portZero);
-                }
-        }
+                } // end else
+        } // end constructor - overloaded
 
     /**
      * Gets the position of the switch, starting at 0. defaults to -1.
@@ -117,6 +117,6 @@ public class SixPositionSwitch
             value = 5;
             }
         return value;
-    }
+    } // end getPosition()
 
-    }
+    } // end class

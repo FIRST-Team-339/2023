@@ -100,35 +100,33 @@ public class LightSensor extends DigitalInput
      *
      * @method LightSensor()
      * @param channel
-     *                    - the port for the digital input
+     *            - the port for the digital input
      * @author S. V. Pakington
      * @written Feb 3, 2010 -------------------------------------------------------
      */
     public LightSensor(final int channel)
         {
             super(channel);
-        } // end LightSensor
-        
+        } // end constructor - overloaded
+
     // -------------------------------------------------------
     /**
-    * Create an instance of a LightSensor class.
-    * Creates a digital input given a channel and uses the default module.
-    *
-    * @method LightSensor()
-    * @param channel
-    *                            - the port for the digital input
-    * @param reversePolarity
-    *                            - denotes that the sensor sends back false when ON
-    *                            instead of true
-    * @author S. V. Pakington
-    * @written Feb 3, 2010
-    *          -------------------------------------------------------
-    */
-    public LightSensor (final int channel, boolean reversePolarity)
-    {
-        super(channel);
-        this.isReversed = reversePolarity;
-    } // end LightSensor
+     * Create an instance of a LightSensor class. Creates a digital input given a
+     * channel and uses the default module.
+     *
+     * @method LightSensor()
+     * @param channel
+     *            - the port for the digital input
+     * @param reversePolarity
+     *            - denotes that the sensor sends back false when ON instead of true
+     * @author S. V. Pakington
+     * @written Feb 3, 2010 -------------------------------------------------------
+     */
+    public LightSensor(final int channel, boolean reversePolarity)
+        {
+            super(channel);
+            this.isReversed = reversePolarity;
+        } // end constructor - overloaded
 
     // -------------------------------------------------------
     /**
@@ -142,15 +140,16 @@ public class LightSensor extends DigitalInput
      */
     public boolean isOn()
     {
-            if (this.isReversed == true)
-                {
-                if (this.get() == true)
-                    return false;
-                else return true;
-                }
-            return (this.get());
-    
-       } // end isOn
+        if (this.isReversed == true)
+            {
+            if (this.get() == true)
+                return false;
+            else
+                return true;
+            }
+        return (this.get());
+
+    } // end isOn()
 
     // -------------------------------------------------------
     /**
@@ -166,7 +165,7 @@ public class LightSensor extends DigitalInput
     public boolean isReversed()
     {
         return this.isReversed;
-    }
+    } // end isReversed()
 
     // -------------------------------------------------------
     /**
@@ -182,7 +181,7 @@ public class LightSensor extends DigitalInput
     public boolean setReversed(boolean reversed)
     {
         return (this.isReversed = reversed);
-    }
+    } // end setReversed()
 
     private boolean isReversed = false;
-    } // end LightSensor
+    } // end class LightSensor

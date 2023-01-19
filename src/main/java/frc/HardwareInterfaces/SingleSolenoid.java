@@ -48,15 +48,15 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
  * @author Will Stuckey
  */
 public class SingleSolenoid extends edu.wpi.first.wpilibj.Solenoid
-{
+    {
     /**
      * @param channel
      *            The channel on the module to control.
      */
-    public SingleSolenoid (int channel)
+    public SingleSolenoid(int channel)
         {
-        super(PneumaticsModuleType.CTREPCM, channel);
-        }
+            super(PneumaticsModuleType.CTREPCM, channel);
+        } // end constructor - overloaded
 
     /**
      * @param channel
@@ -64,8 +64,9 @@ public class SingleSolenoid extends edu.wpi.first.wpilibj.Solenoid
      * @param noduleNumber
      *            The module number of the solenoid module to use.
      */
-    public SingleSolenoid (int channel, int noduleNumber)
+    public SingleSolenoid(int channel, int noduleNumber)
         {
-        super(noduleNumber, PneumaticsModuleType.CTREPCM, channel);
-        }
-}
+            super(noduleNumber, PneumaticsModuleType.CTREPCM, channel);
+        } // end constructor - overloaded
+
+    } // end class

@@ -50,7 +50,7 @@ public class KilroyEncoder implements PIDSource
             this.dioSensor = new Encoder(digitalPort1, digitalPort2);
             type = SensorType.D_IO;
 
-        }
+        } // end constructor - overloaded
 
     /**
      * Creates the KilroyEncoder object with an encoder attached to a CAN motor
@@ -63,7 +63,7 @@ public class KilroyEncoder implements PIDSource
         {
             this.canSensor = canMotorController;
             type = SensorType.CAN;
-        }
+        } // end constructor - overloaded
 
     /**
      * Creats the KilroyEncoder object with an encoder attached to a REV SparkMax
@@ -75,7 +75,7 @@ public class KilroyEncoder implements PIDSource
             this.canEncoder = canMotorController;
             type = SensorType.REV_CAN;
             setTicksPerRevolution(1);
-        }
+        } // end constructor - overloaded
 
     /**
      * this is the same as above it creats the object AND sets how many ticks we
@@ -90,7 +90,7 @@ public class KilroyEncoder implements PIDSource
             type = SensorType.REV_CAN;
             setTicksPerRevolution(ticksPerRevolution);
 
-        }
+        } // end constructor - overloaded
 
     /**
      * This is the same as the old kilroy can encoder, but the can hats for the
@@ -103,7 +103,7 @@ public class KilroyEncoder implements PIDSource
         {
             this.talonSensor = canMotorController;
             type = SensorType.CAN_HAT;
-        }
+        } // end constructor - overloaded
 
     /**
      * Encoders read revolutions / distances by counting a number of pulses based on
@@ -206,8 +206,8 @@ public class KilroyEncoder implements PIDSource
                 return distancePerTick * this.get();
             default:
                 return this.get();
-            }
-    }
+            } // end switch type
+    } // end getDistance()
 
     /**
      * Rate is useful for determining the current speed of the the sensor. It is
@@ -241,8 +241,8 @@ public class KilroyEncoder implements PIDSource
                 return (talonSensor.getSelectedSensorVelocity(0) * 10) * distancePerTick;
             default:
                 return 0;
-            }
-    }
+            } // end siwtch type
+    } // end getRate()
 
     /**
      * @return How fast the motor is moving in units/minute, where the units are
@@ -251,7 +251,7 @@ public class KilroyEncoder implements PIDSource
     public double getRPM()
     {
         return (60.0 * this.getRate());
-    }
+    } // end getRPM()
 
     /**
      * @return What kind of sensor is being used, either CAN or D_IO.
@@ -259,7 +259,7 @@ public class KilroyEncoder implements PIDSource
     public SensorType getSensorType()
     {
         return this.type;
-    }
+    } // end getSensorType()
 
     /**
      * @return The CAN device, if being used, that contains the sensor. If digital
@@ -268,7 +268,7 @@ public class KilroyEncoder implements PIDSource
     public BaseMotorController getAttachedCANDevice()
     {
         return canSensor;
-    }
+    } // end getAttachedCANDevice()
 
     /**
      * @return the digital encoder object, as supplied by WPILib. If CAN sensor is
@@ -277,7 +277,7 @@ public class KilroyEncoder implements PIDSource
     public Encoder getAttachedDigitalDevice()
     {
         return dioSensor;
-    }
+    } // end getAttachedDigitalDevice()
 
     /**
      * this returns the current number of ticks for one revoluition of a Spark Max
@@ -285,7 +285,7 @@ public class KilroyEncoder implements PIDSource
     public int getTicksPerRevolution()
     {
         return this.sparkTicksPerRevolution;
-    }
+    } // end getTicksPerRevolution()
 
     /**
      * The Distance per pulse can be found one of two ways: The first (and most
@@ -311,8 +311,8 @@ public class KilroyEncoder implements PIDSource
 
             default:
                 return;
-            }
-    }
+            } // end switch type
+    } // end SetDistancePerPutlse()
 
     /**
      * Sets whether or not the sensor is reading backwards. If so, it corrects by
@@ -339,8 +339,8 @@ public class KilroyEncoder implements PIDSource
                 break;
             default:
                 return;
-            }
-    }
+            } // end switch type
+    } // end setReverseDirection()
 
     /**
      * sets the number of ticks per revolution for Spark max
@@ -353,7 +353,7 @@ public class KilroyEncoder implements PIDSource
     {
         return this.sparkTicksPerRevolution = ticksPerRevolution;
 
-    }
+    } // end setTicksPerRevolution()
 
     /**
      * Sets any outstanding/stored values to 0.
@@ -383,8 +383,8 @@ public class KilroyEncoder implements PIDSource
                 talonSensor.setSelectedSensorPosition(0, 0, 0);
             default:
                 return;
-            }
-    }
+            } // end switch type
+    } // end reset()
 
     /**
      * Sets what the current PID source type is: displacement (position), or rate
@@ -398,7 +398,7 @@ public class KilroyEncoder implements PIDSource
     public void setPIDSourceType(PIDSourceType pidSource)
     {
         this.sourceType = pidSource;
-    }
+    } // end setPIDSourceType()
 
     // TODO implement new PIDCommand and PIDSubsystem so that we can do PID stuffs
     /**
@@ -409,7 +409,7 @@ public class KilroyEncoder implements PIDSource
     public PIDSourceType getPIDSourceType()
     {
         return sourceType;
-    }
+    } // end getPIDSourceType()
 
     /**
      * @return Either the velocity or position of the sensor, based on what was set
@@ -426,8 +426,8 @@ public class KilroyEncoder implements PIDSource
                 return this.getRate();
             default:
                 return 0;
-            }
-    }
+            } // end switch type
+    } // end pidGet()
 
     /**
      * What kind of sensor is attached.
@@ -445,7 +445,7 @@ public class KilroyEncoder implements PIDSource
         REV_CAN,
         /** Attached to a CAN Motor Controller via hat */
         CAN_HAT
-        }
+        } // end enum SensorType
 
     // variable at which rotational measurements of the Spark Max is translated to
     // "ticks" (not really ticks)
@@ -455,4 +455,4 @@ public class KilroyEncoder implements PIDSource
 
     private PIDSourceType sourceType = PIDSourceType.kDisplacement;
 
-    }
+    } // end class KilroyEncoder
