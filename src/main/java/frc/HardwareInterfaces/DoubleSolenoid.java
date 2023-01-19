@@ -72,7 +72,7 @@ public class DoubleSolenoid extends edu.wpi.first.wpilibj.DoubleSolenoid
             this.forwardChannel = channelNumForward;
             this.reverseChannel = channelNumReverse;
             this.init();
-        } // end DoubleSolenoid
+        } // end DoubleSolenoid - constructor
 
     // -------------------------------------------------------
     /**
@@ -97,7 +97,7 @@ public class DoubleSolenoid extends edu.wpi.first.wpilibj.DoubleSolenoid
             this.forwardChannel = channelNumForward;
             this.reverseChannel = channelNumReverse;
             this.init();
-        } // end DoubleSolenoid
+        } // end DoubleSolenoid - constructor
 
     // -------------------------------------------------------
     /**
@@ -113,7 +113,7 @@ public class DoubleSolenoid extends edu.wpi.first.wpilibj.DoubleSolenoid
         if (this.get() == Value.kForward)
             return (true);
         return (false);
-    } // end getForward
+    } // end getForward()
 
     // -------------------------------------------------------
     /**
@@ -127,7 +127,7 @@ public class DoubleSolenoid extends edu.wpi.first.wpilibj.DoubleSolenoid
     public int getForwardChannel()
     {
         return (this.forwardChannel);
-    } // end getForwardChannel
+    } // end getForwardChannel()
 
     // -------------------------------------------------------
     /**
@@ -143,7 +143,7 @@ public class DoubleSolenoid extends edu.wpi.first.wpilibj.DoubleSolenoid
         if (this.get() == Value.kReverse)
             return (true);
         return (false);
-    } // end getReverse
+    } // end getReverse()
 
     // -------------------------------------------------------
     /**
@@ -157,7 +157,7 @@ public class DoubleSolenoid extends edu.wpi.first.wpilibj.DoubleSolenoid
     public int getReverseChannel()
     {
         return (this.reverseChannel);
-    } // end getReverseChannel
+    } // end getReverseChannel()
 
     // -------------------------------------------------------
     /**
@@ -170,7 +170,7 @@ public class DoubleSolenoid extends edu.wpi.first.wpilibj.DoubleSolenoid
     private void init()
     {
         this.setForward(true);
-    } // end init
+    } // end init()
 
     // -------------------------------------------------------
     /**
@@ -195,7 +195,7 @@ public class DoubleSolenoid extends edu.wpi.first.wpilibj.DoubleSolenoid
             this.setReverse(!on);
             }
         return (on);
-    } // end setForward
+    } // end setForward()
 
     // -------------------------------------------------------
     /**
@@ -221,7 +221,7 @@ public class DoubleSolenoid extends edu.wpi.first.wpilibj.DoubleSolenoid
             this.setForward(!on);
             }
         return (on);
-    } // end setReverse
+    } // end setReverse()
 
     // -------------------------------------------------------
     /**
@@ -234,5 +234,6 @@ public class DoubleSolenoid extends edu.wpi.first.wpilibj.DoubleSolenoid
     public void setToNeutral()
     {
         this.set(DoubleSolenoid.Value.kOff);
-    } // end setToNeutral
+    } // end setToNeutral()
+
     } // end class
