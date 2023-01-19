@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.RobotDriveBase;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -31,6 +32,7 @@ import frc.HardwareInterfaces.Transmission.TransmissionBase.TransmissionType;
 import frc.Utils.drive.Drive;
 import frc.HardwareInterfaces.SingleThrowSwitch;
 import frc.HardwareInterfaces.SixPositionSwitch;
+import frc.HardwareInterfaces.DoubleSolenoid;
 
 /**
  * ------------------------------------------------------- puts all of the
@@ -73,8 +75,8 @@ public class Hardware
         else if (robotIdentity == Identifier.PrevYear)
             {
             // ==============DIO INIT=============
-            sixPosSwitch = new SixPositionSwitch(3, 4, 5, 6, 7, 8);
-            disableAutoSwitch = new SingleThrowSwitch(12);
+            sixPosSwitch = new SixPositionSwitch(13, 14, 15, 16, 17, 18);
+            disableAutoSwitch = new SingleThrowSwitch(9);
 
             // ============ANALOG INIT============
 
@@ -88,6 +90,9 @@ public class Hardware
             rightBottomMotor = new WPI_TalonFX(16);
             rightTopMotor = new WPI_TalonFX(19);
 
+            rightBottomMotor.setInverted(false);
+            rightTopMotor.setInverted(false);
+
             leftSideMotors = new MotorControllerGroup(leftBottomMotor, leftTopMotor);
             rightSideMotors = new MotorControllerGroup(rightBottomMotor, rightTopMotor);
             // ==============RIO INIT=============
@@ -99,6 +104,9 @@ public class Hardware
             transmission.setAllGearPercentages(PREV_GEAR1_MAX_SPEED, PREV_GEAR2_MAX_SPEED, PREV_GEAR3_MAX_SPEED);
 
             drive = new Drive(transmission, null, null, null);
+
+            breakTestPistion = new DoubleSolenoid(4, 5);
+
             }
     }
 
@@ -122,6 +130,7 @@ public class Hardware
     // PNEUMATIC DEVICES
     // **********************************************************
     public static Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
+    public static DoubleSolenoid breakTestPistion = null;
 
     // **********************************************************
     // roboRIO CONNECTIONS CLASSES
@@ -165,7 +174,7 @@ public class Hardware
     // Subassemblies
     // -------------------
 
-    private final static double PREV_DEADBAND = 0.2;
+    public final static double PREV_DEADBAND = 0.2;
     private final static double PREV_GEAR1_MAX_SPEED = 0.3;
     private final static double PREV_GEAR2_MAX_SPEED = 0.5;
     private final static double PREV_GEAR3_MAX_SPEED = 0.7;

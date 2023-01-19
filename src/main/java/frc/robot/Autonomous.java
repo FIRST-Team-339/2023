@@ -76,7 +76,7 @@ public class Autonomous
 
     public static void periodic()
     {
-        // if ( == true)
+        // if (Hardware.disableAutoSwitch.isOn() == true)
         // {
 
         // }

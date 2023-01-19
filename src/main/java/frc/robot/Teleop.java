@@ -29,7 +29,10 @@
 // ====================================================================
 package frc.robot;
 
+import org.opencv.features2d.FlannBasedMatcher;
+
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.Timer;
 import frc.Hardware.Hardware;
 import frc.HardwareInterfaces.Transmission.LeftRightTransmission;
 import frc.HardwareInterfaces.Transmission.TransmissionBase;
@@ -75,7 +78,29 @@ public class Teleop
         Hardware.transmission.shiftGears(Hardware.rightDriver.getTrigger(), Hardware.leftDriver.getTrigger());
         Hardware.transmission.drive(Hardware.leftDriver.getY(), Hardware.rightDriver.getY());
 
-        printStatements();
+        if (Hardware.rightDriver.getRawButton(5))
+            {
+            Hardware.breakTestPistion.setForward(true);
+            }
+
+        if (Hardware.leftDriver.getRawButton(6))
+            {
+            Hardware.breakTestPistion.setForward(false);
+            }
+
+        if ((Hardware.breakTestPistion.getReverse() == false)
+                && ((Math.abs(Hardware.rightDriver.getY()) >= Hardware.PREV_DEADBAND)
+                        || ((Math.abs(Hardware.leftDriver.getY()) >= Hardware.PREV_DEADBAND))))
+            {
+            Hardware.breakTestPistion.setForward(false);
+            testTimer.start();
+
+            }
+
+        if (Hardware.rightDriver.getRawButton(2) == true)
+            {
+            printStatements();
+            }
         individualTest();
     } // end Periodic()
 
@@ -99,7 +124,12 @@ public class Teleop
         // Switch Values
 
         /////////// SIX POSITION SWITCH ///////////
-        System.out.println("Six Position Switch value: " + Hardware.sixPosSwitch.getPosition());
+        // System.out.println("Six Position Switch value: " +
+        /////////// Hardware.sixPosSwitch.getPosition());
+
+        /////////// DISABLE AUTO SWITCH ///////////
+        // System.out.println("Disable Auto Switch value: " +
+        /////////// Hardware.disableAutoSwitch.isOn());
 
         // ---------- ANALOG -----------
 
@@ -131,5 +161,9 @@ public class Teleop
 
         // ---------- OTHER ------------
 
+        // ??????? // TEST TEMP // ??????? //
+
     }
+
+    private static Timer testTimer = new Timer();
     } // end class
