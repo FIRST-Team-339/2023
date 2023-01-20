@@ -416,14 +416,13 @@ public class KilroyUSBCamera
     {
         // Whenever the value of the momentary switch switches from false to true or
         // true to false, it calls the switchCameras() method
-        if (this.button.isOnCheckNow() && firstCheck == true)
+        if (this.button.isOnCheckNow() == true && firstCheck == true)
             {
             switchCameras();
             firstCheck = false;
             }
         if (this.button.isOnCheckNow() == false && firstCheck != true)
             {
-            switchCameras();
             firstCheck = true;
             }
     }
@@ -443,24 +442,22 @@ public class KilroyUSBCamera
     {
         // Whenever the value of either momentary switch switches from false to true or
         // true to false, it calls the switchCameras() method
-        if (this.switch1.isOnCheckNow() && firstCheck == true)
+        if (this.switch1.isOnCheckNow() == true && firstCheck == true)
             {
             switchCameras();
             firstCheck = false;
             }
         if (this.switch1.isOnCheckNow() == false && firstCheck != true)
             {
-            switchCameras();
             firstCheck = true;
             }
-        if (this.switch2.isOnCheckNow() && firstCheck2 == true)
+        if (this.switch2.isOnCheckNow() == true && firstCheck2 == true)
             {
             switchCameras();
             firstCheck2 = false;
             }
         if (this.switch2.isOnCheckNow() == false && firstCheck2 != true)
             {
-            switchCameras();
             firstCheck2 = true;
             }
     }
