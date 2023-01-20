@@ -32,7 +32,9 @@ package frc.robot;
 import org.opencv.features2d.FlannBasedMatcher;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.Hardware.Hardware;
 import frc.HardwareInterfaces.Transmission.LeftRightTransmission;
 import frc.HardwareInterfaces.Transmission.TransmissionBase;
@@ -73,6 +75,11 @@ public class Teleop
 
         // ================= OPERATOR CONTROLS ================
 
+        // Hardware.cameras.switchCameras(Hardware.switchCameraViewButton10);
+        // if (Hardware.rightOperator.getRawButton(10) == true)
+        // {
+        // Hardware.cameras.switchCameras();
+        // }
         // ================== DRIVER CONTROLS =================
 
         Hardware.transmission.shiftGears(Hardware.rightDriver.getTrigger(), Hardware.leftDriver.getTrigger());

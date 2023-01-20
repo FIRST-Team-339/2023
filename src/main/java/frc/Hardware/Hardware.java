@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.drive.RobotDriveBase;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -33,6 +34,8 @@ import frc.Utils.drive.Drive;
 import frc.HardwareInterfaces.SingleThrowSwitch;
 import frc.HardwareInterfaces.SixPositionSwitch;
 import frc.HardwareInterfaces.DoubleSolenoid;
+import frc.HardwareInterfaces.KilroyUSBCamera;
+import frc.HardwareInterfaces.MomentarySwitch;
 
 /**
  * ------------------------------------------------------- puts all of the
@@ -169,6 +172,13 @@ public class Hardware
     // ------------------------------------------
     // Vision stuff
     // ----------------------------
+    public static KilroyUSBCamera cameras = new KilroyUSBCamera(true);
+    // public static JoystickButton switchCameraViewButton10 = new
+    // JoystickButton(rightOperator, 10);
+    // public static JoystickButton switchCameraViewButton11 = new
+    // JoystickButton(rightOperator, 11);
+    public static MomentarySwitch switchCameraViewButton10 = new MomentarySwitch(rightOperator, 10, false);
+    public static MomentarySwitch switchCameraViewButton11 = new MomentarySwitch(rightOperator, 11, false);
 
     // -------------------
     // Subassemblies
