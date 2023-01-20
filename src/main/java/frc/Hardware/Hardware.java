@@ -36,9 +36,9 @@ import frc.HardwareInterfaces.SixPositionSwitch;
 import frc.HardwareInterfaces.DoubleSolenoid;
 import frc.HardwareInterfaces.KilroyUSBCamera;
 import frc.HardwareInterfaces.MomentarySwitch;
+import frc.HardwareInterfaces.Potentiometer;
 
 /**
- * ------------------------------------------------------- puts all of the
  * hardware declarations into one place. In addition, it makes them available to
  * both autonomous and teleop.
  *
@@ -108,8 +108,9 @@ public class Hardware
 
             drive = new Drive(transmission, null, null, null);
 
-            breakTestPistion = new DoubleSolenoid(4, 5);
+            breakTestPiston = new DoubleSolenoid(4, 5);
 
+            delayPot = new Potentiometer(PREV_DELAY_POT);
             }
     }
 
@@ -128,12 +129,12 @@ public class Hardware
     // **********************************************************
     // ANALOG I/O
     // **********************************************************
-
+    public static Potentiometer delayPot = null;
     // **********************************************************
     // PNEUMATIC DEVICES
     // **********************************************************
     public static Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
-    public static DoubleSolenoid breakTestPistion = null;
+    public static DoubleSolenoid breakTestPiston = null;
 
     // **********************************************************
     // roboRIO CONNECTIONS CLASSES
@@ -188,4 +189,5 @@ public class Hardware
     private final static double PREV_GEAR1_MAX_SPEED = 0.3;
     private final static double PREV_GEAR2_MAX_SPEED = 0.5;
     private final static double PREV_GEAR3_MAX_SPEED = 0.7;
+    private final static int PREV_DELAY_POT = 13;
     } // end class
