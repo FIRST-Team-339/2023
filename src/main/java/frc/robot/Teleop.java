@@ -29,11 +29,14 @@
 // ====================================================================
 package frc.robot;
 
+import java.io.ObjectInputStream.GetField;
+
 import org.opencv.features2d.FlannBasedMatcher;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Timer;
 import frc.Hardware.Hardware;
+import frc.HardwareInterfaces.Potentiometer;
 import frc.HardwareInterfaces.Transmission.LeftRightTransmission;
 import frc.HardwareInterfaces.Transmission.TransmissionBase;
 
@@ -80,19 +83,19 @@ public class Teleop
 
         if (Hardware.rightDriver.getRawButton(5))
             {
-            Hardware.breakTestPistion.setForward(true);
+            Hardware.breakTestPiston.setForward(true);
             }
 
         if (Hardware.leftDriver.getRawButton(6))
             {
-            Hardware.breakTestPistion.setForward(false);
+            Hardware.breakTestPiston.setForward(false);
             }
 
-        if ((Hardware.breakTestPistion.getReverse() == false)
+        if ((Hardware.breakTestPiston.getReverse() == false)
                 && ((Math.abs(Hardware.rightDriver.getY()) >= Hardware.PREV_DEADBAND)
                         || ((Math.abs(Hardware.leftDriver.getY()) >= Hardware.PREV_DEADBAND))))
             {
-            Hardware.breakTestPistion.setForward(false);
+            Hardware.breakTestPiston.setForward(false);
             // testTimer.start();
 
             }
@@ -132,6 +135,8 @@ public class Teleop
         /////////// Hardware.disableAutoSwitch.isOn());
 
         // ---------- ANALOG -----------
+
+        System.out.println("delayPot = " + Hardware.delayPot.get());
 
         // ----------- CAN -------------
 

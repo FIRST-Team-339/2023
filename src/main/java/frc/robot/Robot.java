@@ -44,7 +44,7 @@ public class Robot extends TimedRobot
         // setup
         // ---------------------------------------
 
-        Hardware.breakTestPistion.setForward(false);
+        Hardware.breakTestPiston.setForward(false);
 
         System.out.println("Kilroy " + Hardware.robotIdentity + " has started.  All hardware items created.");
     } // end robotInit()
