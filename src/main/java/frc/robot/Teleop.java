@@ -78,11 +78,7 @@ public class Teleop
 
         // ================= OPERATOR CONTROLS ================
 
-        // Hardware.cameras.switchCameras(Hardware.switchCameraViewButton10);
-        // if (Hardware.rightOperator.getRawButton(10) == true)
-        // {
-        // Hardware.cameras.switchCameras();
-        // }
+        Hardware.cameras.switchCameras(Hardware.switchCameraViewButton10);
         // ================== DRIVER CONTROLS =================
 
         Hardware.transmission.shiftGears(Hardware.rightDriver.getTrigger(), Hardware.leftDriver.getTrigger());
@@ -178,6 +174,6 @@ public class Teleop
     // =========================================
     // class private data goes here
     // =========================================
-    private static Timer testTimer = new Timer();
+    // private static Timer testTimer = new Timer();
 
     } // end class

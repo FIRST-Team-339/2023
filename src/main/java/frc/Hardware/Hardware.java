@@ -14,7 +14,9 @@
 // ====================================================================
 package frc.Hardware;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.cscore.UsbCamera;
@@ -98,6 +100,10 @@ public class Hardware
 
             leftSideMotors = new MotorControllerGroup(leftBottomMotor, leftTopMotor);
             rightSideMotors = new MotorControllerGroup(rightBottomMotor, rightTopMotor);
+                {
+
+                }
+            ;
             // ==============RIO INIT=============
 
             // =============OTHER INIT============
@@ -110,7 +116,7 @@ public class Hardware
 
             breakTestPiston = new DoubleSolenoid(4, 5);
 
-            delayPot = new Potentiometer(PREV_DELAY_POT);
+            // delayPot = new Potentiometer(PREV_DELAY_POT);
             }
     }
 
@@ -169,18 +175,12 @@ public class Hardware
 
     public static LeftRightTransmission transmission = null;
     public static Drive drive = null;
-
     // ------------------------------------------
     // Vision stuff
     // ----------------------------
     public static KilroyUSBCamera cameras = new KilroyUSBCamera(true);
-    // public static JoystickButton switchCameraViewButton10 = new
-    // JoystickButton(rightOperator, 10);
-    // public static JoystickButton switchCameraViewButton11 = new
-    // JoystickButton(rightOperator, 11);
     public static MomentarySwitch switchCameraViewButton10 = new MomentarySwitch(rightOperator, 10, false);
     public static MomentarySwitch switchCameraViewButton11 = new MomentarySwitch(rightOperator, 11, false);
-
     // -------------------
     // Subassemblies
     // -------------------
