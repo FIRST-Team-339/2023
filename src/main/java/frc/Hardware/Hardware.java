@@ -14,7 +14,9 @@
 // ====================================================================
 package frc.Hardware;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.cscore.UsbCamera;
@@ -110,15 +112,15 @@ public class Hardware
 
             drive = new Drive(transmission, null, null, null);
 
-            brakePistion = new DoubleSolenoid(4, 5);
+            brakePiston = new DoubleSolenoid(4, 5);
 
             brakeTimer = new Timer();
 
-            // delayPot = new Potentiometer(PREV_DELAY_POT);
+            delayPot = new Potentiometer(PREV_DELAY_POT);
+            tenPot = new Potentiometer(TEST_TEN_DELAY_POT);
             }
     }
 
-    // **********************************************************
     // CAN DEVICES
     // **********************************************************
     public static MotorController leftBottomMotor = null;
@@ -134,11 +136,12 @@ public class Hardware
     // ANALOG I/O
     // **********************************************************
     public static Potentiometer delayPot = null;
+    public static Potentiometer tenPot = null;
     // **********************************************************
     // PNEUMATIC DEVICES
     // **********************************************************
     public static Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
-    public static DoubleSolenoid brakePistion = null;
+    public static DoubleSolenoid brakePiston = null;
 
     // **********************************************************
     // roboRIO CONNECTIONS CLASSES
@@ -175,18 +178,12 @@ public class Hardware
 
     public static LeftRightTransmission transmission = null;
     public static Drive drive = null;
-
     // ------------------------------------------
     // Vision stuff
     // ----------------------------
     public static KilroyUSBCamera cameras = new KilroyUSBCamera(true);
-    // public static JoystickButton switchCameraViewButton10 = new
-    // JoystickButton(rightOperator, 10);
-    // public static JoystickButton switchCameraViewButton11 = new
-    // JoystickButton(rightOperator, 11);
     public static MomentarySwitch switchCameraViewButton10 = new MomentarySwitch(rightOperator, 10, false);
     public static MomentarySwitch switchCameraViewButton11 = new MomentarySwitch(rightOperator, 11, false);
-
     // -------------------
     // Subassemblies
     // -------------------
@@ -195,5 +192,6 @@ public class Hardware
     private final static double PREV_GEAR1_MAX_SPEED = 0.3;
     private final static double PREV_GEAR2_MAX_SPEED = 0.5;
     private final static double PREV_GEAR3_MAX_SPEED = 0.7;
-    private final static int PREV_DELAY_POT = 13;
+    private final static int PREV_DELAY_POT = 1;
+    private final static int TEST_TEN_DELAY_POT = 2;
     } // end class

@@ -31,6 +31,7 @@
 // ====================================================================
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Timer;
 import frc.Hardware.Hardware;
 
 /**
@@ -58,7 +59,7 @@ public class Autonomous
      */
     public static void init()
     {
-        Hardware.brakePistion.setForward(false);
+        Hardware.brakePiston.setForward(false);
         Hardware.brakeTimer.stop();
         Hardware.brakeTimer.reset();
         // if (Hardware.disableAutoSwitch.isOn() == true)
@@ -67,6 +68,11 @@ public class Autonomous
         // }
         // else
         // {
+
+        // added delay potentionmeter working
+        double delayTime;
+        delayTime = Hardware.delayPot.get(0, 270);
+        Timer.delay(delayTime);
         switch (Hardware.sixPosSwitch.getPosition())
             {
             case 1:

@@ -65,7 +65,7 @@ public class Teleop
     {
         Hardware.drive.setGear(0);
 
-        Hardware.brakePistion.setForward(false);
+        Hardware.brakePiston.setForward(false);
         Hardware.brakeTimer.stop();
         Hardware.brakeTimer.reset();
     } // end init()
@@ -84,11 +84,7 @@ public class Teleop
 
         // ================= OPERATOR CONTROLS ================
 
-        // Hardware.cameras.switchCameras(Hardware.switchCameraViewButton10);
-        // if (Hardware.rightOperator.getRawButton(10) == true)
-        // {
-        // Hardware.cameras.switchCameras();
-        // }
+        Hardware.cameras.switchCameras(Hardware.switchCameraViewButton10);
         // ================== DRIVER CONTROLS =================
 
         Hardware.transmission.shiftGears(Hardware.rightDriver.getTrigger(), Hardware.leftDriver.getTrigger());
@@ -98,7 +94,7 @@ public class Teleop
         // If button 5 on the right joystick is pressed
         if (Hardware.rightDriver.getRawButton(5))
             {
-            Hardware.brakePistion.setForward(true);
+            Hardware.brakePiston.setForward(true);
             }
 
         // If button 6 on the left joystick is pressed
@@ -108,18 +104,18 @@ public class Teleop
             // joystick is greater than or equal to the previous year's deadband or the
             // abolute value of the right joystick is greater than, or equal to the previous
             // year's deadband
-            if ((Hardware.brakePistion.getForward() == true)
+            if ((Hardware.brakePiston.getForward() == true)
                     || ((Math.abs(Hardware.leftDriver.getY()) >= Hardware.PREV_DEADBAND)
                             || (Math.abs(Hardware.rightDriver.getY()) >= Hardware.PREV_DEADBAND)))
                 {
                 Hardware.brakeTimer.reset();
                 Hardware.transmission.drive(0, 0);
                 Hardware.brakeTimer.start();
-                Hardware.brakePistion.setForward(false);
+                Hardware.brakePiston.setForward(false);
                 }
             // If the Brake Pistion is retracked, and either the brake timer has gone over
             // three seconds or is at zero
-            if ((Hardware.brakePistion.getForward() == false)
+            if ((Hardware.brakePiston.getForward() == false)
                     && ((Hardware.brakeTimer.hasElapsed(1.5)) || Hardware.brakeTimer.get() == 0))
                 {
                 Hardware.transmission.drive(Hardware.leftDriver.getY(), Hardware.rightDriver.getY());
@@ -131,19 +127,19 @@ public class Teleop
         // joystick is greater than or equal to the previous year's deadband or the
         // abolute value of the right joystick is greater than, or equal to the previous
         // year's deadband
-        if ((Hardware.brakePistion.getForward() == true)
+        if ((Hardware.brakePiston.getForward() == true)
                 && ((Math.abs(Hardware.leftDriver.getY()) >= Hardware.PREV_DEADBAND)
                         || (Math.abs(Hardware.rightDriver.getY()) >= Hardware.PREV_DEADBAND)))
             {
             Hardware.brakeTimer.reset();
             Hardware.transmission.drive(0, 0);
             Hardware.brakeTimer.start();
-            Hardware.brakePistion.setForward(false);
+            Hardware.brakePiston.setForward(false);
             }
 
         // If the Brake Pistion is retracked, and either the brake timer has gone over
         // three seconds or is at zero
-        if ((Hardware.brakePistion.getForward() == false)
+        if ((Hardware.brakePiston.getForward() == false)
                 && ((Hardware.brakeTimer.hasElapsed(1.5)) || Hardware.brakeTimer.get() == 0))
             {
             Hardware.transmission.drive(Hardware.leftDriver.getY(), Hardware.rightDriver.getY());

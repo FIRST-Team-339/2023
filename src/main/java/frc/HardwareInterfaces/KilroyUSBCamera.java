@@ -282,17 +282,17 @@ public class KilroyUSBCamera
         if (cameraNum == 0)
             {
             return this.cam0.getActualFPS();
-            }
+            } // end if
         // If camNum is one, get the fps of cam1
         else if (cameraNum == 1)
             {
             return this.cam1.getActualFPS();
-            }
+            } // end else if
         // If neither, return 0
         else
             {
             return 0.0;
-            }
+            } // end else
     } // end getFPS()
 
     /**
@@ -311,11 +311,11 @@ public class KilroyUSBCamera
         if (cameraNum == 0)
             {
             this.server.setSource(this.cam0);
-            }
+            } // end if
         if (cameraNum == 1)
             {
             this.server.setSource(this.cam1);
-            }
+            } // end if
     } // end setCamera()
 
     /**
@@ -334,7 +334,7 @@ public class KilroyUSBCamera
             this.cam0.setResolution(RESOLUTION_WIDTH, RESOLUTION_HEIGHT);
             this.cam0.setFPS(CAMERA_FPS);
             this.server.getProperty("compression").set(COMPRESSION);
-            }
+            } // end if
         else if (numCameras == 2)
             {
             this.cam0.setResolution(RESOLUTION_WIDTH, RESOLUTION_HEIGHT);
@@ -342,7 +342,7 @@ public class KilroyUSBCamera
             this.cam0.setFPS(CAMERA_FPS);
             this.cam1.setFPS(CAMERA_FPS);
             this.server.getProperty("compression").set(COMPRESSION);
-            }
+            } // end else if
     } // end setCameraValues()
 
     /**
@@ -369,7 +369,7 @@ public class KilroyUSBCamera
             this.cam0.setResolution(width, height);
             this.cam0.setFPS(FPS);
             this.server.getProperty("compression").set(compression);
-            }
+            } // end if
         else if (numCameras == 2)
             {
             this.cam0.setResolution(width, height);
@@ -377,8 +377,8 @@ public class KilroyUSBCamera
             this.cam0.setFPS(FPS);
             this.cam1.setFPS(FPS);
             this.server.getProperty("compression").set(compression);
-            }
-    }
+            } // end else if
+    } // end setCameraValues()
 
     /**
      * Toggles which camera is being displayed on the driver's station
@@ -392,16 +392,16 @@ public class KilroyUSBCamera
         // calling
         if (this.cam1 != null)
             {
-            if (this.cam0.isEnabled())
+            if (this.cam0.isEnabled() == true)
                 {
                 this.server.setSource(this.cam1);
-                }
+                } // end if
             else
                 {
                 this.server.setSource(this.cam0);
-                }
-            }
-    }
+                } // end else
+            } // end if
+    } // end switchCameras()
 
     /**
      * Toggles the cameras with a momentary switch
@@ -416,16 +416,17 @@ public class KilroyUSBCamera
     {
         // Whenever the value of the momentary switch switches from false to true or
         // true to false, it calls the switchCameras() method
-        if (this.button.isOnCheckNow() == true && firstCheck == true)
+        if (button.isOnCheckNow() == true && firstCheck == true)
             {
             switchCameras();
             firstCheck = false;
-            }
-        if (this.button.isOnCheckNow() == false && firstCheck != true)
+            } // end if
+        if (button.isOnCheckNow() == false && firstCheck == false)
             {
+            switchCameras();
             firstCheck = true;
-            }
-    }
+            } // end if
+    } // end switchCameras()
 
     /**
      * Use two buttons that each toggle the cameras
@@ -442,25 +443,27 @@ public class KilroyUSBCamera
     {
         // Whenever the value of either momentary switch switches from false to true or
         // true to false, it calls the switchCameras() method
-        if (this.switch1.isOnCheckNow() == true && firstCheck == true)
+        if (switch1.isOnCheckNow() == true && firstCheck == true)
             {
             switchCameras();
             firstCheck = false;
-            }
-        if (this.switch1.isOnCheckNow() == false && firstCheck != true)
+            } // end if
+        if (switch1.isOnCheckNow() == false && firstCheck != false)
             {
+            switchCameras();
             firstCheck = true;
-            }
-        if (this.switch2.isOnCheckNow() == true && firstCheck2 == true)
+            } // end if
+        if (switch2.isOnCheckNow() == true && firstCheck2 == true)
             {
             switchCameras();
             firstCheck2 = false;
-            }
-        if (this.switch2.isOnCheckNow() == false && firstCheck2 != true)
+            } // end if
+        if (switch2.isOnCheckNow() == false && firstCheck2 != false)
             {
+            switchCameras();
             firstCheck2 = true;
-            }
-    }
+            } // end if
+    } // end switchCameras()
 
     /**
      * button1 sets camera1 to be displayed to the driver's station, button2 sets
@@ -480,16 +483,16 @@ public class KilroyUSBCamera
         // source to cam0
         if (this.cam1 != null)
             {
-            if (this.button1.get())
+            if (button1.get() == true)
                 {
                 server.setSource(this.cam1);
-                }
-            if (this.button2.get())
+                } // end if
+            if (button2.get() == true)
                 {
                 server.setSource(this.cam0);
-                }
-            }
-    }
+                } // end if
+            } // end if
+    } // end switchCameras()
 
     /**
      * Sets the limelight as the server source
