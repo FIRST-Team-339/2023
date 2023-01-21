@@ -100,10 +100,6 @@ public class Hardware
 
             leftSideMotors = new MotorControllerGroup(leftBottomMotor, leftTopMotor);
             rightSideMotors = new MotorControllerGroup(rightBottomMotor, rightTopMotor);
-                {
-
-                }
-            ;
             // ==============RIO INIT=============
 
             // =============OTHER INIT============
@@ -116,11 +112,11 @@ public class Hardware
 
             breakTestPiston = new DoubleSolenoid(4, 5);
 
-            // delayPot = new Potentiometer(PREV_DELAY_POT);
+            delayPot = new Potentiometer(PREV_DELAY_POT);
+            tenPot = new Potentiometer(TEST_TEN_DELAY_POT);
             }
     }
 
-    // **********************************************************
     // CAN DEVICES
     // **********************************************************
     public static MotorController leftBottomMotor = null;
@@ -136,6 +132,7 @@ public class Hardware
     // ANALOG I/O
     // **********************************************************
     public static Potentiometer delayPot = null;
+    public static Potentiometer tenPot = null;
     // **********************************************************
     // PNEUMATIC DEVICES
     // **********************************************************
@@ -189,5 +186,6 @@ public class Hardware
     private final static double PREV_GEAR1_MAX_SPEED = 0.3;
     private final static double PREV_GEAR2_MAX_SPEED = 0.5;
     private final static double PREV_GEAR3_MAX_SPEED = 0.7;
-    private final static int PREV_DELAY_POT = 13;
+    private final static int PREV_DELAY_POT = 1;
+    private final static int TEST_TEN_DELAY_POT = 2;
     } // end class
