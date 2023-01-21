@@ -23,7 +23,9 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj.drive.RobotDriveBase;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -108,9 +110,11 @@ public class Hardware
 
             drive = new Drive(transmission, null, null, null);
 
-            breakTestPiston = new DoubleSolenoid(4, 5);
+            brakePistion = new DoubleSolenoid(4, 5);
 
-            delayPot = new Potentiometer(PREV_DELAY_POT);
+            brakeTimer = new Timer();
+
+            // delayPot = new Potentiometer(PREV_DELAY_POT);
             }
     }
 
@@ -134,7 +138,7 @@ public class Hardware
     // PNEUMATIC DEVICES
     // **********************************************************
     public static Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
-    public static DoubleSolenoid breakTestPiston = null;
+    public static DoubleSolenoid brakePistion = null;
 
     // **********************************************************
     // roboRIO CONNECTIONS CLASSES
@@ -160,6 +164,8 @@ public class Hardware
     // ------------------------------------
     // Utility classes
     // ------------------------------------
+    public static Timer brakeTimer = null;
+    public static Timer autoTimer = null;
 
     // ------------------------------------
     // Drive system

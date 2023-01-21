@@ -36,7 +36,9 @@ import org.opencv.features2d.FlannBasedMatcher;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.GenericHID.HIDType;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 import frc.Hardware.Hardware;
 import frc.HardwareInterfaces.Potentiometer;
 import frc.HardwareInterfaces.Transmission.LeftRightTransmission;
@@ -62,6 +64,10 @@ public class Teleop
     public static void init()
     {
         Hardware.drive.setGear(0);
+
+        Hardware.brakePistion.setForward(false);
+        Hardware.brakeTimer.stop();
+        Hardware.brakeTimer.reset();
     } // end init()
 
     /**
@@ -86,31 +92,65 @@ public class Teleop
         // ================== DRIVER CONTROLS =================
 
         Hardware.transmission.shiftGears(Hardware.rightDriver.getTrigger(), Hardware.leftDriver.getTrigger());
-        Hardware.transmission.drive(Hardware.leftDriver.getY(), Hardware.rightDriver.getY());
+        // Hardware.transmission.drive(Hardware.leftDriver.getY(),
+        // Hardware.rightDriver.getY());
 
+        // If button 5 on the right joystick is pressed
         if (Hardware.rightDriver.getRawButton(5))
             {
-            Hardware.breakTestPiston.setForward(true);
+            Hardware.brakePistion.setForward(true);
             }
 
+        // If button 6 on the left joystick is pressed
         if (Hardware.leftDriver.getRawButton(6))
             {
-            Hardware.breakTestPiston.setForward(false);
+            // If the brake pistion is extended, or the abolute value of the left
+            // joystick is greater than or equal to the previous year's deadband or the
+            // abolute value of the right joystick is greater than, or equal to the previous
+            // year's deadband
+            if ((Hardware.brakePistion.getForward() == true)
+                    || ((Math.abs(Hardware.leftDriver.getY()) >= Hardware.PREV_DEADBAND)
+                            || (Math.abs(Hardware.rightDriver.getY()) >= Hardware.PREV_DEADBAND)))
+                {
+                Hardware.brakeTimer.reset();
+                Hardware.transmission.drive(0, 0);
+                Hardware.brakeTimer.start();
+                Hardware.brakePistion.setForward(false);
+                }
+            // If the Brake Pistion is retracked, and either the brake timer has gone over
+            // three seconds or is at zero
+            if ((Hardware.brakePistion.getForward() == false)
+                    && ((Hardware.brakeTimer.hasElapsed(1.5)) || Hardware.brakeTimer.get() == 0))
+                {
+                Hardware.transmission.drive(Hardware.leftDriver.getY(), Hardware.rightDriver.getY());
+                Hardware.brakeTimer.stop();
+                }
             }
 
-        if ((Hardware.breakTestPiston.getReverse() == false)
-                && ((Math.abs(Hardware.rightDriver.getY()) >= Hardware.PREV_DEADBAND)
-                        || ((Math.abs(Hardware.leftDriver.getY()) >= Hardware.PREV_DEADBAND))))
+        // If the brake pistion is extended, and either the abolute value of the left
+        // joystick is greater than or equal to the previous year's deadband or the
+        // abolute value of the right joystick is greater than, or equal to the previous
+        // year's deadband
+        if ((Hardware.brakePistion.getForward() == true)
+                && ((Math.abs(Hardware.leftDriver.getY()) >= Hardware.PREV_DEADBAND)
+                        || (Math.abs(Hardware.rightDriver.getY()) >= Hardware.PREV_DEADBAND)))
             {
-            Hardware.breakTestPiston.setForward(false);
-            // testTimer.start();
-
+            Hardware.brakeTimer.reset();
+            Hardware.transmission.drive(0, 0);
+            Hardware.brakeTimer.start();
+            Hardware.brakePistion.setForward(false);
             }
 
-        if (Hardware.rightDriver.getRawButton(2) == true)
+        // If the Brake Pistion is retracked, and either the brake timer has gone over
+        // three seconds or is at zero
+        if ((Hardware.brakePistion.getForward() == false)
+                && ((Hardware.brakeTimer.hasElapsed(1.5)) || Hardware.brakeTimer.get() == 0))
             {
-            printStatements();
+            Hardware.transmission.drive(Hardware.leftDriver.getY(), Hardware.rightDriver.getY());
+            Hardware.brakeTimer.stop();
             }
+
+        printStatements();
         individualTest();
     } // end periodic()
 
@@ -143,7 +183,7 @@ public class Teleop
 
         // ---------- ANALOG -----------
 
-        System.out.println("delayPot = " + Hardware.delayPot.get());
+        // System.out.println("delayPot = " + Hardware.delayPot.get());
 
         // ----------- CAN -------------
 
@@ -178,6 +218,5 @@ public class Teleop
     // =========================================
     // class private data goes here
     // =========================================
-    private static Timer testTimer = new Timer();
 
     } // end class

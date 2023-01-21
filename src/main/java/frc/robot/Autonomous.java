@@ -58,24 +58,9 @@ public class Autonomous
      */
     public static void init()
     {
-
-    } // end Init
-
-    /**
-     * User Periodic code for autonomous mode should go here. Will be called
-     * periodically at a regular rate while the robot is in autonomous mode.
-     *
-     * @author Nathanial Lydick
-     * @written Jan 13, 2015
-     *
-     *          FYI: drive.stop cuts power to the motors, causing the robot to
-     *          coast. drive.brake results in a more complete stop. Meghan Brown; 10
-     *          February 2019
-     *
-     */
-
-    public static void periodic()
-    {
+        Hardware.brakePistion.setForward(false);
+        Hardware.brakeTimer.stop();
+        Hardware.brakeTimer.reset();
         // if (Hardware.disableAutoSwitch.isOn() == true)
         // {
 
@@ -101,6 +86,24 @@ public class Autonomous
 
             }
         // }
+    } // end Init
+
+    /**
+     * User Periodic code for autonomous mode should go here. Will be called
+     * periodically at a regular rate while the robot is in autonomous mode.
+     *
+     * @author Nathanial Lydick
+     * @written Jan 13, 2015
+     *
+     *          FYI: drive.stop cuts power to the motors, causing the robot to
+     *          coast. drive.brake results in a more complete stop. Meghan Brown; 10
+     *          February 2019
+     *
+     */
+
+    public static void periodic()
+    {
+
     }
 
     // =====================================================================
