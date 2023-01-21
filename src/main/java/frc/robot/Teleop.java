@@ -107,10 +107,7 @@ public class Teleop
 
             }
 
-        if (Hardware.rightDriver.getRawButton(2) == true)
-            {
-            printStatements();
-            }
+        printStatements();
         individualTest();
     } // end periodic()
 
@@ -143,7 +140,8 @@ public class Teleop
 
         // ---------- ANALOG -----------
 
-        System.out.println("delayPot = " + Hardware.delayPot.get());
+        // System.out.println("delayPot = " + Hardware.delayPot.get(0.0, 270.0));
+        System.out.println("delayPot = " + Hardware.tenPot.get(0.0, 3600.0));
 
         // ----------- CAN -------------
 
@@ -178,6 +176,6 @@ public class Teleop
     // =========================================
     // class private data goes here
     // =========================================
-    private static Timer testTimer = new Timer();
+    // private static Timer testTimer = new Timer();
 
     } // end class
