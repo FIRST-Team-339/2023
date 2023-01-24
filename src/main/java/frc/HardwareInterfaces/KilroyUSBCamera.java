@@ -450,7 +450,6 @@ public class KilroyUSBCamera
             } // end if
         if (switch1.isOnCheckNow() == false && firstCheck != false)
             {
-            switchCameras();
             firstCheck = true;
             } // end if
         if (switch2.isOnCheckNow() == true && firstCheck2 == true)
@@ -460,7 +459,6 @@ public class KilroyUSBCamera
             } // end if
         if (switch2.isOnCheckNow() == false && firstCheck2 != false)
             {
-            switchCameras();
             firstCheck2 = true;
             } // end if
     } // end switchCameras()
