@@ -112,9 +112,9 @@ public class Hardware
 
             drive = new Drive(transmission, null, null, null);
 
-            brakePiston = new DoubleSolenoid(4, 5);
+            eBrake = new DoubleSolenoid(4, 5);
 
-            brakeTimer = new Timer();
+            eBrakeTimer = new Timer();
 
             delayPot = new Potentiometer(PREV_DELAY_POT);
             tenPot = new Potentiometer(TEST_TEN_DELAY_POT);
@@ -141,7 +141,7 @@ public class Hardware
     // PNEUMATIC DEVICES
     // **********************************************************
     public static Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
-    public static DoubleSolenoid brakePiston = null;
+    public static DoubleSolenoid eBrake = null;
 
     // **********************************************************
     // roboRIO CONNECTIONS CLASSES
@@ -167,7 +167,7 @@ public class Hardware
     // ------------------------------------
     // Utility classes
     // ------------------------------------
-    public static Timer brakeTimer = null;
+    public static Timer eBrakeTimer = null;
     public static Timer autoTimer = null;
 
     // ------------------------------------

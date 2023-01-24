@@ -65,9 +65,9 @@ public class Teleop
     {
         Hardware.drive.setGear(0);
 
-        Hardware.brakePiston.setForward(false);
-        Hardware.brakeTimer.stop();
-        Hardware.brakeTimer.reset();
+        Hardware.eBrake.setForward(false);
+        Hardware.eBrakeTimer.stop();
+        Hardware.eBrakeTimer.reset();
     } // end init()
 
     /**
@@ -91,59 +91,71 @@ public class Teleop
         // Hardware.transmission.drive(Hardware.leftDriver.getY(),
         // Hardware.rightDriver.getY());
 
-        // If button 5 on the right joystick is pressed
-        if (Hardware.rightDriver.getRawButton(5))
+        // =========================
+        // when button 5 right driver is pushed
+        // Extends the eBrake piston out
+        // =========================
+        if (Hardware.rightDriver.getRawButton(5) == true)
             {
-            Hardware.brakePiston.setForward(true);
+            Hardware.eBrake.setForward(true);
             }
 
-        // If button 6 on the left joystick is pressed
-        if (Hardware.leftDriver.getRawButton(6))
+        // =========================
+        // when button 6 left driver is pushed
+        // Retracts the eBrake piston and affects drive
+        // =========================
+        if (Hardware.leftDriver.getRawButton(6) == true)
             {
-            // If the brake pistion is extended, or the abolute value of the left
-            // joystick is greater than or equal to the previous year's deadband or the
-            // abolute value of the right joystick is greater than, or equal to the previous
-            // year's deadband
-            if ((Hardware.brakePiston.getForward() == true)
+            // =========================
+            // when the eBrake is not retracted and the joystick is moved
+            // Resets the eBrake timer retracts the eBrake piston, stops all drive motors,
+            // and starts the eBrake timer
+            // =========================
+            if ((Hardware.eBrake.getForward() == true)
                     || ((Math.abs(Hardware.leftDriver.getY()) >= Hardware.PREV_DEADBAND)
                             || (Math.abs(Hardware.rightDriver.getY()) >= Hardware.PREV_DEADBAND)))
                 {
-                Hardware.brakeTimer.reset();
+                Hardware.eBrakeTimer.reset();
                 Hardware.transmission.drive(0, 0);
-                Hardware.brakeTimer.start();
-                Hardware.brakePiston.setForward(false);
+                Hardware.eBrakeTimer.start();
+                Hardware.eBrake.setForward(false);
                 }
-            // If the Brake Pistion is retracked, and either the brake timer has gone over
-            // three seconds or is at zero
-            if ((Hardware.brakePiston.getForward() == false)
-                    && ((Hardware.brakeTimer.hasElapsed(1.5)) || Hardware.brakeTimer.get() == 0))
+            // =========================
+            // when the eBrake is retracted and the eBrake timer has passed a certain
+            // duration
+            // Reactivates the drive motors and stops the eBrake timer
+            // =========================
+            if ((Hardware.eBrake.getForward() == false)
+                    && ((Hardware.eBrakeTimer.hasElapsed(1.5)) || Hardware.eBrakeTimer.get() == 0))
                 {
                 Hardware.transmission.drive(Hardware.leftDriver.getY(), Hardware.rightDriver.getY());
-                Hardware.brakeTimer.stop();
+                Hardware.eBrakeTimer.stop();
                 }
             }
-
-        // If the brake pistion is extended, and either the abolute value of the left
-        // joystick is greater than or equal to the previous year's deadband or the
-        // abolute value of the right joystick is greater than, or equal to the previous
-        // year's deadband
-        if ((Hardware.brakePiston.getForward() == true)
-                && ((Math.abs(Hardware.leftDriver.getY()) >= Hardware.PREV_DEADBAND)
-                        || (Math.abs(Hardware.rightDriver.getY()) >= Hardware.PREV_DEADBAND)))
+        // =========================
+        // when the retract button (left driver button 6) is pressed, eBrake is not
+        // retracted and the joystick is moved
+        // Resets the eBrake timer retracts the eBrake piston, stops all drive motors,
+        // and starts the eBrake timer
+        // =========================
+        if ((Hardware.eBrake.getForward() == true) && ((Math.abs(Hardware.leftDriver.getY()) >= Hardware.PREV_DEADBAND)
+                || (Math.abs(Hardware.rightDriver.getY()) >= Hardware.PREV_DEADBAND)))
             {
-            Hardware.brakeTimer.reset();
+            Hardware.eBrakeTimer.reset();
             Hardware.transmission.drive(0, 0);
-            Hardware.brakeTimer.start();
-            Hardware.brakePiston.setForward(false);
+            Hardware.eBrakeTimer.start();
+            Hardware.eBrake.setForward(false);
             }
-
-        // If the Brake Pistion is retracked, and either the brake timer has gone over
-        // three seconds or is at zero
-        if ((Hardware.brakePiston.getForward() == false)
-                && ((Hardware.brakeTimer.hasElapsed(1.5)) || Hardware.brakeTimer.get() == 0))
+        // =========================
+        // when the eBrake is retracted and the eBrake timer has passed a certain
+        // duration
+        // Reactivates the drive motors and stops the eBrake timer
+        // =========================
+        if ((Hardware.eBrake.getForward() == false)
+                && ((Hardware.eBrakeTimer.hasElapsed(1.5)) || Hardware.eBrakeTimer.get() == 0))
             {
             Hardware.transmission.drive(Hardware.leftDriver.getY(), Hardware.rightDriver.getY());
-            Hardware.brakeTimer.stop();
+            Hardware.eBrakeTimer.stop();
             }
 
         printStatements();

@@ -59,9 +59,27 @@ public class Autonomous
      */
     public static void init()
     {
-        Hardware.brakePiston.setForward(false);
-        Hardware.brakeTimer.stop();
-        Hardware.brakeTimer.reset();
+        Hardware.eBrake.setForward(false);
+        Hardware.eBrakeTimer.stop();
+        Hardware.eBrakeTimer.reset();
+    } // end Init
+
+    /**
+     * User Periodic code for autonomous mode should go here. Will be called
+     * periodically at a regular rate while the robot is in autonomous mode.
+     *
+     * @author Nathanial Lydick
+     * @written Jan 13, 2015
+     *
+     *          FYI: drive.stop cuts power to the motors, causing the robot to
+     *          coast. drive.brake results in a more complete stop. Meghan Brown; 10
+     *          February 2019
+     *
+     */
+
+    public static void periodic()
+    {
+
         // if (Hardware.disableAutoSwitch.isOn() == true)
         // {
 
@@ -73,6 +91,10 @@ public class Autonomous
         double delayTime;
         delayTime = Hardware.delayPot.get(0, 270);
         Timer.delay(delayTime);
+        // =========================
+        // when in the six position switch is in a certain it will do one of the
+        // following
+        // =========================
         switch (Hardware.sixPosSwitch.getPosition())
             {
             case 1:
@@ -92,24 +114,6 @@ public class Autonomous
 
             }
         // }
-    } // end Init
-
-    /**
-     * User Periodic code for autonomous mode should go here. Will be called
-     * periodically at a regular rate while the robot is in autonomous mode.
-     *
-     * @author Nathanial Lydick
-     * @written Jan 13, 2015
-     *
-     *          FYI: drive.stop cuts power to the motors, causing the robot to
-     *          coast. drive.brake results in a more complete stop. Meghan Brown; 10
-     *          February 2019
-     *
-     */
-
-    public static void periodic()
-    {
-
     }
 
     // =====================================================================
