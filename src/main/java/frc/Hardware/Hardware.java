@@ -170,6 +170,7 @@ public class Hardware
     // Utility classes
     // ------------------------------------
     public static Timer eBrakeTimer = null;
+    public static Boolean eBrakeTimerIsStopped = true;
     public static Timer autoTimer = null;
 
     // ------------------------------------

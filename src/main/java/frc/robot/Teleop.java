@@ -81,10 +81,18 @@ public class Teleop
     public static void periodic()
     {
         // =============== AUTOMATED SUBSYSTEMS ===============
+        if (Hardware.eBrakeTimer.get() <= 0.001)
+            {
+            Hardware.eBrakeTimerIsStopped = true;
+            }
+        else
+            {
+            Hardware.eBrakeTimerIsStopped = false;
+            }
 
         // ================= OPERATOR CONTROLS ================
 
-        Hardware.cameras.switchCameras(Hardware.switchCameraViewButton10);
+        Hardware.cameras.switchCameras(Hardware.switchCameraViewButton10, Hardware.switchCameraViewButton11);
         // ================== DRIVER CONTROLS =================
 
         Hardware.transmission.shiftGears(Hardware.rightDriver.getTrigger(), Hardware.leftDriver.getTrigger());
@@ -126,7 +134,7 @@ public class Teleop
             // Reactivates the drive motors and stops the eBrake timer
             // =========================
             if ((Hardware.eBrake.getForward() == false)
-                    && ((Hardware.eBrakeTimer.hasElapsed(1.5)) || Hardware.eBrakeTimer.get() == 0))
+                    && ((Hardware.eBrakeTimer.hasElapsed(1.5)) || Hardware.eBrakeTimerIsStopped == true))
                 {
                 Hardware.transmission.drive(Hardware.leftDriver.getY(), Hardware.rightDriver.getY());
                 Hardware.eBrakeTimer.stop();
@@ -152,7 +160,7 @@ public class Teleop
         // Reactivates the drive motors and stops the eBrake timer
         // =========================
         if ((Hardware.eBrake.getForward() == false)
-                && ((Hardware.eBrakeTimer.hasElapsed(1.5)) || Hardware.eBrakeTimer.get() == 0))
+                && ((Hardware.eBrakeTimer.hasElapsed(1.5)) || Hardware.eBrakeTimerIsStopped == true))
             {
             Hardware.transmission.drive(Hardware.leftDriver.getY(), Hardware.rightDriver.getY());
             Hardware.eBrakeTimer.stop();
