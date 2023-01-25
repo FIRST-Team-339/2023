@@ -170,9 +170,9 @@ public class Teleop
     public static void printStatements()
     {
         // ========== INPUTS ==========
-            {
+            
 
-            }
+            
         // ---------- DIGITAL ----------
 
         // Encoder Distances
@@ -206,7 +206,7 @@ public class Teleop
         // ========== OUTPUTS ==========
 
         // ---------- DIGITAL ----------
-
+         System.out.println("disableAutoSwitch = " + Hardware.disableAutoSwitch.isOn());
         // ---------- ANALOG -----------
 
         // ----------- CAN -------------

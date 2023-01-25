@@ -83,7 +83,9 @@ public class Hardware
             {
             // ==============DIO INIT=============
             sixPosSwitch = new SixPositionSwitch(13, 14, 15, 16, 17, 18);
-            disableAutoSwitch = new SingleThrowSwitch(9);
+            disableAutoSwitch = new SingleThrowSwitch(10);
+
+            
 
             // ============ANALOG INIT============
 
