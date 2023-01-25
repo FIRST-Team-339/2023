@@ -96,7 +96,30 @@ public class SingleThrowSwitch extends DigitalInput
      */
     public boolean isOn()
     {
-        return (!super.get());
+        if (isInverted == false)
+            {
+            return (!super.get());
+            } // if not inverted
+        else
+            {
+            return (!super.get());
+            } // if inverted
     } // end isOn
 
+    // -------------------------------------------------------
+    /**
+     * this function saves the denotation that the switch is perceived as backwards
+     *
+     * @method setInverted
+     * @return the new value for inversion
+     * @author Bob Brown
+     * @written Jan 24 2023 --------------------------------------------------------
+     */
+    public boolean setInverted(boolean inversion)
+    {
+        this.isInverted = inversion;
+        return inversion;
+    } // end setInverted()
+
+    private boolean isInverted = false;
     } // end class
