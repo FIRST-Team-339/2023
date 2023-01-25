@@ -85,6 +85,8 @@ public class Hardware
             sixPosSwitch = new SixPositionSwitch(13, 14, 15, 16, 17, 18);
             disableAutoSwitch = new SingleThrowSwitch(10);
 
+            disableAutoSwitch.setInverted(true);
+
             // ============ANALOG INIT============
 
             // ==============CAN INIT=============

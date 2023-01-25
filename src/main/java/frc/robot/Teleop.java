@@ -213,7 +213,8 @@ public class Teleop
         // ========== OUTPUTS ==========
 
         // ---------- DIGITAL ----------
-        System.out.println("disableAutoSwitch = " + Hardware.disableAutoSwitch.isOn());
+        // System.out.println("disableAutoSwitch = " +
+        // Hardware.disableAutoSwitch.isOn());
         // ---------- ANALOG -----------
 
         // ----------- CAN -------------

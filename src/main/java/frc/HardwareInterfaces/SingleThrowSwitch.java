@@ -111,7 +111,7 @@ public class SingleThrowSwitch extends DigitalInput
      */
     public boolean isOn()
     {
-        if (isInverted == false)
+        if (this.isInverted == false)
             {
             return (!super.get());
             } // if not inverted
