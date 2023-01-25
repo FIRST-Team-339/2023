@@ -194,12 +194,12 @@ public class Teleop
         /////////// Hardware.sixPosSwitch.getPosition());
 
         /////////// DISABLE AUTO SWITCH ///////////
-        // System.out.println("Disable Auto Switch value: " +
+         //System.out.println("Disable Auto Switch value: " +
         /////////// Hardware.disableAutoSwitch.isOn());
 
         // ---------- ANALOG -----------
 
-        // System.out.println("delayPot = " + Hardware.delayPot.get());
+        //System.out.println("delayPot = " + Hardware.delayPot.get());
 
         // ----------- CAN -------------
 
@@ -208,22 +208,22 @@ public class Teleop
         // ---------- OTHER ------------
 
         /////////// JOYSTICK VALUES ///////////
-        // System.out.println("L Joystick: " + Hardware.leftDriver.getY());
-        // System.out.println("R Joystick: " + Hardware.rightDriver.getY());
+         //System.out.println("L Joystick: " + Hardware.leftDriver.getY());
+         //System.out.println("R Joystick: " + Hardware.rightDriver.getY());
 
         // ========== OUTPUTS ==========
 
         // ---------- DIGITAL ----------
-         System.out.println("disableAutoSwitch = " + Hardware.disableAutoSwitch.isOn());
+        //System.out.println("disableAutoSwitch = " + Hardware.disableAutoSwitch.isOn());
         // ---------- ANALOG -----------
 
         // ----------- CAN -------------
 
         /////////// MOTOR VALUES ///////////
-        // System.out.println("LBottomMotor = " + Hardware.leftBottomMotor.get());
+        //System.out.println("LBottomMotor = " + Hardware.leftBottomMotor.get());
         // System.out.println("LTopMotor = " + Hardware.leftTopMotor.get());
         // System.out.println("RBottomMotor = " + Hardware.rightBottomMotor.get());
-        // System.out.println("RTopMotor = " + Hardware.rightTopMotor.get());
+        //System.out.println("RTopMotor = " + Hardware.rightTopMotor.get());
 
         // -------- SUBSYSTEMS ---------
 
