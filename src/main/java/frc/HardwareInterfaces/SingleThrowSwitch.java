@@ -85,6 +85,21 @@ public class SingleThrowSwitch extends DigitalInput
      * public SingleThrowSwitch (final int slot, final int channel) { super(slot,
      * channel); } // end constructor
      */
+
+    // -------------------------------------------------------
+    /**
+     * this function gets the denotation that the switch is perceived as backwards
+     *
+     * @method getInverted
+     * @return the value for inversion
+     * @author Bob Brown
+     * @written Jan 24 2023 --------------------------------------------------------
+     */
+    public boolean getInverted()
+    {
+        return this.isInverted;
+    } // end getInverted()
+
     // -------------------------------------------------------
     /**
      * This function returns whether or not the switch is on or not.
@@ -102,7 +117,7 @@ public class SingleThrowSwitch extends DigitalInput
             } // if not inverted
         else
             {
-            return (!super.get());
+            return (super.get());
             } // if inverted
     } // end isOn
 
