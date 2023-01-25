@@ -80,39 +80,68 @@ public class Autonomous
     public static void periodic()
     {
 
-        // if (Hardware.disableAutoSwitch.isOn() == true)
-        // {
+         if (Hardware.disableAutoSwitch.isOn() == false)
+         {
+            // added delay potentionmeter working
+            double delayTime;
+            delayTime = Hardware.delayPot.get(0, 270);
+            Timer.delay(delayTime);
+            // =========================
+            // when in the six position switch is in a certain it will do one of the
+            // following
+            // =========================
+            switch (Hardware.sixPosSwitch.getPosition())
+             {
+             case 1:
+                   break;
+             case 2:
+                   break;
+                case 3:
+                    break;
+             case 4:
+                    break;
+              case 5:
+                  break;
+             case 6:
+                 break;
+                default:
+                    break;
 
-        // }
-        // else
-        // {
+              }
+                   }
+                  else
+                         {
+            //code goes here
+                         }
+         
+         
 
-        // added delay potentionmeter working
-        double delayTime;
-        delayTime = Hardware.delayPot.get(0, 270);
-        Timer.delay(delayTime);
-        // =========================
-        // when in the six position switch is in a certain it will do one of the
-        // following
-        // =========================
-        switch (Hardware.sixPosSwitch.getPosition())
-            {
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
-            case 5:
-                break;
-            case 6:
-                break;
-            default:
-                break;
+                   // added delay potentionmeter working
+                   double delayTime;
+                   delayTime = Hardware.delayPot.get(0, 270);
+                   Timer.delay(delayTime);
+                 // =========================
+                    // when in the six position switch is in a certain it will do one of the
+                    // following
+                 // =========================
+                  switch (Hardware.sixPosSwitch.getPosition())
+                     {
+                     case 1:
+                         break;
+                      case 2:
+                            break;
+                        case 3:
+                           break;
+                       case 4:
+                           break;
+                       case 5:
+                          break;
+                       case 6:
+                         break;
+                       default:
+                           break;
 
-            }
+                        }
         // }
     }
 
