@@ -92,7 +92,8 @@ public class Teleop
 
         // ================= OPERATOR CONTROLS ================
 
-        Hardware.cameras.switchCameras(Hardware.switchCameraViewButton10, Hardware.switchCameraViewButton11);
+        Hardware.cameras.switchCameras(Hardware.switchCameraViewButton10);
+        Hardware.cameras.switchCameras(Hardware.switchCameraViewButton9);
         // ================== DRIVER CONTROLS =================
 
         Hardware.transmission.shiftGears(Hardware.rightDriver.getTrigger(), Hardware.leftDriver.getTrigger());
@@ -178,9 +179,7 @@ public class Teleop
     public static void printStatements()
     {
         // ========== INPUTS ==========
-            
 
-            
         // ---------- DIGITAL ----------
 
         // Encoder Distances
@@ -214,7 +213,7 @@ public class Teleop
         // ========== OUTPUTS ==========
 
         // ---------- DIGITAL ----------
-         System.out.println("disableAutoSwitch = " + Hardware.disableAutoSwitch.isOn());
+        System.out.println("disableAutoSwitch = " + Hardware.disableAutoSwitch.isOn());
         // ---------- ANALOG -----------
 
         // ----------- CAN -------------

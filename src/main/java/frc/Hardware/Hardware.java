@@ -85,8 +85,6 @@ public class Hardware
             sixPosSwitch = new SixPositionSwitch(13, 14, 15, 16, 17, 18);
             disableAutoSwitch = new SingleThrowSwitch(10);
 
-            
-
             // ============ANALOG INIT============
 
             // ==============CAN INIT=============
@@ -186,7 +184,7 @@ public class Hardware
     // ----------------------------
     public static KilroyUSBCamera cameras = new KilroyUSBCamera(true);
     public static MomentarySwitch switchCameraViewButton10 = new MomentarySwitch(rightOperator, 10, false);
-    public static MomentarySwitch switchCameraViewButton11 = new MomentarySwitch(rightOperator, 11, false);
+    public static MomentarySwitch switchCameraViewButton9 = new MomentarySwitch(rightOperator, 9, false);
     // -------------------
     // Subassemblies
     // -------------------
