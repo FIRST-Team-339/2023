@@ -84,7 +84,7 @@ public class Teleop
 
         // ================= OPERATOR CONTROLS ================
 
-        Hardware.cameras.switchCameras(Hardware.switchCameraViewButton10);
+        Hardware.cameras.switchCameras(Hardware.switchCameraViewButton10, Hardware.switchCameraViewButton11);
         // ================== DRIVER CONTROLS =================
 
         Hardware.transmission.shiftGears(Hardware.rightDriver.getTrigger(), Hardware.leftDriver.getTrigger());
