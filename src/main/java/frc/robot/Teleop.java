@@ -40,6 +40,7 @@ import edu.wpi.first.wpilibj.GenericHID.HIDType;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 import frc.Hardware.Hardware;
+import frc.HardwareInterfaces.KilroyUSBCamera;
 import frc.HardwareInterfaces.Potentiometer;
 import frc.HardwareInterfaces.Transmission.LeftRightTransmission;
 import frc.HardwareInterfaces.Transmission.TransmissionBase;
@@ -92,8 +93,10 @@ public class Teleop
 
         // ================= OPERATOR CONTROLS ================
 
-        Hardware.cameras.switchCameras(Hardware.switchCameraViewButton10);
-        Hardware.cameras.switchCameras(Hardware.switchCameraViewButton9);
+        // Hardware.cameras.switchCameras(Hardware.switchCameraViewButton11,
+        // Hardware.switchCameraViewButton12);
+        // Hardware.cameras.switchCameras(Hardware.switchCameraViewButton9);
+        Hardware.cameras.switchCameras(Hardware.switchCameraViewButton11, Hardware.switchCameraViewButton12);
         // ================== DRIVER CONTROLS =================
 
         Hardware.transmission.shiftGears(Hardware.rightDriver.getTrigger(), Hardware.leftDriver.getTrigger());
