@@ -189,7 +189,6 @@ public class Hardware
     // ----------------------------
     public static KilroyUSBCamera cameras = new KilroyUSBCamera(true);
     public static JoystickButton switchCameraViewButton11 = null;
-    // new MomentarySwitch(rightOperator, 11, false);
     public static JoystickButton switchCameraViewButton12 = null;
     // -------------------
     // Subassemblies
