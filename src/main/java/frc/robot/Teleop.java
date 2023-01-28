@@ -93,10 +93,7 @@ public class Teleop
 
         // ================= OPERATOR CONTROLS ================
 
-        // Hardware.cameras.switchCameras(Hardware.switchCameraViewButton11,
-        // Hardware.switchCameraViewButton12);
-        // Hardware.cameras.switchCameras(Hardware.switchCameraViewButton9);
-        Hardware.cameras.switchCameras(Hardware.switchCameraViewButton11, Hardware.switchCameraViewButton12);
+        Hardware.cameras.switchCameras(Hardware.switchCameraViewButton10, Hardware.switchCameraViewButton11);
         // ================== DRIVER CONTROLS =================
 
         Hardware.transmission.shiftGears(Hardware.rightDriver.getTrigger(), Hardware.leftDriver.getTrigger());
@@ -170,16 +167,12 @@ public class Teleop
             Hardware.eBrakeTimer.stop();
             }
 
-      /*  if (Hardware.tenPot.get(0, 3600) < 100.0 || Hardware.tenPot.get(0, 3600) > 150.0)
-            {
-      //      System.out.println("false");
-            }
-        else
-            {
-            System.out.println("true");
-
-            }
-            */
+        /*
+         * if (Hardware.tenPot.get(0, 3600) < 100.0 || Hardware.tenPot.get(0, 3600) >
+         * 150.0) { // System.out.println("false"); } else { System.out.println("true");
+         * 
+         * }
+         */
         printStatements();
         individualTest();
     } // end periodic()
@@ -211,9 +204,9 @@ public class Teleop
 
         // ---------- ANALOG -----------
 
-        //System.out.println("delayPot = " + Hardware.delayPot.get());
+        // System.out.println("delayPot = " + Hardware.delayPot.get());
         // System.out.println("test0 = " + Hardware.tenPot.get());
-        //System.out.println("test1 = " + Hardware.tenPot.get(3600.0));
+        // System.out.println("test1 = " + Hardware.tenPot.get(3600.0));
         // System.out.println("test2 = " + Hardware.tenPot.get(0.0, 3600.0));
         // System.out.println("test3 = " + Hardware.tenPot.get(3600));
         // ----------- CAN -------------
