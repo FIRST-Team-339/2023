@@ -104,6 +104,10 @@ public class Hardware
 
             leftSideMotors = new MotorControllerGroup(leftBottomMotor, leftTopMotor);
             rightSideMotors = new MotorControllerGroup(rightBottomMotor, rightTopMotor);
+
+            armMotorX = new WPI_TalonFX(12);
+            armMotorY = new WPI_TalonFX(13);
+            armMotorLength = new WPI_TalonFX(9);
             // ==============RIO INIT=============
 
             // =============OTHER INIT============
@@ -119,10 +123,10 @@ public class Hardware
             eBrakeTimer = new Timer();
 
             delayPot = new Potentiometer(PREV_DELAY_POT);
-            tenPot = new Potentiometer(TEST_TEN_DELAY_POT);
+            tenPot = new Potentiometer(TEST_TEN_DELAY_POT, 3600.0);
 
+            switchCameraViewButton10 = new JoystickButton(rightOperator, 10);
             switchCameraViewButton11 = new JoystickButton(rightOperator, 11);
-            switchCameraViewButton12 = new JoystickButton(rightOperator, 12);
             }
     }
 
@@ -132,6 +136,9 @@ public class Hardware
     public static MotorController leftTopMotor = null;
     public static MotorController rightBottomMotor = null;
     public static MotorController rightTopMotor = null;
+    public static MotorController armMotorX = null;
+    public static MotorController armMotorY = null;
+    public static MotorController armMotorLength = null;
     // **********************************************************
     // DIGITAL I/O
     // **********************************************************
@@ -188,8 +195,8 @@ public class Hardware
     // Vision stuff
     // ----------------------------
     public static KilroyUSBCamera cameras = new KilroyUSBCamera(true);
+    public static JoystickButton switchCameraViewButton10 = null;
     public static JoystickButton switchCameraViewButton11 = null;
-    public static JoystickButton switchCameraViewButton12 = null;
     // -------------------
     // Subassemblies
     // -------------------
@@ -199,5 +206,5 @@ public class Hardware
     private final static double PREV_GEAR2_MAX_SPEED = 0.5;
     private final static double PREV_GEAR3_MAX_SPEED = 0.7;
     private final static int PREV_DELAY_POT = 1;
-    private final static int TEST_TEN_DELAY_POT = 2;
+    private final static int TEST_TEN_DELAY_POT = 0;
     } // end class
