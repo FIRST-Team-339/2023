@@ -105,9 +105,9 @@ public class Hardware
             leftSideMotors = new MotorControllerGroup(leftBottomMotor, leftTopMotor);
             rightSideMotors = new MotorControllerGroup(rightBottomMotor, rightTopMotor);
 
-            armMotorX = new WPI_TalonFX(12);
-            armMotorY = new WPI_TalonFX(13);
-            armMotorLength = new WPI_TalonFX(9);
+            armMotorX = new WPI_TalonFX(17);
+            // armMotorY = new WPI_TalonFX(13);
+            // armMotorLength = new WPI_TalonFX(9);
             // ==============RIO INIT=============
 
             // =============OTHER INIT============
