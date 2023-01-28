@@ -124,6 +124,9 @@ public class Hardware
 
             delayPot = new Potentiometer(PREV_DELAY_POT);
             tenPot = new Potentiometer(TEST_TEN_DELAY_POT, 3600.0);
+
+            switchCameraViewButton11 = new JoystickButton(rightOperator, 11);
+            switchCameraViewButton12 = new JoystickButton(rightOperator, 12);
             }
     }
 
@@ -192,8 +195,8 @@ public class Hardware
     // Vision stuff
     // ----------------------------
     public static KilroyUSBCamera cameras = new KilroyUSBCamera(true);
-    public static MomentarySwitch switchCameraViewButton10 = new MomentarySwitch(rightOperator, 10, false);
-    public static MomentarySwitch switchCameraViewButton9 = new MomentarySwitch(rightOperator, 9, false);
+    public static JoystickButton switchCameraViewButton11 = null;
+    public static JoystickButton switchCameraViewButton12 = null;
     // -------------------
     // Subassemblies
     // -------------------
