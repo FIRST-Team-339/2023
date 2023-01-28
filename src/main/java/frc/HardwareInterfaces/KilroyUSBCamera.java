@@ -38,18 +38,18 @@ public class KilroyUSBCamera
             // If there are two feeds, declare and set values for two cameras.
             if (twoFeeds == true)
                 {
-                this.cam0 = CameraServer.getInstance().startAutomaticCapture("usb0", 0);
-                this.cam1 = CameraServer.getInstance().startAutomaticCapture("usb1", 1);
-                this.server = CameraServer.getInstance().getServer("serve_usb0");
-                this.server1 = CameraServer.getInstance().getServer("serve_usb1");
+                this.cam0 = CameraServer.startAutomaticCapture("usb0", 0);
+                this.cam1 = CameraServer.startAutomaticCapture("usb1", 1);
+                this.server = CameraServer.getServer("serve_usb0");
+                this.server1 = CameraServer.getServer("serve_usb1");
                 setCameraValues(2);
                 this.server1.getProperty("compression").set(COMPRESSION);
                 }
             // If two feeds is false, only declare and set values for one camera
             else
                 {
-                this.cam0 = CameraServer.getInstance().startAutomaticCapture("usb0", 0);
-                this.server = CameraServer.getInstance().getServer("serve_usb0");
+                this.cam0 = CameraServer.startAutomaticCapture("usb0", 0);
+                this.server = CameraServer.getServer("serve_usb0");
                 setCameraValues(1);
                 }
         } // end constructor - overloaded
@@ -77,18 +77,18 @@ public class KilroyUSBCamera
             // If there are two feeds, declare and set values for two cameras.
             if (twoFeeds == true)
                 {
-                this.cam0 = CameraServer.getInstance().startAutomaticCapture("usb0", 0);
-                this.cam1 = CameraServer.getInstance().startAutomaticCapture("usb1", 1);
-                this.server = CameraServer.getInstance().getServer("serve_usb0");
-                this.server1 = CameraServer.getInstance().getServer("serve_usb1");
+                this.cam0 = CameraServer.startAutomaticCapture("usb0", 0);
+                this.cam1 = CameraServer.startAutomaticCapture("usb1", 1);
+                this.server = CameraServer.getServer("serve_usb0");
+                this.server1 = CameraServer.getServer("serve_usb1");
                 setCameraValues(width, height, FPS, compression, 2);
                 this.server1.getProperty("compression").set(compression);
                 }
             // If two feeds is false, only declare and set values for one camera
             else
                 {
-                this.cam0 = CameraServer.getInstance().startAutomaticCapture("usb0", 0);
-                this.server = CameraServer.getInstance().getServer("serve_usb0");
+                this.cam0 = CameraServer.startAutomaticCapture("usb0", 0);
+                this.server = CameraServer.getServer("serve_usb0");
                 setCameraValues(width, height, FPS, compression, 1);
                 }
         } // end constructor - overloaded
@@ -105,10 +105,10 @@ public class KilroyUSBCamera
     public KilroyUSBCamera(MomentarySwitch button)
         {
             // Declares and sets values for two cameras
-            this.cam0 = CameraServer.getInstance().startAutomaticCapture("usb0", 0);
-            this.cam1 = CameraServer.getInstance().startAutomaticCapture("usb1", 1);
-            CameraServer.getInstance().removeServer("serve_usb1");
-            this.server = CameraServer.getInstance().getServer("serve_usb0");
+            this.cam0 = CameraServer.startAutomaticCapture("usb0", 0);
+            this.cam1 = CameraServer.startAutomaticCapture("usb1", 1);
+            CameraServer.removeServer("serve_usb1");
+            this.server = CameraServer.getServer("serve_usb0");
             setCameraValues(2);
             this.button = button;
         } // end constructor - overloaded
@@ -133,11 +133,11 @@ public class KilroyUSBCamera
     public KilroyUSBCamera(MomentarySwitch button, int width, int height, int FPS, int compression)
         {
             // Declares and sets values for two cameras
-            this.cam0 = CameraServer.getInstance().startAutomaticCapture("usb0", 0);
-            this.cam1 = CameraServer.getInstance().startAutomaticCapture("usb1", 1);
+            this.cam0 = CameraServer.startAutomaticCapture("usb0", 0);
+            this.cam1 = CameraServer.startAutomaticCapture("usb1", 1);
 
-            CameraServer.getInstance().removeServer("serve_usb1");
-            this.server = CameraServer.getInstance().getServer("serve_usb0");
+            CameraServer.removeServer("serve_usb1");
+            this.server = CameraServer.getServer("serve_usb0");
             setCameraValues(width, height, FPS, compression, 2);
             this.button = button;
         } // end constructor - overloaded
@@ -156,10 +156,10 @@ public class KilroyUSBCamera
     public KilroyUSBCamera(MomentarySwitch switch1, MomentarySwitch switch2)
         {
             // Declares and sets values for two cameras
-            this.cam0 = CameraServer.getInstance().startAutomaticCapture("usb0", 0);
-            this.cam1 = CameraServer.getInstance().startAutomaticCapture("usb1", 1);
-            CameraServer.getInstance().removeServer("serve_usb1");
-            this.server = CameraServer.getInstance().getServer("serve_usb0");
+            this.cam0 = CameraServer.startAutomaticCapture("usb0", 0);
+            this.cam1 = CameraServer.startAutomaticCapture("usb1", 1);
+            CameraServer.removeServer("serve_usb1");
+            this.server = CameraServer.getServer("serve_usb0");
             setCameraValues(2);
             this.switch1 = switch1;
             this.switch2 = switch2;
@@ -188,10 +188,10 @@ public class KilroyUSBCamera
             int compression)
         {
             // Declares and sets values for two cameras
-            this.cam0 = CameraServer.getInstance().startAutomaticCapture("usb0", 0);
-            this.cam1 = CameraServer.getInstance().startAutomaticCapture("usb1", 1);
-            CameraServer.getInstance().removeServer("serve_usb1");
-            this.server = CameraServer.getInstance().getServer("serve_usb0");
+            this.cam0 = CameraServer.startAutomaticCapture("usb0", 0);
+            this.cam1 = CameraServer.startAutomaticCapture("usb1", 1);
+            CameraServer.removeServer("serve_usb1");
+            this.server = CameraServer.getServer("serve_usb0");
             setCameraValues(width, height, FPS, compression, 2);
             this.switch1 = switch1;
             this.switch2 = switch2;
@@ -211,11 +211,11 @@ public class KilroyUSBCamera
     public KilroyUSBCamera(JoystickButton button1, JoystickButton button2)
         {
             // Declares and sets values for two cameras
-            this.cam0 = CameraServer.getInstance().startAutomaticCapture("usb0", 0);
-            this.cam1 = CameraServer.getInstance().startAutomaticCapture("usb1", 1);
+            this.cam0 = CameraServer.startAutomaticCapture("usb0", 0);
+            this.cam1 = CameraServer.startAutomaticCapture("usb1", 1);
 
-            CameraServer.getInstance().removeServer("serve_usb1");
-            this.server = CameraServer.getInstance().getServer("serve_usb0");
+            CameraServer.removeServer("serve_usb1");
+            this.server = CameraServer.getServer("serve_usb0");
             setCameraValues(2);
             this.button1 = button1;
             this.button2 = button2;
@@ -244,10 +244,10 @@ public class KilroyUSBCamera
             int compression)
         {
             // Declares and sets values for two cameras
-            this.cam0 = CameraServer.getInstance().startAutomaticCapture("usb0", 0);
-            this.cam1 = CameraServer.getInstance().startAutomaticCapture("usb1", 1);
-            CameraServer.getInstance().removeServer("serve_usb1");
-            this.server = CameraServer.getInstance().getServer("serve_usb0");
+            this.cam0 = CameraServer.startAutomaticCapture("usb0", 0);
+            this.cam1 = CameraServer.startAutomaticCapture("usb1", 1);
+            CameraServer.removeServer("serve_usb1");
+            this.server = CameraServer.getServer("serve_usb0");
             setCameraValues(width, height, FPS, compression, 2);
             this.button1 = button1;
             this.button2 = button2;
