@@ -416,15 +416,15 @@ public class KilroyUSBCamera
     {
         // Whenever the value of the momentary switch switches from false to true or
         // true to false, it calls the switchCameras() method
-        if (button.isOnCheckNow() == true && firstCheck == true)
+        if (button.isOnCheckNow() == true && this.firstCheck == true)
             {
             switchCameras();
-            firstCheck = false;
+            this.firstCheck = false;
             } // end if
-        if (button.isOnCheckNow() == false && firstCheck == false)
+        if (button.isOnCheckNow() == false && this.firstCheck == false)
             {
             switchCameras();
-            firstCheck = true;
+            this.firstCheck = true;
             } // end if
     } // end switchCameras()
 
@@ -437,29 +437,34 @@ public class KilroyUSBCamera
      *            - other button used to toggle the cameras\
      *
      * @Author Alice Marchant
-     * @Written Feb 15th, 2020
+     * @Written Feb 15th, 2020 NOTE: This is untested and will need to be fixed
+     *          before usage!!!!!!
      */
     public void switchCameras(MomentarySwitch switch1, MomentarySwitch switch2)
     {
         // Whenever the value of either momentary switch switches from false to true or
         // true to false, it calls the switchCameras() method
-        if (switch1.isOnCheckNow() == true && firstCheck == true)
+        // if (switch1.isOnCheckNow() == true && this.firstCheck == true &&
+        // this.cam0.isEnabled() == true)
+        if (switch1.isOnCheckNow() == true && this.cam0.isEnabled() == true)
             {
             switchCameras();
-            firstCheck = false;
+            this.firstCheck = false;
             } // end if
-        if (switch1.isOnCheckNow() == false && firstCheck == false)
+        // if (switch1.isOnCheckNow() == false && this.firstCheck == false)
             {
-            firstCheck = true;
+            // this.firstCheck = true;
             } // end if
-        if (switch2.isOnCheckNow() == true && firstCheck2 == true)
+        // if (switch2.isOnCheckNow() == true && this.firstCheck2 == true &&
+        // this.cam1.isEnabled() == true)
+        if (switch2.isOnCheckNow() == true && this.cam1.isEnabled() == true)
             {
             switchCameras();
-            firstCheck2 = false;
+            this.firstCheck2 = false;
             } // end if
-        if (switch2.isOnCheckNow() == false && firstCheck2 == false)
+        // if (switch2.isOnCheckNow() == false && this.firstCheck2 == false)
             {
-            firstCheck2 = true;
+            // this.firstCheck2 = true;
             } // end if
     } // end switchCameras()
 
@@ -481,13 +486,13 @@ public class KilroyUSBCamera
         // source to cam0
         if (this.cam1 != null)
             {
-            if (button1.get() == true)
+            if (button1.get() == true && this.cam0.isEnabled() == true)
                 {
-                server.setSource(this.cam1);
+                this.server.setSource(this.cam1);
                 } // end if
-            if (button2.get() == true)
+            if (button2.get() == true && this.cam1.isEnabled() == true)
                 {
-                server.setSource(this.cam0);
+                this.server.setSource(this.cam0);
                 } // end if
             } // end if
     } // end switchCameras()
@@ -497,8 +502,8 @@ public class KilroyUSBCamera
      */
     public void setLimelight()
     {
-        server.setSource(limelight);
-        for (VideoProperty x : server.enumerateProperties())
+        this.server.setSource(limelight);
+        for (VideoProperty x : this.server.enumerateProperties())
             System.out.println("Name: " + x.getName() + "Val: " + x.get());
     }
 
