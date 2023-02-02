@@ -105,9 +105,8 @@ public class Hardware
             leftSideMotors = new MotorControllerGroup(leftBottomMotor, leftTopMotor);
             rightSideMotors = new MotorControllerGroup(rightBottomMotor, rightTopMotor);
 
-            armMotorX = new WPI_TalonFX(17);
-            // armMotorY = new WPI_TalonFX(13);
-            // armMotorLength = new WPI_TalonFX(9);
+            armMotorLength = new WPI_TalonFX(17);
+            armMotorY = new WPI_TalonFX(6);
             // ==============RIO INIT=============
 
             // =============OTHER INIT============
@@ -125,9 +124,12 @@ public class Hardware
             delayPot = new Potentiometer(PREV_DELAY_POT);
             tenPot = new Potentiometer(TEST_TEN_DELAY_POT, 3600.0);
 
-            switchCameraViewButton10 = new JoystickButton(rightOperator, 10);
-            switchCameraViewButton11 = new JoystickButton(rightOperator, 11);
-            }
+            clawPiston = new DoubleSolenoid(4, 5);
+            
+
+        }
+
+
     }
 
     // CAN DEVICES
@@ -137,8 +139,8 @@ public class Hardware
     public static MotorController rightBottomMotor = null;
     public static MotorController rightTopMotor = null;
     public static MotorController armMotorX = null;
-    public static MotorController armMotorY = null;
     public static MotorController armMotorLength = null;
+    public static MotorController armMotorY = null;
     // **********************************************************
     // DIGITAL I/O
     // **********************************************************
@@ -154,6 +156,7 @@ public class Hardware
     // **********************************************************
     public static Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
     public static DoubleSolenoid eBrake = null;
+    public static DoubleSolenoid clawPiston = null;
 
     // **********************************************************
     // roboRIO CONNECTIONS CLASSES
@@ -195,8 +198,9 @@ public class Hardware
     // Vision stuff
     // ----------------------------
     public static KilroyUSBCamera cameras = new KilroyUSBCamera(true);
-    public static JoystickButton switchCameraViewButton10 = null;
-    public static JoystickButton switchCameraViewButton11 = null;
+    public static JoystickButton switchCameraViewButton10 =  new JoystickButton(rightOperator, 10);
+    public static JoystickButton switchCameraViewButton11 =  new JoystickButton(rightOperator, 11);
+    public static JoystickButton clawTriggerButton = new JoystickButton(rightOperator, 1);
     // -------------------
     // Subassemblies
     // -------------------
