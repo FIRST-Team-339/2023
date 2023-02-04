@@ -87,6 +87,7 @@ public class Hardware
 
             disableAutoSwitch.setInverted(true);
 
+
             // ============ANALOG INIT============
 
             // ==============CAN INIT=============
@@ -124,8 +125,8 @@ public class Hardware
             delayPot = new Potentiometer(PREV_DELAY_POT);
             tenPot = new Potentiometer(TEST_TEN_DELAY_POT, 3600.0);
 
-            clawPiston = new DoubleSolenoid(4, 5);
-            
+        clawPiston = new DoubleSolenoid(6,7);
+
 
         }
 
@@ -138,9 +139,9 @@ public class Hardware
     public static MotorController leftTopMotor = null;
     public static MotorController rightBottomMotor = null;
     public static MotorController rightTopMotor = null;
-    public static MotorController armMotorX = null;
     public static MotorController armMotorLength = null;
     public static MotorController armMotorY = null;
+
     // **********************************************************
     // DIGITAL I/O
     // **********************************************************
@@ -200,7 +201,7 @@ public class Hardware
     public static KilroyUSBCamera cameras = new KilroyUSBCamera(true);
     public static JoystickButton switchCameraViewButton10 =  new JoystickButton(rightOperator, 10);
     public static JoystickButton switchCameraViewButton11 =  new JoystickButton(rightOperator, 11);
-    public static JoystickButton clawTriggerButton = new JoystickButton(rightOperator, 1);
+    public static MomentarySwitch clawTriggerButton = new MomentarySwitch(rightOperator, 1, true);
     // -------------------
     // Subassemblies
     // -------------------

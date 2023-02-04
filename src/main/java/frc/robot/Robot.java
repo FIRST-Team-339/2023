@@ -39,6 +39,9 @@ public class Robot extends TimedRobot
 
         Hardware.initialize();
 
+        Hardware.clawPiston.setForward(true);
+
+
         // ---------------------------------------
         // done setup - tell the user we are complete
         // setup
