@@ -14,16 +14,35 @@
 // ====================================================================
 package frc.Hardware;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.DriverStation;
 //import edu.wpi.first.wpilibj.DriverSt;
 import edu.wpi.first.wpilibj.PneumaticsBase;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj.drive.RobotDriveBase;
+import edu.wpi.first.wpilibj.motorcontrol.MotorController;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import frc.HardwareInterfaces.Transmission.LeftRightTransmission;
+import frc.HardwareInterfaces.Transmission.TransmissionBase;
+import frc.HardwareInterfaces.Transmission.TransmissionBase.TransmissionType;
+import frc.Utils.drive.Drive;
+import frc.HardwareInterfaces.SingleThrowSwitch;
+import frc.HardwareInterfaces.SixPositionSwitch;
+import frc.HardwareInterfaces.DoubleSolenoid;
+import frc.HardwareInterfaces.KilroyUSBCamera;
+import frc.HardwareInterfaces.MomentarySwitch;
+import frc.HardwareInterfaces.Potentiometer;
 
 /**
- * ------------------------------------------------------- puts all of the
  * hardware declarations into one place. In addition, it makes them available to
  * both autonomous and teleop.
  *
@@ -63,6 +82,10 @@ public class Hardware
         else if (robotIdentity == Identifier.PrevYear)
             {
             // ==============DIO INIT=============
+            sixPosSwitch = new SixPositionSwitch(14, 15, 16, 17, 19, 20);
+            disableAutoSwitch = new SingleThrowSwitch(10);
+
+            //disableAutoSwitch.setInverted(true);
 
             // ============ANALOG INIT============
 
@@ -82,28 +105,58 @@ public class Hardware
             leftSideMotors = new MotorControllerGroup(leftBottomMotor, leftTopMotor);
             rightSideMotors = new MotorControllerGroup(rightBottomMotor, rightTopMotor);
 
+            armMotorLength = new WPI_TalonFX(17);
+            armMotorY = new WPI_TalonFX(6);
             // ==============RIO INIT=============
 
             // =============OTHER INIT============
+            transmission = new LeftRightTransmission(leftSideMotors, rightSideMotors);
+            drive = new Drive(transmission, null, null, null);
+            transmission.setJoystickDeadband(PREV_DEADBAND);
+            transmission.setAllGearPercentages(PREV_GEAR1_MAX_SPEED, PREV_GEAR2_MAX_SPEED, PREV_GEAR3_MAX_SPEED);
 
-            }
+            drive = new Drive(transmission, null, null, null);
+
+            eBrake = new DoubleSolenoid(4, 5);
+
+            eBrakeTimer = new Timer();
+
+            delayPot = new Potentiometer(PREV_DELAY_POT);
+            tenPot = new Potentiometer(TEST_TEN_DELAY_POT, 3600.0);
+
+            clawPiston = new DoubleSolenoid(6, 7);
+            
+
+        }
+
+
     }
 
-    // **********************************************************
     // CAN DEVICES
     // **********************************************************
-
+    public static MotorController leftBottomMotor = null;
+    public static MotorController leftTopMotor = null;
+    public static MotorController rightBottomMotor = null;
+    public static MotorController rightTopMotor = null;
+    public static MotorController armMotorX = null;
+    public static MotorController armMotorLength = null;
+    public static MotorController armMotorY = null;
     // **********************************************************
     // DIGITAL I/O
     // **********************************************************
-
+    public static SixPositionSwitch sixPosSwitch = null;
+    public static SingleThrowSwitch disableAutoSwitch = null;
     // **********************************************************
     // ANALOG I/O
     // **********************************************************
-
+    public static Potentiometer delayPot = null;
+    public static Potentiometer tenPot = null;
     // **********************************************************
     // PNEUMATIC DEVICES
     // **********************************************************
+    public static Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
+    public static DoubleSolenoid eBrake = null;
+    public static DoubleSolenoid clawPiston = null;
 
     // **********************************************************
     // roboRIO CONNECTIONS CLASSES
@@ -127,17 +180,33 @@ public class Hardware
     // ------------------------------------
     // Utility classes
     // ------------------------------------
+    public static Timer eBrakeTimer = null;
+    public static Boolean eBrakeTimerIsStopped = true;
+    public static Timer autoTimer = null;
 
     // ------------------------------------
     // Drive system
     // ------------------------------------
+    public static MotorControllerGroup leftSideMotors = null;
+    public static MotorControllerGroup rightSideMotors = null;
 
+    public static LeftRightTransmission transmission = null;
+    public static Drive drive = null;
     // ------------------------------------------
     // Vision stuff
     // ----------------------------
-
+    public static KilroyUSBCamera cameras = new KilroyUSBCamera(true);
+    public static MomentarySwitch switchCameraViewButton10 =  new MomentarySwitch(rightOperator, 10,false);
+    public static MomentarySwitch switchCameraViewButton11 =  new MomentarySwitch(rightOperator, 11, false);
+    public static MomentarySwitch clawTriggerButton = new MomentarySwitch(rightOperator, 1, false);
     // -------------------
     // Subassemblies
     // -------------------
 
+    public final static double PREV_DEADBAND = 0.2;
+    private final static double PREV_GEAR1_MAX_SPEED = 0.3;
+    private final static double PREV_GEAR2_MAX_SPEED = 0.5;
+    private final static double PREV_GEAR3_MAX_SPEED = 0.7;
+    private final static int PREV_DELAY_POT = 1;
+    private final static int TEST_TEN_DELAY_POT = 0;
     } // end class
