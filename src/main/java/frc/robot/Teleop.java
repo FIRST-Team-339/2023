@@ -95,6 +95,18 @@ public class Teleop
 
         Hardware.cameras.switchCameras(Hardware.switchCameraViewButton10, Hardware.switchCameraViewButton11);
 
+        if (Hardware.clawTriggerButton.isOn() == true)
+            {
+            if (Hardware.clawPiston.setForward(true))
+                {
+                Hardware.clawPiston.setForward(false);
+                }
+            else
+                {
+            Hardware.clawPiston.setForward(true);
+                }
+        }
+
         // ================== DRIVER CONTROLS =================
 
         Hardware.transmission.shiftGears(Hardware.rightDriver.getTrigger(), Hardware.leftDriver.getTrigger());
@@ -167,7 +179,6 @@ public class Teleop
             Hardware.transmission.drive(Hardware.leftDriver.getY(), Hardware.rightDriver.getY());
             Hardware.eBrakeTimer.stop();
             }
-
         /*
          * if (Hardware.tenPot.get(0, 3600) < 100.0 || Hardware.tenPot.get(0, 3600) >
          * 150.0) { // System.out.println("false"); } else { System.out.println("true");
@@ -219,7 +230,6 @@ public class Teleop
         /////////// JOYSTICK VALUES ///////////
         // System.out.println("L Joystick: " + Hardware.leftDriver.getY());
         // System.out.println("R Joystick: " + Hardware.rightDriver.getY());
-
         // ========== OUTPUTS ==========
 
         // ---------- DIGITAL ----------

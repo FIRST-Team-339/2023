@@ -31,9 +31,9 @@ import edu.wpi.first.wpilibj.DigitalInput;
 
 // -------------------------------------------------------
 /**
- * This class enhances the Digital Input class. It adds a member
- * function isOn() which will return true if the light is reflected.
- * All other member functions from the base class are unchanged.
+ * This class enhances the Digital Input class. It adds a member function isOn()
+ * which will return true if the light is reflected. All other member functions
+ * from the base class are unchanged.
  *
  * @class IRSensor()
  * @author S. V. Pakington
@@ -42,11 +42,11 @@ import edu.wpi.first.wpilibj.DigitalInput;
  */
 
 public class IRSensor extends DigitalInput
-{
+    {
     // -------------------------------------------------------
     /**
-     * Create an instance of a IRSensor class.
-     * Creates a digital input given a channel and uses the default module.
+     * Create an instance of a IRSensor class. Creates a digital input given a
+     * channel and uses the default module.
      *
      * @method IRSensor()
      * @param channel
@@ -55,15 +55,15 @@ public class IRSensor extends DigitalInput
      * @written January 15, 2011
      *          -------------------------------------------------------
      */
-    public IRSensor (final int channel)
+    public IRSensor(final int channel)
         {
-        super(channel);
-        } // end IRSensor
+            super(channel);
+        } // end constructor - overloaded
 
     // -------------------------------------------------------
     /**
-     * Create an instance of a IRSensor class.
-     * Creates a digital input given a channel and uses the default module.
+     * Create an instance of a IRSensor class. Creates a digital input given a
+     * channel and uses the default module.
      *
      * @method IRSensor()
      * @param channel
@@ -74,26 +74,24 @@ public class IRSensor extends DigitalInput
      * @written January 15, 2011
      *          -------------------------------------------------------
      */
+
     /*
-     * public IRSensor (final int slot,
-     * final int channel)
-     * {
-     * super(slot, channel);
-     * } // end LightSensor
+     * public IRSensor (final int slot, final int channel) { super(slot, channel); }
+     * // end constructor - overloaded
      */
     // -------------------------------------------------------
     /**
-     * This function tells us whether there is something
-     * blocking the infrared light emitted by the sensor or not.
+     * This function tells us whether there is something blocking the infrared light
+     * emitted by the sensor or not.
      *
      * @method isOn
      * @return Is on or not, true or false
      * @author S. V. Pakington
-     * @written Feb 3, 2010
-     *          -------------------------------------------------------
+     * @written Feb 3, 2010 -------------------------------------------------------
      */
-    public boolean isOn ()
-        {
+    public boolean isOn()
+    {
         return (this.get());
-        } // end isOn
-} // end LightSensor
+    } // end isOn
+
+    } // end LightSensor

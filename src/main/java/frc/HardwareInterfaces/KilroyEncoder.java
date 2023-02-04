@@ -369,7 +369,6 @@ public class KilroyEncoder implements DoubleSupplier
             } // end switch type
     } // end setReverseDirection()
 
-
     /**
      * sets the number of ticks per revolution for Spark max
      *

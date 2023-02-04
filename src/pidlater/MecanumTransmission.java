@@ -1,9 +1,8 @@
 package frc.HardwareInterfaces.Transmission;
 
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
-import edu.wpi.first.wpilibj2.command.PIDSubsystem;
-import edu.wpi.first.wpilibj2.command.Subsystem;
-import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.pidwrappers.PIDAnalogGyro;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -56,7 +55,7 @@ public MecanumTransmission (MotorController leftRearMotor,
 public MecanumTransmission (MotorController leftRearMotor,
         MotorController rightRearMotor,
         MotorController leftFrontMotor, MotorController rightFrontMotor,
-        AnalogGyro gyro)
+        PIDAnalogGyro gyro)
 {
     super(leftRearMotor, rightRearMotor, leftFrontMotor,
             rightFrontMotor);
@@ -130,7 +129,7 @@ public void driveRaw (double magnitude, double direction,
         {
         // While we are rotating, set the angle and reset/disable the PID.
         this.mecanumPID.disable();
-        this.mecanumPID.getController().reset();
+        this.mecanumPID.getPIDController().reset();
         currentSetAngle = this.gyro.getAngle();
         }
     else if (isUsingPID == true)
@@ -145,7 +144,7 @@ public void driveRaw (double magnitude, double direction,
         {
         // if we are not using the PID loop, then just disable everything.
         mecanumPID.disable();
-        mecanumPID.getController().reset();
+        mecanumPID.getPIDController().reset();
         }
 
     if (isUsingPID == true)
@@ -219,8 +218,8 @@ public void setRotationCorrectionEnabled (boolean enabled)
 public void setPIDValues (double p, double i, double d,
         double tolerance)
 {
-    this.mecanumPID.getController().setPID(p, i, d);
-    this.mecanumPID.getController().setTolerance(tolerance);
+    this.mecanumPID.getPIDController().setPID(p, i, d);
+    this.mecanumPID.getPIDController().setAbsoluteTolerance(tolerance);
 
     this.p = p;
     this.i = i;
@@ -283,7 +282,7 @@ private double inRange (double val)
     return val;
 }
 
-private AnalogGyro gyro = null;
+private PIDAnalogGyro gyro = null;
 
 private boolean isUsingPID = false;
 
@@ -306,33 +305,22 @@ private double directionalDeadband = 0;// Disabled by default.
  */
 private PIDSubsystem mecanumPID = new PIDSubsystem(p, i, d)
 {
-
+@Override
 protected double returnPIDInput ()
 {
-    return gyro.getRate();
+    return gyro.pidGet();
 }
 
+@Override
 protected void usePIDOutput (double output)
 {
     adjustedAngle = output;
 }
 
+@Override
 protected void initDefaultCommand ()
 {
-
 }
-
-@Override
-protected void useOutput(double output, double setpoint) {
-    // TODO Auto-generated method stub
-    
-}
-
-@Override
-protected double getMeasurement() {
-    // TODO Auto-generated method stub
-    return 0;
-}
-
 };
+
 }

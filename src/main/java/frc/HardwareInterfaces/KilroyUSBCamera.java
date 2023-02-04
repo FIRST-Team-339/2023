@@ -93,7 +93,6 @@ public class KilroyUSBCamera
                 }
         } // end constructor - overloaded
 
-
     /**
      * constructor
      *
@@ -318,7 +317,6 @@ public class KilroyUSBCamera
             this.server.setSource(this.cam1);
             } // end if
     } // end setCamera()
-
 
     /**
      * Sets the values for fps, resolution, and compression on the camera(s)

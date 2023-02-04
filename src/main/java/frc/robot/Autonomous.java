@@ -31,6 +31,9 @@
 // ====================================================================
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Timer;
+import frc.Hardware.Hardware;
+
 /**
  * An Autonomous class. This class <b>beautifully</b> uses state machines in
  * order to periodically execute instructions during the Autonomous period.
@@ -47,44 +50,107 @@ package frc.robot;
  * @written Jan 13, 2015
  */
 public class Autonomous
-{
+    {
 
-/**
- * User Initialization code for autonomous mode should go here. Will run once
- * when the autonomous first starts, and will be followed immediately by
- * periodic().
- */
-public static void init ()
-{
+    /**
+     * User Initialization code for autonomous mode should go here. Will run once
+     * when the autonomous first starts, and will be followed immediately by
+     * periodic().
+     */
+    public static void init()
+    {
+        Hardware.eBrake.setForward(false);
+        Hardware.eBrakeTimer.stop();
+        Hardware.eBrakeTimer.reset();
+    } // end Init
 
-} // end Init
+    /**
+     * User Periodic code for autonomous mode should go here. Will be called
+     * periodically at a regular rate while the robot is in autonomous mode.
+     *
+     * @author Nathanial Lydick
+     * @written Jan 13, 2015
+     *
+     *          FYI: drive.stop cuts power to the motors, causing the robot to
+     *          coast. drive.brake results in a more complete stop. Meghan Brown; 10
+     *          February 2019
+     *
+     */
 
-/**
- * User Periodic code for autonomous mode should go here. Will be called
- * periodically at a regular rate while the robot is in autonomous mode.
- *
- * @author Nathanial Lydick
- * @written Jan 13, 2015
- *
- *          FYI: drive.stop cuts power to the motors, causing the robot to
- *          coast. drive.brake results in a more complete stop.
- *          Meghan Brown; 10 February 2019
- *
- */
+    public static void periodic()
+    {
 
-public static void periodic ()
-{
+         if (Hardware.disableAutoSwitch.isOn() == false)
+         {
+            // added delay potentionmeter working
+            double delayTime;
+            delayTime = Hardware.delayPot.get(0, 270);
+            Timer.delay(delayTime);
+            // =========================
+            // when in the six position switch is in a certain it will do one of the
+            // following
+            // =========================
+            switch (Hardware.sixPosSwitch.getPosition())
+             {
+             case 1:
+                   break;
+             case 2:
+                   break;
+                case 3:
+                    break;
+             case 4:
+                    break;
+              case 5:
+                  break;
+             case 6:
+                 break;
+                default:
+                    break;
 
-}
+              }
+                   }
+                  else
+                         {
+            //code goes here
+                         }
+         
+         
 
-// =====================================================================
-// Path Methods
-// =====================================================================
+                   // added delay potentionmeter working
+                   double delayTime;
+                   delayTime = Hardware.delayPot.get(0, 270);
+                   Timer.delay(delayTime);
+                 // =========================
+                    // when in the six position switch is in a certain it will do one of the
+                    // following
+                 // =========================
+                  switch (Hardware.sixPosSwitch.getPosition())
+                     {
+                     case 1:
+                         break;
+                      case 2:
+                            break;
+                        case 3:
+                           break;
+                       case 4:
+                           break;
+                       case 5:
+                          break;
+                       case 6:
+                         break;
+                       default:
+                           break;
 
+                        }
+        // }
+    }
 
-/*
- * ==============================================================
- * Constants
- * ==============================================================
- */
-}
+    // =====================================================================
+    // Path Methods
+    // =====================================================================
+
+    /*
+     * ============================================================== Constants
+     * ==============================================================
+     */
+    }
