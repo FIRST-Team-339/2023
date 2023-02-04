@@ -776,7 +776,7 @@ public void printError (String errorMessage)
     if (defaultPrintDevice == PrintsTo.driverStation ||
             defaultPrintDevice == PrintsTo.driverStationAndRoboRIO)
         {
-        final String dsReport = appendErrorMessage(errorMessage);
+        // final String dsReport = appendErrorMessage(errorMessage);
         // TRY TO FIX @ANE
         // Hardware.driverStation.reportError(dsReport, false);
         }

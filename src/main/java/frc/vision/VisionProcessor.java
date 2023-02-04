@@ -217,7 +217,7 @@ public VisionProcessor (String ip, CameraModel camera)
 {
     // Adds the camera to the cscore CameraServer, in order to grab the
     // stream.
-    this.camera = CameraServer.getInstance()
+    this.camera = CameraServer
             .addAxisCamera("axis-camera", ip);
     // originally named Vision Camera
 
@@ -315,7 +315,7 @@ public VisionProcessor (String ip, CameraModel camera,
 {
     // Adds the camera to the cscore CameraServer, in order to grab the
     // stream.
-    this.camera = CameraServer.getInstance()
+    this.camera = CameraServer
             .addAxisCamera("axis-camera", ip);
 
 
@@ -359,7 +359,7 @@ public VisionProcessor (int usbPort, CameraModel camera)
 {
     // Adds the camera to the cscore CameraServer, in order to grab the
     // stream.
-    this.camera = CameraServer.getInstance()
+    this.camera = CameraServer
             .startAutomaticCapture("axis-camera", usbPort);
 
     // Based on the selected camera type, set the field of views and focal
@@ -428,7 +428,7 @@ public void processImage ()
 {
     // Gets the error code while getting the new image from the camera.
     // If the error code is not 0, then there is no error.
-    long errorCode = CameraServer.getInstance()
+    long errorCode = CameraServer
             .getVideo("axis-camera").grabFrame(image);
 
 

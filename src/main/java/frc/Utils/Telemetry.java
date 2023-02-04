@@ -108,7 +108,7 @@ public void printToConsole (String stringToPrint)
     if ((System.currentTimeMillis() - lastTimePrinted) >= this
             .getTimeBetweenPrints())
         {
-        if (driverStation.isFMSAttached() == false)
+        if (DriverStation.isFMSAttached() == false)
             System.out.println(stringToPrint);
 
         // resets the clock

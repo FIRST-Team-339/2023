@@ -1,7 +1,6 @@
 package frc.Utils.drive;
 
 import frc.HardwareInterfaces.KilroyEncoder;
-import frc.HardwareInterfaces.Transmission.MecanumTransmission;
 import frc.HardwareInterfaces.Transmission.LeftRightTransmission;
 import frc.HardwareInterfaces.Transmission.TransmissionBase;
 import frc.HardwareInterfaces.Transmission.TransmissionBase.MotorPosition;
@@ -840,12 +839,14 @@ public class Drive
     public void drive(double magnitude, double direction, double rotation)
     {
         // if the transmission type input is Mecanum, then control it with that
-        if (transmission instanceof MecanumTransmission)
-            ((MecanumTransmission) transmission).drive(magnitude, direction, rotation);
+
+        // TODO PID FIX!
+        // if (transmission instanceof MecanumTransmission)
+        //     ((MecanumTransmission) transmission).drive(magnitude, direction, rotation);
 
         // AHHH! we are a Tank transmission! ...Switching to arcade drive I
         // guess?
-        else if (transmission instanceof LeftRightTransmission)
+        if (transmission instanceof LeftRightTransmission)
             {
             // Arcade Drive
             double yVal = magnitude * Math.cos(Math.toRadians(direction));

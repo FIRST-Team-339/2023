@@ -17,7 +17,6 @@
 package frc.HardwareInterfaces;
 
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
-import edu.wpi.first.math.controller.PIDController;
 
 // -------------------------------------------------------
 /**

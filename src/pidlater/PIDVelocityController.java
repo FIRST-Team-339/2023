@@ -43,7 +43,7 @@ package frc.HardwareInterfaces;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
-import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 
 /**
  * This class acts as a PID controller when regulating a motor's speed based on
@@ -56,7 +56,7 @@ import edu.wpi.first.wpilibj.command.PIDSubsystem;
  * @author Noah Golmant
  * @written 11 Feb 2014
  */
-public class PIDVelocityController extends PIDSubsystem {
+public class PIDVelocityController implements PIDSubsystem {
 
     // The motor that will be controlled by the PID controller & loop.
     private final MotorController motor;
@@ -139,7 +139,6 @@ public class PIDVelocityController extends PIDSubsystem {
      * @author Noah Golmant
      * @written 11 Feb 2014
      */
-    @Override
     protected void initDefaultCommand() {
     }
 
@@ -179,7 +178,6 @@ public class PIDVelocityController extends PIDSubsystem {
      * @author Noah Golmant
      * @written 11 Feb 2014
      */
-    @Override
     protected double returnPIDInput() {
         return this.encoder.getRate();
     }
@@ -216,7 +214,6 @@ public class PIDVelocityController extends PIDSubsystem {
      * @author Noah Golmant
      * @written 11 Feb 2014
      */
-    @Override
     public void setOutputRange(double minRange, double maxRange) {
         this.minRange = minRange;
         this.maxRange = maxRange;
@@ -231,7 +228,6 @@ public class PIDVelocityController extends PIDSubsystem {
      * @author Noah Golmant
      * @written 11 Feb 2014
      */
-    @Override
     protected void usePIDOutput(double output) {
         // Add the error speed to the motor controller.
 

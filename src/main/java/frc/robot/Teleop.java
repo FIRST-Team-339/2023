@@ -29,8 +29,21 @@
 // ====================================================================
 package frc.robot;
 
+import java.io.ObjectInputStream.GetField;
+
+import org.opencv.features2d.FlannBasedMatcher;
+
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.GenericHID.HIDType;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.Hardware.Hardware;
-import frc.Utils.SpeedTester;
+import frc.HardwareInterfaces.KilroyUSBCamera;
+import frc.HardwareInterfaces.Potentiometer;
+import frc.HardwareInterfaces.Transmission.LeftRightTransmission;
+import frc.HardwareInterfaces.Transmission.TransmissionBase;
 
 /**
  * This class contains all of the user code for the Autonomous part of the
@@ -51,8 +64,12 @@ public class Teleop
      */
     public static void init()
     {
+        Hardware.drive.setGear(0);
 
-    } // end Init
+        Hardware.eBrake.setForward(false);
+        Hardware.eBrakeTimer.stop();
+        Hardware.eBrakeTimer.reset();
+    } // end init()
 
     /**
      * User Periodic code for teleop mode should go here. Will be called
@@ -65,15 +82,101 @@ public class Teleop
     public static void periodic()
     {
         // =============== AUTOMATED SUBSYSTEMS ===============
+        if (Hardware.eBrakeTimer.get() <= 0.001)
+            {
+            Hardware.eBrakeTimerIsStopped = true;
+            }
+        else
+            {
+            Hardware.eBrakeTimerIsStopped = false;
+            }
 
         // ================= OPERATOR CONTROLS ================
 
+        Hardware.cameras.switchCameras(Hardware.switchCameraViewButton10, Hardware.switchCameraViewButton11);
+
         // ================== DRIVER CONTROLS =================
+
         Hardware.transmission.shiftGears(Hardware.rightDriver.getTrigger(), Hardware.leftDriver.getTrigger());
-        Hardware.transmission.drive(Hardware.leftDriver.getY(), Hardware.rightDriver.getY());
+        // Hardware.transmission.drive(Hardware.leftDriver.getY(),
+        // Hardware.rightDriver.getY());
+
+        // =========================
+        // when button 5 right driver is pushed
+        // Extends the eBrake piston out
+        // =========================
+        if (Hardware.rightDriver.getRawButton(5) == true)
+            {
+            Hardware.eBrake.setForward(true);
+            }
+
+        // =========================
+        // when button 6 left driver is pushed
+        // Retracts the eBrake piston and affects drive
+        // =========================
+        if (Hardware.leftDriver.getRawButton(6) == true)
+            {
+            // =========================
+            // when the eBrake is not retracted and the joystick is moved
+            // Resets the eBrake timer retracts the eBrake piston, stops all drive motors,
+            // and starts the eBrake timer
+            // =========================
+            if ((Hardware.eBrake.getForward() == true)
+                    || ((Math.abs(Hardware.leftDriver.getY()) >= Hardware.PREV_DEADBAND)
+                            || (Math.abs(Hardware.rightDriver.getY()) >= Hardware.PREV_DEADBAND)))
+                {
+                Hardware.eBrakeTimer.reset();
+                Hardware.transmission.drive(0, 0);
+                Hardware.eBrakeTimer.start();
+                Hardware.eBrake.setForward(false);
+                }
+            // =========================
+            // when the eBrake is retracted and the eBrake timer has passed a certain
+            // duration
+            // Reactivates the drive motors and stops the eBrake timer
+            // =========================
+            if ((Hardware.eBrake.getForward() == false)
+                    && ((Hardware.eBrakeTimer.hasElapsed(1.5)) || Hardware.eBrakeTimerIsStopped == true))
+                {
+                Hardware.transmission.drive(Hardware.leftDriver.getY(), Hardware.rightDriver.getY());
+                Hardware.eBrakeTimer.stop();
+                }
+            }
+        // =========================
+        // when the retract button (left driver button 6) is pressed, eBrake is not
+        // retracted and the joystick is moved
+        // Resets the eBrake timer retracts the eBrake piston, stops all drive motors,
+        // and starts the eBrake timer
+        // =========================
+        if ((Hardware.eBrake.getForward() == true) && ((Math.abs(Hardware.leftDriver.getY()) >= Hardware.PREV_DEADBAND)
+                || (Math.abs(Hardware.rightDriver.getY()) >= Hardware.PREV_DEADBAND)))
+            {
+            Hardware.eBrakeTimer.reset();
+            Hardware.transmission.drive(0, 0);
+            Hardware.eBrakeTimer.start();
+            Hardware.eBrake.setForward(false);
+            }
+        // =========================
+        // when the eBrake is retracted and the eBrake timer has passed a certain
+        // duration
+        // Reactivates the drive motors and stops the eBrake timer
+        // =========================
+        if ((Hardware.eBrake.getForward() == false)
+                && ((Hardware.eBrakeTimer.hasElapsed(1.5)) || Hardware.eBrakeTimerIsStopped == true))
+            {
+            Hardware.transmission.drive(Hardware.leftDriver.getY(), Hardware.rightDriver.getY());
+            Hardware.eBrakeTimer.stop();
+            }
+
+        /*
+         * if (Hardware.tenPot.get(0, 3600) < 100.0 || Hardware.tenPot.get(0, 3600) >
+         * 150.0) { // System.out.println("false"); } else { System.out.println("true");
+         * 
+         * }
+         */
         printStatements();
         individualTest();
-    } // end Periodic()
+    } // end periodic()
 
     public static void individualTest()
     {
@@ -92,31 +195,56 @@ public class Teleop
 
         // Switch Values
 
+        /////////// SIX POSITION SWITCH ///////////
+        // System.out.println("Six Position Switch value: " +
+        /////////// Hardware.sixPosSwitch.getPosition());
+
+        /////////// DISABLE AUTO SWITCH ///////////
+        // System.out.println("Disable Auto Switch value: " +
+        /////////// Hardware.disableAutoSwitch.isOn());
+
         // ---------- ANALOG -----------
 
+        // System.out.println("delayPot = " + Hardware.delayPot.get());
+        // System.out.println("test0 = " + Hardware.tenPot.get());
+        // System.out.println("test1 = " + Hardware.tenPot.get(3600.0));
+        // System.out.println("test2 = " + Hardware.tenPot.get(0.0, 3600.0));
+        // System.out.println("test3 = " + Hardware.tenPot.get(3600));
         // ----------- CAN -------------
 
         // -------- SUBSYSTEMS ---------
 
         // ---------- OTHER ------------
 
+        /////////// JOYSTICK VALUES ///////////
+        // System.out.println("L Joystick: " + Hardware.leftDriver.getY());
+        // System.out.println("R Joystick: " + Hardware.rightDriver.getY());
+
         // ========== OUTPUTS ==========
 
         // ---------- DIGITAL ----------
-
+        // System.out.println("disableAutoSwitch = " +
+        // Hardware.disableAutoSwitch.isOn());
         // ---------- ANALOG -----------
-        // System.out.println("RJoystick " + Hardware.leftDriver.getY());
-        // System.out.println("LJoystick " + Hardware.leftDriver.getY());
-        // ----------- CAN -------------
-        // System.out.println("RTMotor " + Hardware.rightSideMotors.get());
-        // System.out.println("RBMotor " + Hardware.rightSideMotors.get());
-        // System.out.println("LTMotor " + Hardware.leftSideMotors.get());
-        // System.out.println("LBMotor " + Hardware.leftSideMotors.get());
 
+        // ----------- CAN -------------
+
+        /////////// MOTOR VALUES ///////////
+        // System.out.println("LBottomMotor = " + Hardware.leftBottomMotor.get());
+        // System.out.println("LTopMotor = " + Hardware.leftTopMotor.get());
+        // System.out.println("RBottomMotor = " + Hardware.rightBottomMotor.get());
+        // System.out.println("RTopMotor = " + Hardware.rightTopMotor.get());
+        // System.out.println("armX = " + Hardware.armMotorX.get());
+        // System.out.println("armY = " + Hardware.armMotorY.get());
+        // System.out.println("armLength = " + Hardware.armMotorLength.get());
         // -------- SUBSYSTEMS ---------
 
         // ---------- OTHER ------------
 
     } // end printStatements()
+
+    // =========================================
+    // class private data goes here
+    // =========================================
 
     } // end class

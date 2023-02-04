@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableRegistry;
 
-import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.util.sendable.SendableBuilder;
 
@@ -175,9 +175,9 @@ public class DrivePID extends Drive
             {
             this.brakeType = brakeType;
             super.resetEncoders();
-            this.brakePID.getPIDController().setPID(brakePIDTolerance[0], brakePIDTolerance[1], brakePIDTolerance[2]);
-            this.brakePID.getPIDController().setAbsoluteTolerance(brakePIDTolerance[3]);
-            this.brakePID.getPIDController().reset();
+            this.brakePID.getController().setPID(brakePIDTolerance[0], brakePIDTolerance[1], brakePIDTolerance[2]);
+            this.brakePID.getController().setTolerance(brakePIDTolerance[3]);
+            this.brakePID.getController().reset();
             this.brakePID.setSetpoint(0);
             this.brakePID.enable();
             brakeInit = false;
@@ -216,10 +216,10 @@ public class DrivePID extends Drive
         if (turnDegreesInit == true)
             {
             super.resetEncoders();
-            this.turnDegreesPID_enc.getPIDController().reset();
-            this.turnDegreesPID_enc.getPIDController().setPID(turnPIDToleranceAccel[0], turnPIDToleranceAccel[1],
+            this.turnDegreesPID_enc.getController().reset();
+            this.turnDegreesPID_enc.getController().setPID(turnPIDToleranceAccel[0], turnPIDToleranceAccel[1],
                     turnPIDToleranceAccel[2]);
-            this.turnDegreesPID_enc.setAbsoluteTolerance(turnPIDToleranceAccel[3]);
+            this.turnDegreesPID_enc.setTolerance(turnPIDToleranceAccel[3]);
             this.turnDegreesPID_enc.setOutputRange(-speed, speed);
             this.turnDegreesPID_enc.setSetpoint(degrees);
             this.turnDegreesPID_enc.enable();
@@ -255,11 +255,11 @@ public class DrivePID extends Drive
     {
         if (turnDegreesGyroInit == true)
             {
-            turnDegreesPID_gyro.getPIDController().setPID(turnGyroPIDToleranceAccel[0], turnGyroPIDToleranceAccel[1],
+            turnDegreesPID_gyro.getController().setPID(turnGyroPIDToleranceAccel[0], turnGyroPIDToleranceAccel[1],
                     turnGyroPIDToleranceAccel[2]);
-            turnDegreesPID_gyro.getPIDController().setAbsoluteTolerance(turnGyroPIDToleranceAccel[3]);
+            turnDegreesPID_gyro.getController().setTolerance(turnGyroPIDToleranceAccel[3]);
             turnDegreesPID_gyro.setOutputRange(-speed, speed);
-            turnDegreesPID_gyro.getPIDController().reset();
+            turnDegreesPID_gyro.getController().reset();
             turnDegreesPID_gyro.setSetpoint(degrees);
             turnDegreesPID_gyro.enable();
             super.getGyro().reset();
@@ -295,8 +295,8 @@ public class DrivePID extends Drive
             {
             if (isUsingGyro == true)
                 {
-                this.driveStraightPID_gyro.getPIDController().reset();
-                this.driveStraightPID_gyro.getPIDController().setPID(driveStraightGyroPIDTolerance[0],
+                this.driveStraightPID_gyro.getController().reset();
+                this.driveStraightPID_gyro.getController().setPID(driveStraightGyroPIDTolerance[0],
                         driveStraightGyroPIDTolerance[1], driveStraightGyroPIDTolerance[2]);
                 this.driveStraightPID_gyro.setSetpoint(0);
                 this.driveStraightPID_gyro.enable();
@@ -304,8 +304,8 @@ public class DrivePID extends Drive
                 }
             else
                 {
-                this.driveStraightPID_enc.getPIDController().reset();
-                this.driveStraightPID_enc.getPIDController().setPID(driveStraightEncPIDTolerance[0],
+                this.driveStraightPID_enc.getController().reset();
+                this.driveStraightPID_enc.getController().setPID(driveStraightEncPIDTolerance[0],
                         driveStraightEncPIDTolerance[1], driveStraightEncPIDTolerance[2]);
                 this.driveStraightPID_enc.setSetpoint(0);
                 this.driveStraightPID_enc.enable();
@@ -347,10 +347,10 @@ public class DrivePID extends Drive
         if (driveStraightInchesInit == true)
             {
             resetEncoders();
-            driveStraightInchesPID.getPIDController().setPID(driveStraightInchesPIDTolerance[0],
+            driveStraightInchesPID.getController().setPID(driveStraightInchesPIDTolerance[0],
                     driveStraightInchesPIDTolerance[1], driveStraightInchesPIDTolerance[2]);
-            driveStraightInchesPID.setAbsoluteTolerance(driveStraightInchesPIDTolerance[3]);
-            driveStraightInchesPID.getPIDController().reset();
+            driveStraightInchesPID.setTolerance(driveStraightInchesPIDTolerance[3]);
+            driveStraightInchesPID.getController().reset();
             driveStraightInchesPID.setSetpoint(distance);
             driveStraightInchesPID.setOutputRange(-speed, speed);
             driveStraightInchesPID.enable();
