@@ -21,7 +21,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.DriverStation;
-//import edu.wpi.first.wpilibj.DriverSt;
 import edu.wpi.first.wpilibj.PneumaticsBase;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Joystick;
@@ -108,6 +107,10 @@ public class Hardware
 
                 armMotorLength = new WPI_TalonFX(17);
                 armMotorY = new WPI_TalonFX(6);
+<<<<<<< HEAD
+=======
+                // need device number: armMotorX = new WPI_TalonFX();
+>>>>>>> 3c711a4daffe4f61b6e7e3aa5c59648890e20ffa
                 // ==============RIO INIT=============
 
                 // =============OTHER INIT============
@@ -195,7 +198,11 @@ public class Hardware
     // Vision stuff
     // ----------------------------
     public static KilroyUSBCamera cameras = new KilroyUSBCamera(true);
+<<<<<<< HEAD
     public static MomentarySwitch switchCameraViewButton10 =   new MomentarySwitch(rightOperator, 10, false);
+=======
+    public static MomentarySwitch switchCameraViewButton10 = new MomentarySwitch(rightOperator, 10, false);
+>>>>>>> 3c711a4daffe4f61b6e7e3aa5c59648890e20ffa
     public static MomentarySwitch switchCameraViewButton11 = new MomentarySwitch(rightOperator, 11, false);
     public static MomentarySwitch clawTriggerButton = new MomentarySwitch(rightOperator, 1, false);
     // -------------------
