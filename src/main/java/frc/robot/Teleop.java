@@ -207,11 +207,11 @@ public class Teleop
         // Switch Values
 
         /////////// SIX POSITION SWITCH ///////////
-        // System.out.println("Six Position Switch value: " +
+        // System.out.println("Six Position Switch value: " + Hardware.delayPot.get(0.0, 270.0));
         /////////// Hardware.sixPosSwitch.getPosition());
 
         /////////// DISABLE AUTO SWITCH ///////////
-        // System.out.println("Disable Auto Switch value: " +
+        // System.out.println("Disable Auto Switch value: " + Hardware.disableAutoSwitch.isOn());
         /////////// Hardware.disableAutoSwitch.isOn());
 
         // ---------- ANALOG -----------
