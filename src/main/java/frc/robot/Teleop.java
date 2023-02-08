@@ -103,9 +103,9 @@ public class Teleop
                 }
             else
                 {
-            Hardware.clawPiston.setForward(true);
+                Hardware.clawPiston.setForward(true);
                 }
-        }
+            }
 
         // ================== DRIVER CONTROLS =================
 
@@ -207,21 +207,18 @@ public class Teleop
         // Switch Values
 
         /////////// SIX POSITION SWITCH ///////////
-        // System.out.println("Six Position Switch value: " + Hardware.delayPot.get(0.0, 270.0));
+        // System.out.println("Six Position Switch value: " + Hardware.delayPot.get(0.0,
+        /////////// 270.0));
         /////////// Hardware.sixPosSwitch.getPosition());
 
         /////////// DISABLE AUTO SWITCH ///////////
-        // System.out.println("Disable Auto Switch value: " + Hardware.disableAutoSwitch.isOn());
+        // System.out.println("Disable Auto Switch value: " +
+        /////////// Hardware.disableAutoSwitch.isOn());
         /////////// Hardware.disableAutoSwitch.isOn());
 
         // ---------- ANALOG -----------
 
         // System.out.println("delayPot = " + Hardware.delayPot.get());
-        // System.out.println("test0 = " + Hardware.tenPot.get());
-        // System.out.println("test1 = " + Hardware.tenPot.get(3600.0));
-        // System.out.println("test2 = " + Hardware.tenPot.get(0.0, 3600.0));
-        // System.out.println("test3 = " + Hardware.tenPot.get(3600));
-        // ----------- CAN -------------
 
         // -------- SUBSYSTEMS ---------
 

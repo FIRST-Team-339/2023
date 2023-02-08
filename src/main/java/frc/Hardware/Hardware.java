@@ -78,56 +78,56 @@ public class Hardware
 
             // =============OTHER INIT============
             }
-        else if (robotIdentity == Identifier.PrevYear)
-            {
-            // ==============DIO INIT=============
-            sixPosSwitch = new SixPositionSwitch(14, 15, 16, 17, 19, 20);
-            disableAutoSwitch = new SingleThrowSwitch(10);
+        else
+            if (robotIdentity == Identifier.PrevYear)
+                {
+                // ==============DIO INIT=============
+                sixPosSwitch = new SixPositionSwitch(14, 15, 16, 17, 19, 20);
+                disableAutoSwitch = new SingleThrowSwitch(10);
 
-            //disableAutoSwitch.setInverted(true);
+                // disableAutoSwitch.setInverted(true);
 
-            // ============ANALOG INIT============
+                // ============ANALOG INIT============
 
-            // ==============CAN INIT=============
-            leftBottomMotor = new WPI_TalonFX(8);
-            leftTopMotor = new WPI_TalonFX(9);
+                // ==============CAN INIT=============
+                leftBottomMotor = new WPI_TalonFX(8);
+                leftTopMotor = new WPI_TalonFX(9);
 
-            leftBottomMotor.setInverted(true);
-            leftTopMotor.setInverted(true);
+                leftBottomMotor.setInverted(true);
+                leftTopMotor.setInverted(true);
 
-            rightBottomMotor = new WPI_TalonFX(16);
-            rightTopMotor = new WPI_TalonFX(19);
+                rightBottomMotor = new WPI_TalonFX(16);
+                rightTopMotor = new WPI_TalonFX(19);
 
-            rightBottomMotor.setInverted(false);
-            rightTopMotor.setInverted(false);
+                rightBottomMotor.setInverted(false);
+                rightTopMotor.setInverted(false);
 
-            leftSideMotors = new MotorControllerGroup(leftBottomMotor, leftTopMotor);
-            rightSideMotors = new MotorControllerGroup(rightBottomMotor, rightTopMotor);
+                leftSideMotors = new MotorControllerGroup(leftBottomMotor, leftTopMotor);
+                rightSideMotors = new MotorControllerGroup(rightBottomMotor, rightTopMotor);
 
-            armMotorLength = new WPI_TalonFX(17);
-            armMotorY = new WPI_TalonFX(6);
-            // ==============RIO INIT=============
+                armMotorLength = new WPI_TalonFX(17);
+                armMotorY = new WPI_TalonFX(6);
+                // need device number: armMotorX = new WPI_TalonFX();
+                // ==============RIO INIT=============
 
-            // =============OTHER INIT============
-            transmission = new LeftRightTransmission(leftSideMotors, rightSideMotors);
-            drive = new Drive(transmission, null, null, null);
-            transmission.setJoystickDeadband(PREV_DEADBAND);
-            transmission.setAllGearPercentages(PREV_GEAR1_MAX_SPEED, PREV_GEAR2_MAX_SPEED, PREV_GEAR3_MAX_SPEED);
+                // =============OTHER INIT============
+                transmission = new LeftRightTransmission(leftSideMotors, rightSideMotors);
+                drive = new Drive(transmission, null, null, null);
+                transmission.setJoystickDeadband(PREV_DEADBAND);
+                transmission.setAllGearPercentages(PREV_GEAR1_MAX_SPEED, PREV_GEAR2_MAX_SPEED, PREV_GEAR3_MAX_SPEED);
 
-            drive = new Drive(transmission, null, null, null);
+                drive = new Drive(transmission, null, null, null);
 
-            eBrake = new DoubleSolenoid(4, 5);
+                eBrake = new DoubleSolenoid(4, 5);
 
-            eBrakeTimer = new Timer();
+                eBrakeTimer = new Timer();
 
-            delayPot = new Potentiometer(PREV_DELAY_POT);
-            tenPot = new Potentiometer(TEST_TEN_DELAY_POT, 3600.0);
+                delayPot = new Potentiometer(PREV_DELAY_POT);
+                tenPot = new Potentiometer(TEST_TEN_DELAY_POT, 3600.0);
 
-            clawPiston = new DoubleSolenoid(6, 7);
-            
+                clawPiston = new DoubleSolenoid(6, 7);
 
-        }
-
+                }
 
     }
 
@@ -195,8 +195,8 @@ public class Hardware
     // Vision stuff
     // ----------------------------
     public static KilroyUSBCamera cameras = new KilroyUSBCamera(true);
-    public static MomentarySwitch switchCameraViewButton10 =  new MomentarySwitch(rightOperator, 10,false);
-    public static MomentarySwitch switchCameraViewButton11 =  new MomentarySwitch(rightOperator, 11, false);
+    public static MomentarySwitch switchCameraViewButton10 = new MomentarySwitch(rightOperator, 10, false);
+    public static MomentarySwitch switchCameraViewButton11 = new MomentarySwitch(rightOperator, 11, false);
     public static MomentarySwitch clawTriggerButton = new MomentarySwitch(rightOperator, 1, false);
     // -------------------
     // Subassemblies
