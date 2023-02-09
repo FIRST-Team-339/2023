@@ -39,15 +39,14 @@ public class Robot extends TimedRobot
 
         Hardware.initialize();
 
-        Hardware.clawPiston.setForward(true);
-
-
         // ---------------------------------------
         // done setup - tell the user we are complete
         // setup
         // ---------------------------------------
 
-        System.out.println("Kilroy " + Hardware.robotIdentity + " has started.  All hardware items created.");
+        System.out.println("Kilroy "
+                + Hardware.robotIdentity
+                + " has started.  All hardware items created.");
     } // end robotInit()
 
     /**
