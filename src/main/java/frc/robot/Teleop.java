@@ -56,8 +56,8 @@ public class Teleop
     {
 
     /**
-     * User Initialization code for teleop mode should go here. Will be called once
-     * when the robot enters teleop mode.
+     * User Initialization code for teleop mode should go here. Will be called
+     * once when the robot enters teleop mode.
      *
      * @author Nathanial Lydick
      * @written Jan 13, 2015
@@ -70,6 +70,41 @@ public class Teleop
         Hardware.eBrakeTimer.stop();
         Hardware.eBrakeTimer.reset();
     } // end init()
+
+    /**
+     * Arm control and claw control code goes here.
+     *
+     * @author Kaelyn Atkins
+     * @written February 9, 2023
+     */
+    private static void armControl()
+    {
+        // Checks if claw trigger button has been pressed and sets the claw
+        // piston to
+        // the opposite direction each time it is pressed
+        if (Hardware.clawTriggerButton.isOnCheckNow() == true)
+
+            {
+            Hardware.clawPiston.setForward(false);
+            }
+        else
+            {
+            Hardware.clawPiston.setForward(true);
+            }
+
+        // Checks if arm raise button has been pressed and sets the arm raise
+        // piston to
+        // the opposite direction each time it is pressed
+        if (Hardware.armRaiseButton.isOnCheckNow() == true)
+            {
+            Hardware.armRaisePiston.setForward(false);
+            }
+        else
+            {
+            Hardware.armRaisePiston.setForward(true);
+            }
+
+    }
 
     /**
      * User Periodic code for teleop mode should go here. Will be called
@@ -93,36 +128,13 @@ public class Teleop
 
         // ================= OPERATOR CONTROLS ================
 
-        Hardware.cameras.switchCameras(
-                Hardware.switchCameraViewButton10,
+        Hardware.cameras.switchCameras(Hardware.switchCameraViewButton10,
                 Hardware.switchCameraViewButton11);
-        // Checks if claw trigger button has been pressed and sets the claw piston to
-        // the opposite direction each time it is pressed
-        if (Hardware.clawTriggerButton
-                .isOnCheckNow() == true)
+        armControl();
 
-            {
-            Hardware.clawPiston.setForward(false);
-            }
-        else
-            {
-            Hardware.clawPiston.setForward(true);
-            }
-
-        // Checks if arm raise button has been pressed and sets the arm raise piston to
-        // the opposite direction each time it is pressed
-        if (Hardware.armRaiseButton.isOnCheckNow() == true)
-            {
-            Hardware.armRaisePiston.setForward(false);
-            }
-        else
-            {
-            Hardware.armRaisePiston.setForward(true);
-            }
         // ================== DRIVER CONTROLS =================
 
-        Hardware.transmission.shiftGears(
-                Hardware.rightDriver.getTrigger(),
+        Hardware.transmission.shiftGears(Hardware.rightDriver.getTrigger(),
                 Hardware.leftDriver.getTrigger());
         // Hardware.transmission.drive(Hardware.leftDriver.getY(),
         // Hardware.rightDriver.getY());
@@ -144,15 +156,14 @@ public class Teleop
             {
             // =========================
             // when the eBrake is not retracted and the joystick is moved
-            // Resets the eBrake timer retracts the eBrake piston, stops all drive motors,
+            // Resets the eBrake timer retracts the eBrake piston, stops all
+            // drive motors,
             // and starts the eBrake timer
             // =========================
-            if ((Hardware.eBrake.getForward() == true)
-                    || ((Math.abs(Hardware.leftDriver
-                            .getY()) >= Hardware.PREV_DEADBAND)
-                            || (Math.abs(
-                                    Hardware.rightDriver
-                                            .getY()) >= Hardware.PREV_DEADBAND)))
+            if ((Hardware.eBrake.getForward() == true) || ((Math
+                    .abs(Hardware.leftDriver.getY()) >= Hardware.PREV_DEADBAND)
+                    || (Math.abs(Hardware.rightDriver
+                            .getY()) >= Hardware.PREV_DEADBAND)))
                 {
                 Hardware.eBrakeTimer.reset();
                 Hardware.transmission.drive(0, 0);
@@ -160,30 +171,30 @@ public class Teleop
                 Hardware.eBrake.setForward(false);
                 }
             // =========================
-            // when the eBrake is retracted and the eBrake timer has passed a certain
+            // when the eBrake is retracted and the eBrake timer has passed a
+            // certain
             // duration
             // Reactivates the drive motors and stops the eBrake timer
             // =========================
             if ((Hardware.eBrake.getForward() == false)
-                    && ((Hardware.eBrakeTimer
-                            .hasElapsed(1.5))
+                    && ((Hardware.eBrakeTimer.hasElapsed(1.5))
                             || Hardware.eBrakeTimerIsStopped == true))
                 {
-                Hardware.transmission.drive(
-                        Hardware.leftDriver.getY(),
+                Hardware.transmission.drive(Hardware.leftDriver.getY(),
                         Hardware.rightDriver.getY());
                 Hardware.eBrakeTimer.stop();
                 }
             }
         // =========================
-        // when the retract button (left driver button 6) is pressed, eBrake is not
+        // when the retract button (left driver button 6) is pressed, eBrake is
+        // not
         // retracted and the joystick is moved
-        // Resets the eBrake timer retracts the eBrake piston, stops all drive motors,
+        // Resets the eBrake timer retracts the eBrake piston, stops all drive
+        // motors,
         // and starts the eBrake timer
         // =========================
         if ((Hardware.eBrake.getForward() == true) && ((Math
-                .abs(Hardware.leftDriver
-                        .getY()) >= Hardware.PREV_DEADBAND)
+                .abs(Hardware.leftDriver.getY()) >= Hardware.PREV_DEADBAND)
                 || (Math.abs(Hardware.rightDriver
                         .getY()) >= Hardware.PREV_DEADBAND)))
             {
@@ -193,7 +204,8 @@ public class Teleop
             Hardware.eBrake.setForward(false);
             }
         // =========================
-        // when the eBrake is retracted and the eBrake timer has passed a certain
+        // when the eBrake is retracted and the eBrake timer has passed a
+        // certain
         // duration
         // Reactivates the drive motors and stops the eBrake timer
         // =========================
@@ -201,14 +213,14 @@ public class Teleop
                 && ((Hardware.eBrakeTimer.hasElapsed(1.5))
                         || Hardware.eBrakeTimerIsStopped == true))
             {
-            Hardware.transmission.drive(
-                    Hardware.leftDriver.getY(),
+            Hardware.transmission.drive(Hardware.leftDriver.getY(),
                     Hardware.rightDriver.getY());
             Hardware.eBrakeTimer.stop();
             }
         /*
-         * if (Hardware.tenPot.get(0, 3600) < 100.0 || Hardware.tenPot.get(0, 3600) >
-         * 150.0) { // System.out.println("false"); } else { System.out.println("true");
+         * if (Hardware.tenPot.get(0, 3600) < 100.0 || Hardware.tenPot.get(0,
+         * 3600) > 150.0) { // System.out.println("false"); } else {
+         * System.out.println("true");
          * 
          * }
          */
@@ -234,7 +246,8 @@ public class Teleop
         // Switch Values
 
         /////////// SIX POSITION SWITCH ///////////
-        // System.out.println("Six Position Switch value: " + Hardware.delayPot.get(0.0,
+        // System.out.println("Six Position Switch value: " +
+        /////////// Hardware.delayPot.get(0.0,
         /////////// 270.0));
         /////////// Hardware.sixPosSwitch.getPosition());
 
@@ -264,9 +277,11 @@ public class Teleop
         // ----------- CAN -------------
 
         /////////// MOTOR VALUES ///////////
-        // System.out.println("LBottomMotor = " + Hardware.leftBottomMotor.get());
+        // System.out.println("LBottomMotor = " +
+        /////////// Hardware.leftBottomMotor.get());
         // System.out.println("LTopMotor = " + Hardware.leftTopMotor.get());
-        // System.out.println("RBottomMotor = " + Hardware.rightBottomMotor.get());
+        // System.out.println("RBottomMotor = " +
+        /////////// Hardware.rightBottomMotor.get());
         // System.out.println("RTopMotor = " + Hardware.rightTopMotor.get());
         // System.out.println("armX = " + Hardware.armMotorX.get());
         // System.out.println("armY = " + Hardware.armMotorY.get());

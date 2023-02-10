@@ -15,8 +15,11 @@
 package frc.Hardware;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.playingwithfusion.CANVenom;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.cscore.UsbCamera;
@@ -109,8 +112,8 @@ public class Hardware
                                                 rightBottomMotor,
                                                 rightTopMotor);
 
-                                armMotorLength = new WPI_TalonFX(17);
-                                armMotorY = new WPI_TalonFX(6);
+                                armLengthMotor = new WPI_VictorSPX(23);
+                                armRaiseMotor = new CANVenom(12);
                                 // need device number: armMotorX
                                 // WPI_TalonFX();
                                 // ==============RIO INIT=============
@@ -139,7 +142,7 @@ public class Hardware
                                                 3600.0);
 
                                 clawPiston = new DoubleSolenoid(6, 7);
-                                armRaisePiston = new DoubleSolenoid(1, 2);
+                                armRaisePiston = new DoubleSolenoid(0, 1);
 
                                 }
                 Hardware.clawPiston.setForward(true);
@@ -153,8 +156,8 @@ public class Hardware
         public static MotorController rightBottomMotor = null;
         public static MotorController rightTopMotor = null;
         public static MotorController armMotorX = null;
-        public static MotorController armMotorLength = null;
-        public static MotorController armMotorY = null;
+        public static MotorController armLengthMotor = null;
+        public static MotorController armRaiseMotor = null;
         // **********************************************************
         // DIGITAL I/O
         // **********************************************************
