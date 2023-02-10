@@ -66,57 +66,26 @@ public class Teleop
     {
         Hardware.drive.setGear(0);
 
-        Hardware.eBrake.setForward(false);
-        Hardware.eBrakeTimer.stop();
-        Hardware.eBrakeTimer.reset();
     } // end init()
 
     /**
-     * Arm control and claw control code goes here.
-     *
-     * @author Kaelyn Atkins
-     * @written February 9, 2023
-     */
-    private static void armControl()
-    {
-        // Checks if claw trigger button has been pressed and sets the claw
-        // piston to
-        // the opposite direction each time it is pressed
-        if (Hardware.clawTriggerButton.isOnCheckNow() == true)
-
-            {
-            Hardware.clawPiston.setForward(false);
-            }
-        else
-            {
-            Hardware.clawPiston.setForward(true);
-            }
-
-        // Checks if arm raise button has been pressed and sets the arm raise
-        // piston to
-        // the opposite direction each time it is pressed
-        if (Hardware.armRaiseButton.isOnCheckNow() == true)
-            {
-            Hardware.armRaisePiston.setForward(false);
-            }
-        else
-            {
-            Hardware.armRaisePiston.setForward(true);
-            }
-
-    }
-
-    /**
-     * User Periodic code for teleop mode should go here. Will be called
-     * periodically at a regular rate while the robot is in teleop mode.
-     *
-     * @author Nathanial Lydick
-     * @written Jan 13, 2015
+     * manage ebrake code used to seperate ebrake from rest of code so we dont
+     * get confused or lost in the code
+     * 
+     * @author Michael Lynch
+     * @written febuary 9 2023
+     * 
+     *          (in 2023 code)
      */
 
-    public static void periodic()
+    // =============== manage ebrake ===============
+    private static void manageEBrake()
     {
-        // =============== AUTOMATED SUBSYSTEMS ===============
+
+        Hardware.eBrake.setForward(false);
+        Hardware.eBrakeTimer.stop();
+        Hardware.eBrakeTimer.reset();
+
         if (Hardware.eBrakeTimer.get() <= 0.001)
             {
             Hardware.eBrakeTimerIsStopped = true;
@@ -126,24 +95,11 @@ public class Teleop
             Hardware.eBrakeTimerIsStopped = false;
             }
 
-        // ================= OPERATOR CONTROLS ================
-
-        Hardware.cameras.switchCameras(Hardware.switchCameraViewButton10,
-                Hardware.switchCameraViewButton11);
-        armControl();
-
-        // ================== DRIVER CONTROLS =================
-
-        Hardware.transmission.shiftGears(Hardware.rightDriver.getTrigger(),
-                Hardware.leftDriver.getTrigger());
-        // Hardware.transmission.drive(Hardware.leftDriver.getY(),
-        // Hardware.rightDriver.getY());
-
         // =========================
         // when button 5 right driver is pushed
         // Extends the eBrake piston out
         // =========================
-        if (Hardware.rightDriver.getRawButton(5) == true)
+        if (Hardware.ebrakMomentary1.isOnCheckNow() == true)
             {
             Hardware.eBrake.setForward(true);
             }
@@ -152,7 +108,7 @@ public class Teleop
         // when button 6 left driver is pushed
         // Retracts the eBrake piston and affects drive
         // =========================
-        if (Hardware.leftDriver.getRawButton(6) == true)
+        if (Hardware.ebrakMomentary2.isOnCheckNow() == true)
             {
             // =========================
             // when the eBrake is not retracted and the joystick is moved
@@ -217,6 +173,68 @@ public class Teleop
                     Hardware.rightDriver.getY());
             Hardware.eBrakeTimer.stop();
             }
+    } // end of manage ebrake()
+
+    /**
+     * Arm control and claw control code goes here.
+     *
+     * @author Kaelyn Atkins
+     * @written February 9, 2023
+     */
+    private static void armControl()
+    {
+        // Checks if claw trigger button has been pressed and sets the claw
+        // piston to
+        // the opposite direction each time it is pressed
+        if (Hardware.clawTriggerButton.isOnCheckNow() == true)
+
+            {
+            Hardware.clawPiston.setForward(false);
+            }
+        else
+            {
+            Hardware.clawPiston.setForward(true);
+            }
+
+        // Checks if arm raise button has been pressed and sets the arm raise
+        // piston to
+        // the opposite direction each time it is pressed
+        if (Hardware.armRaiseButton.isOnCheckNow() == true)
+            {
+            Hardware.armRaisePiston.setForward(false);
+            }
+        else
+            {
+            Hardware.armRaisePiston.setForward(true);
+            }
+
+    }
+
+    /**
+     * User Periodic code for teleop mode should go here. Will be called
+     * periodically at a regular rate while the robot is in teleop mode.
+     *
+     * @author Nathanial Lydick
+     * @written Jan 13, 2015
+     */
+
+    public static void periodic()
+    {
+        // =============== AUTOMATED SUBSYSTEMS ===============
+
+        // ================= OPERATOR CONTROLS ================
+
+        Hardware.cameras.switchCameras(Hardware.switchCameraViewButton10,
+                Hardware.switchCameraViewButton11);
+        armControl();
+        manageEBrake();
+        // ================== DRIVER CONTROLS =================
+
+        Hardware.transmission.shiftGears(Hardware.rightDriver.getTrigger(),
+                Hardware.leftDriver.getTrigger());
+        // Hardware.transmission.drive(Hardware.leftDriver.getY(),
+        // Hardware.rightDriver.getY());
+
         /*
          * if (Hardware.tenPot.get(0, 3600) < 100.0 || Hardware.tenPot.get(0,
          * 3600) > 150.0) { // System.out.println("false"); } else {

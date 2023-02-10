@@ -458,12 +458,10 @@ public class KilroyUSBCamera
         if (switch1.isOnCheckNow() == true && this.cam0.isEnabled() == true)
             {
             switchCameras();
-            this.firstCheck = false;
             } // end if
         if (switch2.isOnCheckNow() == true && this.cam1.isEnabled() == true)
             {
             switchCameras();
-            this.firstCheck2 = false;
             } // end if
     } // end switchCameras()
 

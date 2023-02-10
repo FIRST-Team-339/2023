@@ -34,10 +34,11 @@ public class MomentarySwitch
     /**
      * ------------------------------------------------------
      *
-     * @description this holds the joystick that will be used to check for a button
-     *              to see if the state has changed
+     * @description this holds the joystick that will be used to check for a
+     *              button to see if the state has changed
      * @author Bob Brown
-     * @written Feb 6, 2011 --------------------------------------------------------
+     * @written Feb 6, 2011
+     *          --------------------------------------------------------
      */
     protected int buttonNumber = 0;
 
@@ -55,18 +56,19 @@ public class MomentarySwitch
     /**
      * ------------------------------------------------------
      *
-     * @description this holds the joystick that will be used to check for a button
-     *              to see if the state has changed
+     * @description this holds the joystick that will be used to check for a
+     *              button to see if the state has changed
      * @author Bob Brown
-     * @written Feb 6, 2011 --------------------------------------------------------
+     * @written Feb 6, 2011
+     *          --------------------------------------------------------
      */
     protected Joystick joystickToCheck = null;
 
     /**
      * -------------------------------------------------------
      *
-     * @description This denotes whether or not the very last time this class was
-     *              called, whether or not the momentary was on or off
+     * @description This denotes whether or not the very last time this class
+     *              was called, whether or not the momentary was on or off
      * @author Bob Brown
      * @written Feb 06, 2011
      *          --------------------------------------------------------
@@ -110,8 +112,8 @@ public class MomentarySwitch
      * constructor
      *
      * @param joystick
-     *            - joystick which will be used to check to see if the button has
-     *            been pushed
+     *            - joystick which will be used to check to see if the button
+     *            has been pushed
      * @param buttonNumber
      *            - which button is to be checked on this joystick
      * @param startingState
@@ -120,7 +122,8 @@ public class MomentarySwitch
      * @written Feb 06, 2011
      *          --------------------------------------------------------
      */
-    public MomentarySwitch(final Joystick joystick, final int buttonNumber, final boolean startingState)
+    public MomentarySwitch(final Joystick joystick, final int buttonNumber,
+            final boolean startingState)
         {
             this.isOn = startingState;
             this.previouslyOn = false;
@@ -192,8 +195,8 @@ public class MomentarySwitch
 
     // ---------------------------------------------------------
     /**
-     * returns the state of the momentary switch after first checking the state of
-     * the momentary switch that was previously specified
+     * returns the state of the momentary switch after first checking the state
+     * of the momentary switch that was previously specified
      *
      * @method isOnCheckNow
      * @return boolean - on or off
@@ -256,8 +259,8 @@ public class MomentarySwitch
 
     // ---------------------------------------------------------
     /**
-     * update the present state of the momentary switch. uses the preset button on
-     * the preset joystick
+     * update the present state of the momentary switch. uses the preset button
+     * on the preset joystick
      *
      * @method update
      * @author Bob Brown
@@ -271,7 +274,8 @@ public class MomentarySwitch
         // joystick to use then do so here
         // -------------------------------------
         if (this.getJoystick() != null)
-            this.update(this.getJoystick().getRawButton(this.getButtonNumber()));
+            this.update(
+                    this.getJoystick().getRawButton(this.getButtonNumber()));
     } // end update()
 
     // ---------------------------------------------------------
@@ -310,7 +314,11 @@ public class MomentarySwitch
             // -------------------------------------
             // otherwise turn off previouslyOn
             // -------------------------------------
-            this.previouslyOn = false;
+            if (this.previouslyOn == true)
+                {
+                this.previouslyOn = false;
+                this.isOn = !this.isOn;
+                } // if
     } // end update()
 
     } // end class

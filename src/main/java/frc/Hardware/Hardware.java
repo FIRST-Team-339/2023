@@ -202,6 +202,10 @@ public class Hardware
         public static Timer eBrakeTimer = null;
         public static Boolean eBrakeTimerIsStopped = true;
         public static Timer autoTimer = null;
+        public static MomentarySwitch ebrakMomentary1 = new MomentarySwitch(
+                        rightDriver, 5, false);
+        public static MomentarySwitch ebrakMomentary2 = new MomentarySwitch(
+                        leftDriver, 6, false);
 
         // ------------------------------------
         // Drive system
