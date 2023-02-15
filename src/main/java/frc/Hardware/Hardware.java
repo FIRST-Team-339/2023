@@ -40,6 +40,8 @@ import frc.Utils.drive.Drive;
 import frc.HardwareInterfaces.SingleThrowSwitch;
 import frc.HardwareInterfaces.SixPositionSwitch;
 import frc.HardwareInterfaces.DoubleSolenoid;
+import frc.HardwareInterfaces.DoubleThrowSwitch;
+import frc.HardwareInterfaces.KilroyEncoder;
 import frc.HardwareInterfaces.KilroyUSBCamera;
 import frc.HardwareInterfaces.MomentarySwitch;
 import frc.HardwareInterfaces.Potentiometer;
@@ -106,6 +108,12 @@ public class Hardware
                                 rightBottomMotor.setInverted(false);
                                 rightTopMotor.setInverted(false);
 
+                                rightBottomEncoder = new KilroyEncoder(
+                                                (WPI_TalonFX) rightBottomMotor);
+
+                                rightBottomEncoder.setDistancePerPulse(
+                                                PREV_DISTANCE_PER_PULSE);
+
                                 leftSideMotors = new MotorControllerGroup(
                                                 leftBottomMotor, leftTopMotor);
                                 rightSideMotors = new MotorControllerGroup(
@@ -155,6 +163,9 @@ public class Hardware
         public static MotorController leftTopMotor = null;
         public static MotorController rightBottomMotor = null;
         public static MotorController rightTopMotor = null;
+
+        public static KilroyEncoder rightBottomEncoder = null;
+
         public static MotorController armMotorX = null;
         public static MotorController armLengthMotor = null;
         public static MotorController armRaiseMotor = null;
@@ -163,6 +174,7 @@ public class Hardware
         // **********************************************************
         public static SixPositionSwitch sixPosSwitch = null;
         public static SingleThrowSwitch disableAutoSwitch = null;
+        public static DoubleThrowSwitch leftRightNoneSwitch = null;
         // **********************************************************
         // ANALOG I/O
         // **********************************************************
@@ -236,5 +248,6 @@ public class Hardware
         private final static double PREV_GEAR2_MAX_SPEED = 0.5;
         private final static double PREV_GEAR3_MAX_SPEED = 0.7;
         private final static int PREV_DELAY_POT = 1;
+        private final static double PREV_DISTANCE_PER_PULSE = 0.000760062738772;
         private final static int TEST_TEN_DELAY_POT = 0;
         } // end class

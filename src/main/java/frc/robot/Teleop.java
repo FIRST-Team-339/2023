@@ -65,6 +65,7 @@ public class Teleop
     public static void init()
     {
         Hardware.drive.setGear(0);
+        Hardware.rightBottomEncoder.reset();
 
     } // end init()
 
