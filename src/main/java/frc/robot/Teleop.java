@@ -70,8 +70,12 @@ public class Teleop
     } // end init()
 
     /**
-     * manage ebrake code used to seperate ebrake from rest of code so we dont
-     * get confused or lost in the code
+     * manage ebrake section used to seperate ebrake from rest of code so we
+     * dont get confused or lost in the code
+     * 
+     * and edited code to make the ebrake stay down until specified fixed
+     * continual fire
+     *
      * 
      * @author Michael Lynch
      * @written febuary 9 2023
@@ -82,10 +86,6 @@ public class Teleop
     // =============== manage ebrake ===============
     private static void manageEBrake()
     {
-
-        Hardware.eBrake.setForward(false);
-        Hardware.eBrakeTimer.stop();
-        Hardware.eBrakeTimer.reset();
 
         if (Hardware.eBrakeTimer.get() <= 0.001)
             {
@@ -100,16 +100,16 @@ public class Teleop
         // when button 5 right driver is pushed
         // Extends the eBrake piston out
         // =========================
-        if (Hardware.ebrakMomentary1.isOnCheckNow() == true)
+        if (Hardware.eBrakeMomentarySwitch1.isOnCheckNow() == true)
             {
+            Hardware.eBrakeMomentarySwitch2.setValue(false);
             Hardware.eBrake.setForward(true);
             }
-
         // =========================
         // when button 6 left driver is pushed
         // Retracts the eBrake piston and affects drive
         // =========================
-        if (Hardware.ebrakMomentary2.isOnCheckNow() == true)
+        if (Hardware.eBrakeMomentarySwitch2.isOnCheckNow() == true)
             {
             // =========================
             // when the eBrake is not retracted and the joystick is moved
@@ -117,6 +117,7 @@ public class Teleop
             // drive motors,
             // and starts the eBrake timer
             // =========================
+            Hardware.eBrakeMomentarySwitch1.setValue(false);
             if ((Hardware.eBrake.getForward() == true) || ((Math
                     .abs(Hardware.leftDriver.getY()) >= Hardware.PREV_DEADBAND)
                     || (Math.abs(Hardware.rightDriver
@@ -128,7 +129,8 @@ public class Teleop
                 Hardware.eBrake.setForward(false);
                 }
             // =========================
-            // when the eBrake is retracted and the eBrake timer has passed a
+            // when the eBrake is retracted and the eBrake timer has passed
+            // a
             // certain
             // duration
             // Reactivates the drive motors and stops the eBrake timer
@@ -187,16 +189,12 @@ public class Teleop
         // Checks if claw trigger button has been pressed and sets the claw
         // piston to
         // the opposite direction each time it is pressed
-        if (Hardware.clawTriggerButton.isOnCheckNow() == true)
-
-            {
-            Hardware.clawPiston.setForward(false);
-            }
-        else
-            {
-            Hardware.clawPiston.setForward(true);
-            }
-
+        /*
+         * if (Hardware.clawTriggerButton.isOnCheckNow() == true)
+         * 
+         * { Hardware.clawPiston.setForward(false); } else {
+         * Hardware.clawPiston.setForward(true); }
+         */
         // Checks if arm raise button has been pressed and sets the arm raise
         // piston to
         // the opposite direction each time it is pressed
@@ -229,6 +227,45 @@ public class Teleop
                 Hardware.switchCameraViewButton11);
         armControl();
         manageEBrake();
+
+        if (Hardware.rightOperator.getY() >= -0.2
+                && Hardware.rightOperator.getY() <= 0.2)
+            {
+            Hardware.armRaiseMotor.set(0.2);
+            }
+        else
+            {
+            if (Hardware.rightOperator.getY() < -0.2)
+                {
+                Hardware.armRaiseMotor
+                        .set(1.25 * Hardware.rightOperator.getY() + 0.25);
+                }
+            if (Hardware.rightOperator.getY() > 0.2)
+                {
+                Hardware.armRaiseMotor
+                        .set(1.25 * Hardware.rightOperator.getY() - 0.25);
+                }
+            }
+
+        if (Hardware.leftOperator.getY() >= -0.2
+                && Hardware.leftOperator.getY() <= 0.2)
+            {
+            Hardware.armLengthMotor.set(0.0);
+            }
+        else
+            {
+            if (Hardware.leftOperator.getY() < -0.2)
+                {
+                Hardware.armLengthMotor
+                        .set(1.25 * Hardware.leftOperator.getY() + 0.25);
+                }
+            if (Hardware.leftOperator.getY() > 0.2)
+                {
+                Hardware.armLengthMotor
+                        .set(1.25 * Hardware.leftOperator.getY() - 0.25);
+                }
+
+            }
         // ================== DRIVER CONTROLS =================
 
         Hardware.transmission.shiftGears(Hardware.rightDriver.getTrigger(),
@@ -255,7 +292,7 @@ public class Teleop
     public static void printStatements()
     {
         // ========== INPUTS ==========
-
+        // System.out.println("eBrakeTimer " + Hardware.eBrakeTimer.get());
         // ---------- DIGITAL ----------
 
         // Encoder Distances
@@ -302,9 +339,9 @@ public class Teleop
         // System.out.println("RBottomMotor = " +
         /////////// Hardware.rightBottomMotor.get());
         // System.out.println("RTopMotor = " + Hardware.rightTopMotor.get());
-        // System.out.println("armX = " + Hardware.armMotorX.get());
-        // System.out.println("armY = " + Hardware.armMotorY.get());
-        // System.out.println("armLength = " + Hardware.armMotorLength.get());
+        // System.out.println("armLengthMotor = " +
+        /////////// Hardware.armLengthMotor.get());
+        System.out.println("armRaiseMotor = " + Hardware.armRaiseMotor.get());
         // -------- SUBSYSTEMS ---------
 
         // ---------- OTHER ------------
