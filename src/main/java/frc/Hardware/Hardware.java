@@ -69,7 +69,9 @@ public class Hardware
                 if (robotIdentity == Identifier.CurrentYear)
                         {
                         // ==============DIO INIT=============
-
+                        disableAutoSwitch = new SingleThrowSwitch(10);
+                        sixPosSwitch = new SixPositionSwitch(8, 9, 10, 11, 12,
+                                        13);
                         // ============ANALOG INIT============
 
                         // ==============CAN INIT=============
@@ -80,6 +82,7 @@ public class Hardware
                         // ==============RIO INIT==============
 
                         // =============OTHER INIT============
+                        delayPot = new Potentiometer(1);
                         }
                 else
                         if (robotIdentity == Identifier.PrevYear)
