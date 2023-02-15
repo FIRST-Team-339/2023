@@ -228,6 +228,45 @@ public class Teleop
                 Hardware.switchCameraViewButton11);
         armControl();
         manageEBrake();
+
+        if (Hardware.rightOperator.getY() >= -0.2
+                && Hardware.rightOperator.getY() <= 0.2)
+            {
+            Hardware.armRaiseMotor.set(0.2);
+            }
+        else
+            {
+            if (Hardware.rightOperator.getY() < -0.2)
+                {
+                Hardware.armRaiseMotor
+                        .set(1.25 * Hardware.rightOperator.getY() + 0.25);
+                }
+            if (Hardware.rightOperator.getY() > 0.2)
+                {
+                Hardware.armRaiseMotor
+                        .set(1.25 * Hardware.rightOperator.getY() - 0.25);
+                }
+            }
+
+        if (Hardware.leftOperator.getY() >= -0.2
+                && Hardware.leftOperator.getY() <= 0.2)
+            {
+            Hardware.armLengthMotor.set(0.0);
+            }
+        else
+            {
+            if (Hardware.leftOperator.getY() < -0.2)
+                {
+                Hardware.armLengthMotor
+                        .set(1.25 * Hardware.leftOperator.getY() + 0.25);
+                }
+            if (Hardware.leftOperator.getY() > 0.2)
+                {
+                Hardware.armLengthMotor
+                        .set(1.25 * Hardware.leftOperator.getY() - 0.25);
+                }
+
+            }
         // ================== DRIVER CONTROLS =================
 
         Hardware.transmission.shiftGears(Hardware.rightDriver.getTrigger(),
@@ -301,9 +340,9 @@ public class Teleop
         // System.out.println("RBottomMotor = " +
         /////////// Hardware.rightBottomMotor.get());
         // System.out.println("RTopMotor = " + Hardware.rightTopMotor.get());
-        // System.out.println("armX = " + Hardware.armMotorX.get());
-        // System.out.println("armY = " + Hardware.armMotorY.get());
-        // System.out.println("armLength = " + Hardware.armMotorLength.get());
+        // System.out.println("armLengthMotor = " +
+        /////////// Hardware.armLengthMotor.get());
+        System.out.println("armRaiseMotor = " + Hardware.armRaiseMotor.get());
         // -------- SUBSYSTEMS ---------
 
         // ---------- OTHER ------------

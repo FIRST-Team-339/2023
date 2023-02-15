@@ -114,8 +114,9 @@ public class Hardware
 
                                 armLengthMotor = new WPI_VictorSPX(23);
                                 armRaiseMotor = new CANVenom(12);
-                                // need device number: armMotorX
-                                // WPI_TalonFX();
+
+                                Hardware.armLengthMotor.setInverted(true);
+                                Hardware.armRaiseMotor.setInverted(true);
                                 // ==============RIO INIT=============
 
                                 // =============OTHER INIT============
@@ -143,7 +144,6 @@ public class Hardware
 
                                 clawPiston = new DoubleSolenoid(6, 7);
                                 armRaisePiston = new DoubleSolenoid(0, 1);
-
                                 }
                 Hardware.clawPiston.setForward(true);
                 Hardware.armRaisePiston.setForward(true);
