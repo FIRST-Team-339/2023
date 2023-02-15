@@ -134,7 +134,7 @@ public class Hardware
                                 drive = new Drive(transmission, null, null,
                                                 null);
 
-                                eBrake = new DoubleSolenoid(4, 5);
+                                // eBrake = new DoubleSolenoid(4, 5);
 
                                 eBrakeTimer = new Timer();
 
@@ -142,10 +142,12 @@ public class Hardware
                                 tenPot = new Potentiometer(TEST_TEN_DELAY_POT,
                                                 3600.0);
 
-                                clawPiston = new DoubleSolenoid(6, 7);
+                                // clawPiston = new DoubleSolenoid(6, 7);
+                                eBrake = new DoubleSolenoid(4, 5);
                                 armRaisePiston = new DoubleSolenoid(0, 1);
                                 }
-                Hardware.clawPiston.setForward(true);
+                // Hardware.clawPiston.setForward(true);
+                Hardware.eBrake.setForward(false);
                 Hardware.armRaisePiston.setForward(true);
         }
 
@@ -168,20 +170,6 @@ public class Hardware
         // **********************************************************
         public static Potentiometer delayPot = null;
         public static Potentiometer tenPot = null;
-        // **********************************************************
-        // PNEUMATIC DEVICES
-        // **********************************************************
-        public static Compressor compressor = new Compressor(
-                        PneumaticsModuleType.CTREPCM);
-        public static DoubleSolenoid eBrake = null;
-        public static DoubleSolenoid clawPiston = null;
-        public static DoubleSolenoid armRaisePiston = null;
-
-        // **********************************************************
-        // roboRIO CONNECTIONS CLASSES
-        // **********************************************************
-
-        public static PowerDistribution pdp = new PowerDistribution();
 
         // **********************************************************
         // DRIVER STATION CLASSES
@@ -193,6 +181,26 @@ public class Hardware
         public static Joystick rightOperator = new Joystick(3);
 
         // **********************************************************
+        // PNEUMATIC DEVICES
+        // **********************************************************
+        public static Compressor compressor = new Compressor(
+                        PneumaticsModuleType.CTREPCM);
+        public static DoubleSolenoid eBrake = null;
+        // public static DoubleSolenoid clawPiston = null;
+        public static DoubleSolenoid armRaisePiston = null;
+
+        // public static MomentarySwitch clawTriggerButton = new
+        // MomentarySwitch(rightOperator, 1, false)
+        public static MomentarySwitch armRaiseButton = new MomentarySwitch(
+                        leftOperator, 4, false);
+
+        // **********************************************************
+        // roboRIO CONNECTIONS CLASSES
+        // **********************************************************
+
+        public static PowerDistribution pdp = new PowerDistribution();
+
+        // **********************************************************
         // Kilroy's Ancillary classes
         // **********************************************************
 
@@ -202,9 +210,9 @@ public class Hardware
         public static Timer eBrakeTimer = null;
         public static Boolean eBrakeTimerIsStopped = true;
         public static Timer autoTimer = null;
-        public static MomentarySwitch ebrakMomentary1 = new MomentarySwitch(
+        public static MomentarySwitch eBrakeMomentarySwitch1 = new MomentarySwitch(
                         rightDriver, 5, false);
-        public static MomentarySwitch ebrakMomentary2 = new MomentarySwitch(
+        public static MomentarySwitch eBrakeMomentarySwitch2 = new MomentarySwitch(
                         leftDriver, 6, false);
 
         // ------------------------------------
@@ -223,10 +231,7 @@ public class Hardware
                         rightOperator, 10, false);
         public static MomentarySwitch switchCameraViewButton11 = new MomentarySwitch(
                         rightOperator, 11, false);
-        public static MomentarySwitch clawTriggerButton = new MomentarySwitch(
-                        rightOperator, 1, false);
-        public static MomentarySwitch armRaiseButton = new MomentarySwitch(
-                        leftOperator, 4, false);
+
         // -------------------
         // Subassemblies
         // -------------------
