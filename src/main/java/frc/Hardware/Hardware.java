@@ -40,6 +40,8 @@ import frc.Utils.drive.Drive;
 import frc.HardwareInterfaces.SingleThrowSwitch;
 import frc.HardwareInterfaces.SixPositionSwitch;
 import frc.HardwareInterfaces.DoubleSolenoid;
+import frc.HardwareInterfaces.DoubleThrowSwitch;
+import frc.HardwareInterfaces.KilroyEncoder;
 import frc.HardwareInterfaces.KilroyUSBCamera;
 import frc.HardwareInterfaces.MomentarySwitch;
 import frc.HardwareInterfaces.Potentiometer;
@@ -69,7 +71,9 @@ public class Hardware
                 if (robotIdentity == Identifier.CurrentYear)
                         {
                         // ==============DIO INIT=============
-
+                        disableAutoSwitch = new SingleThrowSwitch(10);
+                        sixPosSwitch = new SixPositionSwitch(8, 9, 10, 11, 12,
+                                        13);
                         // ============ANALOG INIT============
 
                         // ==============CAN INIT=============
@@ -80,6 +84,7 @@ public class Hardware
                         // ==============RIO INIT==============
 
                         // =============OTHER INIT============
+                        delayPot = new Potentiometer(1);
                         }
                 else
                         if (robotIdentity == Identifier.PrevYear)
@@ -106,6 +111,12 @@ public class Hardware
                                 rightBottomMotor.setInverted(false);
                                 rightTopMotor.setInverted(false);
 
+                                rightBottomEncoder = new KilroyEncoder(
+                                                (WPI_TalonFX) rightBottomMotor);
+
+                                rightBottomEncoder.setDistancePerPulse(
+                                                PREV_DISTANCE_PER_PULSE);
+
                                 leftSideMotors = new MotorControllerGroup(
                                                 leftBottomMotor, leftTopMotor);
                                 rightSideMotors = new MotorControllerGroup(
@@ -114,8 +125,9 @@ public class Hardware
 
                                 armLengthMotor = new WPI_VictorSPX(23);
                                 armRaiseMotor = new CANVenom(12);
-                                // need device number: armMotorX
-                                // WPI_TalonFX();
+
+                                Hardware.armLengthMotor.setInverted(true);
+                                Hardware.armRaiseMotor.setInverted(true);
                                 // ==============RIO INIT=============
 
                                 // =============OTHER INIT============
@@ -133,7 +145,7 @@ public class Hardware
                                 drive = new Drive(transmission, null, null,
                                                 null);
 
-                                eBrake = new DoubleSolenoid(4, 5);
+                                // eBrake = new DoubleSolenoid(4, 5);
 
                                 eBrakeTimer = new Timer();
 
@@ -141,11 +153,12 @@ public class Hardware
                                 tenPot = new Potentiometer(TEST_TEN_DELAY_POT,
                                                 3600.0);
 
-                                clawPiston = new DoubleSolenoid(6, 7);
+                                // clawPiston = new DoubleSolenoid(6, 7);
+                                eBrake = new DoubleSolenoid(4, 5);
                                 armRaisePiston = new DoubleSolenoid(0, 1);
-
                                 }
-                Hardware.clawPiston.setForward(true);
+                // Hardware.clawPiston.setForward(true);
+                Hardware.eBrake.setForward(false);
                 Hardware.armRaisePiston.setForward(true);
         }
 
@@ -155,6 +168,9 @@ public class Hardware
         public static MotorController leftTopMotor = null;
         public static MotorController rightBottomMotor = null;
         public static MotorController rightTopMotor = null;
+
+        public static KilroyEncoder rightBottomEncoder = null;
+
         public static MotorController armMotorX = null;
         public static MotorController armLengthMotor = null;
         public static MotorController armRaiseMotor = null;
@@ -163,25 +179,12 @@ public class Hardware
         // **********************************************************
         public static SixPositionSwitch sixPosSwitch = null;
         public static SingleThrowSwitch disableAutoSwitch = null;
+        public static DoubleThrowSwitch leftRightNoneSwitch = null;
         // **********************************************************
         // ANALOG I/O
         // **********************************************************
         public static Potentiometer delayPot = null;
         public static Potentiometer tenPot = null;
-        // **********************************************************
-        // PNEUMATIC DEVICES
-        // **********************************************************
-        public static Compressor compressor = new Compressor(
-                        PneumaticsModuleType.CTREPCM);
-        public static DoubleSolenoid eBrake = null;
-        public static DoubleSolenoid clawPiston = null;
-        public static DoubleSolenoid armRaisePiston = null;
-
-        // **********************************************************
-        // roboRIO CONNECTIONS CLASSES
-        // **********************************************************
-
-        public static PowerDistribution pdp = new PowerDistribution();
 
         // **********************************************************
         // DRIVER STATION CLASSES
@@ -193,6 +196,26 @@ public class Hardware
         public static Joystick rightOperator = new Joystick(3);
 
         // **********************************************************
+        // PNEUMATIC DEVICES
+        // **********************************************************
+        public static Compressor compressor = new Compressor(
+                        PneumaticsModuleType.CTREPCM);
+        public static DoubleSolenoid eBrake = null;
+        // public static DoubleSolenoid clawPiston = null;
+        public static DoubleSolenoid armRaisePiston = null;
+
+        // public static MomentarySwitch clawTriggerButton = new
+        // MomentarySwitch(rightOperator, 1, false)
+        public static MomentarySwitch armRaiseButton = new MomentarySwitch(
+                        leftOperator, 4, false);
+
+        // **********************************************************
+        // roboRIO CONNECTIONS CLASSES
+        // **********************************************************
+
+        public static PowerDistribution pdp = new PowerDistribution();
+
+        // **********************************************************
         // Kilroy's Ancillary classes
         // **********************************************************
 
@@ -202,9 +225,9 @@ public class Hardware
         public static Timer eBrakeTimer = null;
         public static Boolean eBrakeTimerIsStopped = true;
         public static Timer autoTimer = null;
-        public static MomentarySwitch ebrakMomentary1 = new MomentarySwitch(
+        public static MomentarySwitch eBrakeMomentarySwitch1 = new MomentarySwitch(
                         rightDriver, 5, false);
-        public static MomentarySwitch ebrakMomentary2 = new MomentarySwitch(
+        public static MomentarySwitch eBrakeMomentarySwitch2 = new MomentarySwitch(
                         leftDriver, 6, false);
 
         // ------------------------------------
@@ -223,10 +246,7 @@ public class Hardware
                         rightOperator, 10, false);
         public static MomentarySwitch switchCameraViewButton11 = new MomentarySwitch(
                         rightOperator, 11, false);
-        public static MomentarySwitch clawTriggerButton = new MomentarySwitch(
-                        rightOperator, 1, false);
-        public static MomentarySwitch armRaiseButton = new MomentarySwitch(
-                        leftOperator, 4, false);
+
         // -------------------
         // Subassemblies
         // -------------------
@@ -236,5 +256,6 @@ public class Hardware
         private final static double PREV_GEAR2_MAX_SPEED = 0.5;
         private final static double PREV_GEAR3_MAX_SPEED = 0.7;
         private final static int PREV_DELAY_POT = 1;
+        private final static double PREV_DISTANCE_PER_PULSE = 0.000760062738772;
         private final static int TEST_TEN_DELAY_POT = 0;
         } // end class

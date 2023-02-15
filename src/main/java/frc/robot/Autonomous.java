@@ -53,15 +53,16 @@ public class Autonomous
     {
 
     /**
-     * User Initialization code for autonomous mode should go here. Will run once
-     * when the autonomous first starts, and will be followed immediately by
-     * periodic().
+     * User Initialization code for autonomous mode should go here. Will run
+     * once when the autonomous first starts, and will be followed immediately
+     * by periodic().
      */
     public static void init()
     {
         Hardware.eBrake.setForward(false);
         Hardware.eBrakeTimer.stop();
         Hardware.eBrakeTimer.reset();
+        Hardware.rightBottomEncoder.reset();
     } // end Init
 
     /**
@@ -72,76 +73,99 @@ public class Autonomous
      * @written Jan 13, 2015
      *
      *          FYI: drive.stop cuts power to the motors, causing the robot to
-     *          coast. drive.brake results in a more complete stop. Meghan Brown; 10
-     *          February 2019
+     *          coast. drive.brake results in a more complete stop. Meghan
+     *          Brown; 10 February 2019
      *
      */
 
     public static void periodic()
     {
 
-         if (Hardware.disableAutoSwitch.isOn() == false)
-         {
+        if (Hardware.disableAutoSwitch.isOn() == false)
+            {
             // added delay potentionmeter working
             double delayTime;
             delayTime = Hardware.delayPot.get(0, 270);
             Timer.delay(delayTime);
             // =========================
-            // when in the six position switch is in a certain it will do one of the
-            // following
+            // when in the six position switch is in a certain it will do one of
+            // the following
             // =========================
             switch (Hardware.sixPosSwitch.getPosition())
-             {
-             case 1:
-                   break;
-             case 2:
-                   break;
+                {
+                // =========================
+                // Postition 1: when the robot is in the shorter length of the
+                // community it will be placed 4 inches away from the line,
+                // drive forward 140 inches, and stop 16 inches away from the
+                // game piece then stops
+                // =========================
+                case 1:
+                    break;
+                // =========================
+                // Position 2: The robot is placed 3 inches away from the line
+                // of the long side of the community and 8 inches away from the
+                // charging station, drive 44 inches forward, turns 90 degrees
+                // in a direction that will be controlled or just stops by a
+                // double throw switch, then drive 44 inches and stops
+                // =========================
+                case 2:
+                    break;
+                // =========================
+                //
+                // =========================
                 case 3:
                     break;
-             case 4:
+                // =========================
+                //
+                // =========================
+                case 4:
                     break;
-              case 5:
-                  break;
-             case 6:
-                 break;
+                // =========================
+                //
+                // =========================
+                case 5:
+                    break;
+                case 6:
+                    break;
+                // =========================
+                //
+                // =========================
                 default:
                     break;
 
-              }
-                   }
-                  else
-                         {
-            //code goes here
-                         }
-         
-         
+                }
+            }
+        else
+            {
+            // code goes here
+            }
 
-                   // added delay potentionmeter working
-                   double delayTime;
-                   delayTime = Hardware.delayPot.get(0, 270);
-                   Timer.delay(delayTime);
-                 // =========================
-                    // when in the six position switch is in a certain it will do one of the
-                    // following
-                 // =========================
-                  switch (Hardware.sixPosSwitch.getPosition())
-                     {
-                     case 1:
-                         break;
-                      case 2:
-                            break;
-                        case 3:
-                           break;
-                       case 4:
-                           break;
-                       case 5:
-                          break;
-                       case 6:
-                         break;
-                       default:
-                           break;
+        // added delay potentionmeter working
+        double delayTime;
+        delayTime = Hardware.delayPot.get(0, 270);
+        Timer.delay(delayTime);
+        // =========================
+        // when in the six position switch is in a certain it will do one of the
+        // following
+        // =========================
+        switch (Hardware.sixPosSwitch.getPosition())
+            {
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+            case 6:
+                break;
+            default:
+                break;
 
-                        }
+            }
         // }
     }
 
