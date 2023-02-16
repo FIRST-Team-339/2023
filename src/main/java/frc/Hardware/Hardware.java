@@ -64,7 +64,7 @@ public class Hardware
                 CurrentYear, PrevYear
                 };
 
-        public static Identifier robotIdentity = Identifier.CurrentYear;
+        public static Identifier robotIdentity = Identifier.PrevYear;
 
         public static void initialize()
         {
@@ -127,7 +127,6 @@ public class Hardware
 
                         transmission = new LeftRightTransmission(leftSideMotors,
                                         rightSideMotors);
-                        drive = new Drive(transmission, null, null, null);
                         transmission.setJoystickDeadband(CURRENT_DEADBAND);
                         transmission.setAllGearPercentages(
                                         CURRENT_GEAR1_MAX_SPEED,
@@ -141,7 +140,7 @@ public class Hardware
                         eBrakeTimer = new Timer();
 
                         delayPot = new Potentiometer(CURRENT_DELAY_POT_PORT);
-                        tenPot = new Potentiometer(TEST_TEN_DELAY_POT,
+                        tenTurnPot = new Potentiometer(TEN_TURN_DELAY_POT_PORT,
                                         10 * 360.0);
 
                         // clawPiston = new DoubleSolenoid(6, 7);
@@ -150,11 +149,12 @@ public class Hardware
                         armRaisePiston = new DoubleSolenoid(
                                         CURRENT_ARM_RAISE_FWD_PORT,
                                         CURRENT_ARM_RAISE_REV_PORT);
-                        }
-                delayPot = new Potentiometer(1);
+                        // clawPiston.setForward(true);
+                        eBrake.setForward(true);
+                        armRaisePiston.setForward(true);
+                        } // end of current year
 
-                if (robotIdentity == Identifier.CurrentYear)
-
+                if (robotIdentity == Identifier.PrevYear)
                         {
                         // ==============DIO INIT=============
                         sixPosSwitch = new SixPositionSwitch(14, 15, 16, 17, 19,
@@ -203,31 +203,34 @@ public class Hardware
                         // =============OTHER INIT============
                         transmission = new LeftRightTransmission(leftSideMotors,
                                         rightSideMotors);
-                        drive = new Drive(transmission, null, null, null);
                         transmission.setJoystickDeadband(PREV_DEADBAND);
                         transmission.setAllGearPercentages(PREV_GEAR1_MAX_SPEED,
                                         PREV_GEAR2_MAX_SPEED,
                                         PREV_GEAR3_MAX_SPEED);
 
-                        drive = new Drive(transmission, null, null, null);
+                        drive = new Drive(transmission, leftBottomEncoder,
+                                        rightBottomEncoder, null);
 
                         // eBrake = new DoubleSolenoid(4, 5);
 
                         eBrakeTimer = new Timer();
 
                         delayPot = new Potentiometer(PREV_DELAY_POT_PORT);
-                        tenPot = new Potentiometer(TEST_TEN_DELAY_POT, 3600.0);
+                        tenTurnPot = new Potentiometer(TEN_TURN_DELAY_POT_PORT,
+                                        10 * 360.0);
 
                         // clawPiston = new DoubleSolenoid(6, 7);
-                        eBrake = new DoubleSolenoid(4, 5);
+                        eBrake = new DoubleSolenoid(PREV_EBRAKE_FWD_PORT,
+                                        PREV_EBRAKE_REV_PORT);
                         armRaisePiston = new DoubleSolenoid(
                                         PREV_ARM_RAISE_FWD_PORT,
                                         PREV_ARM_RAISE_REV_PORT);
-                        }
-                // Hardware.clawPiston.setForward(true);
-                Hardware.eBrake.setForward(false);
-                Hardware.armRaisePiston.setForward(true);
-        }
+                        // clawPiston.setForward(true);
+                        eBrake.setForward(false);
+                        armRaisePiston.setForward(true);
+                        } // end of previous year
+
+        } // end initialize()
 
         // CAN DEVICES
         // **********************************************************
@@ -251,7 +254,7 @@ public class Hardware
         // ANALOG I/O
         // **********************************************************
         public static Potentiometer delayPot = null;
-        public static Potentiometer tenPot = null;
+        public static Potentiometer tenTurnPot = null;
 
         // **********************************************************
         // DRIVER STATION CLASSES
@@ -272,7 +275,7 @@ public class Hardware
         public static DoubleSolenoid armRaisePiston = null;
 
         // public static MomentarySwitch clawTriggerButton = new
-        // MomentarySwitch(rightOperator, 1, false)
+        // MomentarySwitch(rightOperator, 1, false);
         public static MomentarySwitch armRaiseButton = new MomentarySwitch(
                         leftOperator, 4, false);
 
@@ -305,6 +308,7 @@ public class Hardware
 
         public static LeftRightTransmission transmission = null;
         public static Drive drive = null;
+
         // ------------------------------------------
         // Vision stuff
         // ----------------------------
@@ -327,7 +331,7 @@ public class Hardware
         private final static double PREV_GEAR3_MAX_SPEED = 0.7;
         private final static int PREV_DELAY_POT_PORT = 1;
         private final static double PREV_DISTANCE_PER_PULSE = 0.000760062738772;
-        private final static int TEST_TEN_DELAY_POT = 0;
+        private final static int TEN_TURN_DELAY_POT_PORT = 0;
         private final static int PREV_EBRAKE_FWD_PORT = 4;
         private final static int PREV_EBRAKE_REV_PORT = 5;
         private final static int PREV_ARM_RAISE_FWD_PORT = 0;
