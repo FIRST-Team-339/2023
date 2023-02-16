@@ -64,7 +64,7 @@ public class Hardware
                 CurrentYear, PrevYear
                 };
 
-        public static Identifier robotIdentity = Identifier.PrevYear;
+        public static Identifier robotIdentity = Identifier.CurrentYear;
 
         public static void initialize()
         {
@@ -72,91 +72,158 @@ public class Hardware
                         {
                         // ==============DIO INIT=============
                         disableAutoSwitch = new SingleThrowSwitch(10);
-                        sixPosSwitch = new SixPositionSwitch(8, 9, 10, 11, 12,
-                                        13);
+                        sixPosSwitch = new SixPositionSwitch(13, 14, 15, 16, 17,
+                                        18);
                         // ============ANALOG INIT============
 
                         // ==============CAN INIT=============
                         // Motor Controllers
+                        leftBottomMotor = new WPI_TalonFX(8);
+                        leftTopMotor = new WPI_TalonFX(9);
+
+                        leftBottomMotor.setInverted(false);
+                        leftTopMotor.setInverted(false);
+
+                        rightBottomMotor = new WPI_TalonFX(16);
+                        rightTopMotor = new WPI_TalonFX(19);
+
+                        rightBottomMotor.setInverted(false);
+                        rightTopMotor.setInverted(false);
+
+                        rightBottomEncoder = new KilroyEncoder(
+                                        (WPI_TalonFX) rightBottomMotor);
+
+                        rightBottomEncoder.setDistancePerPulse(
+                                        CURRENT_DISTANCE_PER_PULSE);
+
+                        rightBottomEncoder = new KilroyEncoder(
+                                        (WPI_TalonFX) rightBottomMotor);
+
+                        leftBottomEncoder.setDistancePerPulse(
+                                        CURRENT_DISTANCE_PER_PULSE);
+
+                        leftBottomEncoder = new KilroyEncoder(
+                                        (WPI_TalonFX) rightBottomMotor);
+                        leftSideMotors = new MotorControllerGroup(
+                                        leftBottomMotor, leftTopMotor);
+                        rightSideMotors = new MotorControllerGroup(
+                                        rightBottomMotor, rightTopMotor);
+
+                        // armLengthMotor = new WPI_VictorSPX(23);
+                        // armRaiseMotor = new CANVenom(12);
+
+                        // armLengthMotor.setInverted(false);
+                        // armRaiseMotor.setInverted(false);
 
                         // Encoders
+                        rightBottomEncoder = new KilroyEncoder(
+                                        (WPI_TalonFX) rightBottomMotor);
 
+                        rightBottomEncoder.setDistancePerPulse(
+                                        CURRENT_DISTANCE_PER_PULSE);
                         // ==============RIO INIT==============
 
                         // =============OTHER INIT============
-                        delayPot = new Potentiometer(1);
+
+                        transmission = new LeftRightTransmission(leftSideMotors,
+                                        rightSideMotors);
+                        drive = new Drive(transmission, null, null, null);
+                        transmission.setJoystickDeadband(CURRENT_DEADBAND);
+                        transmission.setAllGearPercentages(
+                                        CURRENT_GEAR1_MAX_SPEED,
+                                        CURRENT_GEAR2_MAX_SPEED,
+                                        CURRENT_GEAR3_MAX_SPEED);
+                        drive = new Drive(transmission, leftBottomEncoder,
+                                        rightBottomEncoder, null);
+
+                        // eBrake = new DoubleSolenoid(4, 5);
+
+                        eBrakeTimer = new Timer();
+
+                        delayPot = new Potentiometer(CURRENT_DELAY_POT_PORT);
+                        tenPot = new Potentiometer(TEST_TEN_DELAY_POT,
+                                        10 * 360.0);
+
+                        // clawPiston = new DoubleSolenoid(6, 7);
+                        eBrake = new DoubleSolenoid(CURRENT_EBRAKE_FWD_PORT,
+                                        CURRENT_EBRAKE_REV_PORT);
+                        armRaisePiston = new DoubleSolenoid(
+                                        CURRENT_ARM_RAISE_FWD_PORT,
+                                        CURRENT_ARM_RAISE_REV_PORT);
                         }
-                else
-                        if (robotIdentity == Identifier.PrevYear)
-                                {
-                                // ==============DIO INIT=============
-                                sixPosSwitch = new SixPositionSwitch(14, 15, 16,
-                                                17, 19, 20);
-                                disableAutoSwitch = new SingleThrowSwitch(10);
+                delayPot = new Potentiometer(1);
 
-                                // disableAutoSwitch.setInverted(true);
+                if (robotIdentity == Identifier.CurrentYear)
 
-                                // ============ANALOG INIT============
+                        {
+                        // ==============DIO INIT=============
+                        sixPosSwitch = new SixPositionSwitch(14, 15, 16, 17, 19,
+                                        20);
+                        disableAutoSwitch = new SingleThrowSwitch(10);
 
-                                // ==============CAN INIT=============
-                                leftBottomMotor = new WPI_TalonFX(8);
-                                leftTopMotor = new WPI_TalonFX(9);
+                        // disableAutoSwitch.setInverted(true);
 
-                                leftBottomMotor.setInverted(true);
-                                leftTopMotor.setInverted(true);
+                        // ============ANALOG INIT============
 
-                                rightBottomMotor = new WPI_TalonFX(16);
-                                rightTopMotor = new WPI_TalonFX(19);
+                        // ==============CAN INIT=============
+                        leftBottomMotor = new WPI_TalonFX(8);
+                        leftTopMotor = new WPI_TalonFX(9);
 
-                                rightBottomMotor.setInverted(false);
-                                rightTopMotor.setInverted(false);
+                        leftBottomMotor.setInverted(true);
+                        leftTopMotor.setInverted(true);
 
-                                rightBottomEncoder = new KilroyEncoder(
-                                                (WPI_TalonFX) rightBottomMotor);
+                        rightBottomMotor = new WPI_TalonFX(16);
+                        rightTopMotor = new WPI_TalonFX(19);
 
-                                rightBottomEncoder.setDistancePerPulse(
-                                                PREV_DISTANCE_PER_PULSE);
+                        rightBottomMotor.setInverted(false);
+                        rightTopMotor.setInverted(false);
 
-                                leftSideMotors = new MotorControllerGroup(
-                                                leftBottomMotor, leftTopMotor);
-                                rightSideMotors = new MotorControllerGroup(
-                                                rightBottomMotor,
-                                                rightTopMotor);
+                        rightBottomEncoder = new KilroyEncoder(
+                                        (WPI_TalonFX) rightBottomMotor);
 
-                                armLengthMotor = new WPI_VictorSPX(23);
-                                armRaiseMotor = new CANVenom(12);
+                        rightBottomEncoder.setDistancePerPulse(
+                                        PREV_DISTANCE_PER_PULSE);
+                        leftBottomEncoder = new KilroyEncoder(
+                                        (WPI_TalonFX) rightBottomMotor);
 
-                                Hardware.armLengthMotor.setInverted(true);
-                                Hardware.armRaiseMotor.setInverted(true);
-                                // ==============RIO INIT=============
+                        leftBottomEncoder.setDistancePerPulse(
+                                        PREV_DISTANCE_PER_PULSE);
+                        leftSideMotors = new MotorControllerGroup(
+                                        leftBottomMotor, leftTopMotor);
+                        rightSideMotors = new MotorControllerGroup(
+                                        rightBottomMotor, rightTopMotor);
 
-                                // =============OTHER INIT============
-                                transmission = new LeftRightTransmission(
-                                                leftSideMotors,
-                                                rightSideMotors);
-                                drive = new Drive(transmission, null, null,
-                                                null);
-                                transmission.setJoystickDeadband(PREV_DEADBAND);
-                                transmission.setAllGearPercentages(
-                                                PREV_GEAR1_MAX_SPEED,
-                                                PREV_GEAR2_MAX_SPEED,
-                                                PREV_GEAR3_MAX_SPEED);
+                        armLengthMotor = new WPI_VictorSPX(23);
+                        armRaiseMotor = new CANVenom(12);
 
-                                drive = new Drive(transmission, null, null,
-                                                null);
+                        armLengthMotor.setInverted(true);
+                        armRaiseMotor.setInverted(true);
+                        // ==============RIO INIT=============
 
-                                // eBrake = new DoubleSolenoid(4, 5);
+                        // =============OTHER INIT============
+                        transmission = new LeftRightTransmission(leftSideMotors,
+                                        rightSideMotors);
+                        drive = new Drive(transmission, null, null, null);
+                        transmission.setJoystickDeadband(PREV_DEADBAND);
+                        transmission.setAllGearPercentages(PREV_GEAR1_MAX_SPEED,
+                                        PREV_GEAR2_MAX_SPEED,
+                                        PREV_GEAR3_MAX_SPEED);
 
-                                eBrakeTimer = new Timer();
+                        drive = new Drive(transmission, null, null, null);
 
-                                delayPot = new Potentiometer(PREV_DELAY_POT);
-                                tenPot = new Potentiometer(TEST_TEN_DELAY_POT,
-                                                3600.0);
+                        // eBrake = new DoubleSolenoid(4, 5);
 
-                                // clawPiston = new DoubleSolenoid(6, 7);
-                                eBrake = new DoubleSolenoid(4, 5);
-                                armRaisePiston = new DoubleSolenoid(0, 1);
-                                }
+                        eBrakeTimer = new Timer();
+
+                        delayPot = new Potentiometer(PREV_DELAY_POT_PORT);
+                        tenPot = new Potentiometer(TEST_TEN_DELAY_POT, 3600.0);
+
+                        // clawPiston = new DoubleSolenoid(6, 7);
+                        eBrake = new DoubleSolenoid(4, 5);
+                        armRaisePiston = new DoubleSolenoid(
+                                        PREV_ARM_RAISE_FWD_PORT,
+                                        PREV_ARM_RAISE_REV_PORT);
+                        }
                 // Hardware.clawPiston.setForward(true);
                 Hardware.eBrake.setForward(false);
                 Hardware.armRaisePiston.setForward(true);
@@ -170,7 +237,7 @@ public class Hardware
         public static MotorController rightTopMotor = null;
 
         public static KilroyEncoder rightBottomEncoder = null;
-
+        public static KilroyEncoder leftBottomEncoder = null;
         public static MotorController armMotorX = null;
         public static MotorController armLengthMotor = null;
         public static MotorController armRaiseMotor = null;
@@ -251,11 +318,32 @@ public class Hardware
         // Subassemblies
         // -------------------
 
+        // --------------------
+        // Previous year's constants
+        // --------------------
         public final static double PREV_DEADBAND = 0.2;
         private final static double PREV_GEAR1_MAX_SPEED = 0.3;
         private final static double PREV_GEAR2_MAX_SPEED = 0.5;
         private final static double PREV_GEAR3_MAX_SPEED = 0.7;
-        private final static int PREV_DELAY_POT = 1;
+        private final static int PREV_DELAY_POT_PORT = 1;
         private final static double PREV_DISTANCE_PER_PULSE = 0.000760062738772;
         private final static int TEST_TEN_DELAY_POT = 0;
+        private final static int PREV_EBRAKE_FWD_PORT = 4;
+        private final static int PREV_EBRAKE_REV_PORT = 5;
+        private final static int PREV_ARM_RAISE_FWD_PORT = 0;
+        private final static int PREV_ARM_RAISE_REV_PORT = 1;
+        // --------------------
+        // Current year's constants
+        // --------------------
+        public final static double CURRENT_DEADBAND = 0.2;
+        private final static double CURRENT_GEAR1_MAX_SPEED = 0.3;
+        private final static double CURRENT_GEAR2_MAX_SPEED = 0.5;
+        private final static double CURRENT_GEAR3_MAX_SPEED = 0.7;
+        private final static int CURRENT_DELAY_POT_PORT = 1;
+        private final static double CURRENT_DISTANCE_PER_PULSE = 0.01;
+        private final static int CURRENT_EBRAKE_FWD_PORT = 4;
+        private final static int CURRENT_EBRAKE_REV_PORT = 5;
+        private final static int CURRENT_ARM_RAISE_FWD_PORT = 0;
+        private final static int CURRENT_ARM_RAISE_REV_PORT = 1;
+
         } // end class
