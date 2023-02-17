@@ -64,7 +64,7 @@ public class Hardware
                 CurrentYear, PrevYear
                 };
 
-        public static Identifier robotIdentity = Identifier.PrevYear;
+        public static Identifier robotIdentity = Identifier.CurrentYear;
 
         public static void initialize()
         {
@@ -92,18 +92,14 @@ public class Hardware
 
                         rightBottomEncoder = new KilroyEncoder(
                                         (WPI_TalonFX) rightBottomMotor);
-
                         rightBottomEncoder.setDistancePerPulse(
                                         CURRENT_DISTANCE_PER_PULSE);
 
-                        rightBottomEncoder = new KilroyEncoder(
-                                        (WPI_TalonFX) rightBottomMotor);
-
+                        leftBottomEncoder = new KilroyEncoder(
+                                        (WPI_TalonFX) leftBottomMotor);
                         leftBottomEncoder.setDistancePerPulse(
                                         CURRENT_DISTANCE_PER_PULSE);
 
-                        leftBottomEncoder = new KilroyEncoder(
-                                        (WPI_TalonFX) rightBottomMotor);
                         leftSideMotors = new MotorControllerGroup(
                                         leftBottomMotor, leftTopMotor);
                         rightSideMotors = new MotorControllerGroup(
@@ -144,14 +140,14 @@ public class Hardware
                                         10 * 360.0);
 
                         // clawPiston = new DoubleSolenoid(6, 7);
-                        eBrake = new DoubleSolenoid(CURRENT_EBRAKE_FWD_PORT,
-                                        CURRENT_EBRAKE_REV_PORT);
-                        armRaisePiston = new DoubleSolenoid(
-                                        CURRENT_ARM_RAISE_FWD_PORT,
-                                        CURRENT_ARM_RAISE_REV_PORT);
+                        // eBrake = new DoubleSolenoid(CURRENT_EBRAKE_FWD_PORT,
+                        // CURRENT_EBRAKE_REV_PORT);
+                        // armRaisePiston = new DoubleSolenoid(
+                        // CURRENT_ARM_RAISE_FWD_PORT,
+                        // CURRENT_ARM_RAISE_REV_PORT);
                         // clawPiston.setForward(true);
-                        eBrake.setForward(true);
-                        armRaisePiston.setForward(true);
+                        // eBrake.setForward(true);
+                        // armRaisePiston.setForward(true);
                         } // end of current year
 
                 if (robotIdentity == Identifier.PrevYear)
