@@ -189,12 +189,17 @@ public class Teleop
         // Checks if claw trigger button has been pressed and sets the claw
         // piston to
         // the opposite direction each time it is pressed
-        /*
-         * if (Hardware.clawTriggerButton.isOnCheckNow() == true)
-         * 
-         * { Hardware.clawPiston.setForward(false); } else {
-         * Hardware.clawPiston.setForward(true); }
-         */
+
+        if (Hardware.clawTriggerButton.isOnCheckNow() == true)
+
+            {
+            Hardware.clawPiston.setForward(false);
+            }
+        else
+            {
+            Hardware.clawPiston.setForward(true);
+            }
+
         // Checks if arm raise button has been pressed and sets the arm raise
         // piston to
         // the opposite direction each time it is pressed
@@ -339,9 +344,10 @@ public class Teleop
         // System.out.println("RBottomMotor = " +
         /////////// Hardware.rightBottomMotor.get());
         // System.out.println("RTopMotor = " + Hardware.rightTopMotor.get());
-        // System.out.println("armLengthMotor = " +
-        /////////// Hardware.armLengthMotor.get());
+        System.out.println("armLengthMotor = " + Hardware.armLengthMotor.get());
         System.out.println("armRaiseMotor = " + Hardware.armRaiseMotor.get());
+        System.out.println("armRaisePiston = " + Hardware.armRaisePiston.get());
+        System.out.println("clawPiston = " + Hardware.clawPiston.get());
         // -------- SUBSYSTEMS ---------
 
         // ---------- OTHER ------------

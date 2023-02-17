@@ -112,8 +112,8 @@ public class Hardware
                         // armLengthMotor = new WPI_VictorSPX(23);
                         // armRaiseMotor = new CANVenom(12);
 
-                        // armLengthMotor.setInverted(false);
-                        // armRaiseMotor.setInverted(false);
+                        armLengthMotor.setInverted(false);
+                        armRaiseMotor.setInverted(false);
 
                         // Encoders
                         rightBottomEncoder = new KilroyEncoder(
@@ -193,8 +193,10 @@ public class Hardware
                         rightSideMotors = new MotorControllerGroup(
                                         rightBottomMotor, rightTopMotor);
 
-                        armLengthMotor = new WPI_VictorSPX(23);
-                        armRaiseMotor = new CANVenom(12);
+                        // armLengthMotor = new WPI_VictorSPX(23);
+                        // armRaiseMotor = new CANVenom(12);
+                        armLengthMotor = new WPI_TalonFX(26);
+                        armRaiseMotor = new WPI_VictorSPX(18);
 
                         armLengthMotor.setInverted(true);
                         armRaiseMotor.setInverted(true);
@@ -219,13 +221,14 @@ public class Hardware
                         tenTurnPot = new Potentiometer(TEN_TURN_DELAY_POT_PORT,
                                         10 * 360.0);
 
-                        // clawPiston = new DoubleSolenoid(6, 7);
+                        clawPiston = new DoubleSolenoid(PREV_CLAW_FWD_PORT,
+                                        PREV_CLAW_REV_PORT);
                         eBrake = new DoubleSolenoid(PREV_EBRAKE_FWD_PORT,
                                         PREV_EBRAKE_REV_PORT);
                         armRaisePiston = new DoubleSolenoid(
                                         PREV_ARM_RAISE_FWD_PORT,
                                         PREV_ARM_RAISE_REV_PORT);
-                        // clawPiston.setForward(true);
+                        clawPiston.setForward(true);
                         eBrake.setForward(false);
                         armRaisePiston.setForward(true);
                         } // end of previous year
@@ -271,11 +274,11 @@ public class Hardware
         public static Compressor compressor = new Compressor(
                         PneumaticsModuleType.CTREPCM);
         public static DoubleSolenoid eBrake = null;
-        // public static DoubleSolenoid clawPiston = null;
+        public static DoubleSolenoid clawPiston = null;
         public static DoubleSolenoid armRaisePiston = null;
 
-        // public static MomentarySwitch clawTriggerButton = new
-        // MomentarySwitch(rightOperator, 1, false);
+        public static MomentarySwitch clawTriggerButton = new MomentarySwitch(
+                        rightOperator, 1, false);
         public static MomentarySwitch armRaiseButton = new MomentarySwitch(
                         leftOperator, 4, false);
 
@@ -336,6 +339,8 @@ public class Hardware
         private final static int PREV_EBRAKE_REV_PORT = 5;
         private final static int PREV_ARM_RAISE_FWD_PORT = 0;
         private final static int PREV_ARM_RAISE_REV_PORT = 1;
+        private final static int PREV_CLAW_FWD_PORT = 6;
+        private final static int PREV_CLAW_REV_PORT = 7;
         // --------------------
         // Current year's constants
         // --------------------
