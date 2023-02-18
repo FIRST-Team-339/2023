@@ -232,7 +232,7 @@ public class Teleop
                 Hardware.switchCameraViewButton11);
         // armControl();
         // manageEBrake();
-
+        // Hardware.armRaiseMotor.set(.5);
         if (Hardware.rightOperator.getY() >= -0.2
                 && Hardware.rightOperator.getY() <= 0.2)
             {
@@ -275,8 +275,8 @@ public class Teleop
 
         Hardware.transmission.shiftGears(Hardware.rightDriver.getTrigger(),
                 Hardware.leftDriver.getTrigger());
-        // Hardware.transmission.drive(Hardware.leftDriver.getY(),
-        // Hardware.rightDriver.getY());
+        Hardware.transmission.drive(Hardware.leftDriver.getY(),
+                Hardware.rightDriver.getY());
 
         /*
          * if (Hardware.tenPot.get(0, 3600) < 100.0 || Hardware.tenPot.get(0,
@@ -307,15 +307,12 @@ public class Teleop
         // Switch Values
 
         /////////// SIX POSITION SWITCH ///////////
-        // System.out.println("Six Position Switch value: " +
-        /////////// Hardware.delayPot.get(0.0,
-        /////////// 270.0));
-        /////////// Hardware.sixPosSwitch.getPosition());
+        // System.out.println("Six Position Switch value: "
+        // + Hardware.sixPosSwitch.getPosition());
 
         /////////// DISABLE AUTO SWITCH ///////////
-        // System.out.println("Disable Auto Switch value: " +
-        /////////// Hardware.disableAutoSwitch.isOn());
-        /////////// Hardware.disableAutoSwitch.isOn());
+        // System.out.println("Disable Auto Switch value: "
+        // + Hardware.disableAutoSwitch.isOn());
 
         // ---------- ANALOG -----------
 
