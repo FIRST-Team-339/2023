@@ -232,7 +232,11 @@ public class Hardware
                         eBrake.setForward(false);
                         armRaisePiston.setForward(true);
                         } // end of previous year
-
+                // ---------------------------------
+                // required for both years
+                // ----------------------------------
+                eBrakeTimer.stop();
+                eBrakeTimer.reset();
         } // end initialize()
 
         // CAN DEVICES
