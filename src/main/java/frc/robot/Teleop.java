@@ -136,7 +136,7 @@ public class Teleop
             // Reactivates the drive motors and stops the eBrake timer
             // =========================
             if ((Hardware.eBrake.getForward() == false)
-                    && ((Hardware.eBrakeTimer.hasElapsed(1.5))
+                    && ((Hardware.eBrakeTimer.hasElapsed(2.5))
                             || Hardware.eBrakeTimerIsStopped == true))
                 {
                 Hardware.transmission.drive(Hardware.leftDriver.getY(),
@@ -169,7 +169,7 @@ public class Teleop
         // Reactivates the drive motors and stops the eBrake timer
         // =========================
         if ((Hardware.eBrake.getForward() == false)
-                && ((Hardware.eBrakeTimer.hasElapsed(1.5))
+                && ((Hardware.eBrakeTimer.hasElapsed(2.5))
                         || Hardware.eBrakeTimerIsStopped == true))
             {
             Hardware.transmission.drive(Hardware.leftDriver.getY(),
@@ -266,14 +266,23 @@ public class Teleop
 
         // ================= OPERATOR CONTROLS ================
 
+        //
         Hardware.cameras.switchCameras(Hardware.switchCameraViewButton10,
                 Hardware.switchCameraViewButton11);
-        armControl();
-        manageEBrake();
+
+        // drive system
+
         Hardware.transmission.shiftGears(Hardware.rightDriver.getTrigger(),
                 Hardware.leftDriver.getTrigger());
+
         Hardware.transmission.drive(Hardware.leftDriver.getY(),
                 Hardware.rightDriver.getY());
+
+        armControl();
+
+        // allows ebrake to run and stop motors from moving
+        // do not rearange
+        manageEBrake();
 
         /*
          * if (Hardware.tenPot.get(0, 3600) < 100.0 || Hardware.tenPot.get(0,
@@ -284,7 +293,7 @@ public class Teleop
          */
         printStatements();
         individualTest();
-        Hardware.armRaiseMotor.set(.5);
+        // Hardware.armRaiseMotor.set(.5);
     }
 
     public static void individualTest()
@@ -295,7 +304,7 @@ public class Teleop
     public static void printStatements()
     {
         // ========== INPUTS ==========
-        // System.out.println("eBrakeTimer " + Hardware.eBrakeTimer.get());
+        System.out.println("eBrakeTimer " + Hardware.eBrakeTimer.get());
         // ---------- DIGITAL ----------
 
         // Encoder Distances
@@ -333,14 +342,12 @@ public class Teleop
         // ----------- CAN -------------
 
         /////////// MOTOR VALUES ///////////
-        // System.out.println("LBottomMotor = " +
-        /////////// Hardware.leftBottomMotor.get());
-        // System.out.println("LTopMotor = " + Hardware.leftTopMotor.get());
-        // System.out.println("RBottomMotor = " +
-        /////////// Hardware.rightBottomMotor.get());
-        // System.out.println("RTopMotor = " + Hardware.rightTopMotor.get());
+        System.out.println("LBottomMotor = " + Hardware.leftBottomMotor.get());
+        System.out.println("LTopMotor = " + Hardware.leftTopMotor.get());
+        System.out.println("RBottomMotor = " + Hardware.rightBottomMotor.get());
+        System.out.println("RTopMotor = " + Hardware.rightTopMotor.get());
         // System.out.println("armLengthMotor = " +
-        /////////// Hardware.armLengthMotor.get());
+        // Hardware.armLengthMotor.get());
         // System.out.println("armRaiseMotor = " +
         /////////// Hardware.armRaiseMotor.get());
         // -------- SUBSYSTEMS ---------
