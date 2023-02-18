@@ -81,8 +81,8 @@ public class Hardware
                         leftBottomMotor = new WPI_TalonFX(8);
                         leftTopMotor = new WPI_TalonFX(9);
 
-                        leftBottomMotor.setInverted(false);
-                        leftTopMotor.setInverted(false);
+                        leftBottomMotor.setInverted(true);
+                        leftTopMotor.setInverted(true);
 
                         rightBottomMotor = new WPI_TalonFX(16);
                         rightTopMotor = new WPI_TalonFX(19);
@@ -106,9 +106,9 @@ public class Hardware
                                         rightBottomMotor, rightTopMotor);
 
                         // armLengthMotor = new WPI_VictorSPX(23);
-                        // armRaiseMotor = new CANVenom(12);
+                        armRaiseMotor = new CANVenom(12);
 
-                        armLengthMotor.setInverted(false);
+                        // armLengthMotor.setInverted(false);
                         armRaiseMotor.setInverted(false);
 
                         // Encoders
@@ -341,7 +341,7 @@ public class Hardware
         // Current year's constants
         // --------------------
         public final static double CURRENT_DEADBAND = 0.2;
-        private final static double CURRENT_GEAR1_MAX_SPEED = 0.3;
+        private final static double CURRENT_GEAR1_MAX_SPEED = 0.25;
         private final static double CURRENT_GEAR2_MAX_SPEED = 0.5;
         private final static double CURRENT_GEAR3_MAX_SPEED = 0.7;
         private final static int CURRENT_DELAY_POT_PORT = 1;
