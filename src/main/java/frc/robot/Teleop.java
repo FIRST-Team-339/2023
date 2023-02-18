@@ -299,13 +299,9 @@ public class Teleop
     public static void printStatements()
     {
         // ========== INPUTS ==========
-<<<<<<< HEAD
         // System.out.println("eBrakeTimer " + Hardware.eBrakeTimer.get());
         System.out.println("clawPiston = " + Hardware.clawPiston.get());
         System.out.println("armPiston = " + Hardware.armRaisePiston.get());
-=======
-        System.out.println("eBrakeTimer " + Hardware.eBrakeTimer.get());
->>>>>>> b62fe1710d2185a6c97d97f9ff80b0911783aade
         // ---------- DIGITAL ----------
 
         // Encoder Distances
@@ -343,25 +339,16 @@ public class Teleop
         // ----------- CAN -------------
 
         /////////// MOTOR VALUES ///////////
-<<<<<<< HEAD
         // System.out.println("LBottomMotor = " +
         /////////// Hardware.leftBottomMotor.get());
         // System.out.println("LTopMotor = " + Hardware.leftTopMotor.get());
         // System.out.println("RBottomMotor = " +
         /////////// Hardware.rightBottomMotor.get());
         // System.out.println("RTopMotor = " + Hardware.rightTopMotor.get());
-        System.out.println("armLengthMotor = " + Hardware.armLengthMotor.get());
-        System.out.println("armRaiseMotor = " + Hardware.armRaiseMotor.get());
-=======
-        System.out.println("LBottomMotor = " + Hardware.leftBottomMotor.get());
-        System.out.println("LTopMotor = " + Hardware.leftTopMotor.get());
-        System.out.println("RBottomMotor = " + Hardware.rightBottomMotor.get());
-        System.out.println("RTopMotor = " + Hardware.rightTopMotor.get());
         // System.out.println("armLengthMotor = " +
-        // Hardware.armLengthMotor.get());
+        /////////// Hardware.armLengthMotor.get());
         // System.out.println("armRaiseMotor = " +
         /////////// Hardware.armRaiseMotor.get());
->>>>>>> b62fe1710d2185a6c97d97f9ff80b0911783aade
         // -------- SUBSYSTEMS ---------
 
         // ---------- OTHER ------------
