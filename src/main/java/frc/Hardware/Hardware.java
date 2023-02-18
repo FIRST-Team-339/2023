@@ -193,8 +193,8 @@ public class Hardware
 
                         // armLengthMotor = new WPI_VictorSPX(23);
                         // armRaiseMotor = new CANVenom(12);
-                        armLengthMotor = new WPI_TalonFX(26);
-                        armRaiseMotor = new WPI_VictorSPX(18);
+                        armLengthMotor = new WPI_VictorSPX(26);
+                        armRaiseMotor = new WPI_TalonFX(18);
 
                         armLengthMotor.setInverted(true);
                         armRaiseMotor.setInverted(true);
@@ -339,8 +339,8 @@ public class Hardware
         private final static int PREV_EBRAKE_REV_PORT = 5;
         private final static int PREV_ARM_RAISE_FWD_PORT = 0;
         private final static int PREV_ARM_RAISE_REV_PORT = 1;
-        private final static int PREV_CLAW_FWD_PORT = 6;
-        private final static int PREV_CLAW_REV_PORT = 7;
+        private final static int PREV_CLAW_FWD_PORT = 2;
+        private final static int PREV_CLAW_REV_PORT = 3;
         // --------------------
         // Current year's constants
         // --------------------

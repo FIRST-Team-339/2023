@@ -211,6 +211,8 @@ public class Teleop
             {
             Hardware.armRaisePiston.setForward(true);
             }
+
+        // Arm motor controls
         if (Hardware.rightOperator.getY() >= -0.2
                 && Hardware.rightOperator.getY() <= 0.2)
             {
@@ -284,7 +286,7 @@ public class Teleop
          */
         printStatements();
         individualTest();
-        Hardware.armRaiseMotor.set(.5);
+        // Hardware.armRaiseMotor.set(.5);
     }
 
     public static void individualTest()
@@ -296,6 +298,8 @@ public class Teleop
     {
         // ========== INPUTS ==========
         // System.out.println("eBrakeTimer " + Hardware.eBrakeTimer.get());
+        System.out.println("clawPiston = " + Hardware.clawPiston.get());
+        System.out.println("armPiston = " + Hardware.armRaisePiston.get());
         // ---------- DIGITAL ----------
 
         // Encoder Distances
@@ -339,10 +343,8 @@ public class Teleop
         // System.out.println("RBottomMotor = " +
         /////////// Hardware.rightBottomMotor.get());
         // System.out.println("RTopMotor = " + Hardware.rightTopMotor.get());
-        // System.out.println("armLengthMotor = " +
-        /////////// Hardware.armLengthMotor.get());
-        // System.out.println("armRaiseMotor = " +
-        /////////// Hardware.armRaiseMotor.get());
+        System.out.println("armLengthMotor = " + Hardware.armLengthMotor.get());
+        System.out.println("armRaiseMotor = " + Hardware.armRaiseMotor.get());
         // -------- SUBSYSTEMS ---------
 
         // ---------- OTHER ------------
