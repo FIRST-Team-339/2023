@@ -155,9 +155,11 @@ public class Hardware
                 if (robotIdentity == Identifier.PrevYear)
                         {
                         // ==============DIO INIT=============
-                        sixPosSwitch = new SixPositionSwitch(14, 15, 16, 17, 19,
-                                        20);
+                        sixPosSwitch = new SixPositionSwitch(13, 14, 15, 16, 18,
+                                        19);
                         disableAutoSwitch = new SingleThrowSwitch(10);
+
+                        leftRightNoneSwitch = new DoubleThrowSwitch(11, 12);
 
                         // disableAutoSwitch.setInverted(true);
 

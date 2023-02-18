@@ -284,7 +284,7 @@ public class Teleop
          */
         printStatements();
         individualTest();
-        Hardware.armRaiseMotor.set(.5);
+        // Hardware.armRaiseMotor.set(.5);
     }
 
     public static void individualTest()
