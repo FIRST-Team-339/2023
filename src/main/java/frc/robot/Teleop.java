@@ -211,8 +211,46 @@ public class Teleop
             {
             Hardware.armRaisePiston.setForward(true);
             }
+        if (Hardware.rightOperator.getY() >= -0.2
+                && Hardware.rightOperator.getY() <= 0.2)
+            {
+            Hardware.armRaiseMotor.set(0.2);
+            }
+        else
+            {
+            if (Hardware.rightOperator.getY() < -0.2)
+                {
+                Hardware.armRaiseMotor
+                        .set(1.25 * Hardware.rightOperator.getY() + 0.25);
+                }
+            if (Hardware.rightOperator.getY() > 0.2)
+                {
+                Hardware.armRaiseMotor
+                        .set(1.25 * Hardware.rightOperator.getY() - 0.25);
+                }
+            }
 
-    }
+        if (Hardware.leftOperator.getY() >= -0.2
+                && Hardware.leftOperator.getY() <= 0.2)
+            {
+            Hardware.armLengthMotor.set(0.0);
+            }
+        else
+            {
+            if (Hardware.leftOperator.getY() < -0.2)
+                {
+                Hardware.armLengthMotor
+                        .set(1.25 * Hardware.leftOperator.getY() + 0.25);
+                }
+            if (Hardware.leftOperator.getY() > 0.2)
+                {
+                Hardware.armLengthMotor
+                        .set(1.25 * Hardware.leftOperator.getY() - 0.25);
+                } // end if
+
+            }
+
+    } // end of armControl()
 
     /**
      * User Periodic code for teleop mode should go here. Will be called
@@ -230,53 +268,12 @@ public class Teleop
 
         Hardware.cameras.switchCameras(Hardware.switchCameraViewButton10,
                 Hardware.switchCameraViewButton11);
-        // armControl();
-        // manageEBrake();
-
-        if (Hardware.rightOperator.getY() >= -0.2
-                && Hardware.rightOperator.getY() <= 0.2)
-            {
-            // Hardware.armRaiseMotor.set(0.2);
-            }
-        else
-            {
-            if (Hardware.rightOperator.getY() < -0.2)
-                {
-                // Hardware.armRaiseMotor
-                // .set(1.25 * Hardware.rightOperator.getY() + 0.25);
-                }
-            if (Hardware.rightOperator.getY() > 0.2)
-                {
-                // Hardware.armRaiseMotor
-                // .set(1.25 * Hardware.rightOperator.getY() - 0.25);
-                }
-            }
-
-        if (Hardware.leftOperator.getY() >= -0.2
-                && Hardware.leftOperator.getY() <= 0.2)
-            {
-            // Hardware.armLengthMotor.set(0.0);
-            }
-        else
-            {
-            if (Hardware.leftOperator.getY() < -0.2)
-                {
-                // Hardware.armLengthMotor
-                // .set(1.25 * Hardware.leftOperator.getY() + 0.25);
-                }
-            if (Hardware.leftOperator.getY() > 0.2)
-                {
-                // Hardware.armLengthMotor
-                // .set(1.25 * Hardware.leftOperator.getY() - 0.25);
-                }
-
-            }
-        // ================== DRIVER CONTROLS =================
-
+        armControl();
+        manageEBrake();
         Hardware.transmission.shiftGears(Hardware.rightDriver.getTrigger(),
                 Hardware.leftDriver.getTrigger());
-        // Hardware.transmission.drive(Hardware.leftDriver.getY(),
-        // Hardware.rightDriver.getY());
+        Hardware.transmission.drive(Hardware.leftDriver.getY(),
+                Hardware.rightDriver.getY());
 
         /*
          * if (Hardware.tenPot.get(0, 3600) < 100.0 || Hardware.tenPot.get(0,
@@ -287,7 +284,8 @@ public class Teleop
          */
         printStatements();
         individualTest();
-    } // end periodic()
+        Hardware.armRaiseMotor.set(.5);
+    }
 
     public static void individualTest()
     {
@@ -307,15 +305,12 @@ public class Teleop
         // Switch Values
 
         /////////// SIX POSITION SWITCH ///////////
-        // System.out.println("Six Position Switch value: " +
-        /////////// Hardware.delayPot.get(0.0,
-        /////////// 270.0));
-        /////////// Hardware.sixPosSwitch.getPosition());
+        // System.out.println("Six Position Switch value: "
+        // + Hardware.sixPosSwitch.getPosition());
 
         /////////// DISABLE AUTO SWITCH ///////////
-        // System.out.println("Disable Auto Switch value: " +
-        /////////// Hardware.disableAutoSwitch.isOn());
-        /////////// Hardware.disableAutoSwitch.isOn());
+        // System.out.println("Disable Auto Switch value: "
+        // + Hardware.disableAutoSwitch.isOn());
 
         // ---------- ANALOG -----------
 
