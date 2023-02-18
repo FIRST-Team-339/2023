@@ -211,7 +211,47 @@ public class Teleop
             {
             Hardware.armRaisePiston.setForward(true);
             }
+        // Sets value of arm motors depending on joystick Y values
+        // Right operator controls armRaiseMotor
+        // Left operator controls armLengthMotor
+        if (Hardware.rightOperator.getY() >= -0.2
+                && Hardware.rightOperator.getY() <= 0.2)
+            {
+            Hardware.armRaiseMotor.set(0.2);
+            }
+        else
+            {
+            if (Hardware.rightOperator.getY() < -0.2)
+                {
+                Hardware.armRaiseMotor
+                        .set(1.25 * Hardware.rightOperator.getY() + 0.25);
+                }
+            if (Hardware.rightOperator.getY() > 0.2)
+                {
+                Hardware.armRaiseMotor
+                        .set(1.25 * Hardware.rightOperator.getY() - 0.25);
+                }
+            }
 
+        if (Hardware.leftOperator.getY() >= -0.2
+                && Hardware.leftOperator.getY() <= 0.2)
+            {
+            Hardware.armLengthMotor.set(0.0);
+            }
+        else
+            {
+            if (Hardware.leftOperator.getY() < -0.2)
+                {
+                Hardware.armLengthMotor
+                        .set(1.25 * Hardware.leftOperator.getY() + 0.25);
+                }
+            if (Hardware.leftOperator.getY() > 0.2)
+                {
+                Hardware.armLengthMotor
+                        .set(1.25 * Hardware.leftOperator.getY() - 0.25);
+                }
+
+            }
     }
 
     /**
@@ -230,47 +270,9 @@ public class Teleop
 
         Hardware.cameras.switchCameras(Hardware.switchCameraViewButton10,
                 Hardware.switchCameraViewButton11);
-        // armControl();
+        armControl();
         // manageEBrake();
 
-        if (Hardware.rightOperator.getY() >= -0.2
-                && Hardware.rightOperator.getY() <= 0.2)
-            {
-            // Hardware.armRaiseMotor.set(0.2);
-            }
-        else
-            {
-            if (Hardware.rightOperator.getY() < -0.2)
-                {
-                // Hardware.armRaiseMotor
-                // .set(1.25 * Hardware.rightOperator.getY() + 0.25);
-                }
-            if (Hardware.rightOperator.getY() > 0.2)
-                {
-                // Hardware.armRaiseMotor
-                // .set(1.25 * Hardware.rightOperator.getY() - 0.25);
-                }
-            }
-
-        if (Hardware.leftOperator.getY() >= -0.2
-                && Hardware.leftOperator.getY() <= 0.2)
-            {
-            // Hardware.armLengthMotor.set(0.0);
-            }
-        else
-            {
-            if (Hardware.leftOperator.getY() < -0.2)
-                {
-                // Hardware.armLengthMotor
-                // .set(1.25 * Hardware.leftOperator.getY() + 0.25);
-                }
-            if (Hardware.leftOperator.getY() > 0.2)
-                {
-                // Hardware.armLengthMotor
-                // .set(1.25 * Hardware.leftOperator.getY() - 0.25);
-                }
-
-            }
         // ================== DRIVER CONTROLS =================
 
         Hardware.transmission.shiftGears(Hardware.rightDriver.getTrigger(),
