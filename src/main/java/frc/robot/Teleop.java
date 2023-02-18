@@ -260,6 +260,7 @@ public class Teleop
 
         // ================= OPERATOR CONTROLS ================
 
+        //
         Hardware.cameras.switchCameras(Hardware.switchCameraViewButton10,
                 Hardware.switchCameraViewButton11);
         // -------------------------
@@ -285,8 +286,8 @@ public class Teleop
          */
         printStatements();
         individualTest();
-        Hardware.armRaiseMotor.set(.5);
-    } // end of periodic()
+        // Hardware.armRaiseMotor.set(.5);
+    }
 
     public static void individualTest()
     {
@@ -296,7 +297,7 @@ public class Teleop
     public static void printStatements()
     {
         // ========== INPUTS ==========
-        // System.out.println("eBrakeTimer " + Hardware.eBrakeTimer.get());
+        System.out.println("eBrakeTimer " + Hardware.eBrakeTimer.get());
         // ---------- DIGITAL ----------
 
         // Encoder Distances
@@ -334,14 +335,12 @@ public class Teleop
         // ----------- CAN -------------
 
         /////////// MOTOR VALUES ///////////
-        // System.out.println("LBottomMotor = " +
-        /////////// Hardware.leftBottomMotor.get());
-        // System.out.println("LTopMotor = " + Hardware.leftTopMotor.get());
-        // System.out.println("RBottomMotor = " +
-        /////////// Hardware.rightBottomMotor.get());
-        // System.out.println("RTopMotor = " + Hardware.rightTopMotor.get());
+        System.out.println("LBottomMotor = " + Hardware.leftBottomMotor.get());
+        System.out.println("LTopMotor = " + Hardware.leftTopMotor.get());
+        System.out.println("RBottomMotor = " + Hardware.rightBottomMotor.get());
+        System.out.println("RTopMotor = " + Hardware.rightTopMotor.get());
         // System.out.println("armLengthMotor = " +
-        /////////// Hardware.armLengthMotor.get());
+        // Hardware.armLengthMotor.get());
         // System.out.println("armRaiseMotor = " +
         /////////// Hardware.armRaiseMotor.get());
         // -------- SUBSYSTEMS ---------
