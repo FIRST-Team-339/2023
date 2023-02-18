@@ -64,7 +64,7 @@ public class Hardware
                 CurrentYear, PrevYear
                 };
 
-        public static Identifier robotIdentity = Identifier.CurrentYear;
+        public static Identifier robotIdentity = Identifier.PrevYear;
 
         public static void initialize()
         {
@@ -134,6 +134,8 @@ public class Hardware
                         // eBrake = new DoubleSolenoid(4, 5);
 
                         eBrakeTimer = new Timer();
+
+                        autoTimer = new Timer();
 
                         delayPot = new Potentiometer(CURRENT_DELAY_POT_PORT);
                         tenTurnPot = new Potentiometer(TEN_TURN_DELAY_POT_PORT,
@@ -212,6 +214,8 @@ public class Hardware
                         // eBrake = new DoubleSolenoid(4, 5);
 
                         eBrakeTimer = new Timer();
+
+                        autoTimer = new Timer();
 
                         delayPot = new Potentiometer(PREV_DELAY_POT_PORT);
                         tenTurnPot = new Potentiometer(TEN_TURN_DELAY_POT_PORT,
