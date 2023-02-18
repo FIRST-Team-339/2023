@@ -211,28 +211,6 @@ public class Teleop
             {
             Hardware.armRaisePiston.setForward(true);
             }
-
-    }
-
-    /**
-     * User Periodic code for teleop mode should go here. Will be called
-     * periodically at a regular rate while the robot is in teleop mode.
-     *
-     * @author Nathanial Lydick
-     * @written Jan 13, 2015
-     */
-
-    public static void periodic()
-    {
-        // =============== AUTOMATED SUBSYSTEMS ===============
-
-        // ================= OPERATOR CONTROLS ================
-
-        Hardware.cameras.switchCameras(Hardware.switchCameraViewButton10,
-                Hardware.switchCameraViewButton11);
-        // armControl();
-        // manageEBrake();
-        // Hardware.armRaiseMotor.set(.5);
         if (Hardware.rightOperator.getY() >= -0.2
                 && Hardware.rightOperator.getY() <= 0.2)
             {
@@ -268,10 +246,11 @@ public class Teleop
                 {
                 Hardware.armLengthMotor
                         .set(1.25 * Hardware.leftOperator.getY() - 0.25);
-                }
+                } // end if
 
             }
-    }
+
+    } // end of armControl()
 
     /**
      * User Periodic code for teleop mode should go here. Will be called
@@ -290,10 +269,7 @@ public class Teleop
         Hardware.cameras.switchCameras(Hardware.switchCameraViewButton10,
                 Hardware.switchCameraViewButton11);
         armControl();
-        // manageEBrake();
-
-        // ================== DRIVER CONTROLS =================
-
+        manageEBrake();
         Hardware.transmission.shiftGears(Hardware.rightDriver.getTrigger(),
                 Hardware.leftDriver.getTrigger());
         Hardware.transmission.drive(Hardware.leftDriver.getY(),
@@ -308,7 +284,8 @@ public class Teleop
          */
         printStatements();
         individualTest();
-    } // end periodic()
+        Hardware.armRaiseMotor.set(.5);
+    }
 
     public static void individualTest()
     {
