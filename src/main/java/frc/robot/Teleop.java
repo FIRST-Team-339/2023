@@ -269,7 +269,7 @@ public class Teleop
         // If eBrake has not overridden our ability to
         // drive
         // ----------------------------
-        if (Hardware.eBrakeTimerIsStopped == false)
+        if (Hardware.eBrakeTimerIsStopped == true)
             {
             Hardware.transmission.shiftGears(Hardware.rightDriver.getTrigger(),
                     Hardware.leftDriver.getTrigger());
