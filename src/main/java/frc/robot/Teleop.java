@@ -124,7 +124,6 @@ public class Teleop
                             .getY()) >= Hardware.PREV_DEADBAND)))
                 {
                 Hardware.eBrakeTimer.reset();
-                Hardware.transmission.drive(0, 0);
                 Hardware.eBrakeTimer.start();
                 Hardware.eBrake.setForward(false);
                 }
@@ -139,8 +138,6 @@ public class Teleop
                     && ((Hardware.eBrakeTimer.hasElapsed(1.5))
                             || Hardware.eBrakeTimerIsStopped == true))
                 {
-                Hardware.transmission.drive(Hardware.leftDriver.getY(),
-                        Hardware.rightDriver.getY());
                 Hardware.eBrakeTimer.stop();
                 }
             }
@@ -158,7 +155,6 @@ public class Teleop
                         .getY()) >= Hardware.PREV_DEADBAND)))
             {
             Hardware.eBrakeTimer.reset();
-            Hardware.transmission.drive(0, 0);
             Hardware.eBrakeTimer.start();
             Hardware.eBrake.setForward(false);
             }
@@ -172,8 +168,6 @@ public class Teleop
                 && ((Hardware.eBrakeTimer.hasElapsed(1.5))
                         || Hardware.eBrakeTimerIsStopped == true))
             {
-            Hardware.transmission.drive(Hardware.leftDriver.getY(),
-                    Hardware.rightDriver.getY());
             Hardware.eBrakeTimer.stop();
             }
     } // end of manage ebrake()
@@ -270,10 +264,13 @@ public class Teleop
                 Hardware.switchCameraViewButton11);
         armControl();
         manageEBrake();
-        Hardware.transmission.shiftGears(Hardware.rightDriver.getTrigger(),
-                Hardware.leftDriver.getTrigger());
-        Hardware.transmission.drive(Hardware.leftDriver.getY(),
-                Hardware.rightDriver.getY());
+        if (Hardware.eBrakeTimerIsStopped == false)
+            {
+            // Hardware.transmission.shiftGears(Hardware.rightDriver.getTrigger(),
+            // Hardware.leftDriver.getTrigger());
+            // Hardware.transmission.drive(Hardware.leftDriver.getY(),
+            // Hardware.rightDriver.getY());
+            }
 
         /*
          * if (Hardware.tenPot.get(0, 3600) < 100.0 || Hardware.tenPot.get(0,
@@ -284,7 +281,13 @@ public class Teleop
          */
         printStatements();
         individualTest();
-        Hardware.armRaiseMotor.set(.5);
+        // Hardware.armRaiseMotor.set(.5);
+
+        if (Hardware.redLightSensor.isOn() == true)
+            {
+            System.out.println("lights on");
+            }
+
     }
 
     public static void individualTest()
