@@ -276,6 +276,10 @@ public class Teleop
             Hardware.transmission.drive(Hardware.leftDriver.getY(),
                     Hardware.rightDriver.getY());
             }
+        else
+            {
+            Hardware.transmission.drive(0, 0);
+            }
 
         armControl();
         manageEBrake();
@@ -300,8 +304,8 @@ public class Teleop
     {
         // ========== INPUTS ==========
         // System.out.println("eBrakeTimer " + Hardware.eBrakeTimer.get());
-        System.out.println("clawPiston = " + Hardware.clawPiston.get());
-        System.out.println("armPiston = " + Hardware.armRaisePiston.get());
+        // System.out.println("clawPiston = " + Hardware.clawPiston.get());
+        // System.out.println("armPiston = " + Hardware.armRaisePiston.get());
         // ---------- DIGITAL ----------
 
         // Encoder Distances
@@ -317,6 +321,10 @@ public class Teleop
         /////////// DISABLE AUTO SWITCH ///////////
         // System.out.println("Disable Auto Switch value: "
         // + Hardware.disableAutoSwitch.isOn());
+
+        /////////// LEFT RIGHT NONE SWITCH ///////////
+        // System.out.println("leftRightNoneSwitch Position: "
+        // + Hardware.leftRightNoneSwitch.getPosition());
 
         // ---------- ANALOG -----------
 
