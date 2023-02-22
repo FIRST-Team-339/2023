@@ -164,6 +164,7 @@ public class Hardware
 
                         redLightSensor = new LightSensor(
                                         PREV_REDLIGHTSENSOR_PORT);
+                        leftRightNoneSwitch = new DoubleThrowSwitch(11, 12);
 
                         // disableAutoSwitch.setInverted(true);
 
@@ -199,8 +200,8 @@ public class Hardware
 
                         // armLengthMotor = new WPI_VictorSPX(23);
                         // armRaiseMotor = new CANVenom(12);
-                        armLengthMotor = new WPI_TalonFX(26);
-                        armRaiseMotor = new WPI_VictorSPX(18);
+                        armLengthMotor = new WPI_VictorSPX(26);
+                        armRaiseMotor = new WPI_TalonFX(18);
 
                         armLengthMotor.setInverted(true);
                         armRaiseMotor.setInverted(true);
@@ -238,7 +239,11 @@ public class Hardware
                         eBrake.setForward(false);
                         armRaisePiston.setForward(true);
                         } // end of previous year
-
+                // ---------------------------------
+                // required for both years
+                // ----------------------------------
+                eBrakeTimer.stop();
+                eBrakeTimer.reset();
         } // end initialize()
 
         // CAN DEVICES

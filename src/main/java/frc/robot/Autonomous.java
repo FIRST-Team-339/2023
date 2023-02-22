@@ -31,10 +31,8 @@
 // ====================================================================
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Relay;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import frc.Hardware.Hardware;
+import frc.Utils.drive.Drive;
 
 /**
  * An Autonomous class. This class <b>beautifully</b> uses state machines in
@@ -66,6 +64,83 @@ public class Autonomous
         Hardware.eBrakeTimer.reset();
         Hardware.rightBottomEncoder.reset();
         delayTime = Hardware.delayPot.get(0, MAX_DELAY_SECONDS_PREV_YEAR);
+        Hardware.drive.setGear(0);
+        Hardware.drive.setGearPercentage(0, AUTO_GEAR);
+        Hardware.drive.setBrakeStoppingDistance(7.5);
+
+        if (Hardware.disableAutoSwitch.isOn() == true)
+            {
+            // added delay potentionmeter working
+
+            // =========================
+            // when in the six position switch is in a certain it will do one of
+            // the following
+            // =========================
+            System.out.println("Six Position Switch value: "
+                    + Hardware.sixPosSwitch.getPosition());
+            switch (Hardware.sixPosSwitch.getPosition())
+                {
+                // =========================
+                // Postition 1: when the robot is in the shorter length of the
+                // community it will be placed 4 inches away from the line,
+                // drive forward 140 inches, and stop 16 inches away from the
+                // game piece then stops
+                // =========================
+                case 0:
+                    autoPath = AUTO_PATH.DRIVE_ONLY_FORWARD;
+                    break;
+                // =========================
+                // Position 2: The robot is placed 3 inches away from the line
+                // of the long side of the community and 8 inches away from the
+                // charging station, drive 44 inches forward, turns 90 degrees
+                // in a direction that will be controlled or just stops by a
+                // double throw switch, then drive 44 inches and stops
+                // =========================
+                case 1:
+                    autoPath = AUTO_PATH.DRIVE_TURN_DRIVE;
+                    break;
+                // =========================
+                //
+                // =========================
+                case 2:
+                    autoPath = AUTO_PATH.DISABLE;
+                    break;
+                // =========================
+                //
+                // =========================
+                case 3:
+                    autoPath = AUTO_PATH.DISABLE;
+                    break;
+                // =========================
+                //
+                // =========================
+                case 4:
+                    autoPath = AUTO_PATH.DISABLE;
+                    break;
+                // =========================
+                //
+                // =========================
+                case 5:
+                    autoPath = AUTO_PATH.DISABLE;
+                    break;
+                // =========================
+                //
+                // =========================
+                default:
+                    autoPath = AUTO_PATH.DISABLE;
+                    break;
+
+                }
+            }
+        else
+            {
+            autoPath = AUTO_PATH.DISABLE;
+            }
+
+        driveOnlyForwardState = DRIVE_ONLY_FORWARD_STATE.INIT;
+        driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.INIT;
+
+        Hardware.drive.setGearPercentage(0, 0.3);
     } // end Init
 
     /**
@@ -83,127 +158,41 @@ public class Autonomous
 
     public static void periodic()
     {
-
-        if (Hardware.disableAutoSwitch.isOn() == false)
+        switch (autoPath)
             {
-            // added delay potentionmeter working
+            case DRIVE_ONLY_FORWARD:
+                if (driveOnlyForward() == true)
+                    {
+                    autoPath = AUTO_PATH.DISABLE;
+                    }
+                break;
 
-            // =========================
-            // when in the six position switch is in a certain it will do one of
-            // the following
-            // =========================
-            switch (Hardware.sixPosSwitch.getPosition())
-                {
-                // =========================
-                // Postition 1: when the robot is in the shorter length of the
-                // community it will be placed 4 inches away from the line,
-                // drive forward 140 inches, and stop 16 inches away from the
-                // game piece then stops
-                // =========================
-                case 1:
-                    if (Hardware.rightBottomEncoder.getDistance() < 140)
-                        {
-                        Hardware.drive.accelerateProportionaly(-0.5, -0.5, 2);
-                        }
-                    else
-                        {
-                        Hardware.drive.accelerateProportionaly(0, 0, 1);
-                        }
-                    break;
-                // =========================
-                // Position 2: The robot is placed 3 inches away from the line
-                // of the long side of the community and 8 inches away from the
-                // charging station, drive 44 inches forward, turns 90 degrees
-                // in a direction that will be controlled or just stops by a
-                // double throw switch, then drive 44 inches and stops
-                // =========================
-                case 2:
-                    switch (Hardware.leftRightNoneSwitch.getPosition())
-                        {
-                        case kOff:
-                            if (Hardware.rightBottomEncoder.getDistance() < 44)
-                                {
-                                Hardware.drive.accelerateProportionaly(-0.5,
-                                        -0.5, 2);
-                                }
-                            else
-                                {
-                                Hardware.drive.accelerateProportionaly(0, 0, 1);
-                                }
-                            break;
-                        case kForward:
-                            if (Hardware.rightBottomEncoder.getDistance() < 44)
-                                {
-                                Hardware.drive.accelerateProportionaly(-0.5,
-                                        -0.5, 2);
-                                }
-                            else
-                                {
-                                Hardware.drive.accelerateProportionaly(0, 0, 1);
-                                }
+            case DRIVE_TURN_DRIVE:
+                if (driveTurnDrive() == true)
+                    {
+                    autoPath = AUTO_PATH.DISABLE;
+                    }
+                break;
 
-                            Hardware.drive.accelerateProportionaly(0.5, -0.5,
-                                    1);
+            case DISABLE:
+                Hardware.drive.stop();
+                break;
 
-                            Hardware.rightBottomEncoder.reset();
-                            if (Hardware.rightBottomEncoder.getDistance() < 44)
-                                {
-                                Hardware.drive.accelerateProportionaly(-0.5,
-                                        -0.5, 2);
-                                }
-                            else
-                                {
-                                Hardware.drive.accelerateProportionaly(0, 0, 1);
-                                }
-                            break;
-                        case kReverse:
-
-                            break;
-
-                        default:
-                            break;
-
-                        }
-                    break;
-                // =========================
-                //
-                // =========================
-                case 3:
-                    break;
-                // =========================
-                //
-                // =========================
-                case 4:
-                    break;
-                // =========================
-                //
-                // =========================
-                case 5:
-                    break;
-                // =========================
-                //
-                // =========================
-                case 6:
-                    break;
-                // =========================
-                //
-                // =========================
-                default:
-                    break;
-
-                }
+            default:
+                break;
             }
-        else
-            {
-            // code goes here
-            }
-
     }
 
     // =====================================================================
     // Path Methods
     // =====================================================================
 
+    /**
+     * Long drive forward for autonomous.
+     *
+     * @author Bryan Fernandez
+     * @written February 18, 2023
+     */
     private static boolean driveOnlyForward()
     {
         switch (driveOnlyForwardState)
@@ -219,14 +208,130 @@ public class Autonomous
                     }
                 return false;
             case DRIVE:
-                driveOnlyForwardState = DRIVE_ONLY_FORWARD_STATE.STOP;
+                if (Hardware.rightBottomEncoder.getDistance() > -133.5)
+                    {
+                    Hardware.drive.accelerateProportionaly(-0.22, -0.22, 2);
+                    }
+                else
+                    {
+                    driveOnlyForwardState = DRIVE_ONLY_FORWARD_STATE.STOP;
+                    }
                 return false;
             case STOP:
-                driveOnlyForwardState = DRIVE_ONLY_FORWARD_STATE.END;
+                if (Hardware.drive.brake(Drive.BrakeType.AFTER_DRIVE))
+                    {
+                    driveOnlyForwardState = DRIVE_ONLY_FORWARD_STATE.END;
+                    }
                 return false;
             case END:
                 Hardware.drive.stop();
                 return true;
+            default:
+                return false;
+            }
+    }
+
+    /**
+     * Short drives forward and turns for autonomous.
+     *
+     * @author Bryan Fernandez
+     * @written February 18, 2023
+     */
+    private static boolean driveTurnDrive()
+    {
+        switch (driveTurnDriveState)
+            {
+            case INIT:
+                Hardware.autoTimer.start();
+                driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.DELAY;
+                return false;
+
+            case DELAY:
+                if (Hardware.autoTimer.get() >= delayTime)
+                    {
+                    driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.DRIVE_ONE;
+                    }
+                return false;
+
+            case DRIVE_ONE:
+                if (Hardware.rightBottomEncoder.getDistance() > -44)
+                    {
+                    Hardware.drive.accelerateProportionaly(-0.22, -0.22, 2);
+                    }
+                else
+                    {
+                    driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.STOP_ONE;
+                    }
+                return false;
+
+            case STOP_ONE:
+                if (Hardware.drive.brake(Drive.BrakeType.AFTER_DRIVE))
+                    {
+                    driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.TURN;
+                    }
+                return false;
+
+            case TURN:
+                Hardware.rightBottomEncoder.reset();
+                switch (Hardware.leftRightNoneSwitch.getPosition())
+                    {
+                    case kOff:
+                        driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.STOP_TWO;
+                        break;
+
+                    case kForward:
+                        // Hardware.drive.accelerateProportionaly(0.22, -0.22,
+                        // 9);
+                        if (Hardware.drive.turnDegrees(90, 0.22, 0.99, false))
+                            {
+                            driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.STOP_TURN;
+                            }
+                        break;
+
+                    case kReverse:
+                        // Hardware.drive.accelerateProportionaly(-0.22, 0.22,
+                        // 9);
+                        if (Hardware.drive.turnDegrees(90, 0.22, 0.99, false))
+                            {
+                            driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.STOP_TURN;
+                            }
+                        break;
+
+                    default:
+                        break;
+
+                    }
+                return false;
+
+            case STOP_TURN:
+                Hardware.drive.brake(Drive.BrakeType.AFTER_TURN);
+                driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.DRIVE_TWO;
+                return false;
+
+            case DRIVE_TWO:
+                Hardware.rightBottomEncoder.reset();
+
+                if (Hardware.rightBottomEncoder.getDistance() > -44)
+                    {
+                    Hardware.drive.accelerateProportionaly(-0.22, -0.22, 2);
+                    }
+                else
+                    {
+                    driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.STOP_TWO;
+                    }
+                return false;
+
+            case STOP_TWO:
+                if (Hardware.drive.brake(Drive.BrakeType.AFTER_DRIVE))
+                    {
+                    driveOnlyForwardState = DRIVE_ONLY_FORWARD_STATE.END;
+                    }
+                return false;
+
+            case END:
+                Hardware.drive.stop();
+                return false;
+
             default:
                 return false;
             }
@@ -242,9 +347,16 @@ public class Autonomous
         INIT, DELAY, DRIVE, STOP, END;
         }
 
+    private static enum DRIVE_TURN_DRIVE_STATE
+        {
+        INIT, DELAY, DRIVE_ONE, STOP_ONE, TURN, STOP_TURN, DRIVE_TWO, STOP_TWO, END;
+        }
+
     private static AUTO_PATH autoPath;
 
     private static DRIVE_ONLY_FORWARD_STATE driveOnlyForwardState;
+
+    private static DRIVE_TURN_DRIVE_STATE driveTurnDriveState;
 
     private static double delayTime;
     /*
@@ -252,4 +364,6 @@ public class Autonomous
      * ==============================================================
      */
     private static final double MAX_DELAY_SECONDS_PREV_YEAR = 5.0;
+
+    private static final double AUTO_GEAR = 1;
     }

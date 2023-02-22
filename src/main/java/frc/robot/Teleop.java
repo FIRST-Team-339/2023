@@ -135,7 +135,7 @@ public class Teleop
             // Reactivates the drive motors and stops the eBrake timer
             // =========================
             if ((Hardware.eBrake.getForward() == false)
-                    && ((Hardware.eBrakeTimer.hasElapsed(1.5))
+                    && ((Hardware.eBrakeTimer.hasElapsed(3.0))
                             || Hardware.eBrakeTimerIsStopped == true))
                 {
                 Hardware.eBrakeTimer.stop();
@@ -165,7 +165,7 @@ public class Teleop
         // Reactivates the drive motors and stops the eBrake timer
         // =========================
         if ((Hardware.eBrake.getForward() == false)
-                && ((Hardware.eBrakeTimer.hasElapsed(1.5))
+                && ((Hardware.eBrakeTimer.hasElapsed(3.0))
                         || Hardware.eBrakeTimerIsStopped == true))
             {
             Hardware.eBrakeTimer.stop();
@@ -205,6 +205,8 @@ public class Teleop
             {
             Hardware.armRaisePiston.setForward(true);
             }
+
+        // Arm motor controls
         if (Hardware.rightOperator.getY() >= -0.2
                 && Hardware.rightOperator.getY() <= 0.2)
             {
@@ -260,8 +262,25 @@ public class Teleop
 
         // ================= OPERATOR CONTROLS ================
 
+        //
         Hardware.cameras.switchCameras(Hardware.switchCameraViewButton10,
                 Hardware.switchCameraViewButton11);
+        // -------------------------
+        // If eBrake has not overridden our ability to
+        // drive
+        // ----------------------------
+        if (Hardware.eBrakeTimerIsStopped == true)
+            {
+            Hardware.transmission.shiftGears(Hardware.rightDriver.getTrigger(),
+                    Hardware.leftDriver.getTrigger());
+            Hardware.transmission.drive(Hardware.leftDriver.getY(),
+                    Hardware.rightDriver.getY());
+            }
+        else
+            {
+            Hardware.transmission.drive(0, 0);
+            }
+
         armControl();
         manageEBrake();
         if (Hardware.eBrakeTimerIsStopped == false)
@@ -282,12 +301,6 @@ public class Teleop
         printStatements();
         individualTest();
         // Hardware.armRaiseMotor.set(.5);
-
-        if (Hardware.redLightSensor.isOn() == true)
-            {
-            System.out.println("lights on");
-            }
-
     }
 
     public static void individualTest()
@@ -299,6 +312,8 @@ public class Teleop
     {
         // ========== INPUTS ==========
         // System.out.println("eBrakeTimer " + Hardware.eBrakeTimer.get());
+        // System.out.println("clawPiston = " + Hardware.clawPiston.get());
+        // System.out.println("armPiston = " + Hardware.armRaisePiston.get());
         // ---------- DIGITAL ----------
 
         // Encoder Distances
@@ -314,6 +329,10 @@ public class Teleop
         /////////// DISABLE AUTO SWITCH ///////////
         // System.out.println("Disable Auto Switch value: "
         // + Hardware.disableAutoSwitch.isOn());
+
+        /////////// LEFT RIGHT NONE SWITCH ///////////
+        // System.out.println("leftRightNoneSwitch Position: "
+        // + Hardware.leftRightNoneSwitch.getPosition());
 
         // ---------- ANALOG -----------
 

@@ -314,11 +314,7 @@ public class MomentarySwitch
             // -------------------------------------
             // otherwise turn off previouslyOn
             // -------------------------------------
-            if (this.previouslyOn == true)
-                {
-                this.previouslyOn = false;
-                this.isOn = !this.isOn;
-                } // if
+            this.previouslyOn = false;
     } // end update()
 
     } // end class
