@@ -276,9 +276,21 @@ public class Teleop
             Hardware.transmission.drive(Hardware.leftDriver.getY(),
                     Hardware.rightDriver.getY());
             }
+        else
+            {
+            Hardware.transmission.drive(0, 0);
+            }
 
         armControl();
         manageEBrake();
+        if (Hardware.eBrakeTimerIsStopped == false)
+            {
+            // Hardware.transmission.shiftGears(Hardware.rightDriver.getTrigger(),
+            // Hardware.leftDriver.getTrigger());
+            // Hardware.transmission.drive(Hardware.leftDriver.getY(),
+            // Hardware.rightDriver.getY());
+            }
+
         /*
          * if (Hardware.tenPot.get(0, 3600) < 100.0 || Hardware.tenPot.get(0,
          * 3600) > 150.0) { // System.out.println("false"); } else {
@@ -317,6 +329,10 @@ public class Teleop
         /////////// DISABLE AUTO SWITCH ///////////
         // System.out.println("Disable Auto Switch value: "
         // + Hardware.disableAutoSwitch.isOn());
+
+        /////////// LEFT RIGHT NONE SWITCH ///////////
+        // System.out.println("leftRightNoneSwitch Position: "
+        // + Hardware.leftRightNoneSwitch.getPosition());
 
         // ---------- ANALOG -----------
 

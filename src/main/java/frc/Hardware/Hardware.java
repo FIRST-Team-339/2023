@@ -43,6 +43,7 @@ import frc.HardwareInterfaces.DoubleSolenoid;
 import frc.HardwareInterfaces.DoubleThrowSwitch;
 import frc.HardwareInterfaces.KilroyEncoder;
 import frc.HardwareInterfaces.KilroyUSBCamera;
+import frc.HardwareInterfaces.LightSensor;
 import frc.HardwareInterfaces.MomentarySwitch;
 import frc.HardwareInterfaces.Potentiometer;
 
@@ -74,6 +75,8 @@ public class Hardware
                         disableAutoSwitch = new SingleThrowSwitch(10);
                         sixPosSwitch = new SixPositionSwitch(13, 14, 15, 16, 17,
                                         18);
+                        redLightSensor = new LightSensor(
+                                        CURRENT_REDLIGHTSENSOR_PORT);
                         // ============ANALOG INIT============
 
                         // ==============CAN INIT=============
@@ -155,10 +158,12 @@ public class Hardware
                 if (robotIdentity == Identifier.PrevYear)
                         {
                         // ==============DIO INIT=============
-                        sixPosSwitch = new SixPositionSwitch(13, 14, 15, 16, 18,
-                                        19);
+                        sixPosSwitch = new SixPositionSwitch(14, 15, 16, 17, 19,
+                                        20);
                         disableAutoSwitch = new SingleThrowSwitch(10);
 
+                        redLightSensor = new LightSensor(
+                                        PREV_REDLIGHTSENSOR_PORT);
                         leftRightNoneSwitch = new DoubleThrowSwitch(11, 12);
 
                         // disableAutoSwitch.setInverted(true);
@@ -259,6 +264,7 @@ public class Hardware
         public static SixPositionSwitch sixPosSwitch = null;
         public static SingleThrowSwitch disableAutoSwitch = null;
         public static DoubleThrowSwitch leftRightNoneSwitch = null;
+        public static LightSensor redLightSensor = null;
         // **********************************************************
         // ANALOG I/O
         // **********************************************************
@@ -345,8 +351,9 @@ public class Hardware
         private final static int PREV_EBRAKE_REV_PORT = 5;
         private final static int PREV_ARM_RAISE_FWD_PORT = 0;
         private final static int PREV_ARM_RAISE_REV_PORT = 1;
-        private final static int PREV_CLAW_FWD_PORT = 2;
-        private final static int PREV_CLAW_REV_PORT = 3;
+        private final static int PREV_CLAW_FWD_PORT = 6;
+        private final static int PREV_CLAW_REV_PORT = 7;
+        private final static int PREV_REDLIGHTSENSOR_PORT = 7;
         // --------------------
         // Current year's constants
         // --------------------
@@ -360,5 +367,6 @@ public class Hardware
         private final static int CURRENT_EBRAKE_REV_PORT = 5;
         private final static int CURRENT_ARM_RAISE_FWD_PORT = 0;
         private final static int CURRENT_ARM_RAISE_REV_PORT = 1;
+        private final static int CURRENT_REDLIGHTSENSOR_PORT = 7;
 
         } // end class

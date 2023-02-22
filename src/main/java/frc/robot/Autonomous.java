@@ -31,10 +31,8 @@
 // ====================================================================
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Relay;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import frc.Hardware.Hardware;
+import frc.Utils.drive.Drive;
 
 /**
  * An Autonomous class. This class <b>beautifully</b> uses state machines in
@@ -68,6 +66,7 @@ public class Autonomous
         delayTime = Hardware.delayPot.get(0, MAX_DELAY_SECONDS_PREV_YEAR);
         Hardware.drive.setGear(0);
         Hardware.drive.setGearPercentage(0, AUTO_GEAR);
+        Hardware.drive.setBrakeStoppingDistance(7.5);
 
         if (Hardware.disableAutoSwitch.isOn() == true)
             {
@@ -188,6 +187,12 @@ public class Autonomous
     // Path Methods
     // =====================================================================
 
+    /**
+     * Long drive forward for autonomous.
+     *
+     * @author Bryan Fernandez
+     * @written February 18, 2023
+     */
     private static boolean driveOnlyForward()
     {
         switch (driveOnlyForwardState)
@@ -203,9 +208,9 @@ public class Autonomous
                     }
                 return false;
             case DRIVE:
-                if (Hardware.rightBottomEncoder.getDistance() > -140)
+                if (Hardware.rightBottomEncoder.getDistance() > -133.5)
                     {
-                    Hardware.drive.accelerateProportionaly(-0.2, -0.2, 2);
+                    Hardware.drive.accelerateProportionaly(-0.22, -0.22, 2);
                     }
                 else
                     {
@@ -213,8 +218,10 @@ public class Autonomous
                     }
                 return false;
             case STOP:
-                Hardware.drive.accelerateProportionaly(0, 0, 0.25);
-                driveOnlyForwardState = DRIVE_ONLY_FORWARD_STATE.END;
+                if (Hardware.drive.brake(Drive.BrakeType.AFTER_DRIVE))
+                    {
+                    driveOnlyForwardState = DRIVE_ONLY_FORWARD_STATE.END;
+                    }
                 return false;
             case END:
                 Hardware.drive.stop();
@@ -224,6 +231,12 @@ public class Autonomous
             }
     }
 
+    /**
+     * Short drives forward and turns for autonomous.
+     *
+     * @author Bryan Fernandez
+     * @written February 18, 2023
+     */
     private static boolean driveTurnDrive()
     {
         switch (driveTurnDriveState)
@@ -243,30 +256,45 @@ public class Autonomous
             case DRIVE_ONE:
                 if (Hardware.rightBottomEncoder.getDistance() > -44)
                     {
-                    Hardware.drive.accelerateProportionaly(-0.2, -0.2, 2);
+                    Hardware.drive.accelerateProportionaly(-0.22, -0.22, 2);
                     }
                 else
                     {
-                    Hardware.drive.accelerateProportionaly(0, 0, 0.25);
+                    driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.STOP_ONE;
+                    }
+                return false;
+
+            case STOP_ONE:
+                if (Hardware.drive.brake(Drive.BrakeType.AFTER_DRIVE))
+                    {
                     driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.TURN;
                     }
                 return false;
 
             case TURN:
+                Hardware.rightBottomEncoder.reset();
                 switch (Hardware.leftRightNoneSwitch.getPosition())
                     {
                     case kOff:
-                        driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.STOP;
+                        driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.STOP_TWO;
                         break;
 
                     case kForward:
-                        Hardware.drive.turnDegrees(90, 0.2, 2, false);
-                        driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.DRIVE_TWO;
+                        // Hardware.drive.accelerateProportionaly(0.22, -0.22,
+                        // 9);
+                        if (Hardware.drive.turnDegrees(90, 0.22, 0.99, false))
+                            {
+                            driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.STOP_TURN;
+                            }
                         break;
 
                     case kReverse:
-                        Hardware.drive.turnDegrees(-90, 0.2, 2, false);
-                        driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.DRIVE_TWO;
+                        // Hardware.drive.accelerateProportionaly(-0.22, 0.22,
+                        // 9);
+                        if (Hardware.drive.turnDegrees(90, 0.22, 0.99, false))
+                            {
+                            driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.STOP_TURN;
+                            }
                         break;
 
                     default:
@@ -275,22 +303,29 @@ public class Autonomous
                     }
                 return false;
 
+            case STOP_TURN:
+                Hardware.drive.brake(Drive.BrakeType.AFTER_TURN);
+                driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.DRIVE_TWO;
+                return false;
+
             case DRIVE_TWO:
                 Hardware.rightBottomEncoder.reset();
 
                 if (Hardware.rightBottomEncoder.getDistance() > -44)
                     {
-                    Hardware.drive.accelerateProportionaly(-0.2, -0.2, 2);
+                    Hardware.drive.accelerateProportionaly(-0.22, -0.22, 2);
                     }
                 else
                     {
-                    driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.STOP;
+                    driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.STOP_TWO;
                     }
                 return false;
 
-            case STOP:
-                Hardware.drive.accelerateProportionaly(0, 0, 0.25);
-                driveOnlyForwardState = DRIVE_ONLY_FORWARD_STATE.END;
+            case STOP_TWO:
+                if (Hardware.drive.brake(Drive.BrakeType.AFTER_DRIVE))
+                    {
+                    driveOnlyForwardState = DRIVE_ONLY_FORWARD_STATE.END;
+                    }
                 return false;
 
             case END:
@@ -314,7 +349,7 @@ public class Autonomous
 
     private static enum DRIVE_TURN_DRIVE_STATE
         {
-        INIT, DELAY, DRIVE_ONE, TURN, DRIVE_TWO, STOP, END;
+        INIT, DELAY, DRIVE_ONE, STOP_ONE, TURN, STOP_TURN, DRIVE_TWO, STOP_TWO, END;
         }
 
     private static AUTO_PATH autoPath;
