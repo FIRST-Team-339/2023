@@ -64,7 +64,7 @@ public class Hardware
                 CurrentYear, PrevYear
                 };
 
-        public static Identifier robotIdentity = Identifier.PrevYear;
+        public static Identifier robotIdentity = Identifier.CurrentYear;
 
         public static void initialize()
         {
@@ -105,10 +105,10 @@ public class Hardware
                         rightSideMotors = new MotorControllerGroup(
                                         rightBottomMotor, rightTopMotor);
 
-                        // armLengthMotor = new WPI_VictorSPX(23);
-                        armRaiseMotor = new CANVenom(12);
+                        armLengthMotor = new WPI_VictorSPX(23);
+                        armRaiseMotor = new CANVenom(21);
 
-                        // armLengthMotor.setInverted(false);
+                        armLengthMotor.setInverted(false);
                         armRaiseMotor.setInverted(false);
 
                         // Encoders

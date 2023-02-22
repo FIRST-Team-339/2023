@@ -300,8 +300,8 @@ public class Teleop
     {
         // ========== INPUTS ==========
         // System.out.println("eBrakeTimer " + Hardware.eBrakeTimer.get());
-        System.out.println("clawPiston = " + Hardware.clawPiston.get());
-        System.out.println("armPiston = " + Hardware.armRaisePiston.get());
+        // System.out.println("clawPiston = " + Hardware.clawPiston.get());
+        // System.out.println("armPiston = " + Hardware.armRaisePiston.get());
         // ---------- DIGITAL ----------
 
         // Encoder Distances
@@ -320,7 +320,7 @@ public class Teleop
 
         // ---------- ANALOG -----------
 
-        // System.out.println("delayPot = " + Hardware.delayPot.get());
+        // System.out.println("delayPot = " + Hardware.delayPot.get(0.0, 5.0));
 
         // -------- SUBSYSTEMS ---------
 
@@ -332,8 +332,8 @@ public class Teleop
         // ========== OUTPUTS ==========
 
         // ---------- DIGITAL ----------
-        // System.out.println("disableAutoSwitch = " +
-        // Hardware.disableAutoSwitch.isOn());
+        // System.out.println(
+        // "disableAutoSwitch = " + Hardware.disableAutoSwitch.isOn());
         // ---------- ANALOG -----------
 
         // ----------- CAN -------------
