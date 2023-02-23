@@ -77,6 +77,7 @@ public class Hardware
                                         18);
                         redLightSensor = new LightSensor(
                                         CURRENT_REDLIGHTSENSOR_PORT);
+                        leftRightNoneSwitch = new DoubleThrowSwitch(11, 12);
                         // ============ANALOG INIT============
 
                         // ==============CAN INIT=============
@@ -134,8 +135,6 @@ public class Hardware
                         drive = new Drive(transmission, leftBottomEncoder,
                                         rightBottomEncoder, null);
 
-                        // eBrake = new DoubleSolenoid(4, 5);
-
                         eBrakeTimer = new Timer();
 
                         autoTimer = new Timer();
@@ -144,15 +143,21 @@ public class Hardware
                         tenTurnPot = new Potentiometer(TEN_TURN_DELAY_POT_PORT,
                                         10 * 360.0);
 
-                        // clawPiston = new DoubleSolenoid(6, 7);
-                        // eBrake = new DoubleSolenoid(CURRENT_EBRAKE_FWD_PORT,
-                        // CURRENT_EBRAKE_REV_PORT);
-                        // armRaisePiston = new DoubleSolenoid(
-                        // CURRENT_ARM_RAISE_FWD_PORT,
-                        // CURRENT_ARM_RAISE_REV_PORT);
-                        // clawPiston.setForward(true);
-                        // eBrake.setForward(true);
-                        // armRaisePiston.setForward(true);
+                        armControlHoldSpeed = CURRENT_ARM_CONTROL_HOLD_SPEED;
+                        armLengthHoldSpeed = CURRENT_ARM_LENGTH_HOLD_SPEED;
+                        armControlDeadband = CURRENT_ARM_CONTROL_DEADBAND;
+                        armLengthDeadband = CURRENT_ARM_LENGTH_DEADBAND;
+
+                        clawPiston = new DoubleSolenoid(CURRENT_CLAW_FWD_PORT,
+                                        CURRENT_CLAW_REV_PORT);
+                        eBrake = new DoubleSolenoid(CURRENT_EBRAKE_FWD_PORT,
+                                        CURRENT_EBRAKE_REV_PORT);
+                        armRaisePiston = new DoubleSolenoid(
+                                        CURRENT_ARM_RAISE_FWD_PORT,
+                                        CURRENT_ARM_RAISE_REV_PORT);
+                        clawPiston.setForward(true);
+                        eBrake.setForward(true);
+                        armRaisePiston.setForward(true);
                         } // end of current year
 
                 if (robotIdentity == Identifier.PrevYear)
@@ -218,8 +223,6 @@ public class Hardware
                         drive = new Drive(transmission, leftBottomEncoder,
                                         rightBottomEncoder, null);
 
-                        // eBrake = new DoubleSolenoid(4, 5);
-
                         eBrakeTimer = new Timer();
 
                         autoTimer = new Timer();
@@ -238,6 +241,11 @@ public class Hardware
                         clawPiston.setForward(true);
                         eBrake.setForward(false);
                         armRaisePiston.setForward(true);
+
+                        armControlHoldSpeed = PREV_ARM_CONTROL_HOLD_SPEED;
+                        armLengthHoldSpeed = PREV_ARM_LENGTH_HOLD_SPEED;
+                        armControlDeadband = PREV_ARM_CONTROL_DEADBAND;
+                        armLengthDeadband = PREV_ARM_LENGTH_DEADBAND;
                         } // end of previous year
                 // ---------------------------------
                 // required for both years
@@ -336,11 +344,19 @@ public class Hardware
         // -------------------
         // Subassemblies
         // -------------------
-
+        // arm control variables
+        public static double armControlHoldSpeed;
+        public static double armLengthHoldSpeed;
+        public static double armControlDeadband;
+        public static double armLengthDeadband;
         // --------------------
         // Previous year's constants
         // --------------------
         public final static double PREV_DEADBAND = 0.2;
+        public final static double PREV_ARM_CONTROL_HOLD_SPEED = 2.0;
+        public final static double PREV_ARM_LENGTH_HOLD_SPEED = 0.0;
+        public final static double PREV_ARM_CONTROL_DEADBAND = 0.2;
+        public final static double PREV_ARM_LENGTH_DEADBAND = 0.2;
         private final static double PREV_GEAR1_MAX_SPEED = 0.3;
         private final static double PREV_GEAR2_MAX_SPEED = 0.5;
         private final static double PREV_GEAR3_MAX_SPEED = 0.7;
@@ -351,13 +367,17 @@ public class Hardware
         private final static int PREV_EBRAKE_REV_PORT = 5;
         private final static int PREV_ARM_RAISE_FWD_PORT = 0;
         private final static int PREV_ARM_RAISE_REV_PORT = 1;
-        private final static int PREV_CLAW_FWD_PORT = 6;
-        private final static int PREV_CLAW_REV_PORT = 7;
+        private final static int PREV_CLAW_FWD_PORT = 2;
+        private final static int PREV_CLAW_REV_PORT = 3;
         private final static int PREV_REDLIGHTSENSOR_PORT = 7;
         // --------------------
         // Current year's constants
         // --------------------
         public final static double CURRENT_DEADBAND = 0.2;
+        public final static double CURRENT_ARM_CONTROL_HOLD_SPEED = 0.0;
+        public final static double CURRENT_ARM_LENGTH_HOLD_SPEED = 0.0;
+        public final static double CURRENT_ARM_CONTROL_DEADBAND = 0.2;
+        public final static double CURRENT_ARM_LENGTH_DEADBAND = 0.2;
         private final static double CURRENT_GEAR1_MAX_SPEED = 0.25;
         private final static double CURRENT_GEAR2_MAX_SPEED = 0.5;
         private final static double CURRENT_GEAR3_MAX_SPEED = 0.7;
@@ -367,6 +387,8 @@ public class Hardware
         private final static int CURRENT_EBRAKE_REV_PORT = 5;
         private final static int CURRENT_ARM_RAISE_FWD_PORT = 0;
         private final static int CURRENT_ARM_RAISE_REV_PORT = 1;
+        private final static int CURRENT_CLAW_FWD_PORT = 6;
+        private final static int CURRENT_CLAW_REV_PORT = 7;
         private final static int CURRENT_REDLIGHTSENSOR_PORT = 7;
 
         } // end class
