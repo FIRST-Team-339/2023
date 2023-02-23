@@ -207,38 +207,39 @@ public class Teleop
             }
 
         // Arm motor controls
-        if (Hardware.rightOperator.getY() >= -0.2
-                && Hardware.rightOperator.getY() <= 0.2)
+        if (Hardware.rightOperator.getY() >= -Hardware.armControlDeadband
+                && Hardware.rightOperator.getY() <= Hardware.armControlDeadband)
             {
-            Hardware.armRaiseMotor.set(0.2);
+            Hardware.armRaiseMotor.set(Hardware.armControlHoldSpeed);
             }
         else
             {
-            if (Hardware.rightOperator.getY() < -0.2)
+            if (Hardware.rightOperator.getY() < -Hardware.armControlDeadband)
                 {
                 Hardware.armRaiseMotor
-                        .set(1.25 * Hardware.rightOperator.getY() + 0.25);
+                        .set(1.25156445 * Hardware.rightOperator.getY()
+                                + 0.25156445);
                 }
-            if (Hardware.rightOperator.getY() > 0.2)
+            if (Hardware.rightOperator.getY() > Hardware.armControlDeadband)
                 {
                 Hardware.armRaiseMotor
                         .set(1.25 * Hardware.rightOperator.getY() - 0.25);
                 }
             }
 
-        if (Hardware.leftOperator.getY() >= -0.2
-                && Hardware.leftOperator.getY() <= 0.2)
+        if (Hardware.leftOperator.getY() >= -Hardware.armLengthDeadband
+                && Hardware.leftOperator.getY() <= Hardware.armLengthDeadband)
             {
-            Hardware.armLengthMotor.set(0.0);
+            Hardware.armLengthMotor.set(Hardware.armLengthHoldSpeed);
             }
         else
             {
-            if (Hardware.leftOperator.getY() < -0.2)
+            if (Hardware.leftOperator.getY() < -Hardware.armLengthDeadband)
                 {
                 Hardware.armLengthMotor
                         .set(1.25 * Hardware.leftOperator.getY() + 0.25);
                 }
-            if (Hardware.leftOperator.getY() > 0.2)
+            if (Hardware.leftOperator.getY() > Hardware.armLengthDeadband)
                 {
                 Hardware.armLengthMotor
                         .set(1.25 * Hardware.leftOperator.getY() - 0.25);
@@ -276,21 +277,9 @@ public class Teleop
             Hardware.transmission.drive(Hardware.leftDriver.getY(),
                     Hardware.rightDriver.getY());
             }
-        else
-            {
-            Hardware.transmission.drive(0, 0);
-            }
 
         armControl();
         manageEBrake();
-        if (Hardware.eBrakeTimerIsStopped == false)
-            {
-            // Hardware.transmission.shiftGears(Hardware.rightDriver.getTrigger(),
-            // Hardware.leftDriver.getTrigger());
-            // Hardware.transmission.drive(Hardware.leftDriver.getY(),
-            // Hardware.rightDriver.getY());
-            }
-
         /*
          * if (Hardware.tenPot.get(0, 3600) < 100.0 || Hardware.tenPot.get(0,
          * 3600) > 150.0) { // System.out.println("false"); } else {
@@ -330,13 +319,9 @@ public class Teleop
         // System.out.println("Disable Auto Switch value: "
         // + Hardware.disableAutoSwitch.isOn());
 
-        /////////// LEFT RIGHT NONE SWITCH ///////////
-        // System.out.println("leftRightNoneSwitch Position: "
-        // + Hardware.leftRightNoneSwitch.getPosition());
-
         // ---------- ANALOG -----------
 
-        // System.out.println("delayPot = " + Hardware.delayPot.get(0.0, 5.0));
+        // System.out.println("delayPot = " + Hardware.delayPot.get());
 
         // -------- SUBSYSTEMS ---------
 
@@ -348,8 +333,8 @@ public class Teleop
         // ========== OUTPUTS ==========
 
         // ---------- DIGITAL ----------
-        // System.out.println(
-        // "disableAutoSwitch = " + Hardware.disableAutoSwitch.isOn());
+        // System.out.println("disableAutoSwitch = " +
+        // Hardware.disableAutoSwitch.isOn());
         // ---------- ANALOG -----------
 
         // ----------- CAN -------------
