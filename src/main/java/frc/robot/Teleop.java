@@ -210,7 +210,7 @@ public class Teleop
         if (Hardware.rightOperator.getY() >= -0.2
                 && Hardware.rightOperator.getY() <= 0.2)
             {
-            Hardware.armRaiseMotor.set(0.2);
+            Hardware.armRaiseMotor.set(0.0);
             }
         else
             {

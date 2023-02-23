@@ -77,6 +77,7 @@ public class Hardware
                                         18);
                         redLightSensor = new LightSensor(
                                         CURRENT_REDLIGHTSENSOR_PORT);
+                        leftRightNoneSwitch = new DoubleThrowSwitch(11, 12);
                         // ============ANALOG INIT============
 
                         // ==============CAN INIT=============
@@ -144,15 +145,15 @@ public class Hardware
                         tenTurnPot = new Potentiometer(TEN_TURN_DELAY_POT_PORT,
                                         10 * 360.0);
 
-                        // clawPiston = new DoubleSolenoid(6, 7);
-                        // eBrake = new DoubleSolenoid(CURRENT_EBRAKE_FWD_PORT,
-                        // CURRENT_EBRAKE_REV_PORT);
-                        // armRaisePiston = new DoubleSolenoid(
-                        // CURRENT_ARM_RAISE_FWD_PORT,
-                        // CURRENT_ARM_RAISE_REV_PORT);
-                        // clawPiston.setForward(true);
-                        // eBrake.setForward(true);
-                        // armRaisePiston.setForward(true);
+                        clawPiston = new DoubleSolenoid(6, 7);
+                        eBrake = new DoubleSolenoid(CURRENT_EBRAKE_FWD_PORT,
+                                        CURRENT_EBRAKE_REV_PORT);
+                        armRaisePiston = new DoubleSolenoid(
+                                        CURRENT_ARM_RAISE_FWD_PORT,
+                                        CURRENT_ARM_RAISE_REV_PORT);
+                        clawPiston.setForward(true);
+                        eBrake.setForward(true);
+                        armRaisePiston.setForward(true);
                         } // end of current year
 
                 if (robotIdentity == Identifier.PrevYear)
