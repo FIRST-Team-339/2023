@@ -77,6 +77,7 @@ public class Hardware
                                         18);
                         redLightSensor = new LightSensor(
                                         CURRENT_REDLIGHTSENSOR_PORT);
+                        leftRightNoneSwitch = new DoubleThrowSwitch(11, 12);
                         // ============ANALOG INIT============
 
                         // ==============CAN INIT=============
