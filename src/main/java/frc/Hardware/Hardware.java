@@ -69,7 +69,7 @@ public class Hardware
 
         public static void initialize()
         {
-                if (robotIdentity == Identifier.CurrentYear)
+                if (robotIdentity == Identifier.PrevYear)
                         {
                         // ==============DIO INIT=============
                         disableAutoSwitch = new SingleThrowSwitch(10);

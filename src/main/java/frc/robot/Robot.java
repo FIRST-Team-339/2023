@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import frc.Hardware.Hardware;
 
 /**
@@ -21,12 +22,13 @@ public class Robot extends TimedRobot
     {
 
     /**
-     * ------------------------------------------------------- This function is run
-     * when the robot is first started up and should be used for any initialization
-     * code for the robot.
+     * ------------------------------------------------------- This function is
+     * run when the robot is first started up and should be used for any
+     * initialization code for the robot.
      *
      * @author Bob Brown
-     * @written Jan 2, 2011 -------------------------------------------------------
+     * @written Jan 2, 2011
+     *          -------------------------------------------------------
      */
     @Override
     public void robotInit()
@@ -44,19 +46,18 @@ public class Robot extends TimedRobot
         // setup
         // ---------------------------------------
 
-        System.out.println("Kilroy "
-                + Hardware.robotIdentity
+        System.out.println("Kilroy " + Hardware.robotIdentity
                 + " has started.  All hardware items created.");
     } // end robotInit()
 
     /**
-     * This function is called every robot packet, no matter the mode. Use this for
-     * items like diagnostics that you want ran during disabled, autonomous,
+     * This function is called every robot packet, no matter the mode. Use this
+     * for items like diagnostics that you want ran during disabled, autonomous,
      * teleoperated and test.
      *
      * <p>
-     * This runs after the mode specific periodic functions, but before LiveWindow
-     * and SmartDashboard integrated updating.
+     * This runs after the mode specific periodic functions, but before
+     * LiveWindow and SmartDashboard integrated updating.
      */
     @Override
     public void robotPeriodic()
@@ -64,9 +65,9 @@ public class Robot extends TimedRobot
     } // end robotPeriodic()
 
     /**
-     * ------------------------------------------------------- Initialization code
-     * for autonomous mode should go here. Will be called once when the robot enters
-     * autonomous mode.
+     * ------------------------------------------------------- Initialization
+     * code for autonomous mode should go here. Will be called once when the
+     * robot enters autonomous mode.
      *
      * @author Bob Brown
      * @written Jan 2, 2011
@@ -94,9 +95,9 @@ public class Robot extends TimedRobot
     /**
      * ------------------------------------------------------- Non-User Periodic
      * code for autonomous mode should go here. Will be called periodically at a
-     * regular rate while the robot is in autonomous mode. This in turn calls the
-     * Autonomous class's Periodic function, which is where the user code should be
-     * placed.
+     * regular rate while the robot is in autonomous mode. This in turn calls
+     * the Autonomous class's Periodic function, which is where the user code
+     * should be placed.
      *
      * @author Bob Brown
      * @written Jan 2, 2011
@@ -111,12 +112,13 @@ public class Robot extends TimedRobot
     }// end autonomousPeriodic()
 
     /**
-     * ------------------------------------------------------- Initialization code
-     * for disabled mode should go here. Will be called once when the robot enters
-     * disabled mode.
+     * ------------------------------------------------------- Initialization
+     * code for disabled mode should go here. Will be called once when the robot
+     * enters disabled mode.
      *
      * @author Bob Brown
-     * @written Jan 2, 2011 -------------------------------------------------------
+     * @written Jan 2, 2011
+     *          -------------------------------------------------------
      */
     @Override
     public void disabledInit()
@@ -136,13 +138,14 @@ public class Robot extends TimedRobot
 
     /**
      * ------------------------------------------------------- Periodic code for
-     * disabled mode should go here. Will be called periodically at a regular rate
-     * while the robot is in disabled mode. Code that can be "triggered" by a
-     * joystick button can go here. This can set up configuration things at the
-     * driver's station for instance before a match.
+     * disabled mode should go here. Will be called periodically at a regular
+     * rate while the robot is in disabled mode. Code that can be "triggered" by
+     * a joystick button can go here. This can set up configuration things at
+     * the driver's station for instance before a match.
      *
      * @author Bob Brown
-     * @written Jan 2, 2011 -------------------------------------------------------
+     * @written Jan 2, 2011
+     *          -------------------------------------------------------
      */
     @Override
     public void disabledPeriodic()
@@ -152,12 +155,13 @@ public class Robot extends TimedRobot
 
     /**
      * ------------------------------------------------------ Non-User
-     * initialization code for teleop mode should go here. Will be called once when
-     * the robot enters teleop mode, and will call the Teleop class's Init function,
-     * where the User code should be placed.
+     * initialization code for teleop mode should go here. Will be called once
+     * when the robot enters teleop mode, and will call the Teleop class's Init
+     * function, where the User code should be placed.
      *
      * @author Bob Brown
-     * @written Jan 2, 2011 -------------------------------------------------------
+     * @written Jan 2, 2011
+     *          -------------------------------------------------------
      */
     @Override
     public void teleopInit()
@@ -179,12 +183,13 @@ public class Robot extends TimedRobot
 
     /**
      * ------------------------------------------------------- Non-User Periodic
-     * code for teleop mode should go here. Will be called periodically at a regular
-     * rate while the robot is in teleop mode, and will in turn call the Teleop
-     * class's Periodic function.
+     * code for teleop mode should go here. Will be called periodically at a
+     * regular rate while the robot is in teleop mode, and will in turn call the
+     * Teleop class's Periodic function.
      *
      * @author Bob Brown
-     * @written Jan 2, 2011 -------------------------------------------------------
+     * @written Jan 2, 2011
+     *          -------------------------------------------------------
      */
     @Override
     public void teleopPeriodic()
@@ -199,12 +204,13 @@ public class Robot extends TimedRobot
     } // end teleopPeriodic()
 
     /**
-     * ------------------------------------------------------- Initialization code
-     * for test mode should go here. Will be called once when the robot enters test
-     * mode.
+     * ------------------------------------------------------- Initialization
+     * code for test mode should go here. Will be called once when the robot
+     * enters test mode.
      *
      * @author Bob Brown
-     * @written Jan 2, 2015 ------------------------------------------------------
+     * @written Jan 2, 2015
+     *          ------------------------------------------------------
      */
     @Override
     public void testInit()

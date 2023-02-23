@@ -31,6 +31,7 @@
 // ====================================================================
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Relay;
 import frc.Hardware.Hardware;
 import frc.Utils.drive.Drive;
 
@@ -67,13 +68,15 @@ public class Autonomous
         Hardware.drive.setGear(0);
         Hardware.drive.setGearPercentage(0, AUTO_GEAR);
         Hardware.drive.setBrakeStoppingDistance(7.5);
+        // Hardware.testGyro.reset();
 
         if (Hardware.disableAutoSwitch.isOn() == true)
             {
             // added delay potentionmeter working
 
             // =========================
-            // when in the six position switch is in a certain it will do one of
+            // when in the six position switch is in a certain it will do
+            // one of
             // the following
             // =========================
             System.out.println("Six Position Switch value: "
@@ -81,18 +84,23 @@ public class Autonomous
             switch (Hardware.sixPosSwitch.getPosition())
                 {
                 // =========================
-                // Postition 1: when the robot is in the shorter length of the
+                // Postition 1: when the robot is in the shorter length of
+                // the
                 // community it will be placed 4 inches away from the line,
-                // drive forward 140 inches, and stop 16 inches away from the
+                // drive forward 140 inches, and stop 16 inches away from
+                // the
                 // game piece then stops
                 // =========================
                 case 0:
                     autoPath = AUTO_PATH.DRIVE_ONLY_FORWARD;
                     break;
                 // =========================
-                // Position 2: The robot is placed 3 inches away from the line
-                // of the long side of the community and 8 inches away from the
-                // charging station, drive 44 inches forward, turns 90 degrees
+                // Position 2: The robot is placed 3 inches away from the
+                // line
+                // of the long side of the community and 8 inches away from
+                // the
+                // charging station, drive 44 inches forward, turns 90
+                // degrees
                 // in a direction that will be controlled or just stops by a
                 // double throw switch, then drive 44 inches and stops
                 // =========================
@@ -208,7 +216,7 @@ public class Autonomous
                     }
                 return false;
             case DRIVE:
-                if (Hardware.rightBottomEncoder.getDistance() > -133.5)
+                if (Math.abs(Hardware.rightBottomEncoder.getDistance()) < 133.5)
                     {
                     Hardware.drive.accelerateProportionaly(-0.22, -0.22, 2);
                     }
@@ -225,7 +233,7 @@ public class Autonomous
                 return false;
             case END:
                 Hardware.drive.stop();
-                return true;
+                return false;
             default:
                 return false;
             }
@@ -242,11 +250,13 @@ public class Autonomous
         switch (driveTurnDriveState)
             {
             case INIT:
+                System.out.println("Started " + driveTurnDriveState);
                 Hardware.autoTimer.start();
                 driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.DELAY;
                 return false;
 
             case DELAY:
+                System.out.println("Started " + driveTurnDriveState);
                 if (Hardware.autoTimer.get() >= delayTime)
                     {
                     driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.DRIVE_ONE;
@@ -254,7 +264,8 @@ public class Autonomous
                 return false;
 
             case DRIVE_ONE:
-                if (Hardware.rightBottomEncoder.getDistance() > -44)
+                System.out.println("Started " + driveTurnDriveState);
+                if (Math.abs(Hardware.rightBottomEncoder.getDistance()) < 44)
                     {
                     Hardware.drive.accelerateProportionaly(-0.22, -0.22, 2);
                     }
@@ -265,6 +276,7 @@ public class Autonomous
                 return false;
 
             case STOP_ONE:
+                System.out.println("Started " + driveTurnDriveState);
                 if (Hardware.drive.brake(Drive.BrakeType.AFTER_DRIVE))
                     {
                     driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.TURN;
@@ -272,46 +284,69 @@ public class Autonomous
                 return false;
 
             case TURN:
-                Hardware.rightBottomEncoder.reset();
-                switch (Hardware.leftRightNoneSwitch.getPosition())
+                System.out.println("Started " + driveTurnDriveState);
+                System.out.println(
+                        Math.abs(Hardware.rightBottomEncoder.getDistance()));
+                /*
+                 * switch (Hardware.leftRightNoneSwitch.getPosition()) { case
+                 * kOff: driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.STOP_TWO;
+                 * break;
+                 * 
+                 * case kForward: //
+                 * Hardware.drive.accelerateProportionaly(0.22, -0.22, // 9); if
+                 * (Hardware.drive.turnDegrees(90, 0.22, 0.99, false)) {
+                 * driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.STOP_TURN; }
+                 * break;
+                 * 
+                 * case kReverse: //
+                 * Hardware.drive.accelerateProportionaly(-0.22, 0.22, // 9); if
+                 * (Hardware.drive.turnDegrees(90, 0.22, 0.99, false)) {
+                 * driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.STOP_TURN; }
+                 * break;
+                 * 
+                 * default: break;
+                 * 
+                 * }
+                 */
+
+                if (Hardware.leftRightNoneSwitch
+                        .getPosition() == Relay.Value.kOff)
                     {
-                    case kOff:
-                        driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.STOP_TWO;
-                        break;
-
-                    case kForward:
-                        // Hardware.drive.accelerateProportionaly(0.22, -0.22,
-                        // 9);
-                        if (Hardware.drive.turnDegrees(90, 0.22, 0.99, false))
-                            {
-                            driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.STOP_TURN;
-                            }
-                        break;
-
-                    case kReverse:
-                        // Hardware.drive.accelerateProportionaly(-0.22, 0.22,
-                        // 9);
-                        if (Hardware.drive.turnDegrees(90, 0.22, 0.99, false))
-                            {
-                            driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.STOP_TURN;
-                            }
-                        break;
-
-                    default:
-                        break;
-
+                    driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.END;
                     }
+
+                if (Hardware.leftRightNoneSwitch
+                        .getPosition() == Relay.Value.kForward)
+                    {
+                    if (Hardware.drive.turnDegrees(90, -0.22, 0.99, false))
+                        {
+                        driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.STOP_TURN;
+                        }
+                    }
+
+                if (Hardware.leftRightNoneSwitch
+                        .getPosition() == Relay.Value.kReverse)
+                    {
+                    if (Hardware.drive.turnDegrees(-90, -0.22, 0.99, false))
+                        {
+                        driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.STOP_TURN;
+                        }
+                    }
+
                 return false;
 
             case STOP_TURN:
+                System.out.println("Started " + driveTurnDriveState);
                 Hardware.drive.brake(Drive.BrakeType.AFTER_TURN);
-                driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.DRIVE_TWO;
+                if (Hardware.drive.brake(Drive.BrakeType.AFTER_TURN))
+                    {
+                    driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.DRIVE_TWO;
+                    }
                 return false;
 
             case DRIVE_TWO:
-                Hardware.rightBottomEncoder.reset();
-
-                if (Hardware.rightBottomEncoder.getDistance() > -44)
+                System.out.println("Started " + driveTurnDriveState);
+                if (Math.abs(Hardware.rightBottomEncoder.getDistance()) < 44)
                     {
                     Hardware.drive.accelerateProportionaly(-0.22, -0.22, 2);
                     }
@@ -322,6 +357,7 @@ public class Autonomous
                 return false;
 
             case STOP_TWO:
+                System.out.println("Started " + driveTurnDriveState);
                 if (Hardware.drive.brake(Drive.BrakeType.AFTER_DRIVE))
                     {
                     driveOnlyForwardState = DRIVE_ONLY_FORWARD_STATE.END;
@@ -329,6 +365,7 @@ public class Autonomous
                 return false;
 
             case END:
+                System.out.println("Started " + driveTurnDriveState);
                 Hardware.drive.stop();
                 return false;
 
