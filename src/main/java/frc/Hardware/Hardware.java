@@ -139,8 +139,6 @@ public class Hardware
                         autoTimer = new Timer();
 
                         delayPot = new Potentiometer(CURRENT_DELAY_POT_PORT);
-                        tenTurnPot = new Potentiometer(TEN_TURN_DELAY_POT_PORT,
-                                        10 * 360.0);
 
                         armControlHoldSpeed = CURRENT_ARM_CONTROL_HOLD_SPEED;
                         armLengthHoldSpeed = CURRENT_ARM_LENGTH_HOLD_SPEED;
@@ -162,8 +160,8 @@ public class Hardware
                 if (robotIdentity == Identifier.PrevYear)
                         {
                         // ==============DIO INIT=============
-                        sixPosSwitch = new SixPositionSwitch(14, 15, 16, 17, 19,
-                                        20);
+                        sixPosSwitch = new SixPositionSwitch(13, 14, 15, 16, 17,
+                                        18);
                         disableAutoSwitch = new SingleThrowSwitch(10);
 
                         redLightSensor = new LightSensor(
@@ -232,8 +230,6 @@ public class Hardware
                         autoTimer = new Timer();
 
                         delayPot = new Potentiometer(PREV_DELAY_POT_PORT);
-                        tenTurnPot = new Potentiometer(TEN_TURN_DELAY_POT_PORT,
-                                        10 * 360.0);
 
                         clawPiston = new DoubleSolenoid(PREV_CLAW_FWD_PORT,
                                         PREV_CLAW_REV_PORT);
@@ -341,8 +337,9 @@ public class Hardware
         public static KilroyUSBCamera cameras = new KilroyUSBCamera(true);
         public static MomentarySwitch switchCameraViewButton10 = new MomentarySwitch(
                         rightOperator, 10, false);
-        public static MomentarySwitch switchCameraViewButton11 = new MomentarySwitch(
-                        rightOperator, 11, false);
+        // public static MomentarySwitch switchCameraViewButton11 = new
+        // MomentarySwitch(
+        // rightOperator, 11, false);
 
         // -------------------
         // Subassemblies
@@ -365,7 +362,7 @@ public class Hardware
         private final static double PREV_GEAR3_MAX_SPEED = 0.7;
         private final static int PREV_DELAY_POT_PORT = 1;
         private final static double PREV_DISTANCE_PER_PULSE = 0.000760062738772;
-        private final static int TEN_TURN_DELAY_POT_PORT = 0;
+        // private final static int TEN_TURN_DELAY_POT_PORT = 0;
         private final static int PREV_EBRAKE_FWD_PORT = 4;
         private final static int PREV_EBRAKE_REV_PORT = 5;
         private final static int PREV_ARM_RAISE_FWD_PORT = 0;

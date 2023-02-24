@@ -263,12 +263,14 @@ public class Teleop
 
         // ================= OPERATOR CONTROLS ================
 
-        //
-        Hardware.cameras.switchCameras(Hardware.switchCameraViewButton10,
-                Hardware.switchCameraViewButton11);
+        // ---------------------------
+        // manage the camera view
+        // ---------------------------
+        Hardware.cameras.switchCameras(Hardware.switchCameraViewButton10);
+
         // -------------------------
         // If eBrake has not overridden our ability to
-        // drive
+        // drive, use the drivers joysticks to drive.
         // ----------------------------
         if (Hardware.eBrakeTimerIsStopped == true)
             {
@@ -276,21 +278,20 @@ public class Teleop
                     Hardware.leftDriver.getTrigger());
             Hardware.transmission.drive(Hardware.leftDriver.getY(),
                     Hardware.rightDriver.getY());
-            }
+            } // if
 
+        // --------------------------
+        // control the eBrake and
+        // the arm by the operator
+        // ----------------------------
         armControl();
         manageEBrake();
-
-        /*
-         * if (Hardware.tenPot.get(0, 3600) < 100.0 || Hardware.tenPot.get(0,
-         * 3600) > 150.0) { // System.out.println("false"); } else {
-         * System.out.println("true");
-         * 
-         * }
-         */
+        // --------------------------
+        // all print statement and
+        // individual testing function
+        // --------------------------
         printStatements();
         individualTest();
-        // Hardware.armRaiseMotor.set(.5);
     }
 
     public static void individualTest()
@@ -308,15 +309,15 @@ public class Teleop
 
         // Encoder Distances
         // System.out.println(
-        // "LB encoder DIST =" + Hardware.leftBottomEncoder.getDistance());
-        // System.out.println("RB encoder DIST ="
+        // "LB encoder DIST = " + Hardware.leftBottomEncoder.getDistance());
+        // System.out.println("RB encoder DIST = "
         // + Hardware.rightBottomEncoder.getDistance());
 
         // Encoder Raw Values
         // System.out.println(
-        // "LB encoder RAW =" + Hardware.leftBottomEncoder.getRaw());
+        // "LB encoder RAW = " + Hardware.leftBottomEncoder.getRaw());
         // System.out.println(
-        // "RB encoder RAW =" + Hardware.rightBottomEncoder.getRaw());
+        // "RB encoder RAW = " + Hardware.rightBottomEncoder.getRaw());
         // Switch Values
 
         /////////// SIX POSITION SWITCH ///////////
@@ -327,9 +328,12 @@ public class Teleop
         // System.out.println("Disable Auto Switch value: "
         // + Hardware.disableAutoSwitch.isOn());
 
-        // ---------- ANALOG -----------
+        // ----------------LeftRightNone Switch -----------
+        // System.out.println(
+        // "LRNone SW = " + Hardware.leftRightNoneSwitch.getPosition());
 
-        // System.out.println("delayPot = " + Hardware.delayPot.get());
+        // ---------- ANALOG -----------
+        // System.out.println("delayPot = " + Hardware.delayPot.get(0.0, 5.0));
 
         // -------- SUBSYSTEMS ---------
 
