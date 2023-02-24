@@ -65,11 +65,11 @@ public class Hardware
                 CurrentYear, PrevYear
                 };
 
-        public static Identifier robotIdentity = Identifier.CurrentYear;
+        public static Identifier robotIdentity = Identifier.PrevYear;
 
         public static void initialize()
         {
-                if (robotIdentity == Identifier.PrevYear)
+                if (robotIdentity == Identifier.CurrentYear)
                         {
                         // ==============DIO INIT=============
                         disableAutoSwitch = new SingleThrowSwitch(10);
@@ -98,11 +98,15 @@ public class Hardware
                                         (WPI_TalonFX) rightBottomMotor);
                         rightBottomEncoder.setDistancePerPulse(
                                         CURRENT_DISTANCE_PER_PULSE);
+                        rightBottomEncoder.reset();
+                        rightBottomEncoder.setReverseDirection(false);
 
                         leftBottomEncoder = new KilroyEncoder(
                                         (WPI_TalonFX) leftBottomMotor);
                         leftBottomEncoder.setDistancePerPulse(
                                         CURRENT_DISTANCE_PER_PULSE);
+                        leftBottomEncoder.reset();
+                        leftBottomEncoder.setReverseDirection(false);
 
                         leftSideMotors = new MotorControllerGroup(
                                         leftBottomMotor, leftTopMotor);
@@ -116,11 +120,6 @@ public class Hardware
                         armRaiseMotor.setInverted(false);
 
                         // Encoders
-                        rightBottomEncoder = new KilroyEncoder(
-                                        (WPI_TalonFX) rightBottomMotor);
-
-                        rightBottomEncoder.setDistancePerPulse(
-                                        CURRENT_DISTANCE_PER_PULSE);
                         // ==============RIO INIT==============
 
                         // =============OTHER INIT============
@@ -190,16 +189,21 @@ public class Hardware
 
                         rightBottomEncoder = new KilroyEncoder(
                                         (WPI_TalonFX) rightBottomMotor);
-
                         rightBottomEncoder.setDistancePerPulse(
                                         PREV_DISTANCE_PER_PULSE);
-                        leftBottomEncoder = new KilroyEncoder(
-                                        (WPI_TalonFX) rightBottomMotor);
+                        rightBottomEncoder.reset();
+                        rightBottomEncoder.setReverseDirection(true);
 
+                        leftBottomEncoder = new KilroyEncoder(
+                                        (WPI_TalonFX) leftBottomMotor);
                         leftBottomEncoder.setDistancePerPulse(
                                         PREV_DISTANCE_PER_PULSE);
+                        leftBottomEncoder.reset();
+                        leftBottomEncoder.setReverseDirection(true);
+
                         leftSideMotors = new MotorControllerGroup(
                                         leftBottomMotor, leftTopMotor);
+
                         rightSideMotors = new MotorControllerGroup(
                                         rightBottomMotor, rightTopMotor);
 
@@ -263,7 +267,6 @@ public class Hardware
 
         public static KilroyEncoder rightBottomEncoder = null;
         public static KilroyEncoder leftBottomEncoder = null;
-        public static MotorController armMotorX = null;
         public static MotorController armLengthMotor = null;
         public static MotorController armRaiseMotor = null;
         // **********************************************************
@@ -353,7 +356,7 @@ public class Hardware
         // Previous year's constants
         // --------------------
         public final static double PREV_DEADBAND = 0.2;
-        public final static double PREV_ARM_CONTROL_HOLD_SPEED = 2.0;
+        public final static double PREV_ARM_CONTROL_HOLD_SPEED = 0.1;
         public final static double PREV_ARM_LENGTH_HOLD_SPEED = 0.0;
         public final static double PREV_ARM_CONTROL_DEADBAND = 0.2;
         public final static double PREV_ARM_LENGTH_DEADBAND = 0.2;
