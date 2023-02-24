@@ -307,9 +307,16 @@ public class Teleop
         // ---------- DIGITAL ----------
 
         // Encoder Distances
+        // System.out.println(
+        // "LB encoder DIST =" + Hardware.leftBottomEncoder.getDistance());
+        // System.out.println("RB encoder DIST ="
+        // + Hardware.rightBottomEncoder.getDistance());
 
         // Encoder Raw Values
-
+        // System.out.println(
+        // "LB encoder RAW =" + Hardware.leftBottomEncoder.getRaw());
+        // System.out.println(
+        // "RB encoder RAW =" + Hardware.rightBottomEncoder.getRaw());
         // Switch Values
 
         /////////// SIX POSITION SWITCH ///////////
