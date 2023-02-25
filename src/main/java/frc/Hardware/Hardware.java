@@ -155,6 +155,8 @@ public class Hardware
                         clawPiston.setForward(true);
                         eBrake.setForward(true);
                         armRaisePiston.setForward(true);
+
+                        eBrakeDelayTime = CURRENT_EBRAKETIMER_DELAY;
                         } // end of current year
 
                 if (robotIdentity == Identifier.PrevYear)
@@ -243,6 +245,8 @@ public class Hardware
                         armLengthHoldSpeed = PREV_ARM_LENGTH_HOLD_SPEED;
                         armControlDeadband = PREV_ARM_CONTROL_DEADBAND;
                         armLengthDeadband = PREV_ARM_LENGTH_DEADBAND;
+
+                        eBrakeDelayTime = PREV_EBRAKETIMER_DELAY;
                         } // end of previous year
                 // ---------------------------------
                 // required for both years
@@ -346,6 +350,7 @@ public class Hardware
         public static double armLengthHoldSpeed;
         public static double armControlDeadband;
         public static double armLengthDeadband;
+        public static double eBrakeDelayTime;
         // --------------------
         // Previous year's constants
         // --------------------
@@ -354,17 +359,18 @@ public class Hardware
         public final static double PREV_ARM_LENGTH_HOLD_SPEED = 0.0;
         public final static double PREV_ARM_CONTROL_DEADBAND = 0.2;
         public final static double PREV_ARM_LENGTH_DEADBAND = 0.2;
+        private final static double PREV_EBRAKETIMER_DELAY = 5.0;
         private final static double PREV_GEAR1_MAX_SPEED = 0.3;
         private final static double PREV_GEAR2_MAX_SPEED = 0.5;
         private final static double PREV_GEAR3_MAX_SPEED = 0.7;
         private final static int PREV_DELAY_POT_PORT = 2;
         private final static double PREV_DISTANCE_PER_PULSE = 0.000760062738772;
-        private final static int PREV_EBRAKE_FWD_PORT = 6;
-        private final static int PREV_EBRAKE_REV_PORT = 7;
+        private final static int PREV_EBRAKE_FWD_PORT = 4;
+        private final static int PREV_EBRAKE_REV_PORT = 5;
         private final static int PREV_ARM_RAISE_FWD_PORT = 0;
         private final static int PREV_ARM_RAISE_REV_PORT = 1;
-        private final static int PREV_CLAW_FWD_PORT = 4;
-        private final static int PREV_CLAW_REV_PORT = 5;
+        private final static int PREV_CLAW_FWD_PORT = 6;
+        private final static int PREV_CLAW_REV_PORT = 7;
         private final static int PREV_REDLIGHTSENSOR_PORT = 7;
         // --------------------
         // Current year's constants
@@ -374,17 +380,18 @@ public class Hardware
         public final static double CURRENT_ARM_LENGTH_HOLD_SPEED = 0.0;
         public final static double CURRENT_ARM_CONTROL_DEADBAND = 0.2;
         public final static double CURRENT_ARM_LENGTH_DEADBAND = 0.2;
+        public final static double CURRENT_EBRAKETIMER_DELAY = 1.5;
         private final static double CURRENT_GEAR1_MAX_SPEED = 0.25;
         private final static double CURRENT_GEAR2_MAX_SPEED = 0.5;
         private final static double CURRENT_GEAR3_MAX_SPEED = 0.7;
         private final static int CURRENT_DELAY_POT_PORT = 1;
         private final static double CURRENT_DISTANCE_PER_PULSE = 0.01;
-        private final static int CURRENT_EBRAKE_FWD_PORT = 6;
-        private final static int CURRENT_EBRAKE_REV_PORT = 7;
+        private final static int CURRENT_EBRAKE_FWD_PORT = 4;
+        private final static int CURRENT_EBRAKE_REV_PORT = 5;
         private final static int CURRENT_ARM_RAISE_FWD_PORT = 0;
         private final static int CURRENT_ARM_RAISE_REV_PORT = 1;
-        private final static int CURRENT_CLAW_FWD_PORT = 4;
-        private final static int CURRENT_CLAW_REV_PORT = 5;
+        private final static int CURRENT_CLAW_FWD_PORT = 6;
+        private final static int CURRENT_CLAW_REV_PORT = 7;
         private final static int CURRENT_REDLIGHTSENSOR_PORT = 7;
 
         } // end class

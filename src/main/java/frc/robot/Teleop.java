@@ -135,7 +135,8 @@ public class Teleop
             // Reactivates the drive motors and stops the eBrake timer
             // =========================
             if ((Hardware.eBrake.getForward() == false)
-                    && ((Hardware.eBrakeTimer.hasElapsed(3.0))
+                    && ((Hardware.eBrakeTimer
+                            .hasElapsed(Hardware.eBrakeDelayTime))
                             || Hardware.eBrakeTimerIsStopped == true))
                 {
                 Hardware.eBrakeTimer.stop();
