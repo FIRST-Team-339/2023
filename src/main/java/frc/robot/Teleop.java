@@ -334,7 +334,7 @@ public class Teleop
         // "LRNone SW = " + Hardware.leftRightNoneSwitch.getPosition());
 
         // ---------- ANALOG -----------
-        // System.out.println("delayPot = " + Hardware.delayPot.get(0.0, 5.0));
+        System.out.println("delayPot = " + Hardware.delayPot.get(0.0, 5.0));
 
         // -------- SUBSYSTEMS ---------
 
