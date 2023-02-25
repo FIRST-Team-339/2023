@@ -147,11 +147,11 @@ public class Hardware
 
                         clawPiston = new DoubleSolenoid(CURRENT_CLAW_FWD_PORT,
                                         CURRENT_CLAW_REV_PORT);
-                        eBrake = new DoubleSolenoid(CURRENT_EBRAKE_FWD_PORT,
-                                        CURRENT_EBRAKE_REV_PORT);
-                        armRaisePiston = new DoubleSolenoid(
-                                        CURRENT_ARM_RAISE_FWD_PORT,
+                        eBrake = new DoubleSolenoid(CURRENT_ARM_RAISE_FWD_PORT,
                                         CURRENT_ARM_RAISE_REV_PORT);
+                        armRaisePiston = new DoubleSolenoid(
+                                        CURRENT_EBRAKE_FWD_PORT,
+                                        CURRENT_EBRAKE_REV_PORT);
                         clawPiston.setForward(true);
                         eBrake.setForward(true);
                         armRaisePiston.setForward(true);
@@ -354,6 +354,16 @@ public class Hardware
         public final static double PREV_ARM_LENGTH_HOLD_SPEED = 0.0;
         public final static double PREV_ARM_CONTROL_DEADBAND = 0.2;
         public final static double PREV_ARM_LENGTH_DEADBAND = 0.2;
+        // Value inputs for arm raise and arm length motors
+        // Value inputs for joystick values that control arm mtors
+        public final static double PREV_ARM_RAISE_MAX_SPEED = 0.8;
+        public final static double PREV_ARM_RAISE_MIN_SPEED_POSITIVE = 0.0;
+        public final static double PREV_ARM_RAISE_MIN_SPEED_NEGATIVE = 0.2;
+        public final static double PREV_ARM_LENGTH_MAX_SPEED = 0.5;
+        public final static double PREV_ARM_LENGTH_MIN_SPEED = 0.0;
+        public final static double PREV_MAX_JOYSTICK_OPERATOR_VALUE = 1.0;
+        public final static double PREV_MIN_JOYSTICK_OPERATOR_VALUE = 0.201;
+        // end of arm control values
         private final static double PREV_GEAR1_MAX_SPEED = 0.3;
         private final static double PREV_GEAR2_MAX_SPEED = 0.5;
         private final static double PREV_GEAR3_MAX_SPEED = 0.7;
