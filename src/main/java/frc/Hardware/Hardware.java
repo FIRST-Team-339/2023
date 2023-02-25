@@ -357,9 +357,8 @@ public class Hardware
         private final static double PREV_GEAR1_MAX_SPEED = 0.3;
         private final static double PREV_GEAR2_MAX_SPEED = 0.5;
         private final static double PREV_GEAR3_MAX_SPEED = 0.7;
-        private final static int PREV_DELAY_POT_PORT = 1;
+        private final static int PREV_DELAY_POT_PORT = 2;
         private final static double PREV_DISTANCE_PER_PULSE = 0.000760062738772;
-        // private final static int TEN_TURN_DELAY_POT_PORT = 0;
         private final static int PREV_EBRAKE_FWD_PORT = 4;
         private final static int PREV_EBRAKE_REV_PORT = 5;
         private final static int PREV_ARM_RAISE_FWD_PORT = 0;
