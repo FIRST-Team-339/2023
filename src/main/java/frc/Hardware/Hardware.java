@@ -163,12 +163,11 @@ public class Hardware
                         sixPosSwitch = new SixPositionSwitch(13, 14, 15, 16, 17,
                                         18);
                         disableAutoSwitch = new SingleThrowSwitch(10);
+                        disableAutoSwitch.setInverted(false);
 
                         redLightSensor = new LightSensor(
                                         PREV_REDLIGHTSENSOR_PORT);
                         leftRightNoneSwitch = new DoubleThrowSwitch(11, 12);
-
-                        // disableAutoSwitch.setInverted(true);
 
                         // ============ANALOG INIT============
 
@@ -205,8 +204,6 @@ public class Hardware
                         rightSideMotors = new MotorControllerGroup(
                                         rightBottomMotor, rightTopMotor);
 
-                        // armLengthMotor = new WPI_VictorSPX(23);
-                        // armRaiseMotor = new CANVenom(12);
                         armLengthMotor = new WPI_VictorSPX(26);
                         armRaiseMotor = new WPI_TalonFX(18);
 
