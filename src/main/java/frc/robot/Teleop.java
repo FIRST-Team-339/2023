@@ -308,10 +308,10 @@ public class Teleop
         // ---------- DIGITAL ----------
 
         // Encoder Distances
-        System.out.println("LB encoder DIST = "
-                + Hardware.leftBottomEncoder.getDistance());
-        System.out.println("RB encoder DIST = "
-                + Hardware.rightBottomEncoder.getDistance());
+        // System.out.println("LB encoder DIST = "
+        // + Hardware.leftBottomEncoder.getDistance());
+        // System.out.println("RB encoder DIST = "
+        // + Hardware.rightBottomEncoder.getDistance());
 
         // Encoder Raw Values
         // System.out.println(
@@ -333,7 +333,7 @@ public class Teleop
         // "LRNone SW = " + Hardware.leftRightNoneSwitch.getPosition());
 
         // ---------- ANALOG -----------
-        System.out.println("delayPot = " + Hardware.delayPot.get(0.0, 5.0));
+        // System.out.println("delayPot = " + Hardware.delayPot.get(0.0, 5.0));
 
         // -------- SUBSYSTEMS ---------
 
