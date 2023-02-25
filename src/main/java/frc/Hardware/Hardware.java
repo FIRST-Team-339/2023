@@ -157,6 +157,7 @@ public class Hardware
                         armRaisePiston.setForward(true);
 
                         eBrakeDelayTime = CURRENT_EBRAKETIMER_DELAY;
+                        eBrakeDeadband = CURRENT_DEADBAND;
                         } // end of current year
 
                 if (robotIdentity == Identifier.PrevYear)
@@ -247,6 +248,7 @@ public class Hardware
                         armLengthDeadband = PREV_ARM_LENGTH_DEADBAND;
 
                         eBrakeDelayTime = PREV_EBRAKETIMER_DELAY;
+                        eBrakeDeadband = PREV_DEADBAND;
                         } // end of previous year
                 // ---------------------------------
                 // required for both years
@@ -351,6 +353,7 @@ public class Hardware
         public static double armControlDeadband;
         public static double armLengthDeadband;
         public static double eBrakeDelayTime;
+        public static double eBrakeDeadband;
         // --------------------
         // Previous year's constants
         // --------------------
