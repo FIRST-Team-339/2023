@@ -196,7 +196,7 @@ public class Hardware
                         leftBottomEncoder.setDistancePerPulse(
                                         PREV_DISTANCE_PER_PULSE);
                         leftBottomEncoder.reset();
-                        leftBottomEncoder.setReverseDirection(false);
+                        leftBottomEncoder.setReverseDirection(true);
 
                         leftSideMotors = new MotorControllerGroup(
                                         leftBottomMotor, leftTopMotor);
