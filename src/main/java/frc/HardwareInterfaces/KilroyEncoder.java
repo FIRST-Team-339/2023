@@ -231,10 +231,7 @@ public class KilroyEncoder implements DoubleSupplier
         switch (type)
             {
             case CAN:
-                if (this.isReversed() == true)
-                    return distancePerTick * this.get();
-                else
-                    return distancePerTick * this.get();
+                return distancePerTick * this.get();
             case D_IO:
                 return dioSensor.getDistance();
             case REV_CAN:
