@@ -90,11 +90,11 @@ public class Teleop
         if (Hardware.eBrakeTimer.get() <= 0.001)
             {
             Hardware.eBrakeTimerIsStopped = true;
-            }
+            } // if
         else
             {
             Hardware.eBrakeTimerIsStopped = false;
-            }
+            } // else
 
         // =========================
         // when button 5 right driver is pushed
@@ -104,7 +104,7 @@ public class Teleop
             {
             Hardware.eBrakeMomentarySwitch2.setValue(false);
             Hardware.eBrake.setForward(true);
-            }
+            } // if
         // =========================
         // when button 6 left driver is pushed
         // Retracts the eBrake piston and affects drive
@@ -118,15 +118,18 @@ public class Teleop
             // and starts the eBrake timer
             // =========================
             Hardware.eBrakeMomentarySwitch1.setValue(false);
-            if ((Hardware.eBrake.getForward() == true) || ((Math
-                    .abs(Hardware.leftDriver.getY()) >= Hardware.PREV_DEADBAND)
+            if (Hardware.eBrake.getForward() == true)
+                {
+                Hardware.eBrake.setForward(false);
+                }
+            if (((Math
+                    .abs(Hardware.leftDriver.getY()) >= Hardware.eBrakeDeadband)
                     || (Math.abs(Hardware.rightDriver
-                            .getY()) >= Hardware.PREV_DEADBAND)))
+                            .getY()) >= Hardware.eBrakeDeadband)))
                 {
                 Hardware.eBrakeTimer.reset();
                 Hardware.eBrakeTimer.start();
-                Hardware.eBrake.setForward(false);
-                }
+                } // if
             // =========================
             // when the eBrake is retracted and the eBrake timer has passed
             // a
@@ -135,12 +138,26 @@ public class Teleop
             // Reactivates the drive motors and stops the eBrake timer
             // =========================
             if ((Hardware.eBrake.getForward() == false)
-                    && ((Hardware.eBrakeTimer.hasElapsed(3.0))
+                    && ((Hardware.eBrakeTimer
+                            .hasElapsed(Hardware.eBrakeDelayTime))
                             || Hardware.eBrakeTimerIsStopped == true))
                 {
                 Hardware.eBrakeTimer.stop();
-                }
-            }
+                Hardware.eBrakeMomentarySwitch2.setValue(false);
+                } // if
+            } // if
+        // =========================
+        // when the eBrake is retracted and the eBrake timer has passed a
+        // certain
+        // duration
+        // Reactivates the drive motors and stops the eBrake timer
+        // =========================
+        if ((Hardware.eBrake.getForward() == false)
+                && ((Hardware.eBrakeTimer.hasElapsed(Hardware.eBrakeDelayTime)
+                        || Hardware.eBrakeTimerIsStopped == true)))
+            {
+            Hardware.eBrakeTimer.stop();
+            } // if
         // =========================
         // when the retract button (left driver button 6) is pressed, eBrake is
         // not
@@ -149,27 +166,16 @@ public class Teleop
         // motors,
         // and starts the eBrake timer
         // =========================
-        if ((Hardware.eBrake.getForward() == true) && ((Math
-                .abs(Hardware.leftDriver.getY()) >= Hardware.PREV_DEADBAND)
-                || (Math.abs(Hardware.rightDriver
-                        .getY()) >= Hardware.PREV_DEADBAND)))
+        // if ((Hardware.eBrake.getForward() == true) && ((Math
+        // .abs(Hardware.leftDriver.getY()) >= Hardware.eBrakeDeadband)
+        // || (Math.abs(Hardware.rightDriver
+        // .getY()) >= Hardware.eBrakeDeadband)))
             {
-            Hardware.eBrakeTimer.reset();
-            Hardware.eBrakeTimer.start();
-            Hardware.eBrake.setForward(false);
-            }
-        // =========================
-        // when the eBrake is retracted and the eBrake timer has passed a
-        // certain
-        // duration
-        // Reactivates the drive motors and stops the eBrake timer
-        // =========================
-        if ((Hardware.eBrake.getForward() == false)
-                && ((Hardware.eBrakeTimer.hasElapsed(3.0))
-                        || Hardware.eBrakeTimerIsStopped == true))
-            {
-            Hardware.eBrakeTimer.stop();
-            }
+            // Hardware.eBrakeTimer.reset();
+            // Hardware.eBrakeTimer.start();
+            // Hardware.eBrake.setForward(false);
+            // Hardware.eBrakeMomentarySwitch2.setValue(false);
+            } // if
     } // end of manage ebrake()
 
     /**
