@@ -232,7 +232,7 @@ public class KilroyEncoder implements DoubleSupplier
             {
             case CAN:
                 if (this.isReversed() == true)
-                    return -distancePerTick * this.get();
+                    return distancePerTick * this.get();
                 else
                     return distancePerTick * this.get();
             case D_IO:

@@ -308,10 +308,10 @@ public class Teleop
         // ---------- DIGITAL ----------
 
         // Encoder Distances
-        // System.out.println(
-        // "LB encoder DIST = " + Hardware.leftBottomEncoder.getDistance());
-        // System.out.println("RB encoder DIST = "
-        // + Hardware.rightBottomEncoder.getDistance());
+        System.out.println("LB encoder DIST = "
+                + Hardware.leftBottomEncoder.getDistance());
+        System.out.println("RB encoder DIST = "
+                + Hardware.rightBottomEncoder.getDistance());
 
         // Encoder Raw Values
         // System.out.println(
