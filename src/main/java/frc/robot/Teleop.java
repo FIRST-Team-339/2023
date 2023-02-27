@@ -122,14 +122,6 @@ public class Teleop
                 {
                 Hardware.eBrake.setForward(false);
                 }
-            if ((Math
-                    .abs(Hardware.leftDriver.getY()) >= Hardware.eBrakeDeadband)
-                    || (Math.abs(Hardware.rightDriver
-                            .getY()) >= Hardware.eBrakeDeadband))
-                {
-                Hardware.eBrakeTimer.reset();
-                Hardware.eBrakeTimer.start();
-                } // if
             // =========================
             // when the eBrake is retracted and the eBrake timer has passed
             // a
@@ -144,7 +136,6 @@ public class Teleop
                 {
                 Hardware.eBrakeTimer.stop();
                 Hardware.eBrakeTimer.reset();
-                Hardware.eBrakeMomentarySwitch2.setValue(false);
                 } // if
             } // if
         // =========================
@@ -175,7 +166,6 @@ public class Teleop
             {
             Hardware.eBrakeTimer.reset();
             Hardware.eBrakeTimer.start();
-            Hardware.eBrake.setForward(false);
             Hardware.eBrakeMomentarySwitch1.setValue(false);
             Hardware.eBrakeMomentarySwitch2.setValue(true);
             } // if
