@@ -257,6 +257,7 @@ public class Hardware
                 eBrakeTimer.reset();
         } // end initialize()
 
+        // **********************************************************
         // CAN DEVICES
         // **********************************************************
         public static MotorController leftBottomMotor = null;
@@ -268,6 +269,7 @@ public class Hardware
         public static KilroyEncoder leftBottomEncoder = null;
         public static MotorController armLengthMotor = null;
         public static MotorController armRaiseMotor = null;
+
         // **********************************************************
         // DIGITAL I/O
         // **********************************************************
@@ -275,16 +277,15 @@ public class Hardware
         public static SingleThrowSwitch disableAutoSwitch = null;
         public static DoubleThrowSwitch leftRightNoneSwitch = null;
         public static LightSensor redLightSensor = null;
+
         // **********************************************************
         // ANALOG I/O
         // **********************************************************
         public static Potentiometer delayPot = null;
-        public static Potentiometer tenTurnPot = null;
 
         // **********************************************************
         // DRIVER STATION CLASSES
         // **********************************************************
-
         public static Joystick leftDriver = new Joystick(0);
         public static Joystick rightDriver = new Joystick(1);
         public static Joystick leftOperator = new Joystick(2);
@@ -299,15 +300,9 @@ public class Hardware
         public static DoubleSolenoid clawPiston = null;
         public static DoubleSolenoid armRaisePiston = null;
 
-        public static MomentarySwitch clawTriggerButton = new MomentarySwitch(
-                        rightOperator, 1, false);
-        public static MomentarySwitch armRaiseButton = new MomentarySwitch(
-                        leftOperator, 4, false);
-
         // **********************************************************
         // roboRIO CONNECTIONS CLASSES
         // **********************************************************
-
         public static PowerDistribution pdp = new PowerDistribution();
 
         // **********************************************************
@@ -320,10 +315,20 @@ public class Hardware
         public static Timer eBrakeTimer = null;
         public static Boolean eBrakeTimerIsStopped = true;
         public static Timer autoTimer = null;
+
+        // ------------------------------------
+        // Operator Controls
+        // ------------------------------------
         public static MomentarySwitch eBrakeMomentarySwitch1 = new MomentarySwitch(
                         rightDriver, 5, false);
         public static MomentarySwitch eBrakeMomentarySwitch2 = new MomentarySwitch(
                         leftDriver, 6, false);
+        public static MomentarySwitch clawTriggerButton = new MomentarySwitch(
+                        rightOperator, 1, false);
+        public static MomentarySwitch armRaiseButton = new MomentarySwitch(
+                        leftOperator, 4, false);
+        public static MomentarySwitch switchCameraViewButton10 = new MomentarySwitch(
+                        rightOperator, 10, false);
 
         // ------------------------------------
         // Drive system
@@ -338,8 +343,6 @@ public class Hardware
         // Vision stuff
         // ----------------------------
         public static KilroyUSBCamera cameras = new KilroyUSBCamera(true);
-        public static MomentarySwitch switchCameraViewButton10 = new MomentarySwitch(
-                        rightOperator, 10, false);
         // public static MomentarySwitch switchCameraViewButton11 = new
         // MomentarySwitch(
         // rightOperator, 11, false);
@@ -354,6 +357,7 @@ public class Hardware
         public static double armLengthDeadband;
         public static double eBrakeDelayTime;
         public static double eBrakeDeadband;
+
         // --------------------
         // Previous year's constants
         // --------------------
@@ -385,6 +389,7 @@ public class Hardware
         private final static int PREV_CLAW_FWD_PORT = 6;
         private final static int PREV_CLAW_REV_PORT = 7;
         private final static int PREV_REDLIGHTSENSOR_PORT = 7;
+
         // --------------------
         // Current year's constants
         // --------------------

@@ -122,10 +122,10 @@ public class Teleop
                 {
                 Hardware.eBrake.setForward(false);
                 }
-            if (((Math
+            if ((Math
                     .abs(Hardware.leftDriver.getY()) >= Hardware.eBrakeDeadband)
                     || (Math.abs(Hardware.rightDriver
-                            .getY()) >= Hardware.eBrakeDeadband)))
+                            .getY()) >= Hardware.eBrakeDeadband))
                 {
                 Hardware.eBrakeTimer.reset();
                 Hardware.eBrakeTimer.start();
@@ -143,6 +143,7 @@ public class Teleop
                             || Hardware.eBrakeTimerIsStopped == true))
                 {
                 Hardware.eBrakeTimer.stop();
+                Hardware.eBrakeTimer.reset();
                 Hardware.eBrakeMomentarySwitch2.setValue(false);
                 } // if
             } // if
@@ -157,6 +158,7 @@ public class Teleop
                         || Hardware.eBrakeTimerIsStopped == true)))
             {
             Hardware.eBrakeTimer.stop();
+            Hardware.eBrakeTimer.reset();
             } // if
         // =========================
         // when the retract button (left driver button 6) is pressed, eBrake is
@@ -166,15 +168,16 @@ public class Teleop
         // motors,
         // and starts the eBrake timer
         // =========================
-        // if ((Hardware.eBrake.getForward() == true) && ((Math
-        // .abs(Hardware.leftDriver.getY()) >= Hardware.eBrakeDeadband)
-        // || (Math.abs(Hardware.rightDriver
-        // .getY()) >= Hardware.eBrakeDeadband)))
+        if ((Hardware.eBrake.getForward() == true) && ((Math
+                .abs(Hardware.leftDriver.getY()) >= Hardware.eBrakeDeadband)
+                || (Math.abs(Hardware.rightDriver
+                        .getY()) >= Hardware.eBrakeDeadband)))
             {
-            // Hardware.eBrakeTimer.reset();
-            // Hardware.eBrakeTimer.start();
-            // Hardware.eBrake.setForward(false);
-            // Hardware.eBrakeMomentarySwitch2.setValue(false);
+            Hardware.eBrakeTimer.reset();
+            Hardware.eBrakeTimer.start();
+            Hardware.eBrake.setForward(false);
+            Hardware.eBrakeMomentarySwitch1.setValue(false);
+            Hardware.eBrakeMomentarySwitch2.setValue(true);
             } // if
     } // end of manage ebrake()
 
