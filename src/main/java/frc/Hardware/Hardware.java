@@ -65,7 +65,7 @@ public class Hardware
                 CurrentYear, PrevYear
                 };
 
-        public static Identifier robotIdentity = Identifier.PrevYear;
+        public static Identifier robotIdentity = Identifier.CurrentYear;
 
         public static void initialize()
         {
@@ -73,8 +73,8 @@ public class Hardware
                         {
                         // ==============DIO INIT=============
                         disableAutoSwitch = new SingleThrowSwitch(10);
-                        sixPosSwitch = new SixPositionSwitch(13, 14, 15, 16, 17,
-                                        18);
+                        sixPosSwitch = new SixPositionSwitch(15, 13, 14, 18, 16,
+                                        17);
                         redLightSensor = new LightSensor(
                                         CURRENT_REDLIGHTSENSOR_PORT);
                         leftRightNoneSwitch = new DoubleThrowSwitch(11, 12);
@@ -140,6 +140,7 @@ public class Hardware
 
                         delayPot = new Potentiometer(CURRENT_DELAY_POT_PORT);
 
+                        armRaiseMaxSpeed = CURRENT_ARM_RAISE_MAX_SPEED;
                         armControlHoldSpeed = CURRENT_ARM_CONTROL_HOLD_SPEED;
                         armLengthHoldSpeed = CURRENT_ARM_LENGTH_HOLD_SPEED;
                         armControlDeadband = CURRENT_ARM_CONTROL_DEADBAND;
@@ -157,7 +158,7 @@ public class Hardware
                         armRaisePiston.setForward(true);
 
                         eBrakeDelayTime = CURRENT_EBRAKETIMER_DELAY;
-                        eBrakeDeadband = CURRENT_DEADBAND;
+                        eBrakeDeadband = CURRENT_EBRAKE_DEADBAND;
                         } // end of current year
 
                 if (robotIdentity == Identifier.PrevYear)
@@ -207,7 +208,8 @@ public class Hardware
                         rightSideMotors = new MotorControllerGroup(
                                         rightBottomMotor, rightTopMotor);
 
-                        armLengthMotor = new WPI_VictorSPX(26);
+                        // armLengthMotor = new WPI_VictorSPX(26);
+                        armLengthMotor = new WPI_TalonSRX(26);
                         armRaiseMotor = new WPI_TalonFX(18);
 
                         armLengthMotor.setInverted(true);
@@ -242,13 +244,14 @@ public class Hardware
                         eBrake.setForward(false);
                         armRaisePiston.setForward(true);
 
+                        armRaiseMaxSpeed = PREV_ARM_RAISE_MAX_SPEED;
                         armControlHoldSpeed = PREV_ARM_CONTROL_HOLD_SPEED;
                         armLengthHoldSpeed = PREV_ARM_LENGTH_HOLD_SPEED;
                         armControlDeadband = PREV_ARM_CONTROL_DEADBAND;
                         armLengthDeadband = PREV_ARM_LENGTH_DEADBAND;
 
                         eBrakeDelayTime = PREV_EBRAKETIMER_DELAY;
-                        eBrakeDeadband = PREV_DEADBAND;
+                        eBrakeDeadband = PREV_EBRAKE_DEADBAND;
                         } // end of previous year
                 // ---------------------------------
                 // required for both years
@@ -357,18 +360,20 @@ public class Hardware
         public static double armLengthDeadband;
         public static double eBrakeDelayTime;
         public static double eBrakeDeadband;
+        public static double armRaiseMaxSpeed;
 
         // --------------------
         // Previous year's constants
         // --------------------
         public final static double PREV_DEADBAND = 0.2;
+        public final static double PREV_EBRAKE_DEADBAND = 2.0 * PREV_DEADBAND;
         public final static double PREV_ARM_CONTROL_HOLD_SPEED = 0.1;
         public final static double PREV_ARM_LENGTH_HOLD_SPEED = 0.0;
         public final static double PREV_ARM_CONTROL_DEADBAND = 0.2;
         public final static double PREV_ARM_LENGTH_DEADBAND = 0.2;
         // Value inputs for arm raise and arm length motors
         // Value inputs for joystick values that control arm mtors
-        public final static double PREV_ARM_RAISE_MAX_SPEED = 0.8;
+        public final static double PREV_ARM_RAISE_MAX_SPEED = 0.3;
         public final static double PREV_ARM_RAISE_MIN_SPEED_POSITIVE = 0.0;
         public final static double PREV_ARM_RAISE_MIN_SPEED_NEGATIVE = 0.2;
         public final static double PREV_ARM_LENGTH_MAX_SPEED = 0.5;
@@ -376,7 +381,7 @@ public class Hardware
         public final static double PREV_MAX_JOYSTICK_OPERATOR_VALUE = 1.0;
         public final static double PREV_MIN_JOYSTICK_OPERATOR_VALUE = 0.201;
         // end of arm control values
-        private final static double PREV_EBRAKETIMER_DELAY = 5.0;
+        private final static double PREV_EBRAKETIMER_DELAY = 1.5;
         private final static double PREV_GEAR1_MAX_SPEED = 0.3;
         private final static double PREV_GEAR2_MAX_SPEED = 0.5;
         private final static double PREV_GEAR3_MAX_SPEED = 0.7;
@@ -394,6 +399,9 @@ public class Hardware
         // Current year's constants
         // --------------------
         public final static double CURRENT_DEADBAND = 0.2;
+        public final static double CURRENT_EBRAKE_DEADBAND = 2.0
+                        * CURRENT_DEADBAND;
+        public final static double CURRENT_ARM_RAISE_MAX_SPEED = 0.8;
         public final static double CURRENT_ARM_CONTROL_HOLD_SPEED = 0.0;
         public final static double CURRENT_ARM_LENGTH_HOLD_SPEED = 0.0;
         public final static double CURRENT_ARM_CONTROL_DEADBAND = 0.2;

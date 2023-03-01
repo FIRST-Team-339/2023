@@ -222,7 +222,7 @@ public class Teleop
             // then the ArmRaiseMotor will equal the equation below
             if (Hardware.rightOperator.getY() < -Hardware.armControlDeadband)
                 {
-                Hardware.armRaiseMotor.set(((-Hardware.PREV_ARM_RAISE_MAX_SPEED
+                Hardware.armRaiseMotor.set(((-Hardware.armRaiseMaxSpeed
                         + Hardware.PREV_ARM_RAISE_MIN_SPEED_NEGATIVE)
                         / (-Hardware.PREV_MAX_JOYSTICK_OPERATOR_VALUE
                                 + Hardware.PREV_MIN_JOYSTICK_OPERATOR_VALUE))
@@ -235,7 +235,7 @@ public class Teleop
             // then the ArmRaiseMotor will equal the equation below
             if (Hardware.rightOperator.getY() > Hardware.armControlDeadband)
                 {
-                Hardware.armRaiseMotor.set(((Hardware.PREV_ARM_RAISE_MAX_SPEED
+                Hardware.armRaiseMotor.set(((Hardware.armRaiseMaxSpeed
                         - Hardware.PREV_ARM_RAISE_MIN_SPEED_POSITIVE)
                         / (Hardware.PREV_MAX_JOYSTICK_OPERATOR_VALUE
                                 - Hardware.PREV_MIN_JOYSTICK_OPERATOR_VALUE))
@@ -392,10 +392,11 @@ public class Teleop
         // System.out.println("RBottomMotor = " +
         /////////// Hardware.rightBottomMotor.get());
         // System.out.println("RTopMotor = " + Hardware.rightTopMotor.get());
-        System.out.println("LeMotor = " + Hardware.armLengthMotor.get()
-                + " Y = " + Hardware.leftOperator.getY());
-        System.out.println("RaMotor = " + Hardware.armRaiseMotor.get() + " Y = "
-                + Hardware.rightOperator.getY());
+        // System.out.println("LeMotor = " + Hardware.armLengthMotor.get()
+        // + " Y = " + Hardware.leftOperator.getY());
+        // System.out.println("RaMotor = " + Hardware.armRaiseMotor.get() + " Y
+        /////////// = "
+        // + Hardware.rightOperator.getY());
 
         // -------- SUBSYSTEMS ---------
 
