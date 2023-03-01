@@ -113,6 +113,11 @@ public class Autonomous
                 case 2:
                     autoPath = AUTO_PATH.DISABLE;
                     break;
+                // drive onto platform
+                // put front bumper of robot in front of the scoring zone,
+                // behind the community line, and in front of the charge station
+                // 1. The robot will accelerate
+
                 // =========================
                 //
                 // =========================
