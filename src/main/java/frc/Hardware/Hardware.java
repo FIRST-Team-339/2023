@@ -99,14 +99,14 @@ public class Hardware
                         rightBottomEncoder.setDistancePerPulse(
                                         CURRENT_DISTANCE_PER_PULSE);
                         rightBottomEncoder.reset();
-                        rightBottomEncoder.setReverseDirection(false);
+                        rightBottomEncoder.setReverseDirection(true);
 
                         leftBottomEncoder = new KilroyEncoder(
                                         (WPI_TalonFX) leftBottomMotor);
                         leftBottomEncoder.setDistancePerPulse(
                                         CURRENT_DISTANCE_PER_PULSE);
                         leftBottomEncoder.reset();
-                        leftBottomEncoder.setReverseDirection(false);
+                        leftBottomEncoder.setReverseDirection(true);
 
                         leftSideMotors = new MotorControllerGroup(
                                         leftBottomMotor, leftTopMotor);
@@ -140,7 +140,8 @@ public class Hardware
 
                         delayPot = new Potentiometer(CURRENT_DELAY_POT_PORT);
 
-                        armRaiseMaxSpeed = CURRENT_ARM_RAISE_MAX_SPEED;
+                        armRaiseMaxSpeedUp = CURRENT_ARM_RAISE_MAX_SPEED_UP;
+                        armRaiseMaxSpeedDown = CURRENT_ARM_RAISE_MAX_SPEED_DOWN;
                         armControlHoldSpeed = CURRENT_ARM_CONTROL_HOLD_SPEED;
                         armLengthHoldSpeed = CURRENT_ARM_LENGTH_HOLD_SPEED;
                         armControlDeadband = CURRENT_ARM_CONTROL_DEADBAND;
@@ -244,7 +245,8 @@ public class Hardware
                         eBrake.setForward(false);
                         armRaisePiston.setForward(true);
 
-                        armRaiseMaxSpeed = PREV_ARM_RAISE_MAX_SPEED;
+                        armRaiseMaxSpeedUp = PREV_ARM_RAISE_MAX_SPEED_UP;
+                        armRaiseMaxSpeedDown = PREV_ARM_RAISE_MAX_SPEED_DOWN;
                         armControlHoldSpeed = PREV_ARM_CONTROL_HOLD_SPEED;
                         armLengthHoldSpeed = PREV_ARM_LENGTH_HOLD_SPEED;
                         armControlDeadband = PREV_ARM_CONTROL_DEADBAND;
@@ -360,7 +362,8 @@ public class Hardware
         public static double armLengthDeadband;
         public static double eBrakeDelayTime;
         public static double eBrakeDeadband;
-        public static double armRaiseMaxSpeed;
+        public static double armRaiseMaxSpeedUp;
+        public static double armRaiseMaxSpeedDown;
 
         // --------------------
         // Previous year's constants
@@ -373,7 +376,8 @@ public class Hardware
         public final static double PREV_ARM_LENGTH_DEADBAND = 0.2;
         // Value inputs for arm raise and arm length motors
         // Value inputs for joystick values that control arm mtors
-        public final static double PREV_ARM_RAISE_MAX_SPEED = 0.3;
+        public final static double PREV_ARM_RAISE_MAX_SPEED_UP = 0.3;
+        public final static double PREV_ARM_RAISE_MAX_SPEED_DOWN = 0.3;
         public final static double PREV_ARM_RAISE_MIN_SPEED_POSITIVE = 0.0;
         public final static double PREV_ARM_RAISE_MIN_SPEED_NEGATIVE = 0.2;
         public final static double PREV_ARM_LENGTH_MAX_SPEED = 0.5;
@@ -401,7 +405,8 @@ public class Hardware
         public final static double CURRENT_DEADBAND = 0.2;
         public final static double CURRENT_EBRAKE_DEADBAND = 2.0
                         * CURRENT_DEADBAND;
-        public final static double CURRENT_ARM_RAISE_MAX_SPEED = 0.8;
+        public final static double CURRENT_ARM_RAISE_MAX_SPEED_UP = 0.8;
+        public final static double CURRENT_ARM_RAISE_MAX_SPEED_DOWN = 0.6;
         public final static double CURRENT_ARM_CONTROL_HOLD_SPEED = 0.0;
         public final static double CURRENT_ARM_LENGTH_HOLD_SPEED = 0.0;
         public final static double CURRENT_ARM_CONTROL_DEADBAND = 0.2;
@@ -411,7 +416,7 @@ public class Hardware
         private final static double CURRENT_GEAR2_MAX_SPEED = 0.5;
         private final static double CURRENT_GEAR3_MAX_SPEED = 0.7;
         private final static int CURRENT_DELAY_POT_PORT = 1;
-        private final static double CURRENT_DISTANCE_PER_PULSE = 0.01;
+        private final static double CURRENT_DISTANCE_PER_PULSE = 0.00100001;
         private final static int CURRENT_EBRAKE_FWD_PORT = 4;
         private final static int CURRENT_EBRAKE_REV_PORT = 5;
         private final static int CURRENT_ARM_RAISE_FWD_PORT = 0;

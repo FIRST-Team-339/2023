@@ -222,7 +222,7 @@ public class Teleop
             // then the ArmRaiseMotor will equal the equation below
             if (Hardware.rightOperator.getY() < -Hardware.armControlDeadband)
                 {
-                Hardware.armRaiseMotor.set(((-Hardware.armRaiseMaxSpeed
+                Hardware.armRaiseMotor.set(((-Hardware.armRaiseMaxSpeedDown
                         + Hardware.PREV_ARM_RAISE_MIN_SPEED_NEGATIVE)
                         / (-Hardware.PREV_MAX_JOYSTICK_OPERATOR_VALUE
                                 + Hardware.PREV_MIN_JOYSTICK_OPERATOR_VALUE))
@@ -235,7 +235,7 @@ public class Teleop
             // then the ArmRaiseMotor will equal the equation below
             if (Hardware.rightOperator.getY() > Hardware.armControlDeadband)
                 {
-                Hardware.armRaiseMotor.set(((Hardware.armRaiseMaxSpeed
+                Hardware.armRaiseMotor.set(((Hardware.armRaiseMaxSpeedUp
                         - Hardware.PREV_ARM_RAISE_MIN_SPEED_POSITIVE)
                         / (Hardware.PREV_MAX_JOYSTICK_OPERATOR_VALUE
                                 - Hardware.PREV_MIN_JOYSTICK_OPERATOR_VALUE))
