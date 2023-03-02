@@ -381,6 +381,7 @@ public class Teleop
         // ---------- DIGITAL ----------
         // System.out.println("disableAutoSwitch = " +
         // Hardware.disableAutoSwitch.isOn());
+        // System.out.println("RedLight = " + Hardware.redLightSensor.isOn());
         // ---------- ANALOG -----------
 
         // ----------- CAN -------------
