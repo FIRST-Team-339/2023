@@ -65,7 +65,7 @@ public class Hardware
                 CurrentYear, PrevYear
                 };
 
-        public static Identifier robotIdentity = Identifier.CurrentYear;
+        public static Identifier robotIdentity = Identifier.PrevYear;
 
         public static void initialize()
         {
@@ -142,6 +142,12 @@ public class Hardware
 
                         armRaiseMaxSpeedUp = CURRENT_ARM_RAISE_MAX_SPEED_UP;
                         armRaiseMaxSpeedDown = CURRENT_ARM_RAISE_MAX_SPEED_DOWN;
+                        armRaiseMinSpeedPositive = CURRENT_ARM_RAISE_MIN_SPEED_POSITIVE;
+                        armRaiseMinSpeedNegative = CURRENT_ARM_RAISE_MIN_SPEED_NEGATIVE;
+                        armLengthMaxSpeed = CURRENT_ARM_LENGTH_MAX_SPEED;
+                        armLengthMinSpeed = CURRENT_ARM_LENGTH_MIN_SPEED;
+                        maxJoystickOperatorValue = CURRENT_MAX_JOYSTICK_OPERATOR_VALUE;
+                        minJoystickOperatorValue = CURRENT_MIN_JOYSTICK_OPERATOR_VALUE;
                         armControlHoldSpeed = CURRENT_ARM_CONTROL_HOLD_SPEED;
                         armLengthHoldSpeed = CURRENT_ARM_LENGTH_HOLD_SPEED;
                         armControlDeadband = CURRENT_ARM_CONTROL_DEADBAND;
@@ -244,14 +250,21 @@ public class Hardware
                         clawPiston.setForward(true);
                         eBrake.setForward(false);
                         armRaisePiston.setForward(true);
-
+                        // arm control
                         armRaiseMaxSpeedUp = PREV_ARM_RAISE_MAX_SPEED_UP;
                         armRaiseMaxSpeedDown = PREV_ARM_RAISE_MAX_SPEED_DOWN;
+                        armRaiseMinSpeedPositive = PREV_ARM_RAISE_MIN_SPEED_POSITIVE;
+                        armRaiseMinSpeedNegative = PREV_ARM_RAISE_MIN_SPEED_NEGATIVE;
+                        armLengthMaxSpeed = PREV_ARM_LENGTH_MAX_SPEED;
+                        armLengthMinSpeed = PREV_ARM_LENGTH_MIN_SPEED;
+                        maxJoystickOperatorValue = PREV_MAX_JOYSTICK_OPERATOR_VALUE;
+                        minJoystickOperatorValue = PREV_MIN_JOYSTICK_OPERATOR_VALUE;
+
                         armControlHoldSpeed = PREV_ARM_CONTROL_HOLD_SPEED;
                         armLengthHoldSpeed = PREV_ARM_LENGTH_HOLD_SPEED;
                         armControlDeadband = PREV_ARM_CONTROL_DEADBAND;
                         armLengthDeadband = PREV_ARM_LENGTH_DEADBAND;
-
+                        // end arm control
                         eBrakeDelayTime = PREV_EBRAKETIMER_DELAY;
                         eBrakeDeadband = PREV_EBRAKE_DEADBAND;
                         } // end of previous year
@@ -364,7 +377,12 @@ public class Hardware
         public static double eBrakeDeadband;
         public static double armRaiseMaxSpeedUp;
         public static double armRaiseMaxSpeedDown;
-
+        public static double armRaiseMinSpeedPositive;
+        public static double armRaiseMinSpeedNegative;
+        public static double armLengthMaxSpeed;
+        public static double armLengthMinSpeed;
+        public static double maxJoystickOperatorValue;
+        public static double minJoystickOperatorValue;
         // --------------------
         // Previous year's constants
         // --------------------
@@ -407,6 +425,12 @@ public class Hardware
                         * CURRENT_DEADBAND;
         public final static double CURRENT_ARM_RAISE_MAX_SPEED_UP = 0.8;
         public final static double CURRENT_ARM_RAISE_MAX_SPEED_DOWN = 0.6;
+        public final static double CURRENT_ARM_RAISE_MIN_SPEED_POSITIVE = 0.0;
+        public final static double CURRENT_ARM_RAISE_MIN_SPEED_NEGATIVE = 0.2;
+        public final static double CURRENT_ARM_LENGTH_MAX_SPEED = 0.5;
+        public final static double CURRENT_ARM_LENGTH_MIN_SPEED = 0.0;
+        public final static double CURRENT_MAX_JOYSTICK_OPERATOR_VALUE = 1.0;
+        public final static double CURRENT_MIN_JOYSTICK_OPERATOR_VALUE = 0.201;
         public final static double CURRENT_ARM_CONTROL_HOLD_SPEED = 0.0;
         public final static double CURRENT_ARM_LENGTH_HOLD_SPEED = 0.0;
         public final static double CURRENT_ARM_CONTROL_DEADBAND = 0.2;
