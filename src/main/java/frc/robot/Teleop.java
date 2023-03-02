@@ -223,12 +223,12 @@ public class Teleop
             if (Hardware.rightOperator.getY() < -Hardware.armControlDeadband)
                 {
                 Hardware.armRaiseMotor.set(((-Hardware.armRaiseMaxSpeedDown
-                        + Hardware.PREV_ARM_RAISE_MIN_SPEED_NEGATIVE)
-                        / (-Hardware.PREV_MAX_JOYSTICK_OPERATOR_VALUE
-                                + Hardware.PREV_MIN_JOYSTICK_OPERATOR_VALUE))
+                        + Hardware.armRaiseMinSpeedNegative)
+                        / (-Hardware.maxJoystickOperatorValue
+                                + Hardware.minJoystickOperatorValue))
                         * (Hardware.rightOperator.getY()
-                                + Hardware.PREV_MIN_JOYSTICK_OPERATOR_VALUE)
-                        - Hardware.PREV_ARM_RAISE_MIN_SPEED_NEGATIVE);
+                                + Hardware.minJoystickOperatorValue)
+                        - Hardware.armRaiseMinSpeedNegative);
 
                 } // end if
             // If right operator Y value is greater than the armControlDeadband
@@ -236,12 +236,12 @@ public class Teleop
             if (Hardware.rightOperator.getY() > Hardware.armControlDeadband)
                 {
                 Hardware.armRaiseMotor.set(((Hardware.armRaiseMaxSpeedUp
-                        - Hardware.PREV_ARM_RAISE_MIN_SPEED_POSITIVE)
-                        / (Hardware.PREV_MAX_JOYSTICK_OPERATOR_VALUE
-                                - Hardware.PREV_MIN_JOYSTICK_OPERATOR_VALUE))
+                        - Hardware.armRaiseMinSpeedPositive)
+                        / (Hardware.maxJoystickOperatorValue
+                                - Hardware.minJoystickOperatorValue))
                         * (Hardware.rightOperator.getY()
-                                - Hardware.PREV_MIN_JOYSTICK_OPERATOR_VALUE)
-                        + Hardware.PREV_ARM_RAISE_MIN_SPEED_POSITIVE);
+                                - Hardware.minJoystickOperatorValue)
+                        + Hardware.armRaiseMinSpeedPositive);
                 } // end if
             } // end else
         // If left operator Y value is between -0.2 and +0.2 then the
@@ -257,26 +257,25 @@ public class Teleop
             // the ArmLengthMotor will equal the equation below
             if (Hardware.leftOperator.getY() < -Hardware.armLengthDeadband)
                 {
-                Hardware.armLengthMotor
-                        .set(((-Hardware.PREV_ARM_LENGTH_MAX_SPEED
-                                + Hardware.PREV_ARM_LENGTH_MIN_SPEED)
-                                / (-Hardware.PREV_MAX_JOYSTICK_OPERATOR_VALUE
-                                        + Hardware.PREV_MIN_JOYSTICK_OPERATOR_VALUE))
-                                * (Hardware.leftOperator.getY()
-                                        + Hardware.PREV_MIN_JOYSTICK_OPERATOR_VALUE)
-                                - Hardware.PREV_ARM_LENGTH_MIN_SPEED);
+                Hardware.armLengthMotor.set(((-Hardware.armLengthMaxSpeed
+                        + Hardware.armLengthMinSpeed)
+                        / (-Hardware.maxJoystickOperatorValue
+                                + Hardware.minJoystickOperatorValue))
+                        * (Hardware.leftOperator.getY()
+                                + Hardware.minJoystickOperatorValue)
+                        - Hardware.armLengthMinSpeed);
                 } // end if
             // If left operator Y value is greater than the armLengthDeadband
             // then the ArmLengthMotor will equal the equation below
             if (Hardware.leftOperator.getY() > Hardware.armLengthDeadband)
                 {
-                Hardware.armLengthMotor.set(((Hardware.PREV_ARM_LENGTH_MAX_SPEED
-                        - Hardware.PREV_ARM_LENGTH_MIN_SPEED)
-                        / (Hardware.PREV_MAX_JOYSTICK_OPERATOR_VALUE
-                                - Hardware.PREV_MIN_JOYSTICK_OPERATOR_VALUE))
+                Hardware.armLengthMotor.set(((Hardware.armLengthMaxSpeed
+                        - Hardware.armLengthMinSpeed)
+                        / (Hardware.maxJoystickOperatorValue
+                                - Hardware.minJoystickOperatorValue))
                         * (Hardware.leftOperator.getY()
-                                - Hardware.PREV_MIN_JOYSTICK_OPERATOR_VALUE)
-                        + Hardware.PREV_ARM_LENGTH_MIN_SPEED);
+                                - Hardware.minJoystickOperatorValue)
+                        + Hardware.armLengthMinSpeed);
                 } // end if
 
             } // end else
@@ -392,11 +391,10 @@ public class Teleop
         // System.out.println("RBottomMotor = " +
         /////////// Hardware.rightBottomMotor.get());
         // System.out.println("RTopMotor = " + Hardware.rightTopMotor.get());
-        // System.out.println("LeMotor = " + Hardware.armLengthMotor.get()
-        // + " Y = " + Hardware.leftOperator.getY());
-        // System.out.println("RaMotor = " + Hardware.armRaiseMotor.get() + " Y
-        /////////// = "
-        // + Hardware.rightOperator.getY());
+        System.out.println("LeMotor = " + Hardware.armLengthMotor.get()
+                + " Y = " + Hardware.leftOperator.getY());
+        System.out.println("RaMotor = " + Hardware.armRaiseMotor.get() + " Y = "
+                + Hardware.rightOperator.getY());
 
         // -------- SUBSYSTEMS ---------
 
