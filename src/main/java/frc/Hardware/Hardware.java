@@ -457,8 +457,8 @@ public class Hardware
         private final static double CURRENT_DISTANCE_PER_PULSE = 0.00100001;
         private final static int CURRENT_EBRAKE_FWD_PORT = 4;
         private final static int CURRENT_EBRAKE_REV_PORT = 5;
-        private final static int CURRENT_ARM_RAISE_FWD_PORT = 0;
-        private final static int CURRENT_ARM_RAISE_REV_PORT = 1;
+        private final static int CURRENT_ARM_RAISE_FWD_PORT = 2;
+        private final static int CURRENT_ARM_RAISE_REV_PORT = 3;
         private final static int CURRENT_CLAW_FWD_PORT = 6;
         private final static int CURRENT_CLAW_REV_PORT = 7;
         private final static int CURRENT_REDLIGHTSENSOR_PORT = 7;
