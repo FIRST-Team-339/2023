@@ -114,11 +114,6 @@ public class Autonomous
                 case 2:
                     autoPath = AUTO_PATH.DISABLE;
                     break;
-                // drive onto platform
-                // put front bumper of robot in front of the scoring zone,
-                // behind the community line, and in front of the charge station
-                // 1. The robot will accelerate
-
                 // =========================
                 //
                 // =========================
@@ -172,6 +167,7 @@ public class Autonomous
 
     public static void periodic()
     {
+        System.out.println("periodic.switch = " + autoPath);
         switch (autoPath)
             {
             case DRIVE_ONLY_FORWARD:
@@ -209,6 +205,8 @@ public class Autonomous
      */
     private static boolean driveOnlyForward()
     {
+        System.out
+                .println("driveOnlyForward.switch = " + driveOnlyForwardState);
         switch (driveOnlyForwardState)
             {
             case INIT:
@@ -254,16 +252,15 @@ public class Autonomous
      */
     private static boolean driveTurnDrive()
     {
+        System.out.println("driveTurnDrive.switch = " + driveTurnDriveState);
         switch (driveTurnDriveState)
             {
             case INIT:
-                System.out.println("Started " + driveTurnDriveState);
                 Hardware.autoTimer.start();
                 driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.DELAY;
                 return false;
 
             case DELAY:
-                System.out.println("Started " + driveTurnDriveState);
                 if (Hardware.autoTimer.get() >= delayTime)
                     {
                     driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.DRIVE_ONE_ACCEL;
@@ -271,7 +268,6 @@ public class Autonomous
                 return false;
 
             case DRIVE_ONE_ACCEL:
-                System.out.println("Started " + driveTurnDriveState);
                 boolean accelerate = Hardware.drive
                         .accelerateProportionaly(LEFT_SPEED, RIGHT_SPEED, 2);
                 if (accelerate == true)
@@ -282,7 +278,6 @@ public class Autonomous
                 return false;
 
             case DRIVE_ONE_DRIVE:
-                System.out.println("Started " + driveTurnDriveState);
                 if (Math.abs(Hardware.rightBottomEncoder.getDistance()) < 44)
                     {
                     Hardware.transmission.driveRaw(LEFT_SPEED, RIGHT_SPEED);
@@ -294,7 +289,6 @@ public class Autonomous
                 return false;
 
             case STOP_ONE:
-                System.out.println("Started " + driveTurnDriveState);
                 if (Hardware.drive.brake(Drive.BrakeType.AFTER_DRIVE))
                     {
                     driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.DECIDE_NEXT;
@@ -313,7 +307,6 @@ public class Autonomous
                 return false;
 
             case TURN:
-                System.out.println("Started " + driveTurnDriveState);
                 System.out.println(
                         Math.abs(Hardware.rightBottomEncoder.getDistance()));
                 /*
@@ -365,13 +358,11 @@ public class Autonomous
                 return false;
 
             case STOP_TURN:
-                System.out.println("Started " + driveTurnDriveState);
                 // Hardware.drive.brake(Drive.BrakeType.AFTER_TURN);
                 driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.END;
                 return false;
 
             case DRIVE_TWO_ACCEL:
-                System.out.println("Started " + driveTurnDriveState);
                 accelerate = Hardware.drive.accelerateProportionaly(-0.22,
                         -0.22, 2);
                 if (accelerate == true)
@@ -382,7 +373,6 @@ public class Autonomous
                 return false;
 
             case DRIVE_TWO_DRIVE:
-                System.out.println("Started " + driveTurnDriveState);
                 if (Math.abs(Hardware.rightBottomEncoder.getDistance()) < 44)
                     {
                     Hardware.transmission.driveRaw(LEFT_SPEED, RIGHT_SPEED);
@@ -394,13 +384,11 @@ public class Autonomous
                 return false;
 
             case STOP_TWO:
-                System.out.println("Started " + driveTurnDriveState);
                 // Hardware.drive.brake(Drive.BrakeType.AFTER_DRIVE);
                 driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.END;
                 return false;
 
             case END:
-                System.out.println("Started " + driveTurnDriveState);
                 Hardware.drive.stop();
                 return false;
 
