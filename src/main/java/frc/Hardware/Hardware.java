@@ -42,6 +42,7 @@ import frc.HardwareInterfaces.SixPositionSwitch;
 import frc.HardwareInterfaces.DoubleSolenoid;
 import frc.HardwareInterfaces.DoubleThrowSwitch;
 import frc.HardwareInterfaces.KilroyEncoder;
+import frc.HardwareInterfaces.KilroySPIGyro;
 import frc.HardwareInterfaces.KilroyUSBCamera;
 import frc.HardwareInterfaces.LightSensor;
 import frc.HardwareInterfaces.MomentarySwitch;
@@ -131,8 +132,12 @@ public class Hardware
                                         CURRENT_GEAR1_MAX_SPEED,
                                         CURRENT_GEAR2_MAX_SPEED,
                                         CURRENT_GEAR3_MAX_SPEED);
+
+                        gyro = new KilroySPIGyro(true);
+                        gyro.calibrate();
+
                         drive = new Drive(transmission, leftBottomEncoder,
-                                        rightBottomEncoder, null);
+                                        rightBottomEncoder, gyro);
 
                         eBrakeTimer = new Timer();
 
@@ -231,8 +236,11 @@ public class Hardware
                                         PREV_GEAR2_MAX_SPEED,
                                         PREV_GEAR3_MAX_SPEED);
 
+                        gyro = new KilroySPIGyro(true);
+                        gyro.calibrate();
+
                         drive = new Drive(transmission, leftBottomEncoder,
-                                        rightBottomEncoder, null);
+                                        rightBottomEncoder, gyro);
 
                         eBrakeTimer = new Timer();
 
@@ -300,6 +308,12 @@ public class Hardware
         // ANALOG I/O
         // **********************************************************
         public static Potentiometer delayPot = null;
+
+        // **********************************************************
+        // SPI BUS
+        // **********************************************************
+
+        public static KilroySPIGyro gyro = null;
 
         // **********************************************************
         // DRIVER STATION CLASSES
@@ -393,7 +407,7 @@ public class Hardware
         public final static double PREV_ARM_CONTROL_DEADBAND = 0.2;
         public final static double PREV_ARM_LENGTH_DEADBAND = 0.2;
         // Value inputs for arm raise and arm length motors
-        // Value inputs for joystick values that control arm mtors
+        // Value inputs for joystick values that control arm motors
         public final static double PREV_ARM_RAISE_MAX_SPEED_UP = 0.3;
         public final static double PREV_ARM_RAISE_MAX_SPEED_DOWN = 0.3;
         public final static double PREV_ARM_RAISE_MIN_SPEED_POSITIVE = 0.0;

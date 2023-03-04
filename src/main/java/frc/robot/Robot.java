@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import frc.Hardware.Hardware;
+import frc.HardwareInterfaces.KilroySPIGyro;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -85,11 +86,13 @@ public class Robot extends TimedRobot
 
         Autonomous.init();
 
+        // end calibrate()
         // ---------------------------------------
         // done setup - tell the user we are complete
         // setup
         // ---------------------------------------
         System.out.println("Completed AutonousInit().");
+
     } // end autonomousInit()
 
     /**

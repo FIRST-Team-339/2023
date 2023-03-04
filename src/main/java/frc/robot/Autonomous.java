@@ -272,22 +272,17 @@ public class Autonomous
 
             case DRIVE_ONE_ACCEL:
                 System.out.println("Started " + driveTurnDriveState);
-                boolean accelerate = Hardware.drive
-                        .accelerateProportionaly(LEFT_SPEED, RIGHT_SPEED, 2);
-                if (accelerate == true)
+                if (Hardware.drive.accelerateProportionaly(LEFT_SPEED,
+                        RIGHT_SPEED, 2) == true)
                     {
-                    Hardware.drive.resetEncoders();
                     driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.DRIVE_ONE_DRIVE;
                     }
                 return false;
 
             case DRIVE_ONE_DRIVE:
-                System.out.println("Started " + driveTurnDriveState);
-                if (Math.abs(Hardware.rightBottomEncoder.getDistance()) < 44)
-                    {
-                    Hardware.transmission.driveRaw(LEFT_SPEED, RIGHT_SPEED);
-                    }
-                else
+                if (Hardware.drive.driveStraightInches(FIRST_STOP_DISTANCE,
+                        -DRIVE_ONE_DRIVE_SPEED, DRIVE_ONE_DRIVE_ACCELERATE,
+                        true))
                     {
                     driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.STOP_ONE;
                     }
@@ -295,7 +290,7 @@ public class Autonomous
 
             case STOP_ONE:
                 System.out.println("Started " + driveTurnDriveState);
-                if (Hardware.drive.brake(Drive.BrakeType.AFTER_DRIVE))
+                if (Hardware.drive.brake(Drive.BrakeType.AFTER_DRIVE) == true)
                     {
                     driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.DECIDE_NEXT;
                     }
@@ -309,6 +304,7 @@ public class Autonomous
                 else
                     {
                     driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.TURN;
+                    driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.END;
                     }
                 return false;
 
@@ -372,9 +368,8 @@ public class Autonomous
 
             case DRIVE_TWO_ACCEL:
                 System.out.println("Started " + driveTurnDriveState);
-                accelerate = Hardware.drive.accelerateProportionaly(-0.22,
-                        -0.22, 2);
-                if (accelerate == true)
+                if (Hardware.drive.accelerateProportionaly(-0.22, -0.22,
+                        2) == true)
                     {
                     Hardware.drive.resetEncoders();
                     driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.DRIVE_TWO_DRIVE;
@@ -442,4 +437,11 @@ public class Autonomous
     private static final double LEFT_SPEED = -0.22;
 
     private static final double RIGHT_SPEED = -0.22;
+
+    private static final double DRIVE_ONE_DRIVE_SPEED = 0.3;
+
+    private static final double DRIVE_ONE_DRIVE_ACCELERATE = 0.5;
+
+    private static final double FIRST_STOP_DISTANCE = 44.0;
+
     }
