@@ -13,13 +13,14 @@ public abstract class TransmissionBase
     {
 
     /**
-     * Creates the TransmissionBase object with a 2 wheel drive system. Should only
-     * be created by sub classes, hence the abstract label.
+     * Creates the TransmissionBase object with a 2 wheel drive system. Should
+     * only be created by sub classes, hence the abstract label.
      *
      * @param leftMotor
      * @param rightMotor
      */
-    public TransmissionBase(MotorController leftMotor, MotorController rightMotor)
+    public TransmissionBase(MotorController leftMotor,
+            MotorController rightMotor)
         {
             this.motors = new MotorController[2];
             this.motors[0] = leftMotor;
@@ -27,16 +28,16 @@ public abstract class TransmissionBase
         } // end constructor
 
     /**
-     * Creates the TransmissionBase object. Should only be called by any subclasses,
-     * hence the abstract label.
+     * Creates the TransmissionBase object. Should only be called by any
+     * subclasses, hence the abstract label.
      *
      * @param leftRear
      * @param rightRear
      * @param leftFront
      * @param rightFront
      */
-    public TransmissionBase(MotorController leftRear, MotorController rightRear, MotorController leftFront,
-            MotorController rightFront)
+    public TransmissionBase(MotorController leftRear, MotorController rightRear,
+            MotorController leftFront, MotorController rightFront)
         {
             this.motors = new MotorController[4];
             this.motors[0] = leftRear;
@@ -54,8 +55,8 @@ public abstract class TransmissionBase
     } // end disableDeadband()
 
     /**
-     * Removes one from the current gear of the robot, allowing the user to drive
-     * slower.
+     * Removes one from the current gear of the robot, allowing the user to
+     * drive slower.
      */
     public void downShift()
     {
@@ -64,8 +65,8 @@ public abstract class TransmissionBase
     } // end downShift()
 
     /**
-     * Drives the transmission based on a Tank drive system, but without gear ratios
-     * or joystick deadbands. Use for autonomous purposes.
+     * Drives the transmission based on a Tank drive system, but without gear
+     * ratios or joystick deadbands. Use for autonomous purposes.
      *
      * @param leftVal
      *            The left value of the robot, in percentage (-1.0 to 1.0)
@@ -82,8 +83,8 @@ public abstract class TransmissionBase
     } // end driveRaw() - overloaded
 
     /**
-     * Drives the robot based on raw inputs, for autonomous uses. Also, can use a
-     * correction PID loop for rotation, if that is enabled. (Functionality
+     * Drives the robot based on raw inputs, for autonomous uses. Also, can use
+     * a correction PID loop for rotation, if that is enabled. (Functionality
      * overridden in MecanumTransmission class)
      *
      * @param magnitude
@@ -92,12 +93,14 @@ public abstract class TransmissionBase
      *            In which direction, laterally, will the robot travel (degrees,
      *            -180 to 180. 0 is forward.)
      * @param rotation
-     *            How much the robot should be turning (left,(-1.0) to right,(1.0)
+     *            How much the robot should be turning (left,(-1.0) to
+     *            right,(1.0)
      */
     public void driveRaw(double magnitude, double direction, double rotation)
     {
         this.stop();
-        // If this object is an omni-directional drive and this method is called,
+        // If this object is an omni-directional drive and this method is
+        // called,
         // it will be overridden by the superclass. This prevents a tank style
         // transmission from forcing the motors against each other, as it will
         // by default to do nothing.
@@ -173,18 +176,19 @@ public abstract class TransmissionBase
     /**
      * Uses the formula for mapping one set of values to the other: y = mx + b
      *
-     * m = 1 / (1 - deadband) b = deadband * -m x = joystick input y = motor output
+     * m = 1 / (1 - deadband) b = deadband * -m x = joystick input y = motor
+     * output
      *
-     * Therefore, motor output = (1 / (1 - deadband)) * joystick input + (1 - (1 /
-     * (1 - deadband)))
+     * Therefore, motor output = (1 / (1 - deadband)) * joystick input + (1 - (1
+     * / (1 - deadband)))
      *
      * If this equation does not make much sense, try graphing it first as the
-     * original x = y, and then the scaled output starting at the deadband, and use
-     * the slope formula.
+     * original x = y, and then the scaled output starting at the deadband, and
+     * use the slope formula.
      *
      * @param input
-     * @return The scaled value, if between -1 and -deadband or deadband and 1, or 0
-     *         if between -deadband and deadband.
+     * @return The scaled value, if between -1 and -deadband or deadband and 1,
+     *         or 0 if between -deadband and deadband.
      */
     public double scaleJoystickForDeadband(double input)
     {
@@ -193,17 +197,18 @@ public abstract class TransmissionBase
 
         if (input > this.currentJoystickDeadband)
             return (deadbandSlope * input) + constant;
-        else if (input < -this.currentJoystickDeadband)
-            return -((-deadbandSlope * input) + constant);
+        else
+            if (input < -this.currentJoystickDeadband)
+                return -((-deadbandSlope * input) + constant);
 
         // Set to 0 if it is between the deadbands.
         return 0.0;
     } // end scaleJoystickForDeadband()
 
     /**
-     * Sets every gear ratio. Make sure that the lowest gear starts at 0, and the
-     * highest gear is at the max, to make sure the up-shifting and down-shifting
-     * works properly.
+     * Sets every gear ratio. Make sure that the lowest gear starts at 0, and
+     * the highest gear is at the max, to make sure the up-shifting and
+     * down-shifting works properly.
      *
      * @param ratios
      *            Percent multiplied by the transmission.drive functions
@@ -214,8 +219,8 @@ public abstract class TransmissionBase
     } // end setAlGearPercentages()
 
     /**
-     * TODO Test gear system Sets the current gear for the robot. This will change
-     * the maximum speed of the robot for precise aiming/driving.
+     * TODO Test gear system Sets the current gear for the robot. This will
+     * change the maximum speed of the robot for precise aiming/driving.
      *
      * @param gear
      *            The requested gear number. If outside the range, it will do
@@ -233,19 +238,21 @@ public abstract class TransmissionBase
      * @param gear
      *            Which gear should be changed: 0 is lowest, increasing.
      * @param value
-     *            Percent decimal form: between 0 and 1.0
+     *            Percent decimal form: between 0.0 and less than or equal to
+     *            1.0
      */
     public void setGearPercentage(int gear, double value)
     {
-        if (value < 1 && value > 0 && gear < gearRatios.length && gear >= 0)
+        if (value <= 1.0 && value >= 0.0 && gear < gearRatios.length
+                && gear >= 0)
             {
             gearRatios[gear] = value;
             }
     } // end setGearPercentage()
 
     /**
-     * TODO test deadbands Sets the minimum value the joysticks must output in order
-     * for the robot to start moving.
+     * TODO test deadbands Sets the minimum value the joysticks must output in
+     * order for the robot to start moving.
      *
      * @param deadband
      *            Percentage value, ranging from 0.0 to 1.0, in decimals.
@@ -294,11 +301,12 @@ public abstract class TransmissionBase
             downShift();
 
             }
-        else if (upShiftButton && !upShiftButtonStatus)
-            {
-            upShift();
+        else
+            if (upShiftButton && !upShiftButtonStatus)
+                {
+                upShift();
 
-            }
+                }
 
         upShiftButtonStatus = upShiftButton;
         downShiftButtonStatus = downShiftButton;
@@ -314,15 +322,17 @@ public abstract class TransmissionBase
     } // end stop()
 
     /**
-     * Adds one to the current gear of the robot, allowing the user to drive faster.
+     * Adds one to the current gear of the robot, allowing the user to drive
+     * faster.
      */
 
     /*
      * ====================================================================== To
-     * (Hopefully) fix McGee's code, uncomment the gearArrayInit method. Comment out
-     * the declaration that declares gearRatios with set values, and uncomment the
-     * declaration with no set values. THIS HAS NOT BEEN TESTED!!! There is a
-     * workaround in teleopDrive method, but this is a possible permanent fix.
+     * (Hopefully) fix McGee's code, uncomment the gearArrayInit method. Comment
+     * out the declaration that declares gearRatios with set values, and
+     * uncomment the declaration with no set values. THIS HAS NOT BEEN TESTED!!!
+     * There is a workaround in teleopDrive method, but this is a possible
+     * permanent fix.
      * =====================================================================
      */
     // public void gearArrayInit(int numberOfGears)
@@ -346,10 +356,13 @@ public abstract class TransmissionBase
      */
     public enum MotorPosition
         {
-        /** the left side (if two wheel drive) or left rear (if four wheel drive) */
+        /**
+         * the left side (if two wheel drive) or left rear (if four wheel drive)
+         */
         LEFT,
         /**
-         * the right side (if two wheel drive) or right rear (if four wheel drive)
+         * the right side (if two wheel drive) or right rear (if four wheel
+         * drive)
          */
         RIGHT,
         /** the left front wheel */
@@ -377,9 +390,9 @@ public abstract class TransmissionBase
          */
         TANK,
         /**
-         * Omni-Directional Style of drive train Mecanum / Holonomic or Swerve Drive
-         * where each motor is independent, and enables the robot to move laterally,
-         * forwards/backwards, and rotate.
+         * Omni-Directional Style of drive train Mecanum / Holonomic or Swerve
+         * Drive where each motor is independent, and enables the robot to move
+         * laterally, forwards/backwards, and rotate.
          */
         OMNI_DIR
         } // end enum TransissionType

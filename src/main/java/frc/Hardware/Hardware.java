@@ -450,7 +450,7 @@ public class Hardware
         public final static double CURRENT_ARM_CONTROL_DEADBAND = 0.2;
         public final static double CURRENT_ARM_LENGTH_DEADBAND = 0.2;
         public final static double CURRENT_EBRAKETIMER_DELAY = 1.5;
-        private final static double CURRENT_GEAR1_MAX_SPEED = 0.25;
+        public final static double CURRENT_GEAR1_MAX_SPEED = 0.25;
         private final static double CURRENT_GEAR2_MAX_SPEED = 0.5;
         private final static double CURRENT_GEAR3_MAX_SPEED = 0.7;
         private final static int CURRENT_DELAY_POT_PORT = 1;

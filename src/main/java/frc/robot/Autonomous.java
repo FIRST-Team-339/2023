@@ -35,6 +35,7 @@ import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Relay.Value;
 import frc.Hardware.Hardware;
 import frc.Utils.drive.Drive;
+import frc.Utils.drive.Drive.BrakeType;
 
 /**
  * An Autonomous class. This class <b>beautifully</b> uses state machines in
@@ -65,7 +66,8 @@ public class Autonomous
         Hardware.eBrakeTimer.stop();
         Hardware.eBrakeTimer.reset();
         Hardware.rightBottomEncoder.reset();
-        delayTime = Hardware.delayPot.get(0, MAX_DELAY_SECONDS_PREV_YEAR);
+        Hardware.leftBottomEncoder.reset();
+        delayTime = Hardware.delayPot.get(0, MAX_DELAY_SECONDS_CURRENT_YEAR);
         Hardware.drive.setGear(0);
         Hardware.drive.setGearPercentage(0, AUTO_GEAR);
         Hardware.drive.setBrakeStoppingDistance(7.5);
@@ -80,8 +82,8 @@ public class Autonomous
             // one of
             // the following
             // =========================
-            System.out.println("Six Position Switch value: "
-                    + Hardware.sixPosSwitch.getPosition());
+            // System.out.println("init.switch = "
+            // + Hardware.sixPosSwitch.getPosition());
             switch (Hardware.sixPosSwitch.getPosition())
                 {
                 // =========================
@@ -93,7 +95,7 @@ public class Autonomous
                 // game piece then stops
                 // =========================
                 case 0:
-                    autoPath = AUTO_PATH.DRIVE_ONLY_FORWARD;
+                    autoPath = AUTO_PATH.SW1_DRIVE_ONLY_FORWARD;
                     break;
                 // =========================
                 // Position 2: The robot is placed 3 inches away from the
@@ -106,7 +108,7 @@ public class Autonomous
                 // double throw switch, then drive 44 inches and stops
                 // =========================
                 case 1:
-                    autoPath = AUTO_PATH.DRIVE_TURN_DRIVE;
+                    autoPath = AUTO_PATH.SW2_DRIVE_TURN_DRIVE;
                     break;
                 // =========================
                 //
@@ -144,17 +146,17 @@ public class Autonomous
                     autoPath = AUTO_PATH.DISABLE;
                     break;
 
-                }
-            }
+                } // end switch
+            } // end if
         else
             {
             autoPath = AUTO_PATH.DISABLE;
-            }
+            } // ens else
 
-        driveOnlyForwardState = DRIVE_ONLY_FORWARD_STATE.INIT;
-        driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.INIT;
+        sw1_driveOnlyForwardState = SW1_DRIVE_ONLY_FORWARD_STATE.INIT;
+        sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.INIT;
 
-        Hardware.drive.setGearPercentage(0, 0.3);
+        Hardware.drive.setGearPercentage(0, 1.0);
     } // end Init
 
     /**
@@ -172,30 +174,31 @@ public class Autonomous
 
     public static void periodic()
     {
+        System.out.println("periodic.switch = " + autoPath);
         switch (autoPath)
             {
-            case DRIVE_ONLY_FORWARD:
-                if (driveOnlyForward() == true)
+            case SW1_DRIVE_ONLY_FORWARD:
+                if (sw1_driveOnlyForward() == true)
                     {
                     autoPath = AUTO_PATH.DISABLE;
-                    }
+                    } // if
                 break;
 
-            case DRIVE_TURN_DRIVE:
-                if (driveTurnDrive() == true)
+            case SW2_DRIVE_TURN_DRIVE:
+                if (sw2_driveTurnDrive() == true)
                     {
                     autoPath = AUTO_PATH.DISABLE;
-                    }
+                    } // if
                 break;
 
+            case SW3_DRIVE_OVER_CHARGING_STATION:
             case DISABLE:
-                Hardware.drive.stop();
-                break;
-
             default:
+                Hardware.drive.stop();
+                autoPath = AUTO_PATH.DISABLE;
                 break;
-            }
-    }
+            } // switch
+    } // end periodic()
 
     // =====================================================================
     // Path Methods
@@ -207,44 +210,73 @@ public class Autonomous
      * @author Bryan Fernandez
      * @written February 18, 2023
      */
-    private static boolean driveOnlyForward()
+    private static boolean sw1_driveOnlyForward()
     {
-        switch (driveOnlyForwardState)
+        System.out.println(
+                "driveOnlyForward.switch = " + sw1_driveOnlyForwardState);
+        switch (sw1_driveOnlyForwardState)
             {
+            // ---------------------------
+            // initialize everything we need for
+            // this run
+            // ---------------------------
             case INIT:
                 Hardware.autoTimer.start();
-                driveOnlyForwardState = DRIVE_ONLY_FORWARD_STATE.DELAY;
+                sw1_driveOnlyForwardState = SW1_DRIVE_ONLY_FORWARD_STATE.DELAY;
                 return false;
+            // ---------------------------
+            // Delay if we set the pot to delay
+            // ---------------------------
             case DELAY:
                 if (Hardware.autoTimer.get() >= delayTime)
                     {
-                    driveOnlyForwardState = DRIVE_ONLY_FORWARD_STATE.DRIVE;
-                    }
+                    sw1_driveOnlyForwardState = SW1_DRIVE_ONLY_FORWARD_STATE.DRIVE_ONE_DRIVE;
+                    Hardware.autoTimer.stop();
+                    Hardware.autoTimer.reset();
+                    } // if
                 return false;
-            case DRIVE:
-                if (Math.abs(Hardware.rightBottomEncoder.getDistance()) < 133.5)
+
+            // ---------------------------
+            // Drive XX inches, accelerating first
+            // using the gyro as the way to keep
+            // us straight as we drive.
+            // When we have gone the inches, get
+            // ready for the braking actions and
+            // reset the encoders - just in case
+            // ---------------------------
+            case DRIVE_ONE_DRIVE:
+                if (Hardware.drive.driveStraightInches(SW1_DRIVE_ONLY_INCHES,
+                        DRIVE_ONE_DRIVE_SPEED, MAX_ACCEL_TIME, true))
                     {
-                    Hardware.drive.accelerateProportionaly(LEFT_SPEED,
-                            RIGHT_SPEED, 2);
-                    }
-                else
-                    {
-                    driveOnlyForwardState = DRIVE_ONLY_FORWARD_STATE.STOP;
-                    }
+                    sw1_driveOnlyForwardState = SW1_DRIVE_ONLY_FORWARD_STATE.STOP;
+                    Hardware.leftBottomEncoder.reset();
+                    Hardware.rightBottomEncoder.reset();
+                    Hardware.drive.setMaxBrakeIterations(3);
+                    Hardware.drive.setBrakeDeadband(1, BrakeType.AFTER_DRIVE);
+                    } // if
                 return false;
+
+            // ---------------------------
+            // Now actually perform the braking
+            // action. When complete, STOP
+            // ---------------------------
             case STOP:
-                if (Hardware.drive.brake(Drive.BrakeType.AFTER_DRIVE))
+                if (Hardware.drive.brake(Drive.BrakeType.AFTER_DRIVE) == true)
                     {
-                    driveOnlyForwardState = DRIVE_ONLY_FORWARD_STATE.END;
-                    }
+                    sw1_driveOnlyForwardState = SW1_DRIVE_ONLY_FORWARD_STATE.END;
+                    } // if
                 return false;
+
+            // ---------------------------
+            // Stop the motors and let everything
+            // know that we are done.
+            // ---------------------------
             case END:
-                Hardware.drive.stop();
-                return false;
             default:
-                return false;
-            }
-    }
+                Hardware.drive.stop();
+                return true;
+            } // switch
+    } // end sw1_driveOnlyForward()
 
     /**
      * Short drives forward and turns for autonomous.
@@ -252,66 +284,80 @@ public class Autonomous
      * @author Bryan Fernandez
      * @written February 18, 2023
      */
-    private static boolean driveTurnDrive()
+    private static boolean sw2_driveTurnDrive()
     {
-        switch (driveTurnDriveState)
+        System.out
+                .println("driveTurnDrive.switch = " + sw2_driveTurnDriveState);
+        switch (sw2_driveTurnDriveState)
             {
+            // ---------------------------
+            // initialize everything we need for
+            // this run
+            // ---------------------------
             case INIT:
-                System.out.println("Started " + driveTurnDriveState);
+                System.out.println("Started " + sw2_driveTurnDriveState);
                 Hardware.autoTimer.start();
-                driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.DELAY;
+                sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.DELAY;
                 return false;
 
+            // ---------------------------
+            // Delay if we set the pot to delay
+            // ---------------------------
             case DELAY:
-                System.out.println("Started " + driveTurnDriveState);
                 if (Hardware.autoTimer.get() >= delayTime)
                     {
-                    driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.DRIVE_ONE_ACCEL;
-                    }
+                    sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.DRIVE_ONE_ACCEL;
+                    Hardware.autoTimer.stop();
+                    Hardware.autoTimer.reset();
+                    } // if
                 return false;
 
-            case DRIVE_ONE_ACCEL:
-                System.out.println("Started " + driveTurnDriveState);
-                if (Hardware.drive.accelerateProportionaly(LEFT_SPEED,
-                        RIGHT_SPEED, 2) == true)
-                    {
-                    driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.DRIVE_ONE_DRIVE;
-                    }
-                return false;
-
+            // ---------------------------
+            // Drive XX inches, accelerating first
+            // using the gyro as the way to keep
+            // us straight as we drive.
+            // When we have gone the inches, get
+            // ready for the braking actions and
+            // reset the encoders - just in case
+            // ---------------------------
             case DRIVE_ONE_DRIVE:
-                if (Hardware.drive.driveStraightInches(FIRST_STOP_DISTANCE,
-                        -DRIVE_ONE_DRIVE_SPEED, DRIVE_ONE_DRIVE_ACCELERATE,
-                        true))
+                if (Hardware.drive.driveStraightInches(SW2_FIRST_STOP_DISTANCE,
+                        DRIVE_ONE_DRIVE_SPEED, MAX_ACCEL_TIME, true))
                     {
-                    driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.STOP_ONE;
-                    }
+                    sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.STOP_ONE;
+                    Hardware.leftBottomEncoder.reset();
+                    Hardware.rightBottomEncoder.reset();
+                    Hardware.drive.setMaxBrakeIterations(3);
+                    Hardware.drive.setBrakeDeadband(1, BrakeType.AFTER_DRIVE);
+                    } // if
                 return false;
 
+            // ---------------------------
+            // Now actually perform the braking
+            // action. When complete, STOP
+            // ---------------------------
             case STOP_ONE:
-                System.out.println("Started " + driveTurnDriveState);
                 if (Hardware.drive.brake(Drive.BrakeType.AFTER_DRIVE) == true)
                     {
-                    driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.DECIDE_NEXT;
-                    }
+                    sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.DECIDE_NEXT;
+                    } // if
                 return false;
 
+            // ---------------------------
+            // Decide whether or not to turn
+            // ---------------------------
             case DECIDE_NEXT:
                 if (Hardware.leftRightNoneSwitch.getPosition() == Value.kOff)
                     {
-                    driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.DRIVE_TWO_ACCEL;
-                    }
+                    sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.STOP_TWO;
+                    } // if
                 else
                     {
-                    driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.TURN;
-                    driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.END;
-                    }
+                    sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.TURN;
+                    } // else
                 return false;
 
             case TURN:
-                System.out.println("Started " + driveTurnDriveState);
-                System.out.println(
-                        Math.abs(Hardware.rightBottomEncoder.getDistance()));
                 /*
                  * switch (Hardware.leftRightNoneSwitch.getPosition()) { case
                  * kOff: driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.STOP_TWO;
@@ -343,105 +389,102 @@ public class Autonomous
                 if (Hardware.leftRightNoneSwitch
                         .getPosition() == Relay.Value.kForward)
                     {
-                    if (Hardware.drive.turnDegrees(90, -0.22, 0.99, false))
+                    if (Hardware.drive.turnDegrees(90, LEFT_ACCEL_SPEED,
+                            MAX_ACCEL_TIME, true) == true)
                         {
-                        driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.STOP_TURN;
+                        sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.STOP_TURN;
                         }
                     }
 
                 if (Hardware.leftRightNoneSwitch
                         .getPosition() == Relay.Value.kReverse)
                     {
-                    if (Hardware.drive.turnDegrees(-90, -0.22, 0.99, false))
+                    if (Hardware.drive.turnDegrees(-90, RIGHT_ACCEL_SPEED,
+                            MAX_ACCEL_TIME, true) == true)
                         {
-                        driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.STOP_TURN;
+                        sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.STOP_TURN;
                         }
                     }
 
                 return false;
 
             case STOP_TURN:
-                System.out.println("Started " + driveTurnDriveState);
                 // Hardware.drive.brake(Drive.BrakeType.AFTER_TURN);
-                driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.END;
+                sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.END;
                 return false;
 
             case DRIVE_TWO_ACCEL:
-                System.out.println("Started " + driveTurnDriveState);
                 if (Hardware.drive.accelerateProportionaly(-0.22, -0.22,
                         2) == true)
                     {
                     Hardware.drive.resetEncoders();
-                    driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.DRIVE_TWO_DRIVE;
+                    sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.DRIVE_TWO_DRIVE;
                     }
                 return false;
 
             case DRIVE_TWO_DRIVE:
-                System.out.println("Started " + driveTurnDriveState);
                 if (Math.abs(Hardware.rightBottomEncoder.getDistance()) < 44)
                     {
-                    Hardware.transmission.driveRaw(LEFT_SPEED, RIGHT_SPEED);
+                    Hardware.transmission.driveRaw(LEFT_ACCEL_SPEED,
+                            RIGHT_ACCEL_SPEED);
                     }
                 else
                     {
-                    driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.STOP_TWO;
+                    sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.STOP_TWO;
                     }
                 return false;
 
+            // ---------------------------
+            // stop all motors
+            // ----------------------------
             case STOP_TWO:
-                System.out.println("Started " + driveTurnDriveState);
-                // Hardware.drive.brake(Drive.BrakeType.AFTER_DRIVE);
-                driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.END;
-                return false;
-
             case END:
-                System.out.println("Started " + driveTurnDriveState);
-                Hardware.drive.stop();
-                return false;
-
             default:
-                return false;
-            }
-    }
+                Hardware.drive.stop();
+                return true;
+            } // switch
+    } // end sw2_driveTurnDrive()
 
     private static enum AUTO_PATH
         {
-        DRIVE_ONLY_FORWARD, DRIVE_TURN_DRIVE, DISABLE;
+        SW1_DRIVE_ONLY_FORWARD, SW2_DRIVE_TURN_DRIVE, SW3_DRIVE_OVER_CHARGING_STATION, DISABLE;
         }
 
-    private static enum DRIVE_ONLY_FORWARD_STATE
+    private static enum SW1_DRIVE_ONLY_FORWARD_STATE
         {
-        INIT, DELAY, DRIVE, STOP, END;
+        INIT, DELAY, DRIVE_ONE_DRIVE, STOP, END;
         }
 
-    private static enum DRIVE_TURN_DRIVE_STATE
+    private static enum SW2_DRIVE_TURN_DRIVE_STATE
         {
         INIT, DELAY, DRIVE_ONE_ACCEL, DRIVE_ONE_DRIVE, STOP_ONE, DECIDE_NEXT, TURN, STOP_TURN, DRIVE_TWO_ACCEL, DRIVE_TWO_DRIVE, STOP_TWO, END;
         }
 
     private static AUTO_PATH autoPath;
 
-    private static DRIVE_ONLY_FORWARD_STATE driveOnlyForwardState;
+    private static SW1_DRIVE_ONLY_FORWARD_STATE sw1_driveOnlyForwardState;
 
-    private static DRIVE_TURN_DRIVE_STATE driveTurnDriveState;
+    private static SW2_DRIVE_TURN_DRIVE_STATE sw2_driveTurnDriveState;
 
-    private static double delayTime;
+    private static double delayTime = 0.0;
     /*
      * ============================================================== Constants
      * ==============================================================
      */
-    private static final double MAX_DELAY_SECONDS_PREV_YEAR = 5.0;
+    private static final double MAX_DELAY_SECONDS_CURRENT_YEAR = 5.0;
 
     private static final double AUTO_GEAR = 1;
 
-    private static final double LEFT_SPEED = -0.22;
+    private static final double MAX_ACCEL_TIME = 1.0;
 
-    private static final double RIGHT_SPEED = -0.22;
+    private static final double LEFT_ACCEL_SPEED = -0.22;
 
-    private static final double DRIVE_ONE_DRIVE_SPEED = 0.3;
+    private static final double RIGHT_ACCEL_SPEED = -0.22;
 
-    private static final double DRIVE_ONE_DRIVE_ACCELERATE = 0.5;
+    private static final double DRIVE_ONE_DRIVE_SPEED = -0.3;
 
-    private static final double FIRST_STOP_DISTANCE = 44.0;
+    private static final double SW1_DRIVE_ONLY_INCHES = 133.0;
+
+    private static final double SW2_FIRST_STOP_DISTANCE = 44.0;
 
     }

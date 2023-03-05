@@ -65,7 +65,9 @@ public class Teleop
     public static void init()
     {
         Hardware.drive.setGear(0);
+        Hardware.drive.setGearPercentage(0, Hardware.CURRENT_GEAR1_MAX_SPEED);
         Hardware.rightBottomEncoder.reset();
+        Hardware.leftBottomEncoder.reset();
 
     } // end init()
 
