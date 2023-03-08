@@ -66,7 +66,7 @@ public class Hardware
                 CurrentYear, PrevYear
                 };
 
-        public static Identifier robotIdentity = Identifier.PrevYear;
+        public static Identifier robotIdentity = Identifier.CurrentYear;
 
         public static void initialize()
         {
@@ -160,13 +160,14 @@ public class Hardware
 
                         clawPiston = new DoubleSolenoid(CURRENT_CLAW_FWD_PORT,
                                         CURRENT_CLAW_REV_PORT);
-                        eBrake = new DoubleSolenoid(CURRENT_ARM_RAISE_FWD_PORT,
-                                        CURRENT_ARM_RAISE_REV_PORT);
-                        armRaisePiston = new DoubleSolenoid(
+                        eBrakePiston = new DoubleSolenoid(
                                         CURRENT_EBRAKE_FWD_PORT,
                                         CURRENT_EBRAKE_REV_PORT);
+                        armRaisePiston = new DoubleSolenoid(
+                                        CURRENT_ARM_RAISE_FWD_PORT,
+                                        CURRENT_ARM_RAISE_REV_PORT);
                         clawPiston.setForward(true);
-                        eBrake.setForward(true);
+                        eBrakePiston.setForward(false);
                         armRaisePiston.setForward(true);
 
                         eBrakeDelayTime = CURRENT_EBRAKETIMER_DELAY;
@@ -250,13 +251,13 @@ public class Hardware
 
                         clawPiston = new DoubleSolenoid(PREV_CLAW_FWD_PORT,
                                         PREV_CLAW_REV_PORT);
-                        eBrake = new DoubleSolenoid(PREV_EBRAKE_FWD_PORT,
+                        eBrakePiston = new DoubleSolenoid(PREV_EBRAKE_FWD_PORT,
                                         PREV_EBRAKE_REV_PORT);
                         armRaisePiston = new DoubleSolenoid(
                                         PREV_ARM_RAISE_FWD_PORT,
                                         PREV_ARM_RAISE_REV_PORT);
                         clawPiston.setForward(true);
-                        eBrake.setForward(false);
+                        eBrakePiston.setForward(false);
                         armRaisePiston.setForward(true);
                         // arm control
                         armRaiseMaxSpeedUp = PREV_ARM_RAISE_MAX_SPEED_UP;
@@ -328,7 +329,7 @@ public class Hardware
         // **********************************************************
         public static Compressor compressor = new Compressor(
                         PneumaticsModuleType.CTREPCM);
-        public static DoubleSolenoid eBrake = null;
+        public static DoubleSolenoid eBrakePiston = null;
         public static DoubleSolenoid clawPiston = null;
         public static DoubleSolenoid armRaisePiston = null;
 
@@ -417,7 +418,7 @@ public class Hardware
         public final static double PREV_MAX_JOYSTICK_OPERATOR_VALUE = 1.0;
         public final static double PREV_MIN_JOYSTICK_OPERATOR_VALUE = 0.201;
         // end of arm control values
-        private final static double PREV_EBRAKETIMER_DELAY = 1.5;
+        private final static double PREV_EBRAKETIMER_DELAY = 0.5;
         private final static double PREV_GEAR1_MAX_SPEED = 0.3;
         private final static double PREV_GEAR2_MAX_SPEED = 0.5;
         private final static double PREV_GEAR3_MAX_SPEED = 0.7;
@@ -437,19 +438,19 @@ public class Hardware
         public final static double CURRENT_DEADBAND = 0.2;
         public final static double CURRENT_EBRAKE_DEADBAND = 2.0
                         * CURRENT_DEADBAND;
-        public final static double CURRENT_ARM_RAISE_MAX_SPEED_UP = 0.8;
-        public final static double CURRENT_ARM_RAISE_MAX_SPEED_DOWN = 0.6;
+        public final static double CURRENT_ARM_RAISE_MAX_SPEED_UP = 0.6;
+        public final static double CURRENT_ARM_RAISE_MAX_SPEED_DOWN = 0.5;
         public final static double CURRENT_ARM_RAISE_MIN_SPEED_POSITIVE = 0.0;
         public final static double CURRENT_ARM_RAISE_MIN_SPEED_NEGATIVE = 0.2;
         public final static double CURRENT_ARM_LENGTH_MAX_SPEED = 0.5;
         public final static double CURRENT_ARM_LENGTH_MIN_SPEED = 0.0;
         public final static double CURRENT_MAX_JOYSTICK_OPERATOR_VALUE = 1.0;
         public final static double CURRENT_MIN_JOYSTICK_OPERATOR_VALUE = 0.201;
-        public final static double CURRENT_ARM_CONTROL_HOLD_SPEED = 0.0;
+        public final static double CURRENT_ARM_CONTROL_HOLD_SPEED = 0.01;
         public final static double CURRENT_ARM_LENGTH_HOLD_SPEED = 0.0;
         public final static double CURRENT_ARM_CONTROL_DEADBAND = 0.2;
         public final static double CURRENT_ARM_LENGTH_DEADBAND = 0.2;
-        public final static double CURRENT_EBRAKETIMER_DELAY = 1.5;
+        public final static double CURRENT_EBRAKETIMER_DELAY = 0.5;
         public final static double CURRENT_GEAR1_MAX_SPEED = 0.25;
         private final static double CURRENT_GEAR2_MAX_SPEED = 0.5;
         private final static double CURRENT_GEAR3_MAX_SPEED = 0.7;

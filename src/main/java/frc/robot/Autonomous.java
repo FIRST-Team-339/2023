@@ -62,7 +62,7 @@ public class Autonomous
      */
     public static void init()
     {
-        Hardware.eBrake.setForward(false);
+        Hardware.eBrakePiston.setForward(false);
         Hardware.eBrakeTimer.stop();
         Hardware.eBrakeTimer.reset();
         Hardware.rightBottomEncoder.reset();

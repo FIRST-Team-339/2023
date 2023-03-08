@@ -105,7 +105,7 @@ public class Teleop
         if (Hardware.eBrakeMomentarySwitch1.isOnCheckNow() == true)
             {
             Hardware.eBrakeMomentarySwitch2.setValue(false);
-            Hardware.eBrake.setForward(true);
+            Hardware.eBrakePiston.setForward(true);
             } // if
         // =========================
         // when button 6 left driver is pushed
@@ -120,9 +120,9 @@ public class Teleop
             // and starts the eBrake timer
             // =========================
             Hardware.eBrakeMomentarySwitch1.setValue(false);
-            if (Hardware.eBrake.getForward() == true)
+            if (Hardware.eBrakePiston.getForward() == true)
                 {
-                Hardware.eBrake.setForward(false);
+                Hardware.eBrakePiston.setForward(false);
                 }
             // =========================
             // when the eBrake is retracted and the eBrake timer has passed
@@ -131,7 +131,7 @@ public class Teleop
             // duration
             // Reactivates the drive motors and stops the eBrake timer
             // =========================
-            if ((Hardware.eBrake.getForward() == false)
+            if ((Hardware.eBrakePiston.getForward() == false)
                     && ((Hardware.eBrakeTimer
                             .hasElapsed(Hardware.eBrakeDelayTime))
                             || Hardware.eBrakeTimerIsStopped == true))
@@ -146,7 +146,7 @@ public class Teleop
         // duration
         // Reactivates the drive motors and stops the eBrake timer
         // =========================
-        if ((Hardware.eBrake.getForward() == false)
+        if ((Hardware.eBrakePiston.getForward() == false)
                 && ((Hardware.eBrakeTimer.hasElapsed(Hardware.eBrakeDelayTime)
                         || Hardware.eBrakeTimerIsStopped == true)))
             {
@@ -161,7 +161,7 @@ public class Teleop
         // motors,
         // and starts the eBrake timer
         // =========================
-        if ((Hardware.eBrake.getForward() == true) && ((Math
+        if ((Hardware.eBrakePiston.getForward() == true) && ((Math
                 .abs(Hardware.leftDriver.getY()) >= Hardware.eBrakeDeadband)
                 || (Math.abs(Hardware.rightDriver
                         .getY()) >= Hardware.eBrakeDeadband)))
@@ -200,11 +200,11 @@ public class Teleop
         // the opposite direction each time it is pressed
         if (Hardware.armRaiseButton.isOnCheckNow() == true)
             {
-            Hardware.armRaisePiston.setForward(false);
+            Hardware.armRaisePiston.setForward(true);
             }
         else
             {
-            Hardware.armRaisePiston.setForward(true);
+            Hardware.armRaisePiston.setForward(false);
             }
 
         // -----------------
