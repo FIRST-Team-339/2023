@@ -437,13 +437,13 @@ public class Autonomous
 
     private static final double AUTO_GEAR = 1;
 
-    private static final double MAX_ACCEL_TIME = 0.5;
+    private static final double MAX_ACCEL_TIME = 0.1;
 
-    private static final double LEFT_ACCEL_SPEED = -0.22;
+    private static final double LEFT_ACCEL_SPEED = -0.15;
 
-    private static final double RIGHT_ACCEL_SPEED = -0.22;
+    private static final double RIGHT_ACCEL_SPEED = -0.15;
 
-    private static final double DRIVE_ONE_DRIVE_SPEED = -0.3;
+    private static final double DRIVE_ONE_DRIVE_SPEED = -0.25;
 
     private static final double SW1_DRIVE_ONLY_INCHES = 133.0;
 
