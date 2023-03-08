@@ -986,6 +986,7 @@ public class Drive
      * @param isUsingGyro
      *            If true, the chosen sensor is a gyro. If false, it uses
      *            encoders.
+     * @TODO fixed all code and comments about exactly what acceleration is
      */
     public void driveStraight(double speed, double acceleration,
             boolean isUsingGyro)
@@ -1055,6 +1056,7 @@ public class Drive
      *            encoders.
      * @return Whether or not the robot has finished traveling that given
      *         distance.
+     * @TODO fixed all code and comments about exactly what acceleration is
      */
     public boolean driveStraightInches(double distance, double speed,
             double acceleration, boolean isUsingGyro)
@@ -1995,6 +1997,7 @@ public class Drive
      *            encoders will be used.
      * @return Whether or not the robot has finished turning the requested
      *         number of degrees, used in a state machine.
+     * @TODO fixed all code and comments about exactly what acceleration is
      */
     public boolean turnDegrees(int degrees, double speed, double acceleration,
             boolean usingGyro)
@@ -2048,13 +2051,18 @@ public class Drive
         // If degrees is positive, then turn left. If not, then turn right.
         if (degrees > 0)
             {
-            return (this.accelerateProportionaly(speed, -speed, acceleration));
-            }
+            // return (this.accelerateProportionaly(speed, -speed,
+            // acceleration));
+            this.transmission.driveRaw(speed, -speed);
+            } // if
         else
             {
-            return (this.accelerateProportionaly(-speed, speed, acceleration));
-            }
-    }
+            // return (this.accelerateProportionaly(-speed, speed,
+            // acceleration));
+            this.transmission.driveRaw(-speed, speed);
+            } // else
+        return false;
+    } // end turnDegrees()
 
     // The transmission objects. Only one is used based on the transmission
     // object that is input.
