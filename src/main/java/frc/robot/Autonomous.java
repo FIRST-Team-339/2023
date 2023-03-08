@@ -306,7 +306,7 @@ public class Autonomous
             case DELAY:
                 if (Hardware.autoTimer.get() >= delayTime)
                     {
-                    sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.DRIVE_ONE_ACCEL;
+                    sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.DRIVE_ONE_DRIVE;
                     Hardware.autoTimer.stop();
                     Hardware.autoTimer.reset();
                     } // if
@@ -358,34 +358,6 @@ public class Autonomous
                 return false;
 
             case TURN:
-                /*
-                 * switch (Hardware.leftRightNoneSwitch.getPosition()) { case
-                 * kOff: driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.STOP_TWO;
-                 * break;
-                 * 
-                 * case kForward: //
-                 * Hardware.drive.accelerateProportionaly(0.22, -0.22, // 9); if
-                 * (Hardware.drive.turnDegrees(90, 0.22, 0.99, false)) {
-                 * driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.STOP_TURN; }
-                 * break;
-                 * 
-                 * case kReverse: //
-                 * Hardware.drive.accelerateProportionaly(-0.22, 0.22, // 9); if
-                 * (Hardware.drive.turnDegrees(90, 0.22, 0.99, false)) {
-                 * driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.STOP_TURN; }
-                 * break;
-                 * 
-                 * default: break;
-                 * 
-                 * }
-                 */
-
-                // if (Hardware.leftRightNoneSwitch
-                // .getPosition() == Relay.Value.kOff)
-                // {
-                // driveTurnDriveState = DRIVE_TURN_DRIVE_STATE.END;
-                // }
-
                 if (Hardware.leftRightNoneSwitch
                         .getPosition() == Relay.Value.kForward)
                     {
@@ -393,8 +365,8 @@ public class Autonomous
                             MAX_ACCEL_TIME, true) == true)
                         {
                         sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.STOP_TURN;
-                        }
-                    }
+                        } // if
+                    } // if
 
                 if (Hardware.leftRightNoneSwitch
                         .getPosition() == Relay.Value.kReverse)
@@ -403,35 +375,25 @@ public class Autonomous
                             MAX_ACCEL_TIME, true) == true)
                         {
                         sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.STOP_TURN;
-                        }
-                    }
-
+                        } // if
+                    } // if
                 return false;
 
             case STOP_TURN:
                 // Hardware.drive.brake(Drive.BrakeType.AFTER_TURN);
-                sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.END;
-                return false;
-
-            case DRIVE_TWO_ACCEL:
-                if (Hardware.drive.accelerateProportionaly(-0.22, -0.22,
-                        2) == true)
-                    {
-                    Hardware.drive.resetEncoders();
-                    sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.DRIVE_TWO_DRIVE;
-                    }
+                sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.DRIVE_TWO_DRIVE;
                 return false;
 
             case DRIVE_TWO_DRIVE:
-                if (Math.abs(Hardware.rightBottomEncoder.getDistance()) < 44)
-                    {
-                    Hardware.transmission.driveRaw(LEFT_ACCEL_SPEED,
-                            RIGHT_ACCEL_SPEED);
-                    }
-                else
+                if (Hardware.drive.driveStraightInches(SW2_FIRST_STOP_DISTANCE,
+                        DRIVE_ONE_DRIVE_SPEED, MAX_ACCEL_TIME, true))
                     {
                     sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.STOP_TWO;
-                    }
+                    Hardware.leftBottomEncoder.reset();
+                    Hardware.rightBottomEncoder.reset();
+                    Hardware.drive.setMaxBrakeIterations(3);
+                    Hardware.drive.setBrakeDeadband(1, BrakeType.AFTER_DRIVE);
+                    } // if
                 return false;
 
             // ---------------------------
@@ -475,7 +437,7 @@ public class Autonomous
 
     private static final double AUTO_GEAR = 1;
 
-    private static final double MAX_ACCEL_TIME = 1.0;
+    private static final double MAX_ACCEL_TIME = 0.5;
 
     private static final double LEFT_ACCEL_SPEED = -0.22;
 

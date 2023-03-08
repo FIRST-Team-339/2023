@@ -117,7 +117,7 @@ public class Hardware
                         armLengthMotor = new WPI_VictorSPX(23);
                         armRaiseMotor = new CANVenom(21);
 
-                        armLengthMotor.setInverted(false);
+                        armLengthMotor.setInverted(true);
                         armRaiseMotor.setInverted(false);
 
                         // Encoders
@@ -225,7 +225,7 @@ public class Hardware
                         armLengthMotor = new WPI_TalonSRX(26);
                         armRaiseMotor = new WPI_TalonFX(18);
 
-                        armLengthMotor.setInverted(true);
+                        armLengthMotor.setInverted(false);
                         armRaiseMotor.setInverted(true);
                         // ==============RIO INIT=============
 
