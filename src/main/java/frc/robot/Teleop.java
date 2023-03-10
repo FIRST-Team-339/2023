@@ -123,6 +123,7 @@ public class Teleop
             if (Hardware.eBrakePiston.getForward() == true)
                 {
                 Hardware.eBrakePiston.setForward(false);
+                Hardware.leftSideMotors.set(.15);
                 }
             // =========================
             // when the eBrake is retracted and the eBrake timer has passed
