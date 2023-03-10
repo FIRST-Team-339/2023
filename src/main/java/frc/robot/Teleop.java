@@ -123,6 +123,7 @@ public class Teleop
             if (Hardware.eBrakePiston.getForward() == true)
                 {
                 Hardware.eBrakePiston.setForward(false);
+                Hardware.leftSideMotors.set(.15);
                 }
             // =========================
             // when the eBrake is retracted and the eBrake timer has passed
@@ -394,10 +395,11 @@ public class Teleop
         // System.out.println("RBottomMotor = " +
         /////////// Hardware.rightBottomMotor.get());
         // System.out.println("RTopMotor = " + Hardware.rightTopMotor.get());
-        System.out.println("LeMotor = " + Hardware.armLengthMotor.get()
-                + " Y = " + Hardware.leftOperator.getY());
-        System.out.println("RaMotor = " + Hardware.armRaiseMotor.get() + " Y = "
-                + Hardware.rightOperator.getY());
+        // System.out.println("LeMotor = " + Hardware.armLengthMotor.get()
+        // + " Y = " + Hardware.leftOperator.getY());
+        // System.out.println("RaMotor = " + Hardware.armRaiseMotor.get() + " Y
+        /////////// = "
+        // + Hardware.rightOperator.getY());
 
         // -------- SUBSYSTEMS ---------
 

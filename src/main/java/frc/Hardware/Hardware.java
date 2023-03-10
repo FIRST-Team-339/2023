@@ -133,11 +133,13 @@ public class Hardware
                                         CURRENT_GEAR2_MAX_SPEED,
                                         CURRENT_GEAR3_MAX_SPEED);
 
-                        gyro = new KilroySPIGyro(true);
-                        gyro.calibrate();
+                        // System.out.println("The gyro is = " + gyro);
+                        // gyro = new KilroySPIGyro(true);
+                        // gyro.calibrate();
 
                         drive = new Drive(transmission, leftBottomEncoder,
-                                        rightBottomEncoder, gyro);
+                                        rightBottomEncoder, null);
+                        drive.setTurningRadius(20.5);
 
                         eBrakeTimer = new Timer();
 
@@ -237,11 +239,12 @@ public class Hardware
                                         PREV_GEAR2_MAX_SPEED,
                                         PREV_GEAR3_MAX_SPEED);
 
-                        gyro = new KilroySPIGyro(true);
-                        gyro.calibrate();
+                        // gyro = new KilroySPIGyro(true);
+                        // gyro.calibrate();
 
                         drive = new Drive(transmission, leftBottomEncoder,
-                                        rightBottomEncoder, gyro);
+                                        rightBottomEncoder, null);
+                        drive.setTurningRadius(20.5);
 
                         eBrakeTimer = new Timer();
 
@@ -314,7 +317,8 @@ public class Hardware
         // SPI BUS
         // **********************************************************
 
-        public static KilroySPIGyro gyro = null;
+        // public static KilroySPIGyro gyro = new KilroySPIGyro(true);
+        // public static KilroySPIGyro gyro;
 
         // **********************************************************
         // DRIVER STATION CLASSES

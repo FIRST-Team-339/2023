@@ -31,8 +31,8 @@ public class KilroySPIGyro extends ADXRS450_Gyro
     public boolean hasGyro;
 
     /**
-     * Creates the Gyro object. If we input that the gyro is not connected, then do
-     * not create it to avoid errors, and set the methods to avoid
+     * Creates the Gyro object. If we input that the gyro is not connected, then
+     * do not create it to avoid errors, and set the methods to avoid
      * nullPointerExceptions.
      *
      * @param hasGyro
@@ -44,6 +44,7 @@ public class KilroySPIGyro extends ADXRS450_Gyro
             if (hasGyro)
                 {
                 this.gyro = new ADXRS450_Gyro();
+                System.out.println("The gyro is = " + this.gyro);
                 }
             else
                 {
@@ -145,9 +146,11 @@ public class KilroySPIGyro extends ADXRS450_Gyro
             return;
             }
 
-        // Intentionally do nothing, as wpilib has not yet immplemented a close()
+        // Intentionally do nothing, as wpilib has not yet immplemented a
+        // close()
         // function.
-        // Therefore calling this next line *might* result in a recursive loop. -McGee
+        // Therefore calling this next line *might* result in a recursive loop.
+        // -McGee
 
         // this.gyro.close();
     } // end close()

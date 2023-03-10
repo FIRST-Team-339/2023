@@ -246,7 +246,7 @@ public class Autonomous
             // ---------------------------
             case DRIVE_ONE_DRIVE:
                 if (Hardware.drive.driveStraightInches(SW1_DRIVE_ONLY_INCHES,
-                        DRIVE_ONE_DRIVE_SPEED, MAX_ACCEL_TIME, true))
+                        DRIVE_ONE_DRIVE_SPEED, MAX_ACCEL_TIME, false))
                     {
                     sw1_driveOnlyForwardState = SW1_DRIVE_ONLY_FORWARD_STATE.STOP;
                     Hardware.leftBottomEncoder.reset();
@@ -307,6 +307,8 @@ public class Autonomous
                 if (Hardware.autoTimer.get() >= delayTime)
                     {
                     sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.DRIVE_ONE_DRIVE;
+                    sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.DECIDE_NEXT;
+
                     Hardware.autoTimer.stop();
                     Hardware.autoTimer.reset();
                     } // if
@@ -322,7 +324,7 @@ public class Autonomous
             // ---------------------------
             case DRIVE_ONE_DRIVE:
                 if (Hardware.drive.driveStraightInches(SW2_FIRST_STOP_DISTANCE,
-                        DRIVE_ONE_DRIVE_SPEED, MAX_ACCEL_TIME, true))
+                        DRIVE_ONE_DRIVE_SPEED, MAX_ACCEL_TIME, false))
                     {
                     sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.STOP_ONE;
                     Hardware.leftBottomEncoder.reset();
@@ -354,25 +356,32 @@ public class Autonomous
                 else
                     {
                     sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.TURN;
+                    Hardware.leftBottomEncoder.reset();
+                    Hardware.rightBottomEncoder.reset();
                     } // else
                 return false;
 
             case TURN:
+                // ----------------------------
+                // This is a Left turn
+                // -------------------------
                 if (Hardware.leftRightNoneSwitch
-                        .getPosition() == Relay.Value.kForward)
+                        .getPosition() == Relay.Value.kReverse)
                     {
-                    if (Hardware.drive.turnDegrees(90, LEFT_ACCEL_SPEED,
-                            MAX_ACCEL_TIME, true) == true)
+                    if (Hardware.drive.turnDegrees(-90, LEFT_ACCEL_SPEED,
+                            MAX_ACCEL_TIME, false) == true)
                         {
                         sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.STOP_TURN;
                         } // if
                     } // if
-
+                // ----------------------
+                // right turn
+                // -------------------
                 if (Hardware.leftRightNoneSwitch
-                        .getPosition() == Relay.Value.kReverse)
+                        .getPosition() == Relay.Value.kForward)
                     {
-                    if (Hardware.drive.turnDegrees(-90, RIGHT_ACCEL_SPEED,
-                            MAX_ACCEL_TIME, true) == true)
+                    if (Hardware.drive.turnDegrees(90, RIGHT_ACCEL_SPEED,
+                            MAX_ACCEL_TIME, false) == true)
                         {
                         sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.STOP_TURN;
                         } // if
@@ -382,11 +391,12 @@ public class Autonomous
             case STOP_TURN:
                 // Hardware.drive.brake(Drive.BrakeType.AFTER_TURN);
                 sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.DRIVE_TWO_DRIVE;
+                sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.STOP_TWO;
                 return false;
 
             case DRIVE_TWO_DRIVE:
                 if (Hardware.drive.driveStraightInches(SW2_FIRST_STOP_DISTANCE,
-                        DRIVE_ONE_DRIVE_SPEED, MAX_ACCEL_TIME, true))
+                        DRIVE_ONE_DRIVE_SPEED, MAX_ACCEL_TIME, false) == true)
                     {
                     sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.STOP_TWO;
                     Hardware.leftBottomEncoder.reset();

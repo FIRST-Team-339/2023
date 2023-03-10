@@ -2007,15 +2007,15 @@ public class Drive
                 System.out.println("using the gryo");
                 this.gyro.reset();
                 turnDegreesInit = false;
-                }
+                } // if
             else
                 {
                 // System.out.print("not gyro");
                 this.resetEncoders();
 
                 turnDegreesInit = false;
-                }
-            }
+                } // else
+            } // if
 
         // If either sensor has reached the target position, then stop motors
         // and return true.
@@ -2029,11 +2029,14 @@ public class Drive
             turnDegreesInit = true;
             return true;
             // not using gyro
-            }
+            } // if
         else
+            {
+            System.out.println("Distance Traveled = "
+                    + this.getEncoderDistanceAverage(MotorPosition.ALL));
             if (!usingGyro && this.getEncoderDistanceAverage(
                     MotorPosition.ALL) > degreesToEncoderInches(
-                            Math.abs(degrees) - turnDegreesFudgeFactor, false))
+                            Math.abs(degrees) - turnDegreesFudgeFactor, true))
                 {
                 System.out
                         .println("encoder required: " + degreesToEncoderInches(
@@ -2043,18 +2046,20 @@ public class Drive
                 this.transmission.stop();
                 turnDegreesInit = true;
                 return true;
-                }
+                } //
+            } // else
 
         // If degrees is positive, then turn left. If not, then turn right.
         if (degrees > 0)
             {
-            return (this.accelerateProportionaly(speed, -speed, acceleration));
-            }
+            this.accelerateProportionaly(speed, -speed, acceleration);
+            } // if
         else
             {
-            return (this.accelerateProportionaly(-speed, speed, acceleration));
-            }
-    }
+            this.accelerateProportionaly(-speed, speed, acceleration);
+            } // else
+        return false;
+    } // end turnDegrees()
 
     // The transmission objects. Only one is used based on the transmission
     // object that is input.
