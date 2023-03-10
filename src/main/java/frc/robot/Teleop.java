@@ -394,10 +394,11 @@ public class Teleop
         // System.out.println("RBottomMotor = " +
         /////////// Hardware.rightBottomMotor.get());
         // System.out.println("RTopMotor = " + Hardware.rightTopMotor.get());
-        System.out.println("LeMotor = " + Hardware.armLengthMotor.get()
-                + " Y = " + Hardware.leftOperator.getY());
-        System.out.println("RaMotor = " + Hardware.armRaiseMotor.get() + " Y = "
-                + Hardware.rightOperator.getY());
+        // System.out.println("LeMotor = " + Hardware.armLengthMotor.get()
+        // + " Y = " + Hardware.leftOperator.getY());
+        // System.out.println("RaMotor = " + Hardware.armRaiseMotor.get() + " Y
+        /////////// = "
+        // + Hardware.rightOperator.getY());
 
         // -------- SUBSYSTEMS ---------
 
