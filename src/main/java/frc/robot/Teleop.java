@@ -44,6 +44,9 @@ import frc.HardwareInterfaces.KilroyUSBCamera;
 import frc.HardwareInterfaces.Potentiometer;
 import frc.HardwareInterfaces.Transmission.LeftRightTransmission;
 import frc.HardwareInterfaces.Transmission.TransmissionBase;
+import frc.Utils.Dashboard;
+import frc.Utils.Dashboard.AutoModeDash;
+import frc.Utils.Dashboard.DriveGear;
 
 /**
  * This class contains all of the user code for the Autonomous part of the
@@ -284,6 +287,45 @@ public class Teleop
 
     } // end of armControl()
 
+    public static void updateDashboard()
+    {
+        // GYRO
+        Dashboard.updateGyroInd();
+
+        // GEARS
+        int currentGear = Hardware.drive.getCurrentGear();
+        if (Hardware.leftDriver.getY() > 0.2
+                && Hardware.rightDriver.getY() > 0.2)
+            {
+            Dashboard.updateDriveGearInd(DriveGear.Reverse);
+            }
+        else
+            {
+            if (currentGear == 0)
+                {
+                Dashboard.updateDriveGearInd(DriveGear.Drive1);
+                }
+            else
+                if (currentGear == 1)
+                    {
+                    Dashboard.updateDriveGearInd(DriveGear.Drive2);
+                    }
+                else
+                    if (currentGear == 2)
+                        {
+                        Dashboard.updateDriveGearInd(DriveGear.Drive3);
+                        }
+            }
+
+        // AUTO
+        Dashboard.updateAutoModeInd(AutoModeDash.Teleop);
+
+        // UTILS
+        Dashboard.updateEBrakeEngagedInd(Hardware.eBrakePiston.getForward());
+        Dashboard.updateReplaceBatteryInd();
+        Dashboard.updateClawClosedInd(Hardware.clawPiston.getForward());
+    }
+
     /**
      * User Periodic code for teleop mode should go here. Will be called
      * periodically at a regular rate while the robot is in teleop mode.
@@ -321,6 +363,12 @@ public class Teleop
         // ----------------------------
         armControl();
         manageEBrake();
+
+        // --------------------------
+        // update dashboard values
+        // --------------------------
+        updateDashboard();
+
         // --------------------------
         // all print statement and
         // individual testing function
@@ -394,10 +442,11 @@ public class Teleop
         // System.out.println("RBottomMotor = " +
         /////////// Hardware.rightBottomMotor.get());
         // System.out.println("RTopMotor = " + Hardware.rightTopMotor.get());
-        System.out.println("LeMotor = " + Hardware.armLengthMotor.get()
-                + " Y = " + Hardware.leftOperator.getY());
-        System.out.println("RaMotor = " + Hardware.armRaiseMotor.get() + " Y = "
-                + Hardware.rightOperator.getY());
+        // System.out.println("LeMotor = " + Hardware.armLengthMotor.get()
+        // + " Y = " + Hardware.leftOperator.getY());
+        // System.out.println("RaMotor = " + Hardware.armRaiseMotor.get() + " Y
+        /////////// = "
+        // + Hardware.rightOperator.getY());
 
         // -------- SUBSYSTEMS ---------
 

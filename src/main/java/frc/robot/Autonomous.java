@@ -34,6 +34,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Relay.Value;
 import frc.Hardware.Hardware;
+import frc.Utils.Dashboard.AutoModeDash;
 import frc.Utils.drive.Drive;
 import frc.Utils.drive.Drive.BrakeType;
 
@@ -96,6 +97,7 @@ public class Autonomous
                 // =========================
                 case 0:
                     autoPath = AUTO_PATH.SW1_DRIVE_ONLY_FORWARD;
+                    AUTO_MODE_DASH = AutoModeDash.Mode1;
                     break;
                 // =========================
                 // Position 2: The robot is placed 3 inches away from the
@@ -109,12 +111,14 @@ public class Autonomous
                 // =========================
                 case 1:
                     autoPath = AUTO_PATH.SW2_DRIVE_TURN_DRIVE;
+                    AUTO_MODE_DASH = AutoModeDash.Mode2;
                     break;
                 // =========================
                 //
                 // =========================
                 case 2:
                     autoPath = AUTO_PATH.DISABLE;
+                    AUTO_MODE_DASH = AutoModeDash.Mode3;
                     break;
                 // drive onto platform
                 // put front bumper of robot in front of the scoring zone,
@@ -126,24 +130,28 @@ public class Autonomous
                 // =========================
                 case 3:
                     autoPath = AUTO_PATH.DISABLE;
+                    AUTO_MODE_DASH = AutoModeDash.Mode4;
                     break;
                 // =========================
                 //
                 // =========================
                 case 4:
                     autoPath = AUTO_PATH.DISABLE;
+                    AUTO_MODE_DASH = AutoModeDash.Mode5;
                     break;
                 // =========================
                 //
                 // =========================
                 case 5:
                     autoPath = AUTO_PATH.DISABLE;
+                    AUTO_MODE_DASH = AutoModeDash.Mode6;
                     break;
                 // =========================
                 //
                 // =========================
                 default:
                     autoPath = AUTO_PATH.DISABLE;
+                    AUTO_MODE_DASH = AutoModeDash.Disabled;
                     break;
 
                 } // end switch
@@ -181,6 +189,7 @@ public class Autonomous
                 if (sw1_driveOnlyForward() == true)
                     {
                     autoPath = AUTO_PATH.DISABLE;
+                    AUTO_MODE_DASH = AutoModeDash.Completed;
                     } // if
                 break;
 
@@ -188,6 +197,7 @@ public class Autonomous
                 if (sw2_driveTurnDrive() == true)
                     {
                     autoPath = AUTO_PATH.DISABLE;
+                    AUTO_MODE_DASH = AutoModeDash.Completed;
                     } // if
                 break;
 
@@ -448,5 +458,7 @@ public class Autonomous
     private static final double SW1_DRIVE_ONLY_INCHES = 133.0;
 
     private static final double SW2_FIRST_STOP_DISTANCE = 44.0;
+
+    private static AutoModeDash AUTO_MODE_DASH = AutoModeDash.Disabled;
 
     }
