@@ -404,9 +404,9 @@ public class Autonomous
                     } // if
                 return false;
 
-            // ---------------------------
+            // --------------------
             // stop all motors
-            // ----------------------------
+            // --------------------
             case STOP_TWO:
             case END:
             default:
@@ -464,7 +464,23 @@ public class Autonomous
                     } // if
                 return false;
 
+            // ---------------------------
+            // Now actually perform the braking
+            // action. When complete, STOP
+            // ---------------------------
             case STOP_ONE:
+                if (Hardware.drive.brake(Drive.BrakeType.AFTER_DRIVE) == true)
+                    {
+                    sw3_driveOnChargingStationState = SW3_DRIVE_ON_CHARGING_STATION_STATE.DRIVE_TWO_DRIVE;
+                    } // if
+                return false;
+
+            // ------------------
+            // Drive XX inches forward until redLightSensor reads true
+            // If robot drives XX inches and redLightSensor doesn't turn on, the
+            // robot will stop
+            // ------------------
+            case DRIVE_TWO_DRIVE:
             default:
                 Hardware.drive.stop();
                 return true;
@@ -488,7 +504,7 @@ public class Autonomous
 
     private static enum SW3_DRIVE_ON_CHARGING_STATION_STATE
         {
-        INIT, DELAY, DRIVE_ONE_DRIVE, STOP_ONE, BRAKE;
+        INIT, DELAY, DRIVE_ONE_DRIVE, STOP_ONE, DRIVE_TWO_DRIVE;
         }
 
     private static AUTO_PATH autoPath;
