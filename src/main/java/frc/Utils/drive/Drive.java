@@ -115,7 +115,7 @@ public class Drive
      *            The target speed for the left drive motors
      * @param rightSpeed
      *            The target speed for the right drive motors
-     * @param time
+     * @param accelerationTimeInSecs
      *            The time period accelerated over, in seconds. When the time
      *            reaches this number, it will be running full speed.
      *
@@ -123,10 +123,10 @@ public class Drive
      *         acceleration is done, at the input speed.
      */
     public boolean accelerateProportionaly(double leftSpeed, double rightSpeed,
-            double time)
+            double accelerationTimeInSecs)
     {
         // Avoid a divideByZero error.
-        if (time <= 0)
+        if (accelerationTimeInSecs <= 0)
             {
             this.transmission.driveRaw(leftSpeed, rightSpeed);
             return true;
@@ -142,7 +142,7 @@ public class Drive
         // main acceleration maths
         double deltaSeconds = (System.currentTimeMillis() - lastAccelerateTime)
                 / 1000.0;
-        accelMotorPower += deltaSeconds / time;
+        accelMotorPower += deltaSeconds / accelerationTimeInSecs;
 
         // Drive the robot based on the times and speeds
         this.transmission.driveRaw(leftSpeed * inRange(accelMotorPower, -1, 1),
@@ -175,16 +175,16 @@ public class Drive
      *            The left-side speed that will be accelerated to
      * @param rightSpeed
      *            The right-side speed that will be accelerated to
-     * @param percentPerSecond
+     * @param accelerationPercentPerSecond
      *            The robot's acceleration in percent per second.
      * @return Whether or not the robot has finished accelerating, and is at
      *         leftSpeed and rightSpeed
      */
     public boolean accelerateTo(double leftSpeed, double rightSpeed,
-            double percentPerSecond)
+            double accelerationPercentPerSecond)
     {
         // If the acceleration is 0, then just simply drive at speed. (disabled)
-        if (percentPerSecond == 0)
+        if (accelerationPercentPerSecond == 0)
             {
             transmission.driveRaw(leftSpeed, rightSpeed);
             return true;
@@ -208,10 +208,13 @@ public class Drive
         // limit
         // the output between the minimum and maximum speeds for each side.
 
-        leftOut = inRange(timeDelta * percentPerSecond * Math.signum(leftSpeed),
+        leftOut = inRange(
+                timeDelta * accelerationPercentPerSecond
+                        * Math.signum(leftSpeed),
                 -Math.abs(leftSpeed), Math.abs(leftSpeed));
         rightOut = inRange(
-                timeDelta * percentPerSecond * Math.signum(rightSpeed),
+                timeDelta * accelerationPercentPerSecond
+                        * Math.signum(rightSpeed),
                 -Math.abs(rightSpeed), Math.abs(rightSpeed));
 
         transmission.driveRaw(leftOut, rightOut);
@@ -242,13 +245,13 @@ public class Drive
      *            the wheels follow.
      * @param arcLength
      *            How far the robot should travel along that arc length
-     * @param accelerationTime
+     * @param accelerationTimeInSecs
      *            Over how much time, in seconds, the robot should accelerate
      *            over.
      * @return Whether or not the robot has driven it's arc length.
      */
     public boolean arc(double speed, double radius, double arcLength,
-            double accelerationTime)
+            double accelerationTimeInSecs)
     {
         // Initialize by resetting the sensor.
         if (arcInit == true)
@@ -307,7 +310,7 @@ public class Drive
                 }
 
         this.accelerateProportionaly(speed * leftSide, speed * rightSide,
-                accelerationTime);
+                accelerationTimeInSecs);
 
         return false;
     }
@@ -981,14 +984,14 @@ public class Drive
      *
      * @param speed
      *            How fast the robot should be moving, and in which direction.
-     * @param acceleration
+     * @param accelerationTimeInSecs
      *            How much the robot should accelerate, in seconds.
      * @param isUsingGyro
      *            If true, the chosen sensor is a gyro. If false, it uses
      *            encoders.
      * @TODO fixed all code and comments about exactly what acceleration is
      */
-    public void driveStraight(double speed, double acceleration,
+    public void driveStraight(double speed, double accelerationTimeInSecs,
             boolean isUsingGyro)
     {
         // "Reset" the encoders (will not mess with driveInches or such)
@@ -1019,11 +1022,9 @@ public class Drive
                     - getEncoderTicks(MotorPosition.RIGHT);
 
             leftSpeed = speed
-                    - ((Math.signum(delta) * this.driveStraightConstant));
-            rightSpeed = speed
                     + ((Math.signum(delta) * this.driveStraightConstant));
-            System.out.println("LSpeed = " + leftSpeed);
-            System.out.println("RSpeed = " + rightSpeed);
+            rightSpeed = speed
+                    - ((Math.signum(delta) * this.driveStraightConstant));
             } // else
 
         // Only send the new power to the side lagging behind
@@ -1036,7 +1037,8 @@ public class Drive
             leftSpeed = speed;
             } // else
 
-        this.accelerateProportionaly(leftSpeed, rightSpeed, acceleration);
+        this.accelerateProportionaly(leftSpeed, rightSpeed,
+                accelerationTimeInSecs);
         // Reset the "timer" to know when to "reset" the encoders for this
         // method.
         driveStraightLastTime = System.currentTimeMillis();
@@ -1053,8 +1055,8 @@ public class Drive
      *            How far the robot should go (should be greater than 0)
      * @param speed
      *            How fast the robot should travel
-     * @param acceleration
-     *            How much the robot should accelerate
+     * @param accelerationTimeInSecs
+     *            How much time the robot should accelerate in seconds
      * @param isUsingGyro
      *            If true, the chosen sensor is a gyro. If false, it uses
      *            encoders.
@@ -1063,7 +1065,7 @@ public class Drive
      * @TODO fixed all code and comments about exactly what acceleration is
      */
     public boolean driveStraightInches(double distance, double speed,
-            double acceleration, boolean isUsingGyro)
+            double accelerationTimeInSecs, boolean isUsingGyro)
     {
         // Runs once when the method runs the first time, and does not run again
         // until after the method returns true.
@@ -1082,7 +1084,7 @@ public class Drive
             }
 
         // Drive straight if we have not reached the distance
-        this.driveStraight(speed, acceleration, isUsingGyro);
+        this.driveStraight(speed, accelerationTimeInSecs, isUsingGyro);
 
         return false;
     }
@@ -1378,7 +1380,7 @@ public class Drive
      * @param power
      *            How fast the robot should be turning, in percentage (0.0 to
      *            1.0)
-     * @param accelerationTime
+     * @param accelerationTimeInSecs
      *            Over how many seconds the motors should spool up, to preserve
      *            accuracy during the turn.
      * @param usingGyro
@@ -1387,7 +1389,7 @@ public class Drive
      * @return Whether or not the robot has finished turning.
      */
     public boolean pivotTurnDegrees(int degrees, double power,
-            double accelerationTime, boolean usingGyro)
+            double accelerationTimeInSecs, boolean usingGyro)
     {
         // Reset the encoders on the first start only
         if (pivotTurnDegreesInit == true)
@@ -1397,7 +1399,7 @@ public class Drive
             else
                 this.resetEncoders();
             pivotTurnDegreesInit = false;
-            }
+            } // if
 
         boolean finished = false;
 
@@ -1408,7 +1410,7 @@ public class Drive
             if (Math.abs(gyro.getAngle()) > Math.abs(degrees)
                     - this.turnDegreesFudgeFactor)
                 finished = true;
-            }
+            } // if
         // If we are NOT using the gyro, use the encoders.
         else
             {
@@ -1421,7 +1423,7 @@ public class Drive
                         MotorPosition.RIGHT)) > degreesToEncoderInches(degrees,
                                 true))
                     finished = true;
-            }
+            } // else
 
         // We have reached the angle, so stop.
         if (finished == true)
@@ -1429,19 +1431,19 @@ public class Drive
             this.transmission.stop();
             pivotTurnDegreesInit = true;
             return true;
-            }
+            } // if
 
         // Turning clockwise
         if (degrees > 0)
             this.accelerateProportionaly(power,
-                    -pivotDegreesStationaryPercentage, accelerationTime);
+                    -pivotDegreesStationaryPercentage, accelerationTimeInSecs);
         // Turning counter-clockwise
         else
             this.accelerateProportionaly(-pivotDegreesStationaryPercentage,
-                    power, accelerationTime);
+                    power, accelerationTimeInSecs);
 
         return false;
-    }
+    } // end pivotTurnDegrees()
 
     /**
      * Resets the Drive class's functions, in case they were cut short.
@@ -1462,7 +1464,7 @@ public class Drive
         this.currentBrakeIteration = 0;
         this.lastAccelerateTime = 0;
         this.previousBrakeTime = 0;
-    }
+    } // end reset()
 
     // ================ DRIVE METHODS ================
 
@@ -1487,8 +1489,8 @@ public class Drive
 
             // System.out.print("reset encoders is commented out temporarly");
 
-            }
-    }
+            } // for all encoders
+    } // end resetEncoders()
 
     /**
      * Sets the initial speed of the accelerateTo motors
@@ -1500,7 +1502,7 @@ public class Drive
     {
         // sets accelStartingSpeed to the input value
         this.accelStartingSpeed = value;
-    }
+    } // end setaccelStartingSpeed()
 
     /**
      * Sets all the gear ratios of the robot, from lowest to highest. This
@@ -1512,7 +1514,7 @@ public class Drive
     public void setAllGearPercentages(double... ratios)
     {
         this.transmission.setAllGearPercentages(ratios);
-    }
+    } // end setAllGearPercentages()
 
     /**
      * Sets the deadband for brake()... how close to stopped we are.
@@ -1534,8 +1536,8 @@ public class Drive
                 break;
             default:
                 break;
-            }
-    }
+            } // end switch
+    } // end setBrakeDeadband()
 
     /**
      *
@@ -1545,7 +1547,7 @@ public class Drive
     public void setBrakeIterations(int iterations)
     {
         this.totalBrakeIterations = iterations;
-    }
+    } // end setBrakeIterations()
 
     /**
      * Sets how much the robot should send to the motors while braking
@@ -1567,8 +1569,8 @@ public class Drive
                 break;
             default:
                 break;
-            }
-    }
+            } // switch
+    } // end setBrakePower()
 
     /**
      * Store the expected distance that it will take to stop during brake()
@@ -1607,7 +1609,7 @@ public class Drive
     {
         // sets default acceleration to the input value
         this.defaultAcceleration = .8;
-    }
+    } // end setDefaultAcceleration()
 
     /**
      * Sets how much the robot should correct while driving straight.
@@ -1619,7 +1621,7 @@ public class Drive
     {
         // sets Drive Straight Constant to the input
         this.driveStraightConstant = value;
-    }
+    } // end setDriveStraightConstant()
 
     /**
      * Sets the constant pivotDegreesStationaryPercentage to the value input
@@ -1630,7 +1632,7 @@ public class Drive
     {
         // sets pivot degrees stationary percent constant to the input
         this.pivotDegreesStationaryPercentage = value;
-    }
+    } // end setPivotDegreesStationaryPercentage()
 
     /**
      * Sets how far the robot has driven per pulse the encoder reads. This value
@@ -1672,8 +1674,8 @@ public class Drive
                 break;
             default:
                 break;
-            }
-    }
+            } // switch
+    } // end setEncoderDistancePerPulse()
 
     /**
      * Sets the current gear of the robot, 0 being the lowest max being the
@@ -1684,7 +1686,7 @@ public class Drive
     public void setGear(int gear)
     {
         this.transmission.setGear(gear);
-    }
+    } // end setGear()
 
     /**
      * Sets a single gear to the given percentage.
@@ -1697,7 +1699,7 @@ public class Drive
     public void setGearPercentage(int gear, double percent)
     {
         this.transmission.setGearPercentage(gear, percent);
-    }
+    } // setGearPercentage()
 
     /**
      *
@@ -2011,7 +2013,7 @@ public class Drive
             {
             if (usingGyro)
                 {
-                System.out.println("using the gryo");
+                // System.out.println("using the gryo");
                 this.gyro.reset();
                 turnDegreesInit = false;
                 } // if
