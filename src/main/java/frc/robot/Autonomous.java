@@ -187,10 +187,6 @@ public class Autonomous
                 break;
 
             case SW3_DRIVE_OVER_CHARGING_STATION:
-                if (sw3_driveOnChargingStation() == true)
-                    {
-                    autoPath = AUTO_PATH.DISABLE;
-                    } // end if
                 break;
             } // switch
     } // end periodic()
@@ -412,58 +408,6 @@ public class Autonomous
             } // switch
     } // end sw2_driveTurnDrive()
 
-    private static boolean sw3_driveOnChargingStation()
-    {
-        System.out.println("driveOnChargingStation.switch = "
-                + sw3_driveOnChargingStation);
-        switch (sw3_driveOnChargingStation)
-            {
-            // --------------------
-            // initialize everything we need for
-            // this run
-            // --------------------
-            case INIT:
-                System.out.println("Started " + sw3_driveOnChargingStation);
-                Hardware.autoTimer.start();
-                sw3_driveOnChargingStation = SW3_DRIVE_ON_CHARGING_STATION.DELAY;
-                return false;
-
-            // --------------------
-            // Delay if we set the pot to delay
-            // --------------------
-            case DELAY:
-                if (Hardware.autoTimer.get() >= delayTime)
-                    {
-                    sw3_driveOnChargingStation = SW3_DRIVE_ON_CHARGING_STATION.DRIVE_ONE_DRIVE;
-                    Hardware.autoTimer.stop();
-                    Hardware.autoTimer.reset();
-                    } // end if
-                return false;
-
-            // --------------------
-            // Drive XX inches, accelerating first
-            // using the gyro as the way to keep
-            // us straight as we drive.
-            // When we have gone the inches, get
-            // ready for the braking actions and
-            // reset the encoders - just in case
-            // ---------------------
-            case DRIVE_ONE_DRIVE:
-                if (Hardware.drive.driveStraightInches(
-                        SW3_DRIVE_OVER_CHARGING_STATION, DRIVE_ONE_DRIVE_SPEED,
-                        MAX_ACCEL_TIME, false))
-                    {
-                    sw3_driveOnChargingStation = SW3_DRIVE_ON_CHARGING_STATION.STOP_ONE;
-                    Hardware.leftBottomEncoder.reset();
-                    Hardware.rightBottomEncoder.reset();
-                    Hardware.drive.setMaxBrakeIterations(3);
-                    Hardware.drive.setBrakeDeadband(1, BrakeType.AFTER_DRIVE);
-                    } // end if
-                return false;
-            }
-        return false;
-    }
-
     private static enum AUTO_PATH
         {
         SW1_DRIVE_ONLY_FORWARD, SW2_DRIVE_TURN_DRIVE, SW3_DRIVE_OVER_CHARGING_STATION, DISABLE;
@@ -479,18 +423,11 @@ public class Autonomous
         INIT, DELAY, DRIVE_ONE_DRIVE, STOP_ONE, DECIDE_NEXT, TURN, STOP_TURN, DRIVE_TWO_DRIVE, STOP_TWO, END;
         }
 
-    private static enum SW3_DRIVE_ON_CHARGING_STATION
-        {
-        INIT, DELAY, DRIVE_ONE_DRIVE, STOP_ONE;
-        }
-
     private static AUTO_PATH autoPath;
 
     private static SW1_DRIVE_ONLY_FORWARD_STATE sw1_driveOnlyForwardState;
 
     private static SW2_DRIVE_TURN_DRIVE_STATE sw2_driveTurnDriveState;
-
-    private static SW3_DRIVE_ON_CHARGING_STATION sw3_driveOnChargingStation;
 
     private static double delayTime = 0.0;
     /*
@@ -512,6 +449,4 @@ public class Autonomous
     private static final double SW1_DRIVE_ONLY_INCHES = 133.0;
 
     private static final double SW2_FIRST_STOP_DISTANCE = 44.0;
-
-    private static final double SW3_DRIVE_OVER_CHARGING_STATION = 146.0;
     }
