@@ -358,7 +358,10 @@ public class Autonomous
                     Hardware.rightBottomEncoder.reset();
                     } // else
                 return false;
-
+            // ---------------------
+            // perform the turn here - either
+            // left or right
+            // ---------------------
             case TURN:
                 // ----------------------------
                 // This is a Left turn
@@ -385,12 +388,17 @@ public class Autonomous
                         } // if
                     } // if
                 return false;
-
+            // ---------------------
+            // we have completed the turn
+            // ---------------------
             case STOP_TURN:
                 // Hardware.drive.brake(Drive.BrakeType.AFTER_TURN);
                 sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.DRIVE_TWO_DRIVE;
                 return false;
-
+            // -----------------------
+            // drive straight the number of
+            // inches requested
+            // -------------------
             case DRIVE_TWO_DRIVE:
                 if (Hardware.drive.driveStraightInches(SW2_SECOND_STOP_DISTANCE,
                         DRIVE_ONE_DRIVE_SPEED, MAX_ACCEL_TIME, false) == true)
@@ -495,10 +503,11 @@ public class Autonomous
     private static SW3_DRIVE_ON_CHARGING_STATION sw3_driveOnChargingStation;
 
     private static double delayTime = 0.0;
-    /*
-     * ============================================================== Constants
-     * ==============================================================
-     */
+
+    // ==============================================================
+    // Constants
+    // ==============================================================
+
     private static final double MAX_DELAY_SECONDS_CURRENT_YEAR = 5.0;
 
     private static final double AUTO_GEAR = 1;
@@ -518,4 +527,4 @@ public class Autonomous
     private static final double SW2_SECOND_STOP_DISTANCE = 50.0;
 
     private static final double SW3_DRIVE_OVER_CHARGING_STATION = 146.0;
-    }
+    } // end class Autonomous
