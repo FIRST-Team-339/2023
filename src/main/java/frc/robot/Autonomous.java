@@ -392,7 +392,7 @@ public class Autonomous
                 return false;
 
             case DRIVE_TWO_DRIVE:
-                if (Hardware.drive.driveStraightInches(SW2_FIRST_STOP_DISTANCE,
+                if (Hardware.drive.driveStraightInches(SW2_SECOND_STOP_DISTANCE,
                         DRIVE_ONE_DRIVE_SPEED, MAX_ACCEL_TIME, false) == true)
                     {
                     sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.STOP_TWO;
@@ -514,6 +514,8 @@ public class Autonomous
     private static final double SW1_DRIVE_ONLY_INCHES = 133.0;
 
     private static final double SW2_FIRST_STOP_DISTANCE = 44.0;
+
+    private static final double SW2_SECOND_STOP_DISTANCE = 50.0;
 
     private static final double SW3_DRIVE_OVER_CHARGING_STATION = 146.0;
     }

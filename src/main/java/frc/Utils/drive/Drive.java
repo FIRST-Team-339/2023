@@ -1820,12 +1820,12 @@ public class Drive
             return true;
 
         // Reset the gyro and encoders on first start only
-        if (strafeStraightInchesInit)
+        if (this.strafeStraightInchesInit == true)
             {
             this.resetEncoders();
             this.gyro.reset();
             strafeStraightInchesInit = false;
-            }
+            } // if
 
         // If we have traveled past the distance requested, then stop.
         if (this.getEncoderDistanceAverage(MotorPosition.ALL) > inches)
@@ -1833,13 +1833,13 @@ public class Drive
             strafeStraightInchesInit = true;
             this.transmission.stop();
             return true;
-            }
+            } // if
         // Run the rotation in a proportional loop based on the gyro.
         this.transmission.driveRaw(speed, Math.toRadians(directionDegrees),
                 -(gyro.getAngle() * strafeStraightScalar));
 
         return false;
-    }
+    } // end strafeStraightInches()
 
     /**
      * Turns the robot to a certain angle using the robot's turning circle to
@@ -1863,7 +1863,7 @@ public class Drive
             {
             this.resetEncoders();
             turnDegreesInit = false;
-            }
+            } // if
 
         // Tests whether any encoder has driven the arc-length of the angle
         // (angle x radius)// took out +15 on Nov 4
@@ -1877,21 +1877,21 @@ public class Drive
             this.transmission.stop();
             turnDegreesInit = true;
             return true;
-            }
+            } // if
 
         // Change which way the robot turns based on whether the angle is
         // positive or negative
         if (angle < 0)
             {
             this.transmission.driveRaw(-speed, speed);
-            }
+            } // if
         else
             {
             this.transmission.driveRaw(speed, -speed);
-            }
+            } // else
 
         return false;
-    }
+    } // end turnDegrees()
 
     /**
      * Turns the robot using the gyro, and slows down after passing
@@ -1914,7 +1914,7 @@ public class Drive
             {
             this.gyro.reset();
             turnDegrees2StageInit = false;
-            }
+            } // if
 
         // If we have turned (degrees) at all (left or right, just in case),
         // return
@@ -1925,7 +1925,7 @@ public class Drive
             this.transmission.stop();
             turnDegrees2StageInit = true;
             return true;
-            }
+            } // if
 
         // 2nd stage run slow
         if (Math.abs(this.gyro.getAngle()) > Math.abs(degrees)
@@ -1934,16 +1934,16 @@ public class Drive
             this.transmission.driveRaw(
                     Math.signum(degrees) * turnDegrees2ndStagePower,
                     -Math.signum(degrees) * turnDegrees2ndStagePower);
-            }
+            } // if
         // 1st stage run (power)
         else
             {
             this.transmission.driveRaw(Math.signum(degrees) * power,
                     -Math.signum(degrees) * power);
-            }
+            } // else
 
         return false;
-    }
+    } // end turnDegrees2Stage()
 
     /**
      * Turns the robot based on values obtained from a gyroscopic sensor.
@@ -2049,11 +2049,6 @@ public class Drive
                     MotorPosition.ALL) > degreesToEncoderInches(
                             Math.abs(degrees) - turnDegreesFudgeFactor, true))
                 {
-                System.out
-                        .println("encoder required: " + degreesToEncoderInches(
-                                Math.abs(degrees) - turnDegreesFudgeFactor,
-                                false));
-
                 this.transmission.stop();
                 turnDegreesInit = true;
                 return true;
@@ -2095,7 +2090,7 @@ public class Drive
         AFTER_DRIVE,
         /** Braking after turning */
         AFTER_TURN
-        }
+        } // end BrakeType()
 
     /**
      * Checks if the value input is in between -1 and 1 to keep it in range for
