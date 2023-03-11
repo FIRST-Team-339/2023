@@ -120,11 +120,6 @@ public class Autonomous
                     autoPath = AUTO_PATH.DISABLE;
                     AUTO_MODE_DASH = AutoModeDash.Mode3;
                     break;
-                // drive onto platform
-                // put front bumper of robot in front of the scoring zone,
-                // behind the community line, and in front of the charge station
-                // 1. The robot will accelerate
-
                 // =========================
                 //
                 // =========================
@@ -163,6 +158,7 @@ public class Autonomous
 
         sw1_driveOnlyForwardState = SW1_DRIVE_ONLY_FORWARD_STATE.INIT;
         sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.INIT;
+        sw3_driveOnChargingStationState = SW3_DRIVE_ON_CHARGING_STATION_STATE.INIT;
 
         Hardware.drive.setGearPercentage(0, 1.0);
     } // end Init
@@ -202,10 +198,10 @@ public class Autonomous
                 break;
 
             case SW3_DRIVE_OVER_CHARGING_STATION:
-            case DISABLE:
-            default:
-                Hardware.drive.stop();
-                autoPath = AUTO_PATH.DISABLE;
+                if (sw3_driveOnChargingStation() == true)
+                    {
+                    autoPath = AUTO_PATH.DISABLE;
+                    }
                 break;
             } // switch
     } // end periodic()
@@ -223,7 +219,7 @@ public class Autonomous
     private static boolean sw1_driveOnlyForward()
     {
         System.out.println(
-                "driveOnlyForward.switch = " + sw1_driveOnlyForwardState);
+                "sw1_driveOnlyForward.switch = " + sw1_driveOnlyForwardState);
         switch (sw1_driveOnlyForwardState)
             {
             // ---------------------------
@@ -256,7 +252,7 @@ public class Autonomous
             // ---------------------------
             case DRIVE_ONE_DRIVE:
                 if (Hardware.drive.driveStraightInches(SW1_DRIVE_ONLY_INCHES,
-                        DRIVE_ONE_DRIVE_SPEED, MAX_ACCEL_TIME, true))
+                        DRIVE_ONE_DRIVE_SPEED, MAX_ACCEL_TIME, false))
                     {
                     sw1_driveOnlyForwardState = SW1_DRIVE_ONLY_FORWARD_STATE.STOP;
                     Hardware.leftBottomEncoder.reset();
@@ -298,6 +294,10 @@ public class Autonomous
     {
         System.out
                 .println("driveTurnDrive.switch = " + sw2_driveTurnDriveState);
+        System.out
+                .println("Left  = " + Hardware.leftBottomEncoder.getDistance());
+        System.out.println(
+                "Right = " + Hardware.rightBottomEncoder.getDistance());
         switch (sw2_driveTurnDriveState)
             {
             // ---------------------------
@@ -317,6 +317,7 @@ public class Autonomous
                 if (Hardware.autoTimer.get() >= delayTime)
                     {
                     sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.DRIVE_ONE_DRIVE;
+
                     Hardware.autoTimer.stop();
                     Hardware.autoTimer.reset();
                     } // if
@@ -332,7 +333,7 @@ public class Autonomous
             // ---------------------------
             case DRIVE_ONE_DRIVE:
                 if (Hardware.drive.driveStraightInches(SW2_FIRST_STOP_DISTANCE,
-                        DRIVE_ONE_DRIVE_SPEED, MAX_ACCEL_TIME, true))
+                        DRIVE_ONE_DRIVE_SPEED, MAX_ACCEL_TIME, false))
                     {
                     sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.STOP_ONE;
                     Hardware.leftBottomEncoder.reset();
@@ -364,39 +365,54 @@ public class Autonomous
                 else
                     {
                     sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.TURN;
+                    Hardware.leftBottomEncoder.reset();
+                    Hardware.rightBottomEncoder.reset();
                     } // else
                 return false;
-
+            // ---------------------
+            // perform the turn here - either
+            // left or right
+            // ---------------------
             case TURN:
-                if (Hardware.leftRightNoneSwitch
-                        .getPosition() == Relay.Value.kForward)
-                    {
-                    if (Hardware.drive.turnDegrees(90, LEFT_ACCEL_SPEED,
-                            MAX_ACCEL_TIME, true) == true)
-                        {
-                        sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.STOP_TURN;
-                        } // if
-                    } // if
-
+                // ----------------------------
+                // This is a Left turn
+                // -------------------------
                 if (Hardware.leftRightNoneSwitch
                         .getPosition() == Relay.Value.kReverse)
                     {
-                    if (Hardware.drive.turnDegrees(-90, RIGHT_ACCEL_SPEED,
-                            MAX_ACCEL_TIME, true) == true)
+                    if (Hardware.drive.turnDegrees(-90, LEFT_ACCEL_SPEED,
+                            MAX_ACCEL_TIME, false) == true)
+                        {
+                        sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.STOP_TURN;
+                        } // if
+                    } // if
+                // ----------------------
+                // right turn
+                // -------------------
+                if (Hardware.leftRightNoneSwitch
+                        .getPosition() == Relay.Value.kForward)
+                    {
+                    if (Hardware.drive.turnDegrees(90, RIGHT_ACCEL_SPEED,
+                            MAX_ACCEL_TIME, false) == true)
                         {
                         sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.STOP_TURN;
                         } // if
                     } // if
                 return false;
-
+            // ---------------------
+            // we have completed the turn
+            // ---------------------
             case STOP_TURN:
                 // Hardware.drive.brake(Drive.BrakeType.AFTER_TURN);
                 sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.DRIVE_TWO_DRIVE;
                 return false;
-
+            // -----------------------
+            // drive straight the number of
+            // inches requested
+            // -------------------
             case DRIVE_TWO_DRIVE:
-                if (Hardware.drive.driveStraightInches(SW2_FIRST_STOP_DISTANCE,
-                        DRIVE_ONE_DRIVE_SPEED, MAX_ACCEL_TIME, true))
+                if (Hardware.drive.driveStraightInches(SW2_SECOND_STOP_DISTANCE,
+                        DRIVE_ONE_DRIVE_SPEED, MAX_ACCEL_TIME, false) == true)
                     {
                     sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.STOP_TWO;
                     Hardware.leftBottomEncoder.reset();
@@ -406,9 +422,9 @@ public class Autonomous
                     } // if
                 return false;
 
-            // ---------------------------
+            // --------------------
             // stop all motors
-            // ----------------------------
+            // --------------------
             case STOP_TWO:
             case END:
             default:
@@ -416,6 +432,78 @@ public class Autonomous
                 return true;
             } // switch
     } // end sw2_driveTurnDrive()
+
+    private static boolean sw3_driveOnChargingStation()
+    {
+        System.out.println("sw3_driveOnChargingStation.switch = "
+                + sw3_driveOnChargingStationState);
+        switch (sw3_driveOnChargingStationState)
+
+            {
+            // ----------------------
+            // initialize everything we need for
+            // this run
+            // ----------------------
+            case INIT:
+                Hardware.autoTimer.start();
+                sw3_driveOnChargingStationState = SW3_DRIVE_ON_CHARGING_STATION_STATE.DELAY;
+                return false;
+            // ----------------------
+            // Delay if we set pot to delay
+            // ----------------------
+
+            case DELAY:
+                if (Hardware.autoTimer.get() >= delayTime)
+                    {
+                    sw3_driveOnChargingStationState = SW3_DRIVE_ON_CHARGING_STATION_STATE.DRIVE_ONE_DRIVE;
+                    Hardware.autoTimer.stop();
+                    Hardware.autoTimer.reset();
+                    } // if
+                return false;
+            // ---------------------------
+            // Drive XX inches, accelerating first
+            // using the gyro as the way to keep
+            // us straight as we drive.
+            // When we have gone the inches, get
+            // ready for the braking actions and
+            // reset the encoders - just in case
+            // ---------------------------
+
+            case DRIVE_ONE_DRIVE:
+                if (Hardware.drive.driveStraightInches(
+                        SW3_DRIVE_OVER_CHARGING_STATION,
+                        SW3_DRIVE_ONE_DRIVE_SPEED, MAX_ACCEL_TIME, false))
+                    {
+                    sw3_driveOnChargingStationState = SW3_DRIVE_ON_CHARGING_STATION_STATE.STOP_ONE;
+                    Hardware.leftBottomEncoder.reset();
+                    Hardware.rightBottomEncoder.reset();
+                    Hardware.drive.setMaxBrakeIterations(3);
+                    Hardware.drive.setBrakeDeadband(1, BrakeType.AFTER_DRIVE);
+                    } // if
+                return false;
+
+            // ---------------------------
+            // Now actually perform the braking
+            // action. When complete, STOP
+            // ---------------------------
+            case STOP_ONE:
+                if (Hardware.drive.brake(Drive.BrakeType.AFTER_DRIVE) == true)
+                    {
+                    sw3_driveOnChargingStationState = SW3_DRIVE_ON_CHARGING_STATION_STATE.DRIVE_TWO_DRIVE;
+                    } // if
+                return false;
+
+            // ------------------
+            // Drive XX inches forward until redLightSensor reads true
+            // If robot drives XX inches and redLightSensor doesn't turn on, the
+            // robot will stop
+            // ------------------
+            case DRIVE_TWO_DRIVE:
+            default:
+                Hardware.drive.stop();
+                return true;
+            } // switch
+    } // end sw3_driveOnChargingStation()
 
     private static enum AUTO_PATH
         {
@@ -429,7 +517,12 @@ public class Autonomous
 
     private static enum SW2_DRIVE_TURN_DRIVE_STATE
         {
-        INIT, DELAY, DRIVE_ONE_ACCEL, DRIVE_ONE_DRIVE, STOP_ONE, DECIDE_NEXT, TURN, STOP_TURN, DRIVE_TWO_ACCEL, DRIVE_TWO_DRIVE, STOP_TWO, END;
+        INIT, DELAY, DRIVE_ONE_DRIVE, STOP_ONE, DECIDE_NEXT, TURN, STOP_TURN, DRIVE_TWO_DRIVE, STOP_TWO, END;
+        }
+
+    private static enum SW3_DRIVE_ON_CHARGING_STATION_STATE
+        {
+        INIT, DELAY, DRIVE_ONE_DRIVE, STOP_ONE, DRIVE_TWO_DRIVE;
         }
 
     private static AUTO_PATH autoPath;
@@ -438,11 +531,14 @@ public class Autonomous
 
     private static SW2_DRIVE_TURN_DRIVE_STATE sw2_driveTurnDriveState;
 
+    private static SW3_DRIVE_ON_CHARGING_STATION_STATE sw3_driveOnChargingStationState;
+
     private static double delayTime = 0.0;
-    /*
-     * ============================================================== Constants
-     * ==============================================================
-     */
+
+    // ==============================================================
+    // Constants
+    // ==============================================================
+
     private static final double MAX_DELAY_SECONDS_CURRENT_YEAR = 5.0;
 
     private static final double AUTO_GEAR = 1;
@@ -461,4 +557,10 @@ public class Autonomous
 
     private static AutoModeDash AUTO_MODE_DASH = AutoModeDash.Disabled;
 
-    }
+    private static final double SW2_SECOND_STOP_DISTANCE = 50.0;
+
+    private static final double SW3_DRIVE_OVER_CHARGING_STATION = 146.0;
+
+    private static final double SW3_DRIVE_ONE_DRIVE_SPEED = 0.25;
+
+    } // end Autonomous

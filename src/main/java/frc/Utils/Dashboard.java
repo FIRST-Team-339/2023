@@ -51,7 +51,8 @@ public class Dashboard
      */
     public static double updateGyroInd()
     {
-        double gyroAngle = Hardware.gyro.getAngle();
+        // double gyroAngle = Hardware.gyro.getAngle();
+        double gyroAngle = 0.0;
 
         SmartDashboard.putNumber("Gyro", gyroAngle);
 

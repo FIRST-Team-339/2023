@@ -66,7 +66,7 @@ public class Hardware
                 CurrentYear, PrevYear
                 };
 
-        public static Identifier robotIdentity = Identifier.CurrentYear;
+        public static Identifier robotIdentity = Identifier.PrevYear;
 
         public static void initialize()
         {
@@ -133,11 +133,14 @@ public class Hardware
                                         CURRENT_GEAR2_MAX_SPEED,
                                         CURRENT_GEAR3_MAX_SPEED);
 
-                        gyro = new KilroySPIGyro(true);
-                        gyro.calibrate();
+                        // System.out.println("The gyro is = " + gyro);
+                        // gyro = new KilroySPIGyro(true);
+                        // gyro.calibrate();
 
                         drive = new Drive(transmission, leftBottomEncoder,
-                                        rightBottomEncoder, gyro);
+                                        rightBottomEncoder, null);
+                        drive.setTurningRadius(24.5);
+                        drive.setTurnDegreesFudgeFactor(1);
 
                         eBrakeTimer = new Timer();
 
@@ -237,11 +240,13 @@ public class Hardware
                                         PREV_GEAR2_MAX_SPEED,
                                         PREV_GEAR3_MAX_SPEED);
 
-                        gyro = new KilroySPIGyro(true);
-                        gyro.calibrate();
+                        // gyro = new KilroySPIGyro(true);
+                        // gyro.calibrate();
 
                         drive = new Drive(transmission, leftBottomEncoder,
-                                        rightBottomEncoder, gyro);
+                                        rightBottomEncoder, null);
+                        drive.setTurningRadius(24.5);
+                        drive.setTurnDegreesFudgeFactor(1);
 
                         eBrakeTimer = new Timer();
 
@@ -314,7 +319,8 @@ public class Hardware
         // SPI BUS
         // **********************************************************
 
-        public static KilroySPIGyro gyro = null;
+        // public static KilroySPIGyro gyro = new KilroySPIGyro(true);
+        // public static KilroySPIGyro gyro;
 
         // **********************************************************
         // DRIVER STATION CLASSES
