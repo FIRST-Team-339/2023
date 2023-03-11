@@ -117,7 +117,7 @@ public class Autonomous
                 //
                 // =========================
                 case 2:
-                    autoPath = AUTO_PATH.DISABLE;
+                    autoPath = AUTO_PATH.SW3_DRIVE_OVER_CHARGING_STATION;
                     AUTO_MODE_DASH = AutoModeDash.Mode3;
                     break;
                 // =========================
