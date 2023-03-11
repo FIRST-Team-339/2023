@@ -279,6 +279,10 @@ public class Autonomous
     {
         System.out
                 .println("driveTurnDrive.switch = " + sw2_driveTurnDriveState);
+        System.out
+                .println("Left  = " + Hardware.leftBottomEncoder.getDistance());
+        System.out.println(
+                "Right = " + Hardware.rightBottomEncoder.getDistance());
         switch (sw2_driveTurnDriveState)
             {
             // ---------------------------
@@ -298,7 +302,6 @@ public class Autonomous
                 if (Hardware.autoTimer.get() >= delayTime)
                     {
                     sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.DRIVE_ONE_DRIVE;
-                    sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.DECIDE_NEXT;
 
                     Hardware.autoTimer.stop();
                     Hardware.autoTimer.reset();
@@ -382,7 +385,6 @@ public class Autonomous
             case STOP_TURN:
                 // Hardware.drive.brake(Drive.BrakeType.AFTER_TURN);
                 sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.DRIVE_TWO_DRIVE;
-                sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.STOP_TWO;
                 return false;
 
             case DRIVE_TWO_DRIVE:

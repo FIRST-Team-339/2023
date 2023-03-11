@@ -139,7 +139,8 @@ public class Hardware
 
                         drive = new Drive(transmission, leftBottomEncoder,
                                         rightBottomEncoder, null);
-                        drive.setTurningRadius(20.5);
+                        drive.setTurningRadius(24.5);
+                        drive.setTurnDegreesFudgeFactor(1);
 
                         eBrakeTimer = new Timer();
 
@@ -244,7 +245,8 @@ public class Hardware
 
                         drive = new Drive(transmission, leftBottomEncoder,
                                         rightBottomEncoder, null);
-                        drive.setTurningRadius(20.5);
+                        drive.setTurningRadius(24.5);
+                        drive.setTurnDegreesFudgeFactor(1);
 
                         eBrakeTimer = new Timer();
 
