@@ -836,7 +836,7 @@ public class Drive
         if (pivot == false)
             return turningRadius * Math.toRadians(Math.abs(degrees));
 
-        return (turningRadius * 2) * Math.toRadians(Math.abs(degrees));
+        return (turningRadius / 2) * Math.toRadians(Math.abs(degrees));
     }
 
     /**
@@ -998,7 +998,7 @@ public class Drive
                 this.gyro.reset();
             else
                 this.resetEncoders();
-            }
+            } // if
 
         double leftSpeed = 0;
         double rightSpeed = 0;
@@ -1008,29 +1008,33 @@ public class Drive
         // right.
         if (isUsingGyro == true)
             {
-            leftSpeed = speed
-                    - (Math.signum(gyro.getAngle()) * driveStraightConstant);
-            rightSpeed = speed
-                    + (Math.signum(gyro.getAngle()) * driveStraightConstant);
-            }
+            leftSpeed = speed - (Math.signum(this.gyro.getAngle())
+                    * this.driveStraightConstant);
+            rightSpeed = speed + (Math.signum(this.gyro.getAngle())
+                    * this.driveStraightConstant);
+            } // if
         else
             {
             int delta = getEncoderTicks(MotorPosition.LEFT)
                     - getEncoderTicks(MotorPosition.RIGHT);
 
-            leftSpeed = speed - ((Math.signum(delta) * driveStraightConstant));
-            rightSpeed = speed + ((Math.signum(delta) * driveStraightConstant));
-            }
+            leftSpeed = speed
+                    - ((Math.signum(delta) * this.driveStraightConstant));
+            rightSpeed = speed
+                    + ((Math.signum(delta) * this.driveStraightConstant));
+            System.out.println("LSpeed = " + leftSpeed);
+            System.out.println("RSpeed = " + rightSpeed);
+            } // else
 
         // Only send the new power to the side lagging behind
         if (leftSpeed > rightSpeed)
             {
             rightSpeed = speed;
-            }
+            } // if
         else
             {
             leftSpeed = speed;
-            }
+            } // else
 
         this.accelerateProportionaly(leftSpeed, rightSpeed, acceleration);
         // Reset the "timer" to know when to "reset" the encoders for this
@@ -1063,17 +1067,17 @@ public class Drive
     {
         // Runs once when the method runs the first time, and does not run again
         // until after the method returns true.
-        if (driveStraightInchesInit == true)
+        if (this.driveStraightInchesInit == true)
             {
             this.resetEncoders();
-            driveStraightInchesInit = false;
+            this.driveStraightInchesInit = false;
             }
 
         // Check all encoders to see if they've reached the distance
         if (this.isAnyEncoderLargerThan(Math.abs(distance)) == true)
             {
             this.transmission.stop();
-            driveStraightInchesInit = true;
+            this.driveStraightInchesInit = true;
             return true;
             }
 
@@ -2037,6 +2041,8 @@ public class Drive
             {
             System.out.println("Distance Traveled = "
                     + this.getEncoderDistanceAverage(MotorPosition.ALL));
+            System.out.println("Goal = " + degreesToEncoderInches(
+                    Math.abs(degrees) - turnDegreesFudgeFactor, true));
             if (!usingGyro && this.getEncoderDistanceAverage(
                     MotorPosition.ALL) > degreesToEncoderInches(
                             Math.abs(degrees) - turnDegreesFudgeFactor, true))
