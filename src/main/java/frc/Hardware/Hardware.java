@@ -171,7 +171,7 @@ public class Hardware
                                         CURRENT_ARM_RAISE_REV_PORT);
                         clawPiston.setForward(true);
                         eBrakePiston.setForward(false);
-                        armRaisePiston.setForward(true);
+                        armRaisePiston.setForward(false);
 
                         eBrakeDelayTime = CURRENT_EBRAKETIMER_DELAY;
                         eBrakeDeadband = CURRENT_EBRAKE_DEADBAND;
@@ -263,7 +263,7 @@ public class Hardware
                                         PREV_ARM_RAISE_REV_PORT);
                         clawPiston.setForward(true);
                         eBrakePiston.setForward(false);
-                        armRaisePiston.setForward(true);
+                        armRaisePiston.setForward(false);
                         // arm control
                         armRaiseMaxSpeedUp = PREV_ARM_RAISE_MAX_SPEED_UP;
                         armRaiseMaxSpeedDown = PREV_ARM_RAISE_MAX_SPEED_DOWN;

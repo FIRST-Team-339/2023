@@ -119,7 +119,7 @@ public class Autonomous
                 //
                 // =========================
                 case 2:
-                    autoPath = AUTO_PATH.DISABLE;
+                    autoPath = AUTO_PATH.SW3_DRIVE_OVER_CHARGING_STATION;
                     AUTO_MODE_DASH = AutoModeDash.Mode3;
                     break;
                 // =========================
@@ -297,10 +297,6 @@ public class Autonomous
     {
         System.out
                 .println("driveTurnDrive.switch = " + sw2_driveTurnDriveState);
-        System.out
-                .println("Left  = " + Hardware.leftBottomEncoder.getDistance());
-        System.out.println(
-                "Right = " + Hardware.rightBottomEncoder.getDistance());
         switch (sw2_driveTurnDriveState)
             {
             // ---------------------------
@@ -308,7 +304,6 @@ public class Autonomous
             // this run
             // ---------------------------
             case INIT:
-                System.out.println("Started " + sw2_driveTurnDriveState);
                 Hardware.autoTimer.start();
                 sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.DELAY;
                 return false;
@@ -412,7 +407,7 @@ public class Autonomous
             // -----------------------
             // drive straight the number of
             // inches requested
-            // -------------------
+            // -----------------------
             case DRIVE_TWO_DRIVE:
                 if (Hardware.drive.driveStraightInches(SW2_SECOND_STOP_DISTANCE,
                         DRIVE_ONE_DRIVE_SPEED, MAX_ACCEL_TIME, false) == true)
@@ -475,7 +470,8 @@ public class Autonomous
             case DRIVE_ONE_DRIVE:
                 if (Hardware.drive.driveStraightInches(
                         SW3_DRIVE_OVER_CHARGING_STATION,
-                        SW3_DRIVE_ONE_DRIVE_SPEED, MAX_ACCEL_TIME, false))
+                        SW3_DRIVE_ONE_DRIVE_SPEED, MAX_ACCEL_TIME,
+                        false) == true)
                     {
                     sw3_driveOnChargingStationState = SW3_DRIVE_ON_CHARGING_STATION_STATE.STOP_ONE;
                     Hardware.leftBottomEncoder.reset();
@@ -498,10 +494,38 @@ public class Autonomous
 
             // ------------------
             // Drive XX inches forward until redLightSensor reads true
+            // If redLightSensor reads true, the robot will move YY inches
+            // forward
             // If robot drives XX inches and redLightSensor doesn't turn on, the
             // robot will stop
             // ------------------
             case DRIVE_TWO_DRIVE:
+                if (Hardware.drive.driveStraightInches(
+                        SW3_DRIVE_TOWARDS_CHARGING_STATION,
+                        SW3_DRIVE_TWO_DRIVE_SPEED, MAX_ACCEL_TIME,
+                        false) == true)
+                    {
+                    if (Hardware.redLightSensor.isOn() == true)
+                        {
+                        Hardware.drive.driveStraightInches(
+                                SW3_DRIVE_ON_CHARGING_STATION,
+                                SW3_DRIVE_TWO_DRIVE_SPEED, MAX_ACCEL_TIME,
+                                false);
+                        }
+                    sw3_driveOnChargingStationState = SW3_DRIVE_ON_CHARGING_STATION_STATE.STOP_TWO;
+                    Hardware.leftBottomEncoder.reset();
+                    Hardware.rightBottomEncoder.reset();
+                    Hardware.drive.setMaxBrakeIterations(3);
+                    Hardware.drive.setBrakeDeadband(1, BrakeType.AFTER_DRIVE);
+                    }
+                return false;
+            case STOP_TWO:
+                if (Hardware.drive.brake(Drive.BrakeType.AFTER_DRIVE) == true)
+                    {
+                    sw3_driveOnChargingStationState = SW3_DRIVE_ON_CHARGING_STATION_STATE.DRIVE_TWO_DRIVE;
+                    } // if
+                return false;
+            case END:
             default:
                 Hardware.drive.stop();
                 return true;
@@ -549,7 +573,7 @@ public class Autonomous
 
     private static enum SW3_DRIVE_ON_CHARGING_STATION_STATE
         {
-        INIT, DELAY, DRIVE_ONE_DRIVE, STOP_ONE, DRIVE_TWO_DRIVE;
+        INIT, DELAY, DRIVE_ONE_DRIVE, STOP_ONE, DRIVE_TWO_DRIVE, STOP_TWO, END;
         }
 
     private static AUTO_PATH autoPath;
@@ -588,6 +612,12 @@ public class Autonomous
 
     private static final double SW3_DRIVE_OVER_CHARGING_STATION = 146.0;
 
+    private static final double SW3_DRIVE_TOWARDS_CHARGING_STATION = 46.0;
+
+    private static final double SW3_DRIVE_ON_CHARGING_STATION = 52.0;
+
     private static final double SW3_DRIVE_ONE_DRIVE_SPEED = 0.25;
+
+    private static final double SW3_DRIVE_TWO_DRIVE_SPEED = -0.25;
 
     } // end Autonomous
