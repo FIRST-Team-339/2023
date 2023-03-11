@@ -51,7 +51,7 @@ public class Drive
             this.brakePrevEncoderVals[1] = Integer.MIN_VALUE;
             this.brakeInitialDirection = new int[2];
             this.gyro = gyro;
-        }
+        } // end constructor() - overloaded
 
     /**
      * Creates the Drive object. If a sensor listed is not used (except for
@@ -99,7 +99,7 @@ public class Drive
             this.brakeInitialDirection = new int[4];
             this.gyro = gyro;
 
-        }
+        } // end constructor() - overloaded
 
     /**
      * This method is related to accelerateTo, except that it keeps the
@@ -130,14 +130,14 @@ public class Drive
             {
             this.transmission.driveRaw(leftSpeed, rightSpeed);
             return true;
-            }
+            } // if
 
         // If we timeout, then reset all the accelerate
         if (System.currentTimeMillis() - lastAccelerateTime > INIT_TIMEOUT)
             {
             lastAccelerateTime = System.currentTimeMillis();
             accelMotorPower = accelStartingSpeed;
-            }
+            } // if
 
         // main acceleration maths
         double deltaSeconds = (System.currentTimeMillis() - lastAccelerateTime)
@@ -154,10 +154,10 @@ public class Drive
         if (accelMotorPower > 1.0)
             {
             return true;
-            }
+            } // if
         // We are not done accelerating
         return false;
-    }
+    } // end accelerateProportionaly()
 
     /**
      * Drives the robot with an acceleration input. If enough time has elapsed
@@ -188,13 +188,13 @@ public class Drive
             {
             transmission.driveRaw(leftSpeed, rightSpeed);
             return true;
-            }
+            } // if
 
         // If we timeout, then reset all the accelerate values
         if (System.currentTimeMillis() - lastAccelerateTime > INIT_TIMEOUT)
             {
             timeBetweenAccelerations = System.currentTimeMillis();
-            }
+            } // if
 
         double leftOut, rightOut;
         long timeDelta = (System.currentTimeMillis() - timeBetweenAccelerations)
@@ -224,7 +224,7 @@ public class Drive
         if (leftOut == leftSpeed && rightOut == rightSpeed)
             return true;
         return false;
-    }
+    } // end accelerateTo()
 
     /**
      * Drive the robot in an arc around a point defined as 'radius' inches away
@@ -258,14 +258,14 @@ public class Drive
             {
             this.resetEncoders();
             arcInit = false;
-            }
+            } // if
 
         // We have reached the arc length? then we are done.
         if (getEncoderDistanceAverage(MotorPosition.ALL) > arcLength)
             {
             getTransmission().stop();
             return true;
-            }
+            } // if
         // The circumference of the smaller circle
         double innerCircle = 2 * (radius - turningRadius) * Math.PI;
         // The circumference of the larger circle
@@ -279,13 +279,13 @@ public class Drive
             {
             leftSide = 1;
             rightSide = innerCircle / outerCircle;
-            }
+            } // if
         else
             if (radius < 0)
                 {
                 rightSide = 1;
                 leftSide = innerCircle / outerCircle;
-                }
+                } // if
 
         double leftRate = getEncoderRate(MotorPosition.LEFT);
         double rightRate = getEncoderRate(MotorPosition.RIGHT);
@@ -302,18 +302,18 @@ public class Drive
                 {
                 leftSide -= driveStraightConstant;
                 rightSide += driveStraightConstant;
-                }
+                } // if
             else
                 {
                 leftSide += driveStraightConstant;
                 rightSide -= driveStraightConstant;
-                }
+                } // else
 
         this.accelerateProportionaly(speed * leftSide, speed * rightSide,
                 accelerationTimeInSecs);
 
         return false;
-    }
+    } // end arc()
 
     /**
      * Stops the robot suddenly, to prevent drifting during autonomous
@@ -496,7 +496,7 @@ public class Drive
             brakePrevEncoderVals[2] = getEncoderTicks(MotorPosition.LEFT_FRONT);
             brakePrevEncoderVals[3] = getEncoderTicks(
                     MotorPosition.RIGHT_FRONT);
-            }
+            } // if
         if (this.isDebugOn(debugType.DEBUG_BRAKING) == true)
             {
             System.out.print("present encoder LR RR LF RF = "
@@ -580,7 +580,7 @@ public class Drive
             {
             deadband = brakeDriveDeadband;
             power = brakeDrivePower;
-            }
+            } // if
         // if Braketype is AFTER_TURN set the deadband to brakeTurnDeadband
         // and set power to brakeTurnPower
         else
@@ -588,7 +588,7 @@ public class Drive
                 {
                 deadband = brakeTurnDeadband;
                 power = brakeTurnPower;
-                }
+                } // if
 
         if (System.currentTimeMillis() - previousBrakeTime > INIT_TIMEOUT)
             {
@@ -621,8 +621,8 @@ public class Drive
                 if (transmission.getMotorController(MotorPosition.RIGHT_FRONT)
                         .getInverted() == true)
                     brakeMotorDirection[3] = -1;
-                }
-            }
+                } // if
+            } // if
 
         int[] brakeDeltas = new int[4];
         // sets values of brakeDelta array to the change in encoder ticks
@@ -661,12 +661,12 @@ public class Drive
             {
             // Increase the iteration
             currentBrakeIteration++;
-            }
+            } // if
         else
             {
             // Reset the iteration. We want x times ~in a row~.
             currentBrakeIteration = 0;
-            }
+            } // else
 
         brakeLoopThroughs = brakeLoopThroughs++;
 
@@ -677,7 +677,7 @@ public class Drive
             currentBrakeIteration = 0;
             transmission.stop();
             return true;
-            }
+            } // if
 
         // Set the rear wheels
         transmission.getMotorController(MotorPosition.LEFT_REAR)
@@ -691,7 +691,7 @@ public class Drive
                     .set(-brakeMotorDirection[2] * power);
             transmission.getMotorController(MotorPosition.RIGHT_FRONT)
                     .set(-brakeMotorDirection[3] * power);
-            }
+            } // if
         // END SET MOTORS
         this.previousBrakeTime = System.currentTimeMillis();
         return false;
@@ -840,7 +840,7 @@ public class Drive
             return turningRadius * Math.toRadians(Math.abs(degrees));
 
         return (turningRadius / 2) * Math.toRadians(Math.abs(degrees));
-    }
+    } // end degreesToEncoderInches()
 
     /**
      * Drives the robot with the use of two joysticks, for Tank drive. If
@@ -855,7 +855,7 @@ public class Drive
     public void drive(Joystick leftJoystick, Joystick rightJoystick)
     {
         this.drive(-leftJoystick.getY(), -rightJoystick.getY());
-    }
+    } // end drive() - overloaded
 
     /**
      * Drives the robot with the use of two values, for Tank drive. This DOES
@@ -877,6 +877,7 @@ public class Drive
         // Omni-Directional,
         // then use tank drive on it.
         else
+            {
             if (transmission.getType() == TransmissionType.OMNI_DIR)
                 {
                 double direction = 0;
@@ -888,8 +889,9 @@ public class Drive
                 magnitude = Math.abs(magnitude);
 
                 this.drive(magnitude, direction, rotation);
-                }
-    }
+                } // if
+            } // else
+    } // end drive() - overloaded
 
     /**
      * Drives the robot with a omni-directional drive, with a single 3 axis
@@ -904,7 +906,7 @@ public class Drive
     {
         this.drive(joystick.getMagnitude(), joystick.getDirectionDegrees(),
                 joystick.getZ());
-    }
+    } // end drive() - overloaded
 
     /**
      * Drives the robot with a omni-directional drive, with 3 separate raw
@@ -940,8 +942,8 @@ public class Drive
             double rightVal = Math.min(Math.max(yVal - xVal, -1), 1);
 
             ((LeftRightTransmission) transmission).drive(leftVal, rightVal);
-            }
-    }
+            } // if
+    } // end drive() - overloaded
 
     /**
      * Drives the robot a certain distance without encoder correction. Not using
@@ -963,7 +965,7 @@ public class Drive
             {
             this.resetEncoders();
             this.driveInchesInit = false;
-            }
+            } // if
 
         // Test if ANY encoder is past the distance. stop if there is
         if (this.isAnyEncoderLargerThan(distance) == true)
@@ -971,12 +973,12 @@ public class Drive
             this.driveInchesInit = true;
             this.transmission.stop();
             return true;
-            }
+            } // if
 
         // sets transmission speed to the input
         this.transmission.driveRaw(speed, speed);
         return false;
-    }
+    } // end driveInches()
 
     /**
      * Drives the robot in a straight line, correcting based on values gotten
@@ -1042,7 +1044,7 @@ public class Drive
         // Reset the "timer" to know when to "reset" the encoders for this
         // method.
         driveStraightLastTime = System.currentTimeMillis();
-    }
+    } // end driveStraight()
 
     /**
      * Drives the robot a certain distance based on the encoder values. If the
@@ -1073,7 +1075,7 @@ public class Drive
             {
             this.resetEncoders();
             this.driveStraightInchesInit = false;
-            }
+            } // if
 
         // Check all encoders to see if they've reached the distance
         if (this.isAnyEncoderLargerThan(Math.abs(distance)) == true)
@@ -1081,13 +1083,13 @@ public class Drive
             this.transmission.stop();
             this.driveStraightInchesInit = true;
             return true;
-            }
+            } // if
 
         // Drive straight if we have not reached the distance
         this.driveStraight(speed, accelerationTimeInSecs, isUsingGyro);
 
         return false;
-    }
+    } // end driveStraightInches()
 
     /**
      * Expected distance that it will take to stop during brake()
