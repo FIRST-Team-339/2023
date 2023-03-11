@@ -131,13 +131,13 @@ public class Robot extends TimedRobot
     {
         System.out.println("Started DisabledInit().");
         // ---------------------------------------
-        // start setup - tell the user we are beginning
-        // setup
+        // start disabling - tell the user we are beginning
+        // disabling
         // ---------------------------------------
 
         // ---------------------------------------
-        // done setup - tell the user we are complete
-        // setup
+        // done disabling - tell the user we are complete
+        // disabling
         // ---------------------------------------
         System.out.println("Completed DisabledInit().");
     } // end disabledInit()

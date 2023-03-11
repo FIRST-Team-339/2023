@@ -34,7 +34,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Relay.Value;
 import frc.Hardware.Hardware;
+import frc.Utils.Dashboard;
 import frc.Utils.Dashboard.AutoModeDash;
+import frc.Utils.Dashboard.DriveGear;
 import frc.Utils.drive.Drive;
 import frc.Utils.drive.Drive.BrakeType;
 
@@ -179,6 +181,7 @@ public class Autonomous
     public static void periodic()
     {
         System.out.println("periodic.switch = " + autoPath);
+        updateDashboard();
         switch (autoPath)
             {
             case SW1_DRIVE_ONLY_FORWARD:
@@ -504,6 +507,30 @@ public class Autonomous
                 return true;
             } // switch
     } // end sw3_driveOnChargingStation()
+
+    private static void updateDashboard()
+    {
+        // GYRO
+        Dashboard.updateGyroInd();
+
+        // GEARS
+        if (sw3_driveOnChargingStationState == SW3_DRIVE_ON_CHARGING_STATION_STATE.DRIVE_ONE_DRIVE)
+            {
+            Dashboard.updateDriveGearInd(DriveGear.Reverse);
+            }
+        else
+            {
+            Dashboard.updateDriveGearInd(DriveGear.Drive1);
+            }
+
+        // AUTO
+        Dashboard.updateAutoModeInd(AUTO_MODE_DASH);
+
+        // UTILS
+        Dashboard.updateEBrakeEngagedInd(Hardware.eBrakePiston.getForward());
+        Dashboard.updateReplaceBatteryInd();
+        Dashboard.updateClawClosedInd(Hardware.clawPiston.getForward());
+    }
 
     private static enum AUTO_PATH
         {
