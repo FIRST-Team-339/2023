@@ -21,7 +21,7 @@ public class Dashboard
 
     public static enum AutoModeDash
         {
-        Teleop, Disabled, Completed, Mode1, Mode2, Mode3, Mode4, Mode5, Mode6
+        Init, Teleop, Disabled, Completed, Mode1, Mode2, Mode3, Mode4, Mode5, Mode6
         }
 
     /**
@@ -36,7 +36,7 @@ public class Dashboard
         updateDriveGearInd(DriveGear.Drive1);
 
         // AUTO
-        updateAutoModeInd(null);
+        updateAutoModeInd(AutoModeDash.Init);
 
         // UTILS
         updateEBrakeEngagedInd(false);
@@ -107,6 +107,18 @@ public class Dashboard
     {
         switch (dashMode)
             {
+            case Init:
+                SmartDashboard.putString("AutoMode", "");
+
+                SmartDashboard.putBoolean("AutoMode0", true);
+                SmartDashboard.putBoolean("AutoMode1", false);
+                SmartDashboard.putBoolean("AutoMode2", false);
+                SmartDashboard.putBoolean("AutoMode3", false);
+                SmartDashboard.putBoolean("AutoMode4", false);
+                SmartDashboard.putBoolean("AutoMode5", false);
+                SmartDashboard.putBoolean("AutoMode6", false);
+                break;
+
             case Teleop:
                 SmartDashboard.putString("AutoMode", "N/A (Teleop Enabled)");
 
