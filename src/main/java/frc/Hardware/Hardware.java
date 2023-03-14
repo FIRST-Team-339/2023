@@ -301,6 +301,7 @@ public class Hardware
         public static KilroyEncoder leftBottomEncoder = null;
         public static MotorController armLengthMotor = null;
         public static MotorController armRaiseMotor = null;
+        public static KilroyEncoder armRaisEncoder = null;
 
         // **********************************************************
         // DIGITAL I/O
