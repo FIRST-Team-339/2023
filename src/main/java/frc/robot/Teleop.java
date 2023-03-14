@@ -71,7 +71,7 @@ public class Teleop
         Hardware.drive.setGearPercentage(0, Hardware.CURRENT_GEAR1_MAX_SPEED);
         Hardware.rightBottomEncoder.reset();
         Hardware.leftBottomEncoder.reset();
-        Hardware.armRaisePiston.setForward(false);
+        Hardware.armRaisePiston.setForward(true);
 
     } // end init()
 
