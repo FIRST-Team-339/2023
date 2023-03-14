@@ -602,7 +602,7 @@ public class Autonomous
 
     private static final double DRIVE_ONE_DRIVE_SPEED = -0.25;
 
-    private static final double SW1_DRIVE_ONLY_INCHES = 133.0;
+    private static final double SW1_DRIVE_ONLY_INCHES = 120.0;
 
     private static final double SW2_FIRST_STOP_DISTANCE = 44.0;
 
