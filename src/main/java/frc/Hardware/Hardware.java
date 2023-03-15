@@ -14,6 +14,8 @@
 // ====================================================================
 package frc.Hardware;
 
+import java.beans.Encoder;
+
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -123,7 +125,12 @@ public class Hardware
                         // Encoders
                         // ==============RIO INIT==============
 
-                        // =============OTHER INIT============
+                        // =============OTHER INIT============\
+
+                        armRaiseEncoder = new KilroyEncoder(
+                                        (CANVenom) armRaiseMotor);// 21
+                        armRaiseEncoder.reset();
+                        ;
 
                         transmission = new LeftRightTransmission(leftSideMotors,
                                         rightSideMotors);
@@ -233,6 +240,7 @@ public class Hardware
                         // ==============RIO INIT=============
 
                         // =============OTHER INIT============
+
                         transmission = new LeftRightTransmission(leftSideMotors,
                                         rightSideMotors);
                         transmission.setJoystickDeadband(PREV_DEADBAND);
@@ -301,7 +309,7 @@ public class Hardware
         public static KilroyEncoder leftBottomEncoder = null;
         public static MotorController armLengthMotor = null;
         public static MotorController armRaiseMotor = null;
-        public static KilroyEncoder armRaisEncoder = null;
+        public static KilroyEncoder armRaiseEncoder = null;
 
         // **********************************************************
         // DIGITAL I/O

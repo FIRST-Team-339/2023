@@ -33,6 +33,7 @@ import java.io.ObjectInputStream.GetField;
 
 import org.opencv.features2d.FlannBasedMatcher;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
@@ -347,11 +348,24 @@ public class Teleop
         // ---------------------------
         Hardware.cameras.switchCameras(Hardware.switchCameraViewButton10);
 
+        if (Hardware.armRaiseEncoder
+                .getRaw() <= (cameraSwitchPoint - cameraDeadBand))
+            {
+            Hardware.cameras.setCamera(0);
+            }
+        else
+            if (Hardware.armRaiseEncoder
+                    .getRaw() >= (cameraSwitchPoint + cameraDeadBand))
+                {
+                Hardware.cameras.setCamera(1);
+                }
+
         // -------------------------
         // If eBrake has not overridden our ability to
         // drive, use the drivers joysticks to drive.
         // ----------------------------
         if (Hardware.eBrakeTimerIsStopped == true)
+
             {
             Hardware.transmission.shiftGears(Hardware.rightDriver.getTrigger(),
                     Hardware.leftDriver.getTrigger());
@@ -364,6 +378,7 @@ public class Teleop
         // the arm by the operator
         // ----------------------------
         armControl();
+
         manageEBrake();
 
         // --------------------------
@@ -376,7 +391,9 @@ public class Teleop
         // individual testing function
         // --------------------------
         printStatements();
+
         individualTest();
+
     } // end periodic()
 
     public static void individualTest()
@@ -423,7 +440,7 @@ public class Teleop
         // -------- SUBSYSTEMS ---------
 
         // ---------- OTHER ------------
-        System.out.println("ARE " + Hardware.armRaisEncoder.getRaw());
+        // System.out.println("ARE " + Hardware.armRaiseEncoder.getRaw());
         /////////// JOYSTICK VALUES ///////////
         // System.out.println("L Joystick: " + Hardware.leftDriver.getY());
         // System.out.println("R Joystick: " + Hardware.rightDriver.getY());
@@ -459,5 +476,6 @@ public class Teleop
     // =========================================
     // class private data goes here
     // =========================================
-
+    public static double cameraDeadBand = 10.00;
+    public static double cameraSwitchPoint = -80.00;
     } // end class
