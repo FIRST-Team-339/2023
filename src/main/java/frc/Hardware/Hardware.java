@@ -68,7 +68,7 @@ public class Hardware
                 CurrentYear, PrevYear
                 };
 
-        public static Identifier robotIdentity = Identifier.CurrentYear;
+        public static Identifier robotIdentity = Identifier.PrevYear;
 
         public static void initialize()
         {
@@ -125,12 +125,11 @@ public class Hardware
                         // Encoders
                         // ==============RIO INIT==============
 
-                        // =============OTHER INIT============\
+                        // =============OTHER INIT============
 
                         armRaiseEncoder = new KilroyEncoder(
                                         (CANVenom) armRaiseMotor);// 21
                         armRaiseEncoder.reset();
-                        ;
 
                         transmission = new LeftRightTransmission(leftSideMotors,
                                         rightSideMotors);
@@ -150,6 +149,8 @@ public class Hardware
                         drive.setTurnDegreesFudgeFactor(1);
 
                         eBrakeTimer = new Timer();
+
+                        eBrakeJoystickTimer = new Timer();
 
                         autoTimer = new Timer();
 
@@ -241,6 +242,10 @@ public class Hardware
 
                         // =============OTHER INIT============
 
+                        armRaiseEncoder = new KilroyEncoder(
+                                        (WPI_TalonFX) armRaiseMotor);// 18
+                        armRaiseEncoder.reset();
+
                         transmission = new LeftRightTransmission(leftSideMotors,
                                         rightSideMotors);
                         transmission.setJoystickDeadband(PREV_DEADBAND);
@@ -259,6 +264,8 @@ public class Hardware
                         drive.setTurnDegreesFudgeFactor(1);
 
                         eBrakeTimer = new Timer();
+
+                        eBrakeJoystickTimer = new Timer();
 
                         autoTimer = new Timer();
 
@@ -364,6 +371,8 @@ public class Hardware
         // ------------------------------------
         public static Timer eBrakeTimer = null;
         public static Boolean eBrakeTimerIsStopped = true;
+        public static Boolean eBrakeJoystickTimerIsStopped = true;
+        public static Timer eBrakeJoystickTimer = null;
         public static Timer autoTimer = null;
 
         // ------------------------------------
