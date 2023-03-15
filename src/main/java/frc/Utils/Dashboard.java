@@ -2,7 +2,6 @@ package frc.Utils;
 
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.Hardware.Hardware;
 
 /**
  * Dashboard Class
@@ -102,8 +101,34 @@ public class Dashboard
      * Update auto mode/path for the dashboard
      * 
      * @param dashMode
+     * @param leftRightNoneSetting
      */
     public static void updateAutoModeInd(AutoModeDash dashMode)
+    {
+        internalUpdateAutoModeInd(dashMode, "");
+    }
+
+    /**
+     * Update auto mode/path for the dashboard
+     *
+     * @note Use this if the auto mode uses an Left/Right/None switch
+     * 
+     * @param dashMode
+     * @param leftRightNoneSetting
+     */
+    public static void updateAutoModeInd(AutoModeDash dashMode,
+            String leftRightNoneSetting)
+    {
+        internalUpdateAutoModeInd(dashMode, leftRightNoneSetting);
+    }
+
+    /**
+     * Update auto mode/path for the dashboard
+     * 
+     * @param dashMode
+     */
+    private static void internalUpdateAutoModeInd(AutoModeDash dashMode,
+            String leftRightNoneSetting)
     {
         switch (dashMode)
             {

@@ -549,7 +549,32 @@ public class Autonomous
             }
 
         // AUTO
-        Dashboard.updateAutoModeInd(AUTO_MODE_DASH);
+        switch (autoPath)
+            {
+            case SW2_DRIVE_TURN_DRIVE:
+                if (Hardware.leftRightNoneSwitch
+                        .getPosition() == Relay.Value.kReverse)
+                    {
+                    Dashboard.updateAutoModeInd(AUTO_MODE_DASH, "Left Turn");
+                    }
+                else
+                    if (Hardware.leftRightNoneSwitch
+                            .getPosition() == Relay.Value.kForward)
+                        {
+                        Dashboard.updateAutoModeInd(AUTO_MODE_DASH,
+                                "Right Turn");
+                        }
+                    else
+                        {
+                        Dashboard.updateAutoModeInd(AUTO_MODE_DASH,
+                                "No Turn/Stop");
+                        }
+                break;
+
+            default:
+                Dashboard.updateAutoModeInd(AUTO_MODE_DASH);
+                break;
+            }
 
         // UTILS
         Dashboard.updateEBrakeEngagedInd(Hardware.eBrakePiston.getForward());
