@@ -156,6 +156,7 @@ public class Autonomous
         else
             {
             autoPath = AUTO_PATH.DISABLE;
+            AUTO_MODE_DASH = AutoModeDash.Disabled;
             } // ens else
 
         sw1_driveOnlyForwardState = SW1_DRIVE_ONLY_FORWARD_STATE.INIT;
@@ -204,6 +205,7 @@ public class Autonomous
                 if (sw3_driveOnChargingStation() == true)
                     {
                     autoPath = AUTO_PATH.DISABLE;
+                    AUTO_MODE_DASH = AutoModeDash.Completed;
                     }
                 break;
             } // switch
@@ -559,7 +561,34 @@ public class Autonomous
             }
 
         // AUTO
-        Dashboard.updateAutoModeInd(AUTO_MODE_DASH);
+        // System.out.println("Auto Path = " + autoPath);
+        // System.out.println("Auto Dash = " + AUTO_MODE_DASH);
+        switch (AUTO_MODE_DASH)
+            {
+            case Mode2:
+                if (Hardware.leftRightNoneSwitch
+                        .getPosition() == Relay.Value.kReverse)
+                    {
+                    Dashboard.updateAutoModeInd(AUTO_MODE_DASH, "Left Turn");
+                    }
+                else
+                    if (Hardware.leftRightNoneSwitch
+                            .getPosition() == Relay.Value.kForward)
+                        {
+                        Dashboard.updateAutoModeInd(AUTO_MODE_DASH,
+                                "Right Turn");
+                        }
+                    else
+                        {
+                        Dashboard.updateAutoModeInd(AUTO_MODE_DASH,
+                                "No Turn/Stop");
+                        }
+                break;
+
+            default:
+                Dashboard.updateAutoModeInd(AUTO_MODE_DASH);
+                break;
+            }
 
         // UTILS
         Dashboard.updateEBrakeEngagedInd(Hardware.eBrakePiston.getForward());
