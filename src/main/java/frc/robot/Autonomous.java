@@ -444,6 +444,7 @@ public class Autonomous
             // ----------------------
             case INIT:
                 Hardware.autoTimer.start();
+                Hardware.drive.setDriveStraightConstant(0.01);
                 sw3_driveOnChargingStationState = SW3_DRIVE_ON_CHARGING_STATION_STATE.DELAY;
                 return false;
             // ----------------------
@@ -616,8 +617,8 @@ public class Autonomous
 
     private static final double SW3_DRIVE_ON_CHARGING_STATION = 52.0;
 
-    private static final double SW3_DRIVE_ONE_DRIVE_SPEED = 0.25;
+    private static final double SW3_DRIVE_ONE_DRIVE_SPEED = 0.2;
 
-    private static final double SW3_DRIVE_TWO_DRIVE_SPEED = -0.25;
+    private static final double SW3_DRIVE_TWO_DRIVE_SPEED = -0.2;
 
     } // end Autonomous
