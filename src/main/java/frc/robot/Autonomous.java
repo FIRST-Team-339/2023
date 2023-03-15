@@ -425,6 +425,10 @@ public class Autonomous
             // stop all motors
             // --------------------
             case STOP_TWO:
+                if (Hardware.drive.brake(Drive.BrakeType.AFTER_DRIVE) == true)
+                    {
+                    sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.END;
+                    } // if
             case END:
             default:
                 Hardware.drive.stop();
