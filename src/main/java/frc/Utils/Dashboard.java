@@ -130,7 +130,6 @@ public class Dashboard
     private static void internalUpdateAutoModeInd(AutoModeDash dashMode,
             String leftRightNoneSetting)
     {
-        System.out.println("dashboard AUTO mode = " + dashMode);
         switch (dashMode)
             {
             case Init:

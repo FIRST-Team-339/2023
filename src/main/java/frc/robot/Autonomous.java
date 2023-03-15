@@ -156,6 +156,7 @@ public class Autonomous
         else
             {
             autoPath = AUTO_PATH.DISABLE;
+            AUTO_MODE_DASH = AutoModeDash.Disabled;
             } // ens else
 
         sw1_driveOnlyForwardState = SW1_DRIVE_ONLY_FORWARD_STATE.INIT;
@@ -425,10 +426,6 @@ public class Autonomous
             // stop all motors
             // --------------------
             case STOP_TWO:
-                if (Hardware.drive.brake(Drive.BrakeType.AFTER_DRIVE) == true)
-                    {
-                    sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.END;
-                    } // if
             case END:
             default:
                 Hardware.drive.stop();
@@ -526,11 +523,6 @@ public class Autonomous
                     }
                 return false;
             case STOP_TWO:
-                if (Hardware.drive.brake(Drive.BrakeType.AFTER_DRIVE) == true)
-                    {
-                    sw3_driveOnChargingStationState = SW3_DRIVE_ON_CHARGING_STATION_STATE.DRIVE_TWO_DRIVE;
-                    } // if
-                return false;
             case END:
             default:
                 Hardware.drive.stop();
@@ -554,9 +546,11 @@ public class Autonomous
             }
 
         // AUTO
-        switch (autoPath)
+        // System.out.println("Auto Path = " + autoPath);
+        // System.out.println("Auto Dash = " + AUTO_MODE_DASH);
+        switch (AUTO_MODE_DASH)
             {
-            case SW2_DRIVE_TURN_DRIVE:
+            case Mode2:
                 if (Hardware.leftRightNoneSwitch
                         .getPosition() == Relay.Value.kReverse)
                     {
