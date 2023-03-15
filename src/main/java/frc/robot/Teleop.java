@@ -72,7 +72,10 @@ public class Teleop
         Hardware.drive.setGearPercentage(0, Hardware.CURRENT_GEAR1_MAX_SPEED);
         Hardware.rightBottomEncoder.reset();
         Hardware.leftBottomEncoder.reset();
+        Hardware.armRaiseButton.setValue(true);
+        // Piston position setting
         Hardware.armRaisePiston.setForward(true);
+        Hardware.clawPiston.setForward(true);
 
     } // end init()
 
@@ -111,6 +114,9 @@ public class Teleop
             {
             Hardware.eBrakeMomentarySwitch2.setValue(false);
             Hardware.eBrakePiston.setForward(true);
+            // When Momentary Switch 1 active (ebrake is enabled)
+            // Supply a control voltage to left side motors to stop motion
+            Hardware.leftSideMotors.set(eBrakeHoldSpeed);
             } // if
         // =========================
         // when button 6 left driver is pushed
@@ -172,10 +178,10 @@ public class Teleop
                 || (Math.abs(Hardware.rightDriver
                         .getY()) >= Hardware.eBrakeDeadband)))
             {
-            Hardware.eBrakeTimer.reset();
-            Hardware.eBrakeTimer.start();
-            Hardware.eBrakeMomentarySwitch1.setValue(false);
-            Hardware.eBrakeMomentarySwitch2.setValue(true);
+            // Hardware.eBrakeTimer.reset();
+            // Hardware.eBrakeTimer.start();
+            // Hardware.eBrakeMomentarySwitch1.setValue(false);
+            // Hardware.eBrakeMomentarySwitch2.setValue(true);
             } // if
     } // end of manage ebrake()
 
@@ -478,4 +484,5 @@ public class Teleop
     // =========================================
     public static double cameraDeadBand = 10.00;
     public static double cameraSwitchPoint = -80.00;
+    private static double eBrakeHoldSpeed = 0.1;
     } // end class
