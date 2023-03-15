@@ -180,7 +180,7 @@ public class Autonomous
 
     public static void periodic()
     {
-        System.out.println("periodic.switch = " + autoPath);
+        // System.out.println("periodic.switch = " + autoPath);
         updateDashboard();
         switch (autoPath)
             {
@@ -221,8 +221,8 @@ public class Autonomous
      */
     private static boolean sw1_driveOnlyForward()
     {
-        System.out.println(
-                "sw1_driveOnlyForward.switch = " + sw1_driveOnlyForwardState);
+        // System.out.println(
+        // "sw1_driveOnlyForward.switch = " + sw1_driveOnlyForwardState);
         switch (sw1_driveOnlyForwardState)
             {
             // ---------------------------
@@ -295,8 +295,8 @@ public class Autonomous
      */
     private static boolean sw2_driveTurnDrive()
     {
-        System.out
-                .println("driveTurnDrive.switch = " + sw2_driveTurnDriveState);
+        // System.out
+        // .println("driveTurnDrive.switch = " + sw2_driveTurnDriveState);
         switch (sw2_driveTurnDriveState)
             {
             // ---------------------------
@@ -433,8 +433,8 @@ public class Autonomous
 
     private static boolean sw3_driveOnChargingStation()
     {
-        System.out.println("sw3_driveOnChargingStation.switch = "
-                + sw3_driveOnChargingStationState);
+        // System.out.println("sw3_driveOnChargingStation.switch = "
+        // + sw3_driveOnChargingStationState);
         switch (sw3_driveOnChargingStationState)
 
             {
