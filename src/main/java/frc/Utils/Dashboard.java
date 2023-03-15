@@ -180,6 +180,7 @@ public class Dashboard
                 SmartDashboard.putBoolean("AutoMode4", false);
                 SmartDashboard.putBoolean("AutoMode5", false);
                 SmartDashboard.putBoolean("AutoMode6", false);
+                break;
 
             case Mode1:
                 SmartDashboard.putString("AutoMode", "Drive Forward ONLY");
