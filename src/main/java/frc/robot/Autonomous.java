@@ -156,6 +156,7 @@ public class Autonomous
         else
             {
             autoPath = AUTO_PATH.DISABLE;
+            AUTO_MODE_DASH = AutoModeDash.Disabled;
             } // ens else
 
         sw1_driveOnlyForwardState = SW1_DRIVE_ONLY_FORWARD_STATE.INIT;
@@ -204,6 +205,7 @@ public class Autonomous
                 if (sw3_driveOnChargingStation() == true)
                     {
                     autoPath = AUTO_PATH.DISABLE;
+                    AUTO_MODE_DASH = AutoModeDash.Completed;
                     }
                 break;
             } // switch
@@ -435,6 +437,8 @@ public class Autonomous
     {
         // System.out.println("sw3_driveOnChargingStation.switch = "
         // + sw3_driveOnChargingStationState);
+        // System.out.println("Red Light State: " +
+        // Hardware.redLightSensor.get());
         switch (sw3_driveOnChargingStationState)
 
             {
@@ -506,25 +510,33 @@ public class Autonomous
                         SW3_DRIVE_TWO_DRIVE_SPEED, MAX_ACCEL_TIME,
                         false) == true)
                     {
-                    if (Hardware.redLightSensor.isOn() == true)
-                        {
-                        Hardware.drive.driveStraightInches(
-                                SW3_DRIVE_ON_CHARGING_STATION,
-                                SW3_DRIVE_TWO_DRIVE_SPEED, MAX_ACCEL_TIME,
-                                false);
-                        }
+                    // Drive forward as fail safe
                     sw3_driveOnChargingStationState = SW3_DRIVE_ON_CHARGING_STATION_STATE.STOP_TWO;
-                    Hardware.leftBottomEncoder.reset();
-                    Hardware.rightBottomEncoder.reset();
-                    Hardware.drive.setMaxBrakeIterations(3);
-                    Hardware.drive.setBrakeDeadband(1, BrakeType.AFTER_DRIVE);
+                    // Hardware.leftBottomEncoder.reset();
+                    // Hardware.rightBottomEncoder.reset();
+                    // Hardware.drive.setMaxBrakeIterations(3);
+                    // Hardware.drive.setBrakeDeadband(1,
+                    // BrakeType.AFTER_DRIVE);
+                    }
+                if (Hardware.redLightSensor.isOn() == true)
+                    {
+                    // drive small forward
+                    sw3_driveOnChargingStationState = SW3_DRIVE_ON_CHARGING_STATION_STATE.DRIVE_THREE_DRIVE;
                     }
                 return false;
             case STOP_TWO:
                 if (Hardware.drive.brake(Drive.BrakeType.AFTER_DRIVE) == true)
                     {
-                    sw3_driveOnChargingStationState = SW3_DRIVE_ON_CHARGING_STATION_STATE.DRIVE_TWO_DRIVE;
+                    // sw3_driveOnChargingStationState =
+                    // SW3_DRIVE_ON_CHARGING_STATION_STATE.DRIVE_TWO_DRIVE;
+                    sw3_driveOnChargingStationState = SW3_DRIVE_ON_CHARGING_STATION_STATE.END;
                     } // if
+                return false;
+            case DRIVE_THREE_DRIVE:
+                // after red light drive more
+                Hardware.drive.driveStraightInches(
+                        SW3_DRIVE_ON_CHARGING_STATION,
+                        SW3_DRIVE_TWO_DRIVE_SPEED, MAX_ACCEL_TIME, false);
                 return false;
             case END:
             default:
@@ -549,9 +561,11 @@ public class Autonomous
             }
 
         // AUTO
-        switch (autoPath)
+        // System.out.println("Auto Path = " + autoPath);
+        // System.out.println("Auto Dash = " + AUTO_MODE_DASH);
+        switch (AUTO_MODE_DASH)
             {
-            case SW2_DRIVE_TURN_DRIVE:
+            case Mode2:
                 if (Hardware.leftRightNoneSwitch
                         .getPosition() == Relay.Value.kReverse)
                     {
@@ -599,7 +613,7 @@ public class Autonomous
 
     private static enum SW3_DRIVE_ON_CHARGING_STATION_STATE
         {
-        INIT, DELAY, DRIVE_ONE_DRIVE, STOP_ONE, DRIVE_TWO_DRIVE, STOP_TWO, END;
+        INIT, DELAY, DRIVE_ONE_DRIVE, STOP_ONE, DRIVE_TWO_DRIVE, STOP_TWO, DRIVE_THREE_DRIVE, END;
         }
 
     private static AUTO_PATH autoPath;

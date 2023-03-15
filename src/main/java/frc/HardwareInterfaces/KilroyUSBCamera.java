@@ -375,6 +375,7 @@ public class KilroyUSBCamera
             {
             this.cam0.setResolution(width, height);
             this.cam0.setFPS(FPS);
+            this.cam0.setBrightness(CAMERA0_BRIGHTNESS);
             this.server.getProperty("compression").set(compression);
             } // end if
         else
@@ -384,6 +385,8 @@ public class KilroyUSBCamera
                 this.cam1.setResolution(width, height);
                 this.cam0.setFPS(FPS);
                 this.cam1.setFPS(FPS);
+                this.cam0.setBrightness(CAMERA0_BRIGHTNESS);
+                this.cam1.setBrightness(CAMERA1_BRIGHTNESS);
                 this.server.getProperty("compression").set(compression);
                 } // end else if
     } // end setCameraValues()
@@ -541,5 +544,9 @@ public class KilroyUSBCamera
     private int RESOLUTION_WIDTH = 340;
 
     private int RESOLUTION_HEIGHT = 240;
+
+    private int CAMERA0_BRIGHTNESS = 100;
+
+    private int CAMERA1_BRIGHTNESS = 50;
     // end class
     }

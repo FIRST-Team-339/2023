@@ -390,13 +390,13 @@ public class Teleop
         if (Hardware.armRaiseEncoder
                 .getRaw() <= (cameraSwitchPoint - cameraDeadBand))
             {
-            Hardware.cameras.setCamera(0);
+            Hardware.cameras.setCamera(1);
             }
         else
             if (Hardware.armRaiseEncoder
                     .getRaw() >= (cameraSwitchPoint + cameraDeadBand))
                 {
-                Hardware.cameras.setCamera(1);
+                Hardware.cameras.setCamera(0);
                 }
 
         // -------------------------
@@ -525,7 +525,7 @@ public class Teleop
     // =========================================
     // class private data goes here
     // =========================================
-    public static double cameraDeadBand = 10.00;
-    public static double cameraSwitchPoint = -80.00;
+    private static double cameraDeadBand = 4.00;
+    private static double cameraSwitchPoint = -70.00;
     private static double eBrakeHoldSpeed = 0.1;
     } // end class
