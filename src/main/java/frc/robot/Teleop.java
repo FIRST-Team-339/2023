@@ -71,7 +71,7 @@ public class Teleop
         Hardware.drive.setGearPercentage(0, Hardware.CURRENT_GEAR1_MAX_SPEED);
         Hardware.rightBottomEncoder.reset();
         Hardware.leftBottomEncoder.reset();
-        Hardware.armRaisePiston.setForward(false);
+        Hardware.armRaisePiston.setForward(true);
 
     } // end init()
 
@@ -423,7 +423,7 @@ public class Teleop
         // -------- SUBSYSTEMS ---------
 
         // ---------- OTHER ------------
-
+        System.out.println("ARE " + Hardware.armRaisEncoder.getRaw());
         /////////// JOYSTICK VALUES ///////////
         // System.out.println("L Joystick: " + Hardware.leftDriver.getY());
         // System.out.println("R Joystick: " + Hardware.rightDriver.getY());
