@@ -77,6 +77,11 @@ public class Teleop
         Hardware.armRaisePiston.setForward(true);
         Hardware.clawPiston.setForward(true);
 
+        if (Hardware.eBrakePiston.getForward() == true)
+            {
+            Hardware.eBrakePiston.setForward(false);
+            }
+
     } // end init()
 
     /**
@@ -106,51 +111,93 @@ public class Teleop
             Hardware.eBrakeTimerIsStopped = false;
             } // else
 
+        if (Hardware.eBrakeJoystickTimer.get() <= 0.001)
+            {
+            Hardware.eBrakeJoystickTimerIsStopped = true;
+            } // if
+        else
+            {
+            Hardware.eBrakeJoystickTimerIsStopped = false;
+            } // else
+
         // =========================
         // when button 5 right driver is pushed
         // Extends the eBrake piston out
         // =========================
-        if (Hardware.eBrakeMomentarySwitch1.isOnCheckNow() == true)
+        if (Hardware.rightDriver.getRawButtonPressed(5) == true)
             {
             Hardware.eBrakeMomentarySwitch2.setValue(false);
             Hardware.eBrakePiston.setForward(true);
-            // When Momentary Switch 1 active (ebrake is enabled)
-            // Supply a control voltage to left side motors to stop motion
-            Hardware.leftSideMotors.set(eBrakeHoldSpeed);
+            // Hardware.transmission.drive(0, 0);
+            Hardware.eBrakeJoystickTimer.reset();
+            Hardware.eBrakeJoystickTimer.start();
             } // if
+
         // =========================
         // when button 6 left driver is pushed
         // Retracts the eBrake piston and affects drive
         // =========================
-        if (Hardware.eBrakeMomentarySwitch2.isOnCheckNow() == true)
+        if (Hardware.rightDriver.getRawButtonPressed(6) == true)
             {
             // =========================
-            // when the eBrake is not retracted and the joystick is moved
-            // Resets the eBrake timer retracts the eBrake piston, stops all
-            // drive motors,
-            // and starts the eBrake timer
+            // when the retract button (left driver button 6) is pressed, eBrake
+            // is not retracted and the joystick is moved Resets the eBrake
+            // timer retracts the eBrake piston, stops all
+            // drive motors, and starts the eBrake timer
             // =========================
+            Hardware.eBrakeJoystickTimer.stop();
             Hardware.eBrakeMomentarySwitch1.setValue(false);
-            if (Hardware.eBrakePiston.getForward() == true)
+            if ((Hardware.eBrakePiston.getForward() == true) || (((Math
+                    .abs(Hardware.leftDriver.getY()) >= Hardware.eBrakeDeadband)
+                    || (Math.abs(Hardware.rightDriver
+                            .getY()) >= Hardware.eBrakeDeadband))
+                    && ((Hardware.eBrakeJoystickTimer.hasElapsed(2) == true)
+                            || (Hardware.eBrakeJoystickTimerIsStopped == true))))
                 {
+                // Hardware.eBrakeTimer.reset();
+                Hardware.transmission.drive(0, 0);
+                // Hardware.eBrakeTimer.start();
                 Hardware.eBrakePiston.setForward(false);
-                Hardware.leftSideMotors.set(.15);
+                Hardware.eBrakeMomentarySwitch1.setValue(false);
+                Hardware.eBrakeMomentarySwitch2.setValue(true);
                 }
             // =========================
-            // when the eBrake is retracted and the eBrake timer has passed
-            // a
-            // certain
-            // duration
-            // Reactivates the drive motors and stops the eBrake timer
+            // when the eBrake is retracted and the eBrake timer has passed a
+            // certain duration, reactivates the drive motors and stops the
+            // eBrake timer
             // =========================
             if ((Hardware.eBrakePiston.getForward() == false)
-                    && ((Hardware.eBrakeTimer
-                            .hasElapsed(Hardware.eBrakeDelayTime))
-                            || Hardware.eBrakeTimerIsStopped == true))
+                    && (((Hardware.eBrakeTimer
+                            .hasElapsed(Hardware.eBrakeDelayTime) == true)
+                            || (Hardware.eBrakeTimerIsStopped == true))
+                            && ((Hardware.eBrakeJoystickTimer
+                                    .hasElapsed(2) == true)
+                                    || (Hardware.eBrakeJoystickTimerIsStopped == true))))
                 {
+                Hardware.transmission.drive(Hardware.leftDriver.getY(),
+                        Hardware.rightDriver.getY());
                 Hardware.eBrakeTimer.stop();
-                Hardware.eBrakeTimer.reset();
                 } // if
+            } // if
+        // =========================
+        // when the eBrake is not retracted and the joystick is moved
+        // Resets the eBrake timer, retracts the eBrake piston, stops all
+        // drive motors,
+        // and starts the eBrake timer
+        // =========================
+        if ((Hardware.eBrakePiston.getForward() == true) && (((Math
+                .abs(Hardware.leftDriver.getY()) >= Hardware.eBrakeDeadband)
+                || (Math.abs(Hardware.rightDriver
+                        .getY()) >= Hardware.eBrakeDeadband))
+                && ((Hardware.eBrakeJoystickTimer.hasElapsed(2) == true)
+                        || (Hardware.eBrakeJoystickTimerIsStopped == true))))
+            {
+            // Hardware.eBrakeTimer.reset();
+            Hardware.transmission.drive(0, 0);
+            // Hardware.eBrakeTimer.start();
+            Hardware.eBrakePiston.setForward(false);
+            Hardware.eBrakeMomentarySwitch1.setValue(false);
+            Hardware.eBrakeMomentarySwitch2.setValue(true);
             } // if
         // =========================
         // when the eBrake is retracted and the eBrake timer has passed a
@@ -159,29 +206,15 @@ public class Teleop
         // Reactivates the drive motors and stops the eBrake timer
         // =========================
         if ((Hardware.eBrakePiston.getForward() == false)
-                && ((Hardware.eBrakeTimer.hasElapsed(Hardware.eBrakeDelayTime)
-                        || Hardware.eBrakeTimerIsStopped == true)))
+                && (((Hardware.eBrakeTimer
+                        .hasElapsed(Hardware.eBrakeDelayTime) == true)
+                        || (Hardware.eBrakeTimerIsStopped == true))
+                        && ((Hardware.eBrakeJoystickTimer.hasElapsed(2) == true)
+                                || (Hardware.eBrakeJoystickTimerIsStopped == true))))
             {
+            Hardware.transmission.drive(Hardware.leftDriver.getY(),
+                    Hardware.rightDriver.getY());
             Hardware.eBrakeTimer.stop();
-            Hardware.eBrakeTimer.reset();
-            } // if
-        // =========================
-        // when the retract button (left driver button 6) is pressed, eBrake is
-        // not
-        // retracted and the joystick is moved
-        // Resets the eBrake timer retracts the eBrake piston, stops all drive
-        // motors,
-        // and starts the eBrake timer
-        // =========================
-        if ((Hardware.eBrakePiston.getForward() == true) && ((Math
-                .abs(Hardware.leftDriver.getY()) >= Hardware.eBrakeDeadband)
-                || (Math.abs(Hardware.rightDriver
-                        .getY()) >= Hardware.eBrakeDeadband)))
-            {
-            // Hardware.eBrakeTimer.reset();
-            // Hardware.eBrakeTimer.start();
-            // Hardware.eBrakeMomentarySwitch1.setValue(false);
-            // Hardware.eBrakeMomentarySwitch2.setValue(true);
             } // if
     } // end of manage ebrake()
 
@@ -370,14 +403,20 @@ public class Teleop
         // If eBrake has not overridden our ability to
         // drive, use the drivers joysticks to drive.
         // ----------------------------
-        if (Hardware.eBrakeTimerIsStopped == true)
-
+        if (((Hardware.eBrakeTimerIsStopped == true) || (Hardware.eBrakeTimer
+                .hasElapsed(Hardware.eBrakeDelayTime) == true))
+                && ((Hardware.eBrakeJoystickTimer.hasElapsed(2) == true)
+                        || (Hardware.eBrakeJoystickTimerIsStopped == true)))
             {
             Hardware.transmission.shiftGears(Hardware.rightDriver.getTrigger(),
                     Hardware.leftDriver.getTrigger());
             Hardware.transmission.drive(Hardware.leftDriver.getY(),
                     Hardware.rightDriver.getY());
             } // if
+        else
+            {
+            Hardware.transmission.drive(0, 0);
+            }
 
         // --------------------------
         // control the eBrake and
@@ -410,7 +449,11 @@ public class Teleop
     public static void printStatements()
     {
         // ========== INPUTS ==========
-        // System.out.println("eBrakeTimer " + Hardware.eBrakeTimer.get());
+        // System.out.println("eBrakeTimer: " + Hardware.eBrakeTimer.get());
+        System.out.println("eBrakeJoyStickTimer has passed " + 2 + " seconds: "
+                + Hardware.eBrakeJoystickTimer.hasElapsed(2));
+        System.out.println(
+                "eBrakeJoyStickTimer: " + Hardware.eBrakeJoystickTimer.get());
         // System.out.println("clawPiston = " + Hardware.clawPiston.get());
         // System.out.println("armPiston = " + Hardware.armRaisePiston.get());
         // ---------- DIGITAL ----------
