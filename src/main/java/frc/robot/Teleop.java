@@ -352,6 +352,7 @@ public class Teleop
         // ---------------------------
         // manage the camera view
         // ---------------------------
+
         Hardware.cameras.switchCameras(Hardware.switchCameraViewButton10);
 
         if (Hardware.armRaiseEncoder

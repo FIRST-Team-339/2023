@@ -137,8 +137,8 @@ public class Hardware
                         transmission.setJoystickDeadband(CURRENT_DEADBAND);
                         transmission.setAllGearPercentages(
                                         CURRENT_GEAR1_MAX_SPEED,
-                                        CURRENT_GEAR2_MAX_SPEED,
-                                        CURRENT_GEAR3_MAX_SPEED);
+                                        CURRENT_GEAR2_MAX_SPEED
+                        /* , CURRENT_GEAR3_MAX_SPEED */);
 
                         // System.out.println("The gyro is = " + gyro);
                         // gyro = new KilroySPIGyro(true);
@@ -245,8 +245,10 @@ public class Hardware
                                         rightSideMotors);
                         transmission.setJoystickDeadband(PREV_DEADBAND);
                         transmission.setAllGearPercentages(PREV_GEAR1_MAX_SPEED,
-                                        PREV_GEAR2_MAX_SPEED,
-                                        PREV_GEAR3_MAX_SPEED);
+                                        PREV_GEAR2_MAX_SPEED/*
+                                                             * ,
+                                                             * PREV_GEAR3_MAX_SPEED
+                                                             */);
 
                         // gyro = new KilroySPIGyro(true);
                         // gyro.calibrate();
@@ -467,7 +469,7 @@ public class Hardware
         public final static double CURRENT_ARM_LENGTH_DEADBAND = 0.2;
         public final static double CURRENT_EBRAKETIMER_DELAY = 0.5;
         public final static double CURRENT_GEAR1_MAX_SPEED = 0.25;
-        private final static double CURRENT_GEAR2_MAX_SPEED = 0.37;
+        private final static double CURRENT_GEAR2_MAX_SPEED = 0.35;
         private final static double CURRENT_GEAR3_MAX_SPEED = 0.42;
         private final static int CURRENT_DELAY_POT_PORT = 1;
         private final static double CURRENT_DISTANCE_PER_PULSE = 0.00100001;
