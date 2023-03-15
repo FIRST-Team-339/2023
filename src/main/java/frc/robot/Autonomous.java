@@ -204,6 +204,7 @@ public class Autonomous
                 if (sw3_driveOnChargingStation() == true)
                     {
                     autoPath = AUTO_PATH.DISABLE;
+                    AUTO_MODE_DASH = AutoModeDash.Completed;
                     }
                 break;
             } // switch

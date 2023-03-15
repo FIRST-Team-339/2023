@@ -130,6 +130,7 @@ public class Dashboard
     private static void internalUpdateAutoModeInd(AutoModeDash dashMode,
             String leftRightNoneSetting)
     {
+        System.out.println("dashboard AUTO mode = " + dashMode);
         switch (dashMode)
             {
             case Init:
@@ -194,7 +195,8 @@ public class Dashboard
                 break;
 
             case Mode2:
-                SmartDashboard.putString("AutoMode", "Drive - Turn - Drive");
+                SmartDashboard.putString("AutoMode",
+                        "Drive/Turn/Drive (" + leftRightNoneSetting + ")");
 
                 SmartDashboard.putBoolean("AutoMode0", false);
                 SmartDashboard.putBoolean("AutoMode1", false);
