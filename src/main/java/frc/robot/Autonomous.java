@@ -435,6 +435,8 @@ public class Autonomous
     {
         // System.out.println("sw3_driveOnChargingStation.switch = "
         // + sw3_driveOnChargingStationState);
+        // System.out.println("Red Light State: " +
+        // Hardware.redLightSensor.get());
         switch (sw3_driveOnChargingStationState)
 
             {
@@ -506,25 +508,33 @@ public class Autonomous
                         SW3_DRIVE_TWO_DRIVE_SPEED, MAX_ACCEL_TIME,
                         false) == true)
                     {
-                    if (Hardware.redLightSensor.isOn() == true)
-                        {
-                        Hardware.drive.driveStraightInches(
-                                SW3_DRIVE_ON_CHARGING_STATION,
-                                SW3_DRIVE_TWO_DRIVE_SPEED, MAX_ACCEL_TIME,
-                                false);
-                        }
+                    // Drive forward as fail safe
                     sw3_driveOnChargingStationState = SW3_DRIVE_ON_CHARGING_STATION_STATE.STOP_TWO;
-                    Hardware.leftBottomEncoder.reset();
-                    Hardware.rightBottomEncoder.reset();
-                    Hardware.drive.setMaxBrakeIterations(3);
-                    Hardware.drive.setBrakeDeadband(1, BrakeType.AFTER_DRIVE);
+                    // Hardware.leftBottomEncoder.reset();
+                    // Hardware.rightBottomEncoder.reset();
+                    // Hardware.drive.setMaxBrakeIterations(3);
+                    // Hardware.drive.setBrakeDeadband(1,
+                    // BrakeType.AFTER_DRIVE);
+                    }
+                if (Hardware.redLightSensor.isOn() == true)
+                    {
+                    // drive small forward
+                    sw3_driveOnChargingStationState = SW3_DRIVE_ON_CHARGING_STATION_STATE.DRIVE_THREE_DRIVE;
                     }
                 return false;
             case STOP_TWO:
                 if (Hardware.drive.brake(Drive.BrakeType.AFTER_DRIVE) == true)
                     {
-                    sw3_driveOnChargingStationState = SW3_DRIVE_ON_CHARGING_STATION_STATE.DRIVE_TWO_DRIVE;
+                    // sw3_driveOnChargingStationState =
+                    // SW3_DRIVE_ON_CHARGING_STATION_STATE.DRIVE_TWO_DRIVE;
+                    sw3_driveOnChargingStationState = SW3_DRIVE_ON_CHARGING_STATION_STATE.END;
                     } // if
+                return false;
+            case DRIVE_THREE_DRIVE:
+                // after red light drive more
+                Hardware.drive.driveStraightInches(
+                        SW3_DRIVE_ON_CHARGING_STATION,
+                        SW3_DRIVE_TWO_DRIVE_SPEED, MAX_ACCEL_TIME, false);
                 return false;
             case END:
             default:
@@ -574,7 +584,7 @@ public class Autonomous
 
     private static enum SW3_DRIVE_ON_CHARGING_STATION_STATE
         {
-        INIT, DELAY, DRIVE_ONE_DRIVE, STOP_ONE, DRIVE_TWO_DRIVE, STOP_TWO, END;
+        INIT, DELAY, DRIVE_ONE_DRIVE, STOP_ONE, DRIVE_TWO_DRIVE, STOP_TWO, DRIVE_THREE_DRIVE, END;
         }
 
     private static AUTO_PATH autoPath;
