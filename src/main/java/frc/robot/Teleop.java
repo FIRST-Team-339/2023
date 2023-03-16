@@ -45,6 +45,7 @@ import frc.HardwareInterfaces.KilroyUSBCamera;
 import frc.HardwareInterfaces.Potentiometer;
 import frc.HardwareInterfaces.Transmission.LeftRightTransmission;
 import frc.HardwareInterfaces.Transmission.TransmissionBase;
+import frc.HardwareInterfaces.DoubleSolenoid;
 import frc.Utils.Dashboard;
 import frc.Utils.Dashboard.AutoModeDash;
 import frc.Utils.Dashboard.DriveGear;
@@ -102,7 +103,8 @@ public class Teleop
      */
 
     // =============== manage ebrake ===============
-    private static void manageEBrake()
+    private static void manageEBrake(DoubleSolenoid pistonForEBrake)
+
     {
 
         if (Hardware.eBrakeTimer.get() <= 0.001)
@@ -127,18 +129,19 @@ public class Teleop
         // when button 5 right driver is pushed
         // Extends the eBrake piston out
         // =========================
-        if (Hardware.rightDriver.getRawButtonPressed(5) == true)
+        if (Hardware.eBrakeMomentarySwitch1.isOnCheckNow() == true)
             {
-            Hardware.eBrakePiston.setForward(true);
+            pistonForEBrake.setForward(true);
             Hardware.eBrakeJoystickTimer.reset();
             Hardware.eBrakeJoystickTimer.start();
+            Hardware.leftSideMotors.set(Hardware.Charging_Station_Hold_Speed);
             } // if
 
         // =========================
         // when button 6 left driver is pushed
         // Retracts the eBrake piston and affects drive
         // =========================
-        if (Hardware.rightDriver.getRawButtonPressed(6) == true)
+        if (Hardware.eBrakeMomentarySwitch2.isOnCheckNow() == true)
             {
             // =========================
             // when the retract button (left driver button 6) is pressed, eBrake
@@ -146,7 +149,7 @@ public class Teleop
             // timer retracts the eBrake piston, stops all
             // drive motors, and starts the eBrake timer
             // =========================
-            if ((Hardware.eBrakePiston.getForward() == true) || ((Math
+            if ((pistonForEBrake.getForward() == true) || ((Math
                     .abs(Hardware.leftDriver.getY()) >= Hardware.eBrakeDeadband)
                     || (Math.abs(Hardware.rightDriver
                             .getY()) >= Hardware.eBrakeDeadband)))
@@ -155,10 +158,11 @@ public class Teleop
                 Hardware.transmission.drive(0, 0);
                 Hardware.eBrakeTimer.start();
                 // Hardware.eBrakePiston.setForward(false);
-                if ((Hardware.eBrakeJoystickTimer.hasElapsed(2) == true)
+                if ((Hardware.eBrakeJoystickTimer
+                        .hasElapsed(eBrakeHoldtime) == true)
                         || (Hardware.eBrakeJoystickTimerIsStopped == true))
                     {
-                    Hardware.eBrakePiston.setForward(false);
+                    pistonForEBrake.setForward(false);
                     Hardware.eBrakeJoystickTimer.stop();
                     }
                 }
@@ -167,7 +171,7 @@ public class Teleop
             // certain duration, reactivates the drive motors and stops the
             // eBrake timer
             // =========================
-            if ((Hardware.eBrakePiston.getForward() == false)
+            if ((pistonForEBrake.getForward() == false)
                     && ((Hardware.eBrakeTimer
                             .hasElapsed(Hardware.eBrakeDelayTime) == true)
                             || (Hardware.eBrakeTimerIsStopped == true)))
@@ -183,7 +187,7 @@ public class Teleop
         // drive motors,
         // and starts the eBrake timer
         // =========================
-        if ((Hardware.eBrakePiston.getForward() == true) && ((Math
+        if ((pistonForEBrake.getForward() == true) && ((Math
                 .abs(Hardware.leftDriver.getY()) >= Hardware.eBrakeDeadband)
                 || (Math.abs(Hardware.rightDriver
                         .getY()) >= Hardware.eBrakeDeadband)))
@@ -191,10 +195,11 @@ public class Teleop
             Hardware.eBrakeTimer.reset();
             Hardware.transmission.drive(0, 0);
             Hardware.eBrakeTimer.start();
-            if ((Hardware.eBrakeJoystickTimer.hasElapsed(2) == true)
+            if ((Hardware.eBrakeJoystickTimer
+                    .hasElapsed(eBrakeHoldtime) == true)
                     || (Hardware.eBrakeJoystickTimerIsStopped == true))
                 {
-                Hardware.eBrakePiston.setForward(false);
+                pistonForEBrake.setForward(false);
                 Hardware.eBrakeJoystickTimer.stop();
                 }
             } // if
@@ -204,10 +209,9 @@ public class Teleop
         // duration
         // Reactivates the drive motors and stops the eBrake timer
         // =========================
-        if ((Hardware.eBrakePiston.getForward() == false)
-                && ((Hardware.eBrakeTimer
-                        .hasElapsed(Hardware.eBrakeDelayTime) == true)
-                        || (Hardware.eBrakeTimerIsStopped == true)))
+        if ((pistonForEBrake.getForward() == false) && ((Hardware.eBrakeTimer
+                .hasElapsed(Hardware.eBrakeDelayTime) == true)
+                || (Hardware.eBrakeTimerIsStopped == true)))
             {
             Hardware.transmission.drive(Hardware.leftDriver.getY(),
                     Hardware.rightDriver.getY());
@@ -415,7 +419,7 @@ public class Teleop
             } // if
         else
             {
-            Hardware.transmission.drive(0, 0);
+            // Hardware.transmission.drive(0, 0);
             }
 
         // --------------------------
@@ -424,8 +428,9 @@ public class Teleop
         // ----------------------------
         armControl();
 
-        manageEBrake();
-
+        manageEBrake(Hardware.eBrakePiston);
+        // Hardware.clawPiston.setForward(false);
+        // manageEBrake(Hardware.clawPiston);
         // --------------------------
         // update dashboard values
         // --------------------------
@@ -528,5 +533,6 @@ public class Teleop
     // =========================================
     private static double cameraDeadBand = 4.00;
     private static double cameraSwitchPoint = -70.00;
-    private static double eBrakeHoldSpeed = 0.1;
+
+    private static double eBrakeHoldtime = 5.0;
     } // end class

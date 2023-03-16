@@ -68,7 +68,7 @@ public class Hardware
                 CurrentYear, PrevYear
                 };
 
-        public static Identifier robotIdentity = Identifier.CurrentYear;
+        public static Identifier robotIdentity = Identifier.PrevYear;
 
         public static void initialize()
         {
@@ -183,6 +183,7 @@ public class Hardware
 
                         eBrakeDelayTime = CURRENT_EBRAKETIMER_DELAY;
                         eBrakeDeadband = CURRENT_EBRAKE_DEADBAND;
+                        Charging_Station_Hold_Speed = CURRENT_Charging_StationHold_Speed;
 
                         // int camera_width = 320;
                         // int camera_height = 240;
@@ -309,6 +310,7 @@ public class Hardware
                         // end arm control
                         eBrakeDelayTime = PREV_EBRAKETIMER_DELAY;
                         eBrakeDeadband = PREV_EBRAKE_DEADBAND;
+                        Charging_Station_Hold_Speed = PREV_Charging_Station_Hold_Speed;
                         } // end of previous year
                 // ---------------------------------
                 // required for both years
@@ -435,6 +437,7 @@ public class Hardware
         public static double armLengthMaxSpeed;
         public static double armLengthMinSpeed;
         public static double maxJoystickOperatorValue;
+        public static double Charging_Station_Hold_Speed;
         public static double minJoystickOperatorValue;
         // --------------------
         // Previous year's constants
@@ -469,6 +472,7 @@ public class Hardware
         private final static int PREV_CLAW_FWD_PORT = 6;
         private final static int PREV_CLAW_REV_PORT = 7;
         private final static int PREV_REDLIGHTSENSOR_PORT = 7;
+        private final static double PREV_Charging_Station_Hold_Speed = -0.2;
 
         // --------------------
         // Current year's constants
@@ -501,5 +505,5 @@ public class Hardware
         private final static int CURRENT_CLAW_FWD_PORT = 6;
         private final static int CURRENT_CLAW_REV_PORT = 7;
         private final static int CURRENT_REDLIGHTSENSOR_PORT = 7;
-
+        private final static double CURRENT_Charging_StationHold_Speed = -0.05;
         } // end class

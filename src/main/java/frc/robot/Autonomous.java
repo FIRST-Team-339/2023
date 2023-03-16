@@ -555,8 +555,10 @@ public class Autonomous
             // ---------------------------
             case END:
             default:
-                Hardware.leftSideMotors.set(SW3_FINAL_HOLD_SPEED);
-                Hardware.rightSideMotors.set(SW3_FINAL_HOLD_SPEED);
+                Hardware.leftSideMotors
+                        .set(Hardware.Charging_Station_Hold_Speed);
+                Hardware.rightSideMotors
+                        .set(Hardware.Charging_Station_Hold_Speed);
                 // TODO replace with handbrake when working
                 return false;
             } // switch
@@ -676,7 +678,5 @@ public class Autonomous
     private static final double SW3_DRIVE_ONE_DRIVE_SPEED = 0.18;
 
     private static final double SW3_DRIVE_TWO_DRIVE_SPEED = -0.18;
-
-    private static final double SW3_FINAL_HOLD_SPEED = -0.05;
 
     } // end Autonomous
