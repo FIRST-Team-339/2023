@@ -159,6 +159,7 @@ public class Teleop
             Hardware.eBrakeJoystickTimer.reset();
             Hardware.eBrakeJoystickTimer.start();
             Hardware.eBrakeJoystickTimerIsStopped = false;
+            Hardware.rightSideMotors.set(0.0);
             Hardware.leftSideMotors.set(Hardware.Charging_Station_Hold_Speed);
             Hardware.eBrakeMomentarySwitch2.setValue(false);
             } // if
