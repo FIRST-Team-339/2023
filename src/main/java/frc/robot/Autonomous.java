@@ -435,8 +435,8 @@ public class Autonomous
 
     private static boolean sw3_driveOnChargingStation()
     {
-        System.out.println("sw3_driveOnChargingStation.switch = "
-                + sw3_driveOnChargingStationState);
+        // System.out.println("sw3_driveOnChargingStation.switch = "
+        // + sw3_driveOnChargingStationState);
         // System.out.println("Red Light State: " +
         // Hardware.redLightSensor.get());
         switch (sw3_driveOnChargingStationState)
@@ -663,9 +663,9 @@ public class Autonomous
 
     private static final double SW3_DRIVE_ON_CHARGING_STATION = 46.0;
 
-    private static final double SW3_DRIVE_ONE_DRIVE_SPEED = 0.2;
+    private static final double SW3_DRIVE_ONE_DRIVE_SPEED = 0.18;
 
-    private static final double SW3_DRIVE_TWO_DRIVE_SPEED = -0.2;
+    private static final double SW3_DRIVE_TWO_DRIVE_SPEED = -0.18;
 
     private static final double SW3_FINAL_HOLD_SPEED = -0.05;
 
