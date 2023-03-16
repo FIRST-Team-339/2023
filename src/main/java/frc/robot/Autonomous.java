@@ -521,6 +521,8 @@ public class Autonomous
                 if (Hardware.redLightSensor.isOn() == true)
                     {
                     // drive small forward
+                    Hardware.leftBottomEncoder.reset();
+                    Hardware.rightBottomEncoder.reset();
                     sw3_driveOnChargingStationState = SW3_DRIVE_ON_CHARGING_STATION_STATE.DRIVE_THREE_DRIVE;
                     }
                 return false;
@@ -534,14 +536,19 @@ public class Autonomous
                 return false;
             case DRIVE_THREE_DRIVE:
                 // after red light drive more
-                Hardware.drive.driveStraightInches(
+                if (Hardware.drive.driveStraightInches(
                         SW3_DRIVE_ON_CHARGING_STATION,
-                        SW3_DRIVE_TWO_DRIVE_SPEED, MAX_ACCEL_TIME, false);
+                        SW3_DRIVE_TWO_DRIVE_SPEED, MAX_ACCEL_TIME, false))
+                    {
+                    sw3_driveOnChargingStationState = SW3_DRIVE_ON_CHARGING_STATION_STATE.END;
+                    }
                 return false;
             case END:
             default:
-                Hardware.drive.stop();
-                return true;
+                Hardware.leftSideMotors.set(SW3_FINAL_HOLD_SPEED);
+                Hardware.rightSideMotors.set(SW3_FINAL_HOLD_SPEED);
+                // TODO replace with handbrake when working
+                return false;
             } // switch
     } // end sw3_driveOnChargingStation()
 
@@ -652,12 +659,14 @@ public class Autonomous
 
     private static final double SW3_DRIVE_OVER_CHARGING_STATION = 146.0;
 
-    private static final double SW3_DRIVE_TOWARDS_CHARGING_STATION = 46.0;
+    private static final double SW3_DRIVE_TOWARDS_CHARGING_STATION = 50.0;
 
-    private static final double SW3_DRIVE_ON_CHARGING_STATION = 52.0;
+    private static final double SW3_DRIVE_ON_CHARGING_STATION = 46.0;
 
-    private static final double SW3_DRIVE_ONE_DRIVE_SPEED = 0.2;
+    private static final double SW3_DRIVE_ONE_DRIVE_SPEED = 0.18;
 
-    private static final double SW3_DRIVE_TWO_DRIVE_SPEED = -0.2;
+    private static final double SW3_DRIVE_TWO_DRIVE_SPEED = -0.18;
+
+    private static final double SW3_FINAL_HOLD_SPEED = -0.05;
 
     } // end Autonomous

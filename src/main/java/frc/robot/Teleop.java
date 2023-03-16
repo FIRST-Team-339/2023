@@ -379,6 +379,7 @@ public class Teleop
         // ---------------------------
         // manage the camera view
         // ---------------------------
+
         Hardware.cameras.switchCameras(Hardware.switchCameraViewButton10);
 
         if (Hardware.armRaiseEncoder
@@ -446,10 +447,11 @@ public class Teleop
     {
         // ========== INPUTS ==========
         // System.out.println("eBrakeTimer: " + Hardware.eBrakeTimer.get());
-        System.out.println("eBrakeJoyStickTimer has passed " + 2 + " seconds: "
-                + Hardware.eBrakeJoystickTimer.hasElapsed(2));
-        System.out.println(
-                "eBrakeJoyStickTimer: " + Hardware.eBrakeJoystickTimer.get());
+        // System.out.println("eBrakeJoyStickTimer has passed " + 2 + " seconds:
+        // "
+        // + Hardware.eBrakeJoystickTimer.hasElapsed(2));
+        // System.out.println(
+        // "eBrakeJoyStickTimer: " + Hardware.eBrakeJoystickTimer.get());
         // System.out.println("clawPiston = " + Hardware.clawPiston.get());
         // System.out.println("armPiston = " + Hardware.armRaisePiston.get());
         // ---------- DIGITAL ----------
