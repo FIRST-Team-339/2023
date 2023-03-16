@@ -82,6 +82,9 @@ public class Teleop
             Hardware.eBrakePiston.setForward(false);
             }
 
+        // Camera Settings
+        Hardware.cameras.setCamera(0);
+
     } // end init()
 
     /**
@@ -386,19 +389,19 @@ public class Teleop
         // manage the camera view
         // ---------------------------
 
-        Hardware.cameras.switchCameras(Hardware.switchCameraViewButton10);
-
-        if (Hardware.armRaiseEncoder
-                .getRaw() <= (cameraSwitchPoint - cameraDeadBand))
-            {
-            Hardware.cameras.setCamera(1);
-            }
-        else
-            if (Hardware.armRaiseEncoder
-                    .getRaw() >= (cameraSwitchPoint + cameraDeadBand))
-                {
-                Hardware.cameras.setCamera(0);
-                }
+        // Hardware.cameras.switchCameras(Hardware.switchCameraViewButton10);
+        // Hardware.cameras.setCamera(0);
+        // if (Hardware.armRaiseEncoder
+        // .getRaw() <= (cameraSwitchPoint - cameraDeadBand))
+        // {
+        // Hardware.cameras.setCamera(1);
+        // }
+        // else
+        // if (Hardware.armRaiseEncoder
+        // .getRaw() >= (cameraSwitchPoint + cameraDeadBand))
+        // {
+        // Hardware.cameras.setCamera(0);
+        // }
 
         // -------------------------
         // If eBrake has not overridden our ability to

@@ -183,6 +183,17 @@ public class Hardware
 
                         eBrakeDelayTime = CURRENT_EBRAKETIMER_DELAY;
                         eBrakeDeadband = CURRENT_EBRAKE_DEADBAND;
+
+                        // int camera_width = 320;
+                        // int camera_height = 240;
+                        // int camera_fps = 11;
+                        // int camera_compression = 100;
+                        // int num_cameras = 2;
+
+                        // cameras.setCameraValues(camera_width, camera_height,
+                        // camera_fps, camera_compression,
+                        // num_cameras);
+
                         } // end of current year
 
                 if (robotIdentity == Identifier.PrevYear)
@@ -402,6 +413,7 @@ public class Hardware
         // Vision stuff
         // ----------------------------
         public static KilroyUSBCamera cameras = new KilroyUSBCamera(true);
+
         // public static MomentarySwitch switchCameraViewButton11 = new
         // MomentarySwitch(
         // rightOperator, 11, false);
