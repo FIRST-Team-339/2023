@@ -444,7 +444,7 @@ public class Hardware
         // --------------------
         public final static double PREV_DEADBAND = 0.2;
         public final static double PREV_EBRAKE_DEADBAND = 2.0 * PREV_DEADBAND;
-        public final static double PREV_ARM_CONTROL_HOLD_SPEED = 0.1;
+        public final static double PREV_ARM_CONTROL_HOLD_SPEED = 0.0; // 0.1
         public final static double PREV_ARM_LENGTH_HOLD_SPEED = 0.0;
         public final static double PREV_ARM_CONTROL_DEADBAND = 0.2;
         public final static double PREV_ARM_LENGTH_DEADBAND = 0.2;
