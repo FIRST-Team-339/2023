@@ -510,30 +510,33 @@ public class Autonomous
                         SW3_DRIVE_TWO_DRIVE_SPEED, MAX_ACCEL_TIME,
                         false) == true)
                     {
-                    // Drive forward as fail safe
+                    // Didn't find the red light - stop now before we go too far
                     sw3_driveOnChargingStationState = SW3_DRIVE_ON_CHARGING_STATION_STATE.STOP_TWO;
-                    // Hardware.leftBottomEncoder.reset();
-                    // Hardware.rightBottomEncoder.reset();
-                    // Hardware.drive.setMaxBrakeIterations(3);
-                    // Hardware.drive.setBrakeDeadband(1,
-                    // BrakeType.AFTER_DRIVE);
-                    }
+                    } // if
                 if (Hardware.redLightSensor.isOn() == true)
                     {
                     // drive small forward
                     Hardware.leftBottomEncoder.reset();
                     Hardware.rightBottomEncoder.reset();
                     sw3_driveOnChargingStationState = SW3_DRIVE_ON_CHARGING_STATION_STATE.DRIVE_THREE_DRIVE;
-                    }
+                    } // if
                 return false;
+
+            // ------------------------
+            // driven - now it is time to stop
+            // ------------------------
             case STOP_TWO:
                 if (Hardware.drive.brake(Drive.BrakeType.AFTER_DRIVE) == true)
                     {
-                    // sw3_driveOnChargingStationState =
-                    // SW3_DRIVE_ON_CHARGING_STATION_STATE.DRIVE_TWO_DRIVE;
                     sw3_driveOnChargingStationState = SW3_DRIVE_ON_CHARGING_STATION_STATE.END;
                     } // if
                 return false;
+            // -------------------------
+            // found the red light denoting that
+            // we found the start of the charging
+            // platform - drive to the "middle"
+            // of the charging platform
+            // -------------------------
             case DRIVE_THREE_DRIVE:
                 // after red light drive more
                 if (Hardware.drive.driveStraightInches(
@@ -541,8 +544,15 @@ public class Autonomous
                         SW3_DRIVE_TWO_DRIVE_SPEED, MAX_ACCEL_TIME, false))
                     {
                     sw3_driveOnChargingStationState = SW3_DRIVE_ON_CHARGING_STATION_STATE.END;
-                    }
+                    } // if
                 return false;
+
+            // --------------------------
+            // complete driving - hold our
+            // position by giving the motors
+            // some power to "keep" us in
+            // place
+            // ---------------------------
             case END:
             default:
                 Hardware.leftSideMotors.set(SW3_FINAL_HOLD_SPEED);
