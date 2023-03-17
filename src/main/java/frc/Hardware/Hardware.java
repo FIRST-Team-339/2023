@@ -506,5 +506,5 @@ public class Hardware
         private final static int CURRENT_CLAW_REV_PORT = 7;
         private final static int CURRENT_REDLIGHTSENSOR_PORT = 7;
         private final static double CURRENT_CHARGING_STATION_HOLD_SPEED = -0.05;
-        public final static int CURRENT_ARM_RAISE_MAX_TICKS = -90;
+        public final static int CURRENT_ARM_RAISE_MAX_TICKS = -110;
         } // end class
