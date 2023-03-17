@@ -673,7 +673,7 @@ public class Autonomous
 
     private static final double SW3_DRIVE_TOWARDS_CHARGING_STATION = 50.0;
 
-    private static final double SW3_DRIVE_ON_CHARGING_STATION = 46.0;
+    private static final double SW3_DRIVE_ON_CHARGING_STATION = 49.0;
 
     private static final double SW3_DRIVE_ONE_DRIVE_SPEED = 0.18;
 
