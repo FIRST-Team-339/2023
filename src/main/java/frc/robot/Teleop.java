@@ -98,14 +98,20 @@ public class Teleop
      * 
      * @author Michael Lynch
      * @written febuary 9 2023
+     * @param usingEBrakePiston
+     *            A boolean, True means the ebrake piston is in use // False
+     *            means he ebrake is not in use
      * 
-     *          (in 2023 code)
+     *            (in 2023 code)
      */
 
     // =============== manage ebrake ===============
-    private static void manageEBrake(DoubleSolenoid pistonForEBrake)
+    private static void manageEBrake(DoubleSolenoid pistonForEBrake,
+            Boolean usingEBrakePiston)
 
     {
+        if (pistonForEBrake == null)
+            return;
         // -----------------------
         // The eBrakeTimer denotes the
         // (approx) .5 seconds it takes
@@ -153,13 +159,26 @@ public class Teleop
         // =========================
         if (Hardware.eBrakeMomentarySwitch1.isOnCheckNow() == true
                 && Hardware.eBrakeJoystickTimerIsStopped == true
-                && pistonForEBrake.getForward() == false)
+                && (((pistonForEBrake.getForward() == false)
+                        && (usingEBrakePiston == true))
+                        || (usingEBrakePiston == false)))
             {
-            pistonForEBrake.setForward(true);
+            if (usingEBrakePiston == true)
+                {
+                pistonForEBrake.setForward(true);
+                }
             Hardware.eBrakeJoystickTimer.reset();
             Hardware.eBrakeJoystickTimer.start();
             Hardware.eBrakeJoystickTimerIsStopped = false;
-            Hardware.rightSideMotors.set(0.0);
+            if (usingEBrakePiston == true)
+                {
+                Hardware.rightSideMotors.set(0.0);
+                }
+            else
+                {
+                Hardware.rightSideMotors
+                        .set(Hardware.Charging_Station_Hold_Speed);
+                }
             Hardware.leftSideMotors.set(Hardware.Charging_Station_Hold_Speed);
             Hardware.eBrakeMomentarySwitch2.setValue(false);
             } // if
@@ -191,12 +210,21 @@ public class Teleop
             // drive motors, and starts the eBrake timer
             // =========================
             Hardware.eBrakeMomentarySwitch1.setValue(false);
-            if (pistonForEBrake.getForward() == true)
+            if (pistonForEBrake.getForward() == true
+                    && usingEBrakePiston == true)
                 {
                 Hardware.eBrakeTimer.reset();
                 Hardware.eBrakeTimer.stop();
-                pistonForEBrake.setForward(false);
-                Hardware.leftSideMotors.set(0.0);
+                if (usingEBrakePiston == true)
+                    {
+                    pistonForEBrake.setForward(false);
+                    Hardware.leftSideMotors.set(0.0);
+                    }
+                else
+                    {
+                    Hardware.leftSideMotors.set(0.0);
+                    Hardware.rightSideMotors.set(0.0);
+                    }
                 }
             // =========================
             // when the eBrake is retracted and the eBrake timer has passed
@@ -248,7 +276,8 @@ public class Teleop
                         || (Math.abs(Hardware.rightDriver
                                 .getY()) >= Hardware.eBrakeDeadband)))
             {
-            pistonForEBrake.setForward(false);
+            if (usingEBrakePiston == true)
+                pistonForEBrake.setForward(false);
             Hardware.eBrakeJoystickTimer.stop();
             Hardware.eBrakeJoystickTimer.reset();
             Hardware.eBrakeJoystickTimerIsStopped = true;
@@ -459,7 +488,7 @@ public class Teleop
         // ----------------------------
         armControl();
 
-        manageEBrake(Hardware.eBrakePiston);
+        manageEBrake(Hardware.eBrakePiston, false);
 
         // -------------------------
         // If eBrake has not overridden our ability to
