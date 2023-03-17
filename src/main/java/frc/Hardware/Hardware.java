@@ -488,7 +488,7 @@ public class Hardware
         public final static double CURRENT_ARM_LENGTH_MIN_SPEED = 0.0;
         public final static double CURRENT_MAX_JOYSTICK_OPERATOR_VALUE = 1.0;
         public final static double CURRENT_MIN_JOYSTICK_OPERATOR_VALUE = 0.201;
-        public final static double CURRENT_ARM_CONTROL_HOLD_SPEED = 0.01;
+        public final static double CURRENT_ARM_CONTROL_HOLD_SPEED = 0.02;
         public final static double CURRENT_ARM_LENGTH_HOLD_SPEED = 0.0;
         public final static double CURRENT_ARM_CONTROL_DEADBAND = 0.2;
         public final static double CURRENT_ARM_LENGTH_DEADBAND = 0.2;

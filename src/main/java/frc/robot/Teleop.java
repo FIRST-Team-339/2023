@@ -517,7 +517,7 @@ public class Teleop
         // ----------------------------
         armControl();
 
-        manageEBrake(Hardware.eBrakePiston, false);
+        manageEBrake(Hardware.eBrakePiston, true);
 
         // -------------------------
         // If eBrake has not overridden our ability to
