@@ -68,7 +68,7 @@ public class Hardware
                 CurrentYear, PrevYear
                 };
 
-        public static Identifier robotIdentity = Identifier.PrevYear;
+        public static Identifier robotIdentity = Identifier.CurrentYear;
 
         public static void initialize()
         {
@@ -183,7 +183,7 @@ public class Hardware
 
                         eBrakeDelayTime = CURRENT_EBRAKETIMER_DELAY;
                         eBrakeDeadband = CURRENT_EBRAKE_DEADBAND;
-                        Charging_Station_Hold_Speed = CURRENT_Charging_StationHold_Speed;
+                        Charging_Station_Hold_Speed = CURRENT_CHARGING_STATION_HOLD_SPEED;
 
                         // int camera_width = 320;
                         // int camera_height = 240;
@@ -505,5 +505,6 @@ public class Hardware
         private final static int CURRENT_CLAW_FWD_PORT = 6;
         private final static int CURRENT_CLAW_REV_PORT = 7;
         private final static int CURRENT_REDLIGHTSENSOR_PORT = 7;
-        private final static double CURRENT_Charging_StationHold_Speed = -0.05;
+        private final static double CURRENT_CHARGING_STATION_HOLD_SPEED = -0.05;
+        public final static int CURRENT_ARM_RAISE_MAX_TICKS = -90;
         } // end class

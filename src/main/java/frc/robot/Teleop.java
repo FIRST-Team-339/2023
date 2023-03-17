@@ -340,39 +340,53 @@ public class Teleop
 
         // If right operator Y value is between -0.2 and +0.2 then the
         // armRaiseMotor will equal the armControlHoldSpeed
-        if (Hardware.rightOperator.getY() >= -Hardware.armControlDeadband
-                && Hardware.rightOperator.getY() <= Hardware.armControlDeadband)
+        if ((((Hardware.armRaiseEncoder.getRaw() > 0)
+                && (Hardware.rightOperator.getY() > 0.0))
+                || ((Hardware.armRaiseEncoder
+                        .getRaw() < Hardware.CURRENT_ARM_RAISE_MAX_TICKS)
+                        && (Hardware.rightOperator.getY() < 0.0)))
+                && (Hardware.rightOperator.getRawButton(3) == false))
             {
             Hardware.armRaiseMotor.set(Hardware.armControlHoldSpeed);
-            } // end if
+            }
         else
-            {
-            // If right operator Y value is less than the armControlDeadband
-            // then the ArmRaiseMotor will equal the equation below
-            if (Hardware.rightOperator.getY() < -Hardware.armControlDeadband)
+            if (Hardware.rightOperator.getY() >= -Hardware.armControlDeadband
+                    && Hardware.rightOperator
+                            .getY() <= Hardware.armControlDeadband)
                 {
-                Hardware.armRaiseMotor.set(((-Hardware.armRaiseMaxSpeedDown
-                        + Hardware.armRaiseMinSpeedNegative)
-                        / (-Hardware.maxJoystickOperatorValue
-                                + Hardware.minJoystickOperatorValue))
-                        * (Hardware.rightOperator.getY()
-                                + Hardware.minJoystickOperatorValue)
-                        - Hardware.armRaiseMinSpeedNegative);
+                Hardware.armRaiseMotor.set(Hardware.armControlHoldSpeed);
+                } // end if
+            else
+                {
+                // If right operator Y value is less than the armControlDeadband
+                // then the ArmRaiseMotor will equal the equation below
 
-                } // end if
-            // If right operator Y value is greater than the armControlDeadband
-            // then the ArmRaiseMotor will equal the equation below
-            if (Hardware.rightOperator.getY() > Hardware.armControlDeadband)
-                {
-                Hardware.armRaiseMotor.set(((Hardware.armRaiseMaxSpeedUp
-                        - Hardware.armRaiseMinSpeedPositive)
-                        / (Hardware.maxJoystickOperatorValue
-                                - Hardware.minJoystickOperatorValue))
-                        * (Hardware.rightOperator.getY()
-                                - Hardware.minJoystickOperatorValue)
-                        + Hardware.armRaiseMinSpeedPositive);
-                } // end if
-            } // end else
+                if (Hardware.rightOperator
+                        .getY() < -Hardware.armControlDeadband)
+                    {
+                    Hardware.armRaiseMotor.set(((-Hardware.armRaiseMaxSpeedDown
+                            + Hardware.armRaiseMinSpeedNegative)
+                            / (-Hardware.maxJoystickOperatorValue
+                                    + Hardware.minJoystickOperatorValue))
+                            * (Hardware.rightOperator.getY()
+                                    + Hardware.minJoystickOperatorValue)
+                            - Hardware.armRaiseMinSpeedNegative);
+
+                    } // end if
+                // If right operator Y value is greater than the
+                // armControlDeadband
+                // then the ArmRaiseMotor will equal the equation below
+                if (Hardware.rightOperator.getY() > Hardware.armControlDeadband)
+                    {
+                    Hardware.armRaiseMotor.set(((Hardware.armRaiseMaxSpeedUp
+                            - Hardware.armRaiseMinSpeedPositive)
+                            / (Hardware.maxJoystickOperatorValue
+                                    - Hardware.minJoystickOperatorValue))
+                            * (Hardware.rightOperator.getY()
+                                    - Hardware.minJoystickOperatorValue)
+                            + Hardware.armRaiseMinSpeedPositive);
+                    } // end if
+                } // end else
         // If left operator Y value is between -0.2 and +0.2 then the
         // armLengthMotor will equal the armLengthHoldSpeed
         if (Hardware.leftOperator.getY() >= -Hardware.armLengthDeadband
@@ -408,6 +422,12 @@ public class Teleop
                 } // end if
 
             } // end else
+              // Allow for reset of arm raise top position
+        if (Hardware.rightOperator.getRawButton(6) == true
+                && Hardware.rightOperator.getRawButton(7))
+            {
+            Hardware.armRaiseEncoder.reset();
+            } // if
 
     } // end of armControl()
 
@@ -578,7 +598,7 @@ public class Teleop
         // -------- SUBSYSTEMS ---------
 
         // ---------- OTHER ------------
-        // System.out.println("ARE " + Hardware.armRaiseEncoder.getRaw());
+        System.out.println("ARE = " + Hardware.armRaiseEncoder.getRaw());
         /////////// JOYSTICK VALUES ///////////
         // System.out.println("L Joystick: " + Hardware.leftDriver.getY());
         // System.out.println("R Joystick: " + Hardware.rightDriver.getY());
