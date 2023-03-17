@@ -190,7 +190,9 @@ public class Teleop
         // has stopped
         // ---------------------------
         if ((Hardware.eBrakeJoystickTimer.hasElapsed(eBrakeHoldtime) == true)
-                && (pistonForEBrake.getForward() == true))
+                && (((pistonForEBrake.getForward() == true)
+                        && (usingEBrakePiston == true))
+                        || (usingEBrakePiston == false)))
             {
             Hardware.eBrakeJoystickTimer.stop();
             Hardware.eBrakeJoystickTimer.reset();
@@ -210,19 +212,19 @@ public class Teleop
             // drive motors, and starts the eBrake timer
             // =========================
             Hardware.eBrakeMomentarySwitch1.setValue(false);
-            if (pistonForEBrake.getForward() == true
-                    && usingEBrakePiston == true)
+            if (((pistonForEBrake.getForward() == true)
+                    && (usingEBrakePiston == true))
+                    || (usingEBrakePiston == false))
                 {
                 Hardware.eBrakeTimer.reset();
                 Hardware.eBrakeTimer.stop();
+                Hardware.leftSideMotors.set(0.0);
                 if (usingEBrakePiston == true)
                     {
                     pistonForEBrake.setForward(false);
-                    Hardware.leftSideMotors.set(0.0);
                     }
                 else
                     {
-                    Hardware.leftSideMotors.set(0.0);
                     Hardware.rightSideMotors.set(0.0);
                     }
                 }
@@ -231,7 +233,9 @@ public class Teleop
             // a certain duration, reactivates the drive motors and stops the
             // eBrake timer
             // =========================
-            if ((pistonForEBrake.getForward() == false)
+            if ((((pistonForEBrake.getForward() == false)
+                    && (usingEBrakePiston == true))
+                    || (usingEBrakePiston == false))
                     && ((Hardware.eBrakeTimer
                             .hasElapsed(Hardware.eBrakeDelayTime) == true)
                             || (Hardware.eBrakeTimerIsStopped == true)))
@@ -246,14 +250,14 @@ public class Teleop
         // Resets the eBrake timer, retracts the eBrake piston, stops all
         // drive motors, and starts the eBrake timer
         // =========================
-        if ((pistonForEBrake.getForward() == true)
+        if ((((pistonForEBrake.getForward() == true)
+                && (usingEBrakePiston == true)) || (usingEBrakePiston == false))
                 && (Hardware.eBrakeJoystickTimerIsStopped == true)
                 && (Hardware.eBrakeTimerIsStopped == true)
                 && ((Math.abs(
                         Hardware.leftDriver.getY()) >= Hardware.eBrakeDeadband)
                         || (Math.abs(Hardware.rightDriver
                                 .getY()) >= Hardware.eBrakeDeadband)))
-
             {
             Hardware.eBrakeTimer.reset();
             Hardware.eBrakeTimer.start();
@@ -277,7 +281,9 @@ public class Teleop
                                 .getY()) >= Hardware.eBrakeDeadband)))
             {
             if (usingEBrakePiston == true)
+                {
                 pistonForEBrake.setForward(false);
+                } // if
             Hardware.eBrakeJoystickTimer.stop();
             Hardware.eBrakeJoystickTimer.reset();
             Hardware.eBrakeJoystickTimerIsStopped = true;
@@ -289,9 +295,11 @@ public class Teleop
         // passed a certain duration
         // Stop/clear the Timer
         // =========================
-        if ((pistonForEBrake.getForward() == false) && ((Hardware.eBrakeTimer
-                .hasElapsed(Hardware.eBrakeDelayTime) == true)
-                || (Hardware.eBrakeTimerIsStopped == true)))
+        if ((((pistonForEBrake.getForward() == false)
+                && (usingEBrakePiston == true)) || (usingEBrakePiston == false))
+                && ((Hardware.eBrakeTimer
+                        .hasElapsed(Hardware.eBrakeDelayTime) == true)
+                        || (Hardware.eBrakeTimerIsStopped == true)))
             {
             // Hardware.transmission.drive(Hardware.leftDriver.getY(),
             // Hardware.rightDriver.getY());
@@ -598,7 +606,7 @@ public class Teleop
         // -------- SUBSYSTEMS ---------
 
         // ---------- OTHER ------------
-        System.out.println("ARE = " + Hardware.armRaiseEncoder.getRaw());
+        // System.out.println("ARE = " + Hardware.armRaiseEncoder.getRaw());
         /////////// JOYSTICK VALUES ///////////
         // System.out.println("L Joystick: " + Hardware.leftDriver.getY());
         // System.out.println("R Joystick: " + Hardware.rightDriver.getY());
