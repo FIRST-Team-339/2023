@@ -472,7 +472,7 @@ public class Hardware
         private final static int PREV_CLAW_FWD_PORT = 6;
         private final static int PREV_CLAW_REV_PORT = 7;
         private final static int PREV_REDLIGHTSENSOR_PORT = 7;
-        private final static double PREV_Charging_Station_Hold_Speed = -0.2;
+        private final static double PREV_Charging_Station_Hold_Speed = -0.05;
 
         // --------------------
         // Current year's constants

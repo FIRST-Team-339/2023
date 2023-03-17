@@ -262,6 +262,7 @@ public class Teleop
             Hardware.eBrakeTimer.reset();
             Hardware.eBrakeTimer.start();
             Hardware.eBrakeTimerIsStopped = false;
+            Hardware.eBrakeMomentarySwitch1.setValue(false);
             } // if
 
         // -----------------------
