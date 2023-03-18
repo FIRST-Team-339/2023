@@ -493,7 +493,8 @@ public class Autonomous
             case STOP_ONE:
                 if (Hardware.drive.brake(Drive.BrakeType.AFTER_DRIVE) == true)
                     {
-                    sw3_driveOnChargingStationState = SW3_DRIVE_ON_CHARGING_STATION_STATE.DRIVE_TWO_DRIVE;
+                    // sw3_driveOnChargingStationState=SW3_DRIVE_ON_CHARGING_STATION_STATE.DRIVE_TWO_DRIVE;
+                    sw3_driveOnChargingStationState = SW3_DRIVE_ON_CHARGING_STATION_STATE.END;
                     } // if
                 return false;
 
@@ -669,14 +670,14 @@ public class Autonomous
 
     private static final double SW2_SECOND_STOP_DISTANCE = 50.0;
 
-    private static final double SW3_DRIVE_OVER_CHARGING_STATION = 146.0;
+    private static final double SW3_DRIVE_OVER_CHARGING_STATION = 82; // 170.0;
 
-    private static final double SW3_DRIVE_TOWARDS_CHARGING_STATION = 50.0;
+    private static final double SW3_DRIVE_TOWARDS_CHARGING_STATION = 74.0;
 
     private static final double SW3_DRIVE_ON_CHARGING_STATION = 49.0;
 
     private static final double SW3_DRIVE_ONE_DRIVE_SPEED = 0.18;
 
-    private static final double SW3_DRIVE_TWO_DRIVE_SPEED = -0.18;
+    private static final double SW3_DRIVE_TWO_DRIVE_SPEED = -0.22;
 
     } // end Autonomous

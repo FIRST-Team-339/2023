@@ -73,9 +73,9 @@ public class Teleop
         Hardware.drive.setGearPercentage(0, Hardware.CURRENT_GEAR1_MAX_SPEED);
         Hardware.rightBottomEncoder.reset();
         Hardware.leftBottomEncoder.reset();
-        Hardware.armRaiseButton.setValue(true);
+        // Hardware.armRaiseButton.setValue(true);
         // Piston position setting
-        Hardware.armRaisePiston.setForward(true);
+        // Hardware.armRaisePiston.setForward(true);
         Hardware.clawPiston.setForward(true);
 
         if (Hardware.eBrakePiston.getForward() == true)
@@ -261,7 +261,9 @@ public class Teleop
             {
             Hardware.eBrakeTimer.reset();
             Hardware.eBrakeTimer.start();
-            Hardware.eBrakeTimerIsStopped = false;
+            // TODO: Figure out why this is causing us issues...of all things
+            // THE FOLLOWING LINE OF CODE CAUSES THE MOTOR ISSUES
+            // Hardware.eBrakeTimerIsStopped = false;
             Hardware.eBrakeMomentarySwitch1.setValue(false);
             } // if
 
@@ -516,9 +518,7 @@ public class Teleop
         // the arm by the operator
         // ----------------------------
         armControl();
-
-        manageEBrake(Hardware.eBrakePiston, true);
-
+        manageEBrake(Hardware.eBrakePiston, false);
         // -------------------------
         // If eBrake has not overridden our ability to
         // drive, use the drivers joysticks to drive.
@@ -625,8 +625,8 @@ public class Teleop
         // System.out.println("LBottomMotor = " +
         /////////// Hardware.leftBottomMotor.get());
         // System.out.println("LTopMotor = " + Hardware.leftTopMotor.get());
-        // System.out.println("RBottomMotor = " +
-        /////////// Hardware.rightBottomMotor.get());
+        // System.out.println(
+        // "RBottomMotor Voltage = " + Hardware.rightBottomMotor.get());
         // System.out.println("RTopMotor = " + Hardware.rightTopMotor.get());
         // System.out.println("LeMotor = " + Hardware.armLengthMotor.get()
         // + " Y = " + Hardware.leftOperator.getY());

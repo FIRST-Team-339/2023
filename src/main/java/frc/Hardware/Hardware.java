@@ -414,7 +414,7 @@ public class Hardware
         // ------------------------------------------
         // Vision stuff
         // ----------------------------
-        public static KilroyUSBCamera cameras = new KilroyUSBCamera(true);
+        public static KilroyUSBCamera cameras = new KilroyUSBCamera(false);
 
         // public static MomentarySwitch switchCameraViewButton11 = new
         // MomentarySwitch(
@@ -494,7 +494,7 @@ public class Hardware
         public final static double CURRENT_ARM_LENGTH_DEADBAND = 0.2;
         public final static double CURRENT_EBRAKETIMER_DELAY = 0.5;
         public final static double CURRENT_GEAR1_MAX_SPEED = 0.25;
-        private final static double CURRENT_GEAR2_MAX_SPEED = 0.35;
+        private final static double CURRENT_GEAR2_MAX_SPEED = 0.45;
         private final static double CURRENT_GEAR3_MAX_SPEED = 0.42;
         private final static int CURRENT_DELAY_POT_PORT = 1;
         private final static double CURRENT_DISTANCE_PER_PULSE = 0.00100001;
