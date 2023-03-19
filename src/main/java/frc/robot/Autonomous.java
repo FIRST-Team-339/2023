@@ -478,7 +478,14 @@ public class Autonomous
                         SW3_DRIVE_ONE_DRIVE_SPEED, MAX_ACCEL_TIME,
                         false) == true)
                     {
-                    sw3_driveOnChargingStationState = SW3_DRIVE_ON_CHARGING_STATION_STATE.STOP_ONE;
+                    sw3_driveOnChargingStationState = SW3_DRIVE_ON_CHARGING_STATION_STATE.END; // Bryan
+                                                                                               // Fernandez
+                    Hardware.leftSideMotors
+                            .set(-Hardware.Charging_Station_Hold_Speed); // Bryan
+                                                                         // Fernandez
+                    Hardware.rightSideMotors
+                            .set(-Hardware.Charging_Station_Hold_Speed); // Bryan
+                                                                         // Fernandez
                     Hardware.leftBottomEncoder.reset();
                     Hardware.rightBottomEncoder.reset();
                     Hardware.drive.setMaxBrakeIterations(3);
@@ -557,9 +564,11 @@ public class Autonomous
             case END:
             default:
                 Hardware.leftSideMotors
-                        .set(Hardware.Charging_Station_Hold_Speed);
+                        .set(-Hardware.Charging_Station_Hold_Speed); // Bryan
+                                                                     // Fernandez
                 Hardware.rightSideMotors
-                        .set(Hardware.Charging_Station_Hold_Speed);
+                        .set(-Hardware.Charging_Station_Hold_Speed); // Bryan
+                                                                     // Fernandez
                 // TODO replace with handbrake when working
                 return false;
             } // switch
@@ -670,13 +679,13 @@ public class Autonomous
 
     private static final double SW2_SECOND_STOP_DISTANCE = 50.0;
 
-    private static final double SW3_DRIVE_OVER_CHARGING_STATION = 82; // 170.0;
+    private static final double SW3_DRIVE_OVER_CHARGING_STATION = 90; // 170.0;
 
     private static final double SW3_DRIVE_TOWARDS_CHARGING_STATION = 74.0;
 
     private static final double SW3_DRIVE_ON_CHARGING_STATION = 49.0;
 
-    private static final double SW3_DRIVE_ONE_DRIVE_SPEED = 0.18;
+    private static final double SW3_DRIVE_ONE_DRIVE_SPEED = 0.22;
 
     private static final double SW3_DRIVE_TWO_DRIVE_SPEED = -0.22;
 

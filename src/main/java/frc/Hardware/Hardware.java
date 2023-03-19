@@ -23,6 +23,10 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.playingwithfusion.CANVenom;
 
+import edu.wpi.first.wpilibj.ADXL345_SPI;
+import edu.wpi.first.wpilibj.ADXL362;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -30,6 +34,7 @@ import edu.wpi.first.wpilibj.PneumaticsBase;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.drive.RobotDriveBase;
@@ -44,7 +49,8 @@ import frc.HardwareInterfaces.SixPositionSwitch;
 import frc.HardwareInterfaces.DoubleSolenoid;
 import frc.HardwareInterfaces.DoubleThrowSwitch;
 import frc.HardwareInterfaces.KilroyEncoder;
-import frc.HardwareInterfaces.KilroySPIGyro;
+import edu.wpi.first.wpilibj.interfaces.Accelerometer;
+import edu.wpi.first.wpilibj.interfaces.Gyro; // Possible fix to the gyro on the robot, replaces: import frc.HardwareInterfaces.KilroySPIGyro;
 import frc.HardwareInterfaces.KilroyUSBCamera;
 import frc.HardwareInterfaces.LightSensor;
 import frc.HardwareInterfaces.MomentarySwitch;
@@ -139,9 +145,15 @@ public class Hardware
                                         CURRENT_GEAR2_MAX_SPEED
                         /* , CURRENT_GEAR3_MAX_SPEED */);
 
-                        // System.out.println("The gyro is = " + gyro);
-                        // gyro = new KilroySPIGyro(true);
-                        // gyro.calibrate();
+                        gyro = new ADXRS450_Gyro(); // Bryan Fernandez
+                        gyro.calibrate(); // Bryan Fernandez
+
+                        // accelerometer = new ADXL345_SPI(SPI.Port.kOnboardCS0,
+                        // Accelerometer.Range.k2G); // Bryan Fernandez
+                        // accelerometer = new BuiltInAccelerometer(); // Bryan
+                        // Fernandez
+                        // accelerometer = new ADXL362(SPI.Port.kOnboardCS0,
+                        // Accelerometer.Range.k2G);
 
                         drive = new Drive(transmission, leftBottomEncoder,
                                         rightBottomEncoder, null);
@@ -350,8 +362,10 @@ public class Hardware
         // SPI BUS
         // **********************************************************
 
-        // public static KilroySPIGyro gyro = new KilroySPIGyro(true);
-        // public static KilroySPIGyro gyro;
+        public static ADXRS450_Gyro gyro; // Bryan Fernandez
+        // public static ADXL345_SPI accelerometer; // Bryan Fernandez
+        // public static Accelerometer accelerometer; // Bryan Fernandez
+        // public static ADXL362 accelerometer; // Bryan Fernandez
 
         // **********************************************************
         // DRIVER STATION CLASSES

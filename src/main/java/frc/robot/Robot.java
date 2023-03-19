@@ -134,7 +134,10 @@ public class Robot extends TimedRobot
         // start disabling - tell the user we are beginning
         // disabling
         // ---------------------------------------
-
+        Hardware.leftSideMotors.set(-Hardware.Charging_Station_Hold_Speed); // Bryan
+                                                                            // Fernandez
+        Hardware.rightSideMotors.set(-Hardware.Charging_Station_Hold_Speed); // Bryan
+                                                                             // Fernandez
         // ---------------------------------------
         // done disabling - tell the user we are complete
         // disabling
@@ -156,7 +159,8 @@ public class Robot extends TimedRobot
     @Override
     public void disabledPeriodic()
     {
-
+        Hardware.leftSideMotors.set(-Hardware.Charging_Station_Hold_Speed);
+        Hardware.rightSideMotors.set(-Hardware.Charging_Station_Hold_Speed);
     } // end disabledPeriodic()
 
     /**

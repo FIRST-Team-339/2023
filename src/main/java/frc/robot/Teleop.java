@@ -38,6 +38,7 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.GenericHID.HIDType;
+import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.Hardware.Hardware;
@@ -71,6 +72,8 @@ public class Teleop
     {
         Hardware.drive.setGear(0);
         Hardware.drive.setGearPercentage(0, Hardware.CURRENT_GEAR1_MAX_SPEED);
+        Hardware.leftSideMotors.set(0.0);
+        Hardware.rightSideMotors.set(0.0);
         Hardware.rightBottomEncoder.reset();
         Hardware.leftBottomEncoder.reset();
         // Hardware.armRaiseButton.setValue(true);
@@ -611,6 +614,18 @@ public class Teleop
         /////////// JOYSTICK VALUES ///////////
         // System.out.println("L Joystick: " + Hardware.leftDriver.getY());
         // System.out.println("R Joystick: " + Hardware.rightDriver.getY());
+
+        // System.out.println("Gyro angle: " + Hardware.gyro.getAngle()); //
+        // Bryan
+        // Fernandez
+
+        // System.out.println("Accelerometer X " +
+        // Hardware.accelerometer.getX()); // Bryan Fernandez
+        // System.out.println("Accelerometer Y " +
+        // Hardware.accelerometer.getY()); // Bryan Fernandez
+        // System.out.println("Accelerometer Z " +
+        // Hardware.accelerometer.getZ()); // Bryan Fernandez
+
         // ========== OUTPUTS ==========
 
         // ---------- DIGITAL ----------
