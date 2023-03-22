@@ -163,6 +163,19 @@ public class Autonomous
         sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.INIT;
         sw3_driveOnChargingStationState = SW3_DRIVE_ON_CHARGING_STATION_STATE.INIT;
 
+        Hardware.accelerometerInitialX = 0.0;
+        Hardware.accelerometerInitialZ = 0.0;
+
+        for (int i = 0; i < 10; i++)
+            {
+            Hardware.accelerometerInitialX = Hardware.accelerometerInitialX
+                    + Hardware.accelerometer.getX();
+            Hardware.accelerometerInitialZ = Hardware.accelerometerInitialZ
+                    + Hardware.accelerometer.getZ();
+            } // FOR
+        Hardware.accelerometerInitialX = Hardware.accelerometerInitialX / 10;
+        Hardware.accelerometerInitialZ = Hardware.accelerometerInitialZ / 10;
+
         Hardware.drive.setGearPercentage(0, 1.0);
     } // end Init
 
@@ -478,8 +491,8 @@ public class Autonomous
                         SW3_DRIVE_ONE_DRIVE_SPEED, MAX_ACCEL_TIME,
                         false) == true)
                     {
-                    sw3_driveOnChargingStationState = SW3_DRIVE_ON_CHARGING_STATION_STATE.END; // Bryan
-                                                                                               // Fernandez
+                    sw3_driveOnChargingStationState = SW3_DRIVE_ON_CHARGING_STATION_STATE.BALANCE; // Bryan
+                    // Fernandez
                     Hardware.leftSideMotors
                             .set(-Hardware.Charging_Station_Hold_Speed); // Bryan
                                                                          // Fernandez
@@ -497,12 +510,21 @@ public class Autonomous
             // Now actually perform the braking
             // action. When complete, STOP
             // ---------------------------
-            case STOP_ONE:
-                if (Hardware.drive.brake(Drive.BrakeType.AFTER_DRIVE) == true)
+            case BALANCE:
+                if (Hardware.accelerometer
+                        .getZ() > Hardware.accelerometerInitialZ)
                     {
-                    // sw3_driveOnChargingStationState=SW3_DRIVE_ON_CHARGING_STATION_STATE.DRIVE_TWO_DRIVE;
                     sw3_driveOnChargingStationState = SW3_DRIVE_ON_CHARGING_STATION_STATE.END;
-                    } // if
+                    }
+                else
+                    if (Hardware.accelerometer
+                            .getX() > Hardware.accelerometerInitialX)
+                        {
+                        // drive backwards
+                        }
+                    else
+                        {// drive forwards
+                        }
                 return false;
 
             // ------------------
@@ -642,7 +664,7 @@ public class Autonomous
 
     private static enum SW3_DRIVE_ON_CHARGING_STATION_STATE
         {
-        INIT, DELAY, DRIVE_ONE_DRIVE, STOP_ONE, DRIVE_TWO_DRIVE, STOP_TWO, DRIVE_THREE_DRIVE, END;
+        INIT, DELAY, DRIVE_ONE_DRIVE, BALANCE, DRIVE_TWO_DRIVE, STOP_TWO, DRIVE_THREE_DRIVE, END;
         }
 
     private static AUTO_PATH autoPath;

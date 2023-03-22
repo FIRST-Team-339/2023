@@ -39,6 +39,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.GenericHID.HIDType;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
+import edu.wpi.first.wpilibj.interfaces.Accelerometer.Range;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.Hardware.Hardware;
@@ -566,93 +567,99 @@ public class Teleop
         // people test functions
     } // end individualTest()
 
+    static int counter = 0;
+
     public static void printStatements()
     {
-        // ========== INPUTS ==========
-        // System.out.println("eBrakeTimer: " + Hardware.eBrakeTimer.get());
-        // System.out.println("eBrakeJoyStickTimer has passed " + 2 + " seconds:
-        // "
-        // + Hardware.eBrakeJoystickTimer.hasElapsed(eBrakeHoldTime));
-        // System.out.println(
-        // "eBrakeJoyStickTimer: " + Hardware.eBrakeJoystickTimer.get());
-        // System.out.println("clawPiston = " + Hardware.clawPiston.get());
-        // System.out.println("armPiston = " + Hardware.armRaisePiston.get());
-        // ---------- DIGITAL ----------
+        counter++;
+        if (counter == 10)
+            {
+            // ========== INPUTS ==========
+            // System.out.println("eBrakeTimer: " + Hardware.eBrakeTimer.get());
+            // System.out.println("eBrakeJoyStickTimer has passed " + 2 + "
+            // seconds:
+            // "
+            // + Hardware.eBrakeJoystickTimer.hasElapsed(eBrakeHoldTime));
+            // System.out.println(
+            // "eBrakeJoyStickTimer: " + Hardware.eBrakeJoystickTimer.get());
+            // System.out.println("clawPiston = " + Hardware.clawPiston.get());
+            // System.out.println("armPiston = " +
+            // Hardware.armRaisePiston.get());
+            // ---------- DIGITAL ----------
 
-        // Encoder Distances
-        // System.out.println("LB encoder DIST = "
-        // + Hardware.leftBottomEncoder.getDistance());
-        // System.out.println("RB encoder DIST = "
-        // + Hardware.rightBottomEncoder.getDistance());
+            // Encoder Distances
+            // System.out.println("LB encoder DIST = "
+            // + Hardware.leftBottomEncoder.getDistance());
+            // System.out.println("RB encoder DIST = "
+            // + Hardware.rightBottomEncoder.getDistance());
 
-        // Encoder Raw Values
-        // System.out.println(
-        // "LB encoder RAW = " + Hardware.leftBottomEncoder.getRaw());
-        // System.out.println(
-        // "RB encoder RAW = " + Hardware.rightBottomEncoder.getRaw());
-        // Switch Values
+            // Encoder Raw Values
+            // System.out.println(
+            // "LB encoder RAW = " + Hardware.leftBottomEncoder.getRaw());
+            // System.out.println(
+            // "RB encoder RAW = " + Hardware.rightBottomEncoder.getRaw());
+            // Switch Values
 
-        /////////// SIX POSITION SWITCH ///////////
-        // System.out.println("Six Position Switch value: "
-        // + Hardware.sixPosSwitch.getPosition());
+            /////////// SIX POSITION SWITCH ///////////
+            // System.out.println("Six Position Switch value: "
+            // + Hardware.sixPosSwitch.getPosition());
 
-        /////////// DISABLE AUTO SWITCH ///////////
-        // System.out.println("Disable Auto Switch value: "
-        // + Hardware.disableAutoSwitch.isOn());
+            /////////// DISABLE AUTO SWITCH ///////////
+            // System.out.println("Disable Auto Switch value: "
+            // + Hardware.disableAutoSwitch.isOn());
 
-        // ----------------LeftRightNone Switch -----------
-        // System.out.println(
-        // "LRNone SW = " + Hardware.leftRightNoneSwitch.getPosition());
+            // ----------------LeftRightNone Switch -----------
+            // System.out.println(
+            // "LRNone SW = " + Hardware.leftRightNoneSwitch.getPosition());
 
-        // ---------- ANALOG -----------
-        // System.out.println("delayPot = " + Hardware.delayPot.get(0.0, 5.0));
+            // ---------- ANALOG -----------
+            // System.out.println("delayPot = " + Hardware.delayPot.get(0.0,
+            // 5.0));
 
-        // -------- SUBSYSTEMS ---------
+            // -------- SUBSYSTEMS ---------
 
-        // ---------- OTHER ------------
-        // System.out.println("ARE = " + Hardware.armRaiseEncoder.getRaw());
-        /////////// JOYSTICK VALUES ///////////
-        // System.out.println("L Joystick: " + Hardware.leftDriver.getY());
-        // System.out.println("R Joystick: " + Hardware.rightDriver.getY());
+            // ---------- OTHER ------------
+            // System.out.println("ARE = " + Hardware.armRaiseEncoder.getRaw());
+            /////////// JOYSTICK VALUES ///////////
+            // System.out.println("L Joystick: " + Hardware.leftDriver.getY());
+            // System.out.println("R Joystick: " + Hardware.rightDriver.getY());
 
-        // System.out.println("Gyro angle: " + Hardware.gyro.getAngle()); //
-        // Bryan
-        // Fernandez
+            // System.out.println("Gyro angle: " + Hardware.gyro.getAngle()); //
 
-        // System.out.println("Accelerometer X " +
-        // Hardware.accelerometer.getX()); // Bryan Fernandez
-        // System.out.println("Accelerometer Y " +
-        // Hardware.accelerometer.getY()); // Bryan Fernandez
-        // System.out.println("Accelerometer Z " +
-        // Hardware.accelerometer.getZ()); // Bryan Fernandez
+            System.out.println("Accel x, z " + Hardware.accelerometer.getX()
+                    + Hardware.accelerometer.getZ());
+            // ========== OUTPUTS ==========
 
-        // ========== OUTPUTS ==========
+            // ---------- DIGITAL ----------
+            // System.out.println("disableAutoSwitch = " +
+            // Hardware.disableAutoSwitch.isOn());
+            // System.out.println("RedLight = " +
+            // Hardware.redLightSensor.isOn());
+            // ---------- ANALOG -----------
 
-        // ---------- DIGITAL ----------
-        // System.out.println("disableAutoSwitch = " +
-        // Hardware.disableAutoSwitch.isOn());
-        // System.out.println("RedLight = " + Hardware.redLightSensor.isOn());
-        // ---------- ANALOG -----------
+            // ----------- CAN -------------
 
-        // ----------- CAN -------------
+            /////////// MOTOR VALUES ///////////
+            // System.out.println("LBottomMotor = " +
+            /////////// Hardware.leftBottomMotor.get());
+            // System.out.println("LTopMotor = " + Hardware.leftTopMotor.get());
+            // System.out.println(
+            // "RBottomMotor Voltage = " + Hardware.rightBottomMotor.get());
+            // System.out.println("RTopMotor = " +
+            /////////// Hardware.rightTopMotor.get());
+            // System.out.println("LeMotor = " + Hardware.armLengthMotor.get()
+            // + " Y = " + Hardware.leftOperator.getY());
+            // System.out.println("RaMotor = " + Hardware.armRaiseMotor.get() +
+            /////////// " Y
+            /////////// = "
+            // + Hardware.rightOperator.getY());
 
-        /////////// MOTOR VALUES ///////////
-        // System.out.println("LBottomMotor = " +
-        /////////// Hardware.leftBottomMotor.get());
-        // System.out.println("LTopMotor = " + Hardware.leftTopMotor.get());
-        // System.out.println(
-        // "RBottomMotor Voltage = " + Hardware.rightBottomMotor.get());
-        // System.out.println("RTopMotor = " + Hardware.rightTopMotor.get());
-        // System.out.println("LeMotor = " + Hardware.armLengthMotor.get()
-        // + " Y = " + Hardware.leftOperator.getY());
-        // System.out.println("RaMotor = " + Hardware.armRaiseMotor.get() + " Y
-        /////////// = "
-        // + Hardware.rightOperator.getY());
+            // -------- SUBSYSTEMS ---------
 
-        // -------- SUBSYSTEMS ---------
+            // ---------- OTHER ------------
 
-        // ---------- OTHER ------------
-
+            counter = 0;
+            }
     } // end printStatements()
 
     // =========================================

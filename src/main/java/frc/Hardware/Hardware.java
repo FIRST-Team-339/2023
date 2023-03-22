@@ -51,6 +51,7 @@ import frc.HardwareInterfaces.DoubleThrowSwitch;
 import frc.HardwareInterfaces.KilroyEncoder;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj.interfaces.Gyro; // Possible fix to the gyro on the robot, replaces: import frc.HardwareInterfaces.KilroySPIGyro;
+import edu.wpi.first.wpilibj.interfaces.Accelerometer.Range;
 import frc.HardwareInterfaces.KilroyUSBCamera;
 import frc.HardwareInterfaces.LightSensor;
 import frc.HardwareInterfaces.MomentarySwitch;
@@ -148,12 +149,8 @@ public class Hardware
                         gyro = new ADXRS450_Gyro(); // Bryan Fernandez
                         gyro.calibrate(); // Bryan Fernandez
 
-                        // accelerometer = new ADXL345_SPI(SPI.Port.kOnboardCS0,
-                        // Accelerometer.Range.k2G); // Bryan Fernandez
-                        // accelerometer = new BuiltInAccelerometer(); // Bryan
-                        // Fernandez
-                        // accelerometer = new ADXL362(SPI.Port.kOnboardCS0,
-                        // Accelerometer.Range.k2G);
+                        accelerometer = new BuiltInAccelerometer();
+                        accelerometer.setRange(Range.k8G);
 
                         drive = new Drive(transmission, leftBottomEncoder,
                                         rightBottomEncoder, null);
@@ -364,7 +361,7 @@ public class Hardware
 
         public static ADXRS450_Gyro gyro; // Bryan Fernandez
         // public static ADXL345_SPI accelerometer; // Bryan Fernandez
-        // public static Accelerometer accelerometer; // Bryan Fernandez
+        public static Accelerometer accelerometer; // Bryan Fernandez
         // public static ADXL362 accelerometer; // Bryan Fernandez
 
         // **********************************************************
@@ -453,6 +450,8 @@ public class Hardware
         public static double maxJoystickOperatorValue;
         public static double Charging_Station_Hold_Speed;
         public static double minJoystickOperatorValue;
+        public static double accelerometerInitialX;
+        public static double accelerometerInitialZ;
         // --------------------
         // Previous year's constants
         // --------------------
@@ -494,11 +493,11 @@ public class Hardware
         public final static double CURRENT_DEADBAND = 0.2;
         public final static double CURRENT_EBRAKE_DEADBAND = 2.0
                         * CURRENT_DEADBAND;
-        public final static double CURRENT_ARM_RAISE_MAX_SPEED_UP = 0.6;
-        public final static double CURRENT_ARM_RAISE_MAX_SPEED_DOWN = 0.5;
+        public final static double CURRENT_ARM_RAISE_MAX_SPEED_UP = 0.75;
+        public final static double CURRENT_ARM_RAISE_MAX_SPEED_DOWN = 0.6;
         public final static double CURRENT_ARM_RAISE_MIN_SPEED_POSITIVE = 0.0;
         public final static double CURRENT_ARM_RAISE_MIN_SPEED_NEGATIVE = 0.2;
-        public final static double CURRENT_ARM_LENGTH_MAX_SPEED = 0.65;
+        public final static double CURRENT_ARM_LENGTH_MAX_SPEED = 0.75;
         public final static double CURRENT_ARM_LENGTH_MIN_SPEED = 0.0;
         public final static double CURRENT_MAX_JOYSTICK_OPERATOR_VALUE = 1.0;
         public final static double CURRENT_MIN_JOYSTICK_OPERATOR_VALUE = 0.201;
@@ -508,7 +507,7 @@ public class Hardware
         public final static double CURRENT_ARM_LENGTH_DEADBAND = 0.2;
         public final static double CURRENT_EBRAKETIMER_DELAY = 0.5;
         public final static double CURRENT_GEAR1_MAX_SPEED = 0.25;
-        private final static double CURRENT_GEAR2_MAX_SPEED = 0.45;
+        private final static double CURRENT_GEAR2_MAX_SPEED = 0.62;
         private final static double CURRENT_GEAR3_MAX_SPEED = 0.42;
         private final static int CURRENT_DELAY_POT_PORT = 1;
         private final static double CURRENT_DISTANCE_PER_PULSE = 0.00100001;
@@ -521,4 +520,5 @@ public class Hardware
         private final static int CURRENT_REDLIGHTSENSOR_PORT = 7;
         private final static double CURRENT_CHARGING_STATION_HOLD_SPEED = -0.05;
         public final static int CURRENT_ARM_RAISE_MAX_TICKS = -110;
+
         } // end class
