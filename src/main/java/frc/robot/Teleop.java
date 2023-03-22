@@ -610,7 +610,7 @@ public class Teleop
         // -------- SUBSYSTEMS ---------
 
         // ---------- OTHER ------------
-        // System.out.println("ARE = " + Hardware.armRaiseEncoder.getRaw());
+        System.out.println("ARE = " + Hardware.armRaiseEncoder.getRaw());
         /////////// JOYSTICK VALUES ///////////
         // System.out.println("L Joystick: " + Hardware.leftDriver.getY());
         // System.out.println("R Joystick: " + Hardware.rightDriver.getY());

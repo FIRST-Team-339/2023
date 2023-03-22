@@ -162,6 +162,7 @@ public class Autonomous
         sw1_driveOnlyForwardState = SW1_DRIVE_ONLY_FORWARD_STATE.INIT;
         sw2_driveTurnDriveState = SW2_DRIVE_TURN_DRIVE_STATE.INIT;
         sw3_driveOnChargingStationState = SW3_DRIVE_ON_CHARGING_STATION_STATE.INIT;
+        sw4_dropCubeDriveForwardState = SW4_DROP_CUBE_DRIVE_FORWARD_STATE.INIT;
 
         Hardware.drive.setGearPercentage(0, 1.0);
     } // end Init
@@ -203,6 +204,14 @@ public class Autonomous
 
             case SW3_DRIVE_OVER_CHARGING_STATION:
                 if (sw3_driveOnChargingStation() == true)
+                    {
+                    autoPath = AUTO_PATH.DISABLE;
+                    AUTO_MODE_DASH = AutoModeDash.Completed;
+                    }
+                break;
+
+            case SW4_DROP_CUBE_DRIVE_FORWARD_STATE:
+                if (sw4_dropCubeDriveForward() == true)
                     {
                     autoPath = AUTO_PATH.DISABLE;
                     AUTO_MODE_DASH = AutoModeDash.Completed;
@@ -574,6 +583,96 @@ public class Autonomous
             } // switch
     } // end sw3_driveOnChargingStation()
 
+    private static boolean sw4_dropCubeDriveForward()
+    {
+        switch (sw4_dropCubeDriveForwardState)
+            {
+            // ---------------------------
+            // initialize everything we need for
+            // this run
+            // ---------------------------
+            case INIT:
+                Hardware.autoTimer.start();
+                sw4_dropCubeDriveForwardState = SW4_DROP_CUBE_DRIVE_FORWARD_STATE.DELAY;
+                return false;
+            // ---------------------------
+            // Delay if we set the pot to delay
+            // ---------------------------
+            case DELAY:
+                if (Hardware.autoTimer.get() >= delayTime)
+                    {
+                    sw4_dropCubeDriveForwardState = SW4_DROP_CUBE_DRIVE_FORWARD_STATE.DRIVE_ONE_DRIVE;
+                    Hardware.autoTimer.stop();
+                    Hardware.autoTimer.reset();
+                    } // if
+                return false;
+
+            // ---------------------------
+            // Drive XX inches, accelerating first
+            // using the gyro as the way to keep
+            // us straight as we drive.
+            // When we have gone the inches, get
+            // ready for the braking actions and
+            // reset the encoders - just in case
+            // ---------------------------
+
+            case DRIVE_ONE_DRIVE:
+
+                // Causes the robot to jerk forward, allowing the cube to fall
+                // off the back end of the robot
+
+                if (Hardware.drive.driveStraightInches(
+                        SW4_DRIVE_ONE_DRIVE_INCHES, SW4_DRIVE_ONE_DRIVE_SPEED,
+                        MAX_ACCEL_TIME, false))
+                    {
+                    sw4_dropCubeDriveForwardState = SW4_DROP_CUBE_DRIVE_FORWARD_STATE.DRIVE_TWO_DRIVE;
+                    Hardware.leftBottomEncoder.reset();
+                    Hardware.rightBottomEncoder.reset();
+                    Hardware.drive.setMaxBrakeIterations(3);
+                    Hardware.drive.setBrakeDeadband(1, BrakeType.AFTER_DRIVE);
+                    } // end if.
+                return false;
+
+            // Causes the robot to drive backwards, knocking the cube into the
+            // scoring area
+
+            case DRIVE_TWO_DRIVE:
+                if (Hardware.drive.driveStraightInches(
+                        SW4_DRIVE_TWO_DRIVE_INCHES, SW4_DRIVE_TWO_DRIVE_SPEED,
+                        MAX_ACCEL_TIME, false))
+                    {
+                    sw4_dropCubeDriveForwardState = SW4_DROP_CUBE_DRIVE_FORWARD_STATE.DRIVE_THREE_DRIVE;
+                    Hardware.leftBottomEncoder.reset();
+                    Hardware.rightBottomEncoder.reset();
+                    Hardware.drive.setMaxBrakeIterations(3);
+                    Hardware.drive.setBrakeDeadband(1, BrakeType.AFTER_DRIVE);
+                    } // end if
+                return false;
+
+            // drives robot forward
+
+            case DRIVE_THREE_DRIVE:
+                if (Hardware.drive.driveStraightInches(
+                        SW4_DRIVE_THREE_DRIVE_INCHES,
+                        SW4_DRIVE_THREE_DRIVE_SPEED, MAX_ACCEL_TIME, false))
+                    {
+                    sw4_dropCubeDriveForwardState = SW4_DROP_CUBE_DRIVE_FORWARD_STATE.END;
+                    Hardware.leftBottomEncoder.reset();
+                    Hardware.rightBottomEncoder.reset();
+                    Hardware.drive.setMaxBrakeIterations(3);
+                    Hardware.drive.setBrakeDeadband(1, BrakeType.AFTER_DRIVE);
+                    } // end if
+                return false;
+
+            case END:
+            default:
+                Hardware.drive.stop();
+                return true;
+
+            } // end switch
+
+    } // end sw4_dropCubeDriveForward()
+
     private static void updateDashboard()
     {
         // GYRO
@@ -627,7 +726,7 @@ public class Autonomous
 
     private static enum AUTO_PATH
         {
-        SW1_DRIVE_ONLY_FORWARD, SW2_DRIVE_TURN_DRIVE, SW3_DRIVE_OVER_CHARGING_STATION, DISABLE;
+        SW1_DRIVE_ONLY_FORWARD, SW2_DRIVE_TURN_DRIVE, SW3_DRIVE_OVER_CHARGING_STATION, SW4_DROP_CUBE_DRIVE_FORWARD_STATE, DISABLE;
         }
 
     private static enum SW1_DRIVE_ONLY_FORWARD_STATE
@@ -645,6 +744,11 @@ public class Autonomous
         INIT, DELAY, DRIVE_ONE_DRIVE, STOP_ONE, DRIVE_TWO_DRIVE, STOP_TWO, DRIVE_THREE_DRIVE, END;
         }
 
+    private static enum SW4_DROP_CUBE_DRIVE_FORWARD_STATE
+        {
+        INIT, DELAY, DRIVE_ONE_DRIVE, DRIVE_TWO_DRIVE, DRIVE_THREE_DRIVE, END;
+        }
+
     private static AUTO_PATH autoPath;
 
     private static SW1_DRIVE_ONLY_FORWARD_STATE sw1_driveOnlyForwardState;
@@ -652,6 +756,8 @@ public class Autonomous
     private static SW2_DRIVE_TURN_DRIVE_STATE sw2_driveTurnDriveState;
 
     private static SW3_DRIVE_ON_CHARGING_STATION_STATE sw3_driveOnChargingStationState;
+
+    private static SW4_DROP_CUBE_DRIVE_FORWARD_STATE sw4_dropCubeDriveForwardState;
 
     private static double delayTime = 0.0;
 
@@ -688,5 +794,17 @@ public class Autonomous
     private static final double SW3_DRIVE_ONE_DRIVE_SPEED = 0.22;
 
     private static final double SW3_DRIVE_TWO_DRIVE_SPEED = -0.22;
+
+    private static final double SW4_DRIVE_ONE_DRIVE_INCHES = 6.0;
+
+    private static final double SW4_DRIVE_TWO_DRIVE_INCHES = 6.0;
+
+    private static final double SW4_DRIVE_THREE_DRIVE_INCHES = 169.0;
+
+    private static final double SW4_DRIVE_ONE_DRIVE_SPEED = -0.22;
+
+    private static final double SW4_DRIVE_TWO_DRIVE_SPEED = 0.25;
+
+    private static final double SW4_DRIVE_THREE_DRIVE_SPEED = -0.25;
 
     } // end Autonomous
