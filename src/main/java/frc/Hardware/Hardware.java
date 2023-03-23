@@ -280,8 +280,8 @@ public class Hardware
                                                              * PREV_GEAR3_MAX_SPEED
                                                              */);
 
-                        // gyro = new KilroySPIGyro(true);
-                        // gyro.calibrate();
+                        gyro = new ADXRS450_Gyro();
+                        gyro.calibrate();
 
                         drive = new Drive(transmission, leftBottomEncoder,
                                         rightBottomEncoder, null);
