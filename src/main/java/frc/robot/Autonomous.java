@@ -602,7 +602,7 @@ public class Autonomous
 
                 if (Hardware.drive.driveStraightInches(
                         SW4_DRIVE_ONE_DRIVE_INCHES, SW4_DRIVE_ONE_DRIVE_SPEED,
-                        0.0, false) == true)
+                        0.1, false) == true)
                     {
                     sw4_dropCubeDriveForwardState = SW4_DROP_CUBE_DRIVE_FORWARD_STATE.DRIVE_TWO_DRIVE;
                     Hardware.leftBottomEncoder.reset();
@@ -615,7 +615,7 @@ public class Autonomous
             case DRIVE_TWO_DRIVE:
                 if (Hardware.drive.driveStraightInches(
                         SW4_DRIVE_TWO_DRIVE_INCHES, SW4_DRIVE_TWO_DRIVE_SPEED,
-                        0.0, false) == true)
+                        0.1, false) == true)
                     {
                     sw4_dropCubeDriveForwardState = SW4_DROP_CUBE_DRIVE_FORWARD_STATE.DRIVE_THREE_DRIVE;
                     Hardware.leftBottomEncoder.reset();
@@ -773,9 +773,9 @@ public class Autonomous
 
     private static final double SW4_DRIVE_THREE_DRIVE_INCHES = 169.0;
 
-    private static final double SW4_DRIVE_ONE_DRIVE_SPEED = -0.5;
+    private static final double SW4_DRIVE_ONE_DRIVE_SPEED = -0.4;
 
-    private static final double SW4_DRIVE_TWO_DRIVE_SPEED = 0.25;
+    private static final double SW4_DRIVE_TWO_DRIVE_SPEED = 0.15;
 
     private static final double SW4_DRIVE_THREE_DRIVE_SPEED = -0.25;
 
