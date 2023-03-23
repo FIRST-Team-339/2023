@@ -125,7 +125,7 @@ public class Autonomous
                 //
                 // =========================
                 case 3:
-                    autoPath = AUTO_PATH.DISABLE;
+                    autoPath = AUTO_PATH.SW4_DROP_CUBE_DRIVE_FORWARD_STATE;
                     AUTO_MODE_DASH = AutoModeDash.Mode4;
                     break;
                 // =========================
@@ -561,6 +561,8 @@ public class Autonomous
 
     private static boolean sw4_dropCubeDriveForward()
     {
+        System.out.println("sw4_dropCubeDriveForward.switch = "
+                + sw4_dropCubeDriveForwardState);
         switch (sw4_dropCubeDriveForwardState)
             {
             // ---------------------------
@@ -580,6 +582,8 @@ public class Autonomous
                     sw4_dropCubeDriveForwardState = SW4_DROP_CUBE_DRIVE_FORWARD_STATE.DRIVE_ONE_DRIVE;
                     Hardware.autoTimer.stop();
                     Hardware.autoTimer.reset();
+                    Hardware.leftBottomEncoder.reset();
+                    Hardware.rightBottomEncoder.reset();
                     } // if
                 return false;
 
@@ -593,35 +597,29 @@ public class Autonomous
             // ---------------------------
 
             case DRIVE_ONE_DRIVE:
-
                 // Causes the robot to jerk forward, allowing the cube to fall
                 // off the back end of the robot
 
                 if (Hardware.drive.driveStraightInches(
                         SW4_DRIVE_ONE_DRIVE_INCHES, SW4_DRIVE_ONE_DRIVE_SPEED,
-                        MAX_ACCEL_TIME, false))
+                        0.0, false) == true)
                     {
                     sw4_dropCubeDriveForwardState = SW4_DROP_CUBE_DRIVE_FORWARD_STATE.DRIVE_TWO_DRIVE;
                     Hardware.leftBottomEncoder.reset();
                     Hardware.rightBottomEncoder.reset();
-                    Hardware.drive.setMaxBrakeIterations(3);
-                    Hardware.drive.setBrakeDeadband(1, BrakeType.AFTER_DRIVE);
                     } // end if.
                 return false;
 
             // Causes the robot to drive backwards, knocking the cube into the
             // scoring area
-
             case DRIVE_TWO_DRIVE:
                 if (Hardware.drive.driveStraightInches(
                         SW4_DRIVE_TWO_DRIVE_INCHES, SW4_DRIVE_TWO_DRIVE_SPEED,
-                        MAX_ACCEL_TIME, false))
+                        0.0, false) == true)
                     {
                     sw4_dropCubeDriveForwardState = SW4_DROP_CUBE_DRIVE_FORWARD_STATE.DRIVE_THREE_DRIVE;
                     Hardware.leftBottomEncoder.reset();
                     Hardware.rightBottomEncoder.reset();
-                    Hardware.drive.setMaxBrakeIterations(3);
-                    Hardware.drive.setBrakeDeadband(1, BrakeType.AFTER_DRIVE);
                     } // end if
                 return false;
 
@@ -635,8 +633,6 @@ public class Autonomous
                     sw4_dropCubeDriveForwardState = SW4_DROP_CUBE_DRIVE_FORWARD_STATE.END;
                     Hardware.leftBottomEncoder.reset();
                     Hardware.rightBottomEncoder.reset();
-                    Hardware.drive.setMaxBrakeIterations(3);
-                    Hardware.drive.setBrakeDeadband(1, BrakeType.AFTER_DRIVE);
                     } // end if
                 return false;
 
@@ -771,13 +767,13 @@ public class Autonomous
 
     private static final double SW3_DRIVE_TWO_DRIVE_SPEED = -0.22;
 
-    private static final double SW4_DRIVE_ONE_DRIVE_INCHES = 6.0;
+    private static final double SW4_DRIVE_ONE_DRIVE_INCHES = 36.0;
 
-    private static final double SW4_DRIVE_TWO_DRIVE_INCHES = 6.0;
+    private static final double SW4_DRIVE_TWO_DRIVE_INCHES = -36.0;
 
     private static final double SW4_DRIVE_THREE_DRIVE_INCHES = 169.0;
 
-    private static final double SW4_DRIVE_ONE_DRIVE_SPEED = -0.22;
+    private static final double SW4_DRIVE_ONE_DRIVE_SPEED = -0.5;
 
     private static final double SW4_DRIVE_TWO_DRIVE_SPEED = 0.25;
 
