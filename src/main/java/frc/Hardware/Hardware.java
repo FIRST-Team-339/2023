@@ -26,6 +26,7 @@ import com.playingwithfusion.CANVenom;
 import edu.wpi.first.wpilibj.ADXL345_SPI;
 import edu.wpi.first.wpilibj.ADXL362;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.cscore.UsbCamera;
@@ -148,9 +149,12 @@ public class Hardware
 
                         gyro = new ADXRS450_Gyro(); // Bryan Fernandez
                         gyro.calibrate(); // Bryan Fernandez
+                        // agyro = new AnalogGyro(0);
+                        // agyro.calibrate();
+                        // agyro.initGyro();
 
-                        accelerometer = new BuiltInAccelerometer();
-                        accelerometer.setRange(Range.k8G);
+                        // accelerometer = new BuiltInAccelerometer();
+                        // accelerometer.setRange(Range.k8G);
 
                         drive = new Drive(transmission, leftBottomEncoder,
                                         rightBottomEncoder, null);
@@ -359,10 +363,11 @@ public class Hardware
         // SPI BUS
         // **********************************************************
 
-        public static ADXRS450_Gyro gyro; // Bryan Fernandez
-        // public static ADXL345_SPI accelerometer; // Bryan Fernandez
-        public static Accelerometer accelerometer; // Bryan Fernandez
-        // public static ADXL362 accelerometer; // Bryan Fernandez
+        public static ADXRS450_Gyro gyro;
+        // public static AnalogGyro agyro;
+        // public static ADXL345_SPI accelerometer;
+        // public static Accelerometer accelerometer;
+        // public static ADXL362 accelerometer;
 
         // **********************************************************
         // DRIVER STATION CLASSES

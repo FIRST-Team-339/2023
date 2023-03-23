@@ -74,7 +74,6 @@ public class Autonomous
         Hardware.drive.setGear(0);
         Hardware.drive.setGearPercentage(0, AUTO_GEAR);
         Hardware.drive.setBrakeStoppingDistance(7.5);
-        // Hardware.testGyro.reset();
 
         if (Hardware.disableAutoSwitch.isOn() == true)
             {
@@ -164,18 +163,18 @@ public class Autonomous
         sw3_driveOnChargingStationState = SW3_DRIVE_ON_CHARGING_STATION_STATE.INIT;
         sw4_dropCubeDriveForwardState = SW4_DROP_CUBE_DRIVE_FORWARD_STATE.INIT;
 
-        Hardware.accelerometerInitialX = 0.0;
-        Hardware.accelerometerInitialZ = 0.0;
+        // Hardware.accelerometerInitialX = 0.0;
+        // Hardware.accelerometerInitialZ = 0.0;
 
-        for (int i = 0; i < 10; i++)
+        // for (int i = 0; i < 10; i++)
             {
-            Hardware.accelerometerInitialX = Hardware.accelerometerInitialX
-                    + Hardware.accelerometer.getX();
-            Hardware.accelerometerInitialZ = Hardware.accelerometerInitialZ
-                    + Hardware.accelerometer.getZ();
+            // Hardware.accelerometerInitialX = Hardware.accelerometerInitialX
+            // + Hardware.accelerometer.getX();
+            // Hardware.accelerometerInitialZ = Hardware.accelerometerInitialZ
+            // + Hardware.accelerometer.getZ();
             } // FOR
-        Hardware.accelerometerInitialX = Hardware.accelerometerInitialX / 10;
-        Hardware.accelerometerInitialZ = Hardware.accelerometerInitialZ / 10;
+        // Hardware.accelerometerInitialX = Hardware.accelerometerInitialX / 10;
+        // Hardware.accelerometerInitialZ = Hardware.accelerometerInitialZ / 10;
 
         Hardware.drive.setGearPercentage(0, 1.0);
     } // end Init
@@ -500,7 +499,7 @@ public class Autonomous
                         SW3_DRIVE_ONE_DRIVE_SPEED, MAX_ACCEL_TIME,
                         false) == true)
                     {
-                    sw3_driveOnChargingStationState = SW3_DRIVE_ON_CHARGING_STATION_STATE.BALANCE; // Bryan
+                    sw3_driveOnChargingStationState = SW3_DRIVE_ON_CHARGING_STATION_STATE.END; // Bryan
                     // Fernandez
                     Hardware.leftSideMotors
                             .set(-Hardware.Charging_Station_Hold_Speed); // Bryan
@@ -520,70 +519,28 @@ public class Autonomous
             // action. When complete, STOP
             // ---------------------------
             case BALANCE:
-                if (Hardware.accelerometer
-                        .getZ() > Hardware.accelerometerInitialZ)
-                    {
-                    sw3_driveOnChargingStationState = SW3_DRIVE_ON_CHARGING_STATION_STATE.END;
-                    }
-                else
-                    if (Hardware.accelerometer
-                            .getX() > Hardware.accelerometerInitialX)
-                        {
-                        // drive backwards
-                        }
-                    else
-                        {// drive forwards
-                        }
-                return false;
-
-            // ------------------
-            // Drive XX inches forward until redLightSensor reads true
-            // If redLightSensor reads true, the robot will move YY inches
-            // forward
-            // If robot drives XX inches and redLightSensor doesn't turn on, the
-            // robot will stop
-            // ------------------
-            case DRIVE_TWO_DRIVE:
-                if (Hardware.drive.driveStraightInches(
-                        SW3_DRIVE_TOWARDS_CHARGING_STATION,
-                        SW3_DRIVE_TWO_DRIVE_SPEED, MAX_ACCEL_TIME,
-                        false) == true)
-                    {
-                    // Didn't find the red light - stop now before we go too far
-                    sw3_driveOnChargingStationState = SW3_DRIVE_ON_CHARGING_STATION_STATE.STOP_TWO;
-                    } // if
-                if (Hardware.redLightSensor.isOn() == true)
-                    {
-                    // drive small forward
-                    Hardware.leftBottomEncoder.reset();
-                    Hardware.rightBottomEncoder.reset();
-                    sw3_driveOnChargingStationState = SW3_DRIVE_ON_CHARGING_STATION_STATE.DRIVE_THREE_DRIVE;
-                    } // if
-                return false;
-
-            // ------------------------
-            // driven - now it is time to stop
-            // ------------------------
-            case STOP_TWO:
-                if (Hardware.drive.brake(Drive.BrakeType.AFTER_DRIVE) == true)
-                    {
-                    sw3_driveOnChargingStationState = SW3_DRIVE_ON_CHARGING_STATION_STATE.END;
-                    } // if
-                return false;
-            // -------------------------
-            // found the red light denoting that
-            // we found the start of the charging
-            // platform - drive to the "middle"
-            // of the charging platform
-            // -------------------------
-            case DRIVE_THREE_DRIVE:
-                // after red light drive more
-                if (Hardware.drive.driveStraightInches(
-                        SW3_DRIVE_ON_CHARGING_STATION,
-                        SW3_DRIVE_TWO_DRIVE_SPEED, MAX_ACCEL_TIME, false))
-                    {
-                    sw3_driveOnChargingStationState = SW3_DRIVE_ON_CHARGING_STATION_STATE.END;
-                    } // if
+                // // System.out
+                // // .println("Stored z =" + Hardware.accelerometerInitialZ);
+                // System.out.println(" Z =" + Hardware.accelerometer.getZ());
+                // System.out.println(" X =" + Hardware.accelerometer.getX());
+                // if (Hardware.accelerometer
+                // .getZ() > Hardware.accelerometerInitialZ)
+                // {
+                // sw3_driveOnChargingStationState =
+                // SW3_DRIVE_ON_CHARGING_STATION_STATE.END;
+                // }
+                // else
+                // if (Hardware.accelerometer
+                // .getX() > Hardware.accelerometerInitialX)
+                // {
+                // Hardware.leftSideMotors.set(BALANCE_SPEED);
+                // Hardware.rightSideMotors.set(BALANCE_SPEED);
+                // }
+                // else
+                // {
+                // Hardware.leftSideMotors.set(-BALANCE_SPEED);
+                // Hardware.rightSideMotors.set(-BALANCE_SPEED);
+                // }
                 return false;
 
             // --------------------------
@@ -595,12 +552,9 @@ public class Autonomous
             case END:
             default:
                 Hardware.leftSideMotors
-                        .set(-Hardware.Charging_Station_Hold_Speed); // Bryan
-                                                                     // Fernandez
+                        .set(-Hardware.Charging_Station_Hold_Speed);
                 Hardware.rightSideMotors
-                        .set(-Hardware.Charging_Station_Hold_Speed); // Bryan
-                                                                     // Fernandez
-                // TODO replace with handbrake when working
+                        .set(-Hardware.Charging_Station_Hold_Speed);
                 return false;
             } // switch
     } // end sw3_driveOnChargingStation()
@@ -828,5 +782,7 @@ public class Autonomous
     private static final double SW4_DRIVE_TWO_DRIVE_SPEED = 0.25;
 
     private static final double SW4_DRIVE_THREE_DRIVE_SPEED = -0.25;
+
+    private static final double BALANCE_SPEED = 0.6;
 
     } // end Autonomous

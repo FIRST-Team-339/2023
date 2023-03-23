@@ -624,10 +624,11 @@ public class Teleop
             // System.out.println("L Joystick: " + Hardware.leftDriver.getY());
             // System.out.println("R Joystick: " + Hardware.rightDriver.getY());
 
-            // System.out.println("Gyro angle: " + Hardware.gyro.getAngle()); //
+            // System.out.println("Gyro angle: " + Hardware.agyro.getAngle());
 
-            System.out.println("Accel x, z " + Hardware.accelerometer.getX()
-                    + Hardware.accelerometer.getZ());
+            // System.out.println("Accel x, z " + Hardware.accelerometer.getX()
+            // + " " + Hardware.accelerometer.getZ() + " "
+            // + Hardware.accelerometerInitialZ);
             // ========== OUTPUTS ==========
 
             // ---------- DIGITAL ----------
