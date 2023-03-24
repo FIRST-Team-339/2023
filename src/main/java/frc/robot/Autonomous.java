@@ -604,10 +604,26 @@ public class Autonomous
                         SW4_DRIVE_ONE_DRIVE_INCHES, SW4_DRIVE_ONE_DRIVE_SPEED,
                         0.1, false) == true)
                     {
-                    sw4_dropCubeDriveForwardState = SW4_DROP_CUBE_DRIVE_FORWARD_STATE.DRIVE_TWO_DRIVE;
+                    sw4_dropCubeDriveForwardState = SW4_DROP_CUBE_DRIVE_FORWARD_STATE.TIMER_ONE;
                     Hardware.leftBottomEncoder.reset();
                     Hardware.rightBottomEncoder.reset();
+                    Hardware.autoTimer.start();
                     } // end if.
+                return false;
+
+            // ---------------------------
+            // Now actually perform the braking
+            // action. When complete, STOP
+            // ---------------------------
+            case TIMER_ONE:
+                if (Hardware.autoTimer.get() >= 0.5)
+                    {
+                    sw4_dropCubeDriveForwardState = SW4_DROP_CUBE_DRIVE_FORWARD_STATE.DRIVE_TWO_DRIVE;
+                    Hardware.autoTimer.stop();
+                    Hardware.autoTimer.reset();
+                    Hardware.leftBottomEncoder.reset();
+                    Hardware.rightBottomEncoder.reset();
+                    } // if
                 return false;
 
             // Causes the robot to drive backwards, knocking the cube into the
@@ -615,7 +631,7 @@ public class Autonomous
             case DRIVE_TWO_DRIVE:
                 if (Hardware.drive.driveStraightInches(
                         SW4_DRIVE_TWO_DRIVE_INCHES, SW4_DRIVE_TWO_DRIVE_SPEED,
-                        0.1, false) == true)
+                        0.4, false) == true)
                     {
                     sw4_dropCubeDriveForwardState = SW4_DROP_CUBE_DRIVE_FORWARD_STATE.DRIVE_THREE_DRIVE;
                     Hardware.leftBottomEncoder.reset();
@@ -718,7 +734,7 @@ public class Autonomous
 
     private static enum SW4_DROP_CUBE_DRIVE_FORWARD_STATE
         {
-        INIT, DELAY, DRIVE_ONE_DRIVE, DRIVE_TWO_DRIVE, DRIVE_THREE_DRIVE, END;
+        INIT, DELAY, DRIVE_ONE_DRIVE, TIMER_ONE, DRIVE_TWO_DRIVE, DRIVE_THREE_DRIVE, END;
         }
 
     private static AUTO_PATH autoPath;
@@ -767,9 +783,9 @@ public class Autonomous
 
     private static final double SW3_DRIVE_TWO_DRIVE_SPEED = -0.22;
 
-    private static final double SW4_DRIVE_ONE_DRIVE_INCHES = 36.0;
+    private static final double SW4_DRIVE_ONE_DRIVE_INCHES = 24.0;
 
-    private static final double SW4_DRIVE_TWO_DRIVE_INCHES = -36.0;
+    private static final double SW4_DRIVE_TWO_DRIVE_INCHES = -24.0;
 
     private static final double SW4_DRIVE_THREE_DRIVE_INCHES = 169.0;
 
