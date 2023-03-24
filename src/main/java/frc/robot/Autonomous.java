@@ -773,7 +773,7 @@ public class Autonomous
 
     private static final double SW2_SECOND_STOP_DISTANCE = 50.0;
 
-    private static final double SW3_DRIVE_OVER_CHARGING_STATION = 90; // 170.0;
+    private static final double SW3_DRIVE_OVER_CHARGING_STATION = 88; // 170.0;
 
     private static final double SW3_DRIVE_TOWARDS_CHARGING_STATION = 74.0;
 

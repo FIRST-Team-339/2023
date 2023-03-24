@@ -157,7 +157,7 @@ public class Hardware
                         // accelerometer.setRange(Range.k8G);
 
                         drive = new Drive(transmission, leftBottomEncoder,
-                                        rightBottomEncoder, null);
+                                        rightBottomEncoder, gyro);
                         drive.setTurningRadius(24.5);
                         drive.setTurnDegreesFudgeFactor(1);
 
