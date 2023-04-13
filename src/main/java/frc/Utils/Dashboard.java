@@ -2,6 +2,7 @@ package frc.Utils;
 
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.Hardware.Hardware;
 
 /**
  * Dashboard Class
@@ -50,8 +51,8 @@ public class Dashboard
      */
     public static double updateGyroInd()
     {
-        // double gyroAngle = Hardware.gyro.getAngle();
-        double gyroAngle = 0.0;
+        double gyroAngle = Hardware.gyro.getAngle();
+        // double gyroAngle = 0.0;
 
         SmartDashboard.putNumber("Gyro", gyroAngle);
 

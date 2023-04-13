@@ -84,6 +84,11 @@ public class Hardware
                         {
                         // ==============DIO INIT=============
                         disableAutoSwitch = new SingleThrowSwitch(10);
+                        demoModeSwitch = new SingleThrowSwitch(1);
+                        if (demoModeSwitch.isOn() == true)
+                                {
+                                inDemoMode = true;
+                                }
                         sixPosSwitch = new SixPositionSwitch(15, 13, 14, 18, 16,
                                         17);
                         redLightSensor = new LightSensor(
@@ -142,10 +147,18 @@ public class Hardware
                         transmission = new LeftRightTransmission(leftSideMotors,
                                         rightSideMotors);
                         transmission.setJoystickDeadband(CURRENT_DEADBAND);
-                        transmission.setAllGearPercentages(
-                                        CURRENT_GEAR1_MAX_SPEED,
-                                        CURRENT_GEAR2_MAX_SPEED
-                        /* , CURRENT_GEAR3_MAX_SPEED */);
+                        if (inDemoMode == true)
+                                {
+                                transmission.setAllGearPercentages(
+                                                DEMO_MODE_GEAR_MAX_SPEED);
+                                }
+                        else
+                                {
+                                transmission.setAllGearPercentages(
+                                                CURRENT_GEAR1_MAX_SPEED,
+                                                CURRENT_GEAR2_MAX_SPEED
+                                /* , CURRENT_GEAR3_MAX_SPEED */);
+                                }
 
                         gyro = new ADXRS450_Gyro(); // Bryan Fernandez
                         gyro.calibrate(); // Bryan Fernandez
@@ -190,9 +203,18 @@ public class Hardware
                         armRaisePiston = new DoubleSolenoid(
                                         CURRENT_ARM_RAISE_FWD_PORT,
                                         CURRENT_ARM_RAISE_REV_PORT);
-                        clawPiston.setForward(true);
+                        if (inDemoMode == true)
+                                {
+                                clawPiston.setForward(false);
+                                armRaisePiston.setForward(true);
+                                }
+                        else
+                                {
+                                clawPiston.setForward(true);
+                                armRaisePiston.setForward(false);
+
+                                }
                         eBrakePiston.setForward(false);
-                        armRaisePiston.setForward(false);
 
                         eBrakeDelayTime = CURRENT_EBRAKETIMER_DELAY;
                         eBrakeDeadband = CURRENT_EBRAKE_DEADBAND;
@@ -305,7 +327,7 @@ public class Hardware
                                         PREV_ARM_RAISE_REV_PORT);
                         clawPiston.setForward(true);
                         eBrakePiston.setForward(false);
-                        armRaisePiston.setForward(false);
+
                         // arm control
                         armRaiseMaxSpeedUp = PREV_ARM_RAISE_MAX_SPEED_UP;
                         armRaiseMaxSpeedDown = PREV_ARM_RAISE_MAX_SPEED_DOWN;
@@ -351,6 +373,7 @@ public class Hardware
         // **********************************************************
         public static SixPositionSwitch sixPosSwitch = null;
         public static SingleThrowSwitch disableAutoSwitch = null;
+        public static SingleThrowSwitch demoModeSwitch = null;
         public static DoubleThrowSwitch leftRightNoneSwitch = null;
         public static LightSensor redLightSensor = null;
 
@@ -403,6 +426,8 @@ public class Hardware
         public static Boolean eBrakeJoystickTimerIsStopped = true;
         public static Timer eBrakeJoystickTimer = null;
         public static Timer autoTimer = null;
+        public static boolean inDemoMode = false;
+        public static double demoModeGearPercent = 1.0;
 
         // ------------------------------------
         // Operator Controls
@@ -514,6 +539,7 @@ public class Hardware
         public final static double CURRENT_GEAR1_MAX_SPEED = 0.25;
         private final static double CURRENT_GEAR2_MAX_SPEED = 0.62;
         private final static double CURRENT_GEAR3_MAX_SPEED = 0.42;
+        public final static double DEMO_MODE_GEAR_MAX_SPEED = 0.5;
         private final static int CURRENT_DELAY_POT_PORT = 1;
         private final static double CURRENT_DISTANCE_PER_PULSE = 0.00100001;
         private final static int CURRENT_EBRAKE_FWD_PORT = 4;
@@ -525,5 +551,4 @@ public class Hardware
         private final static int CURRENT_REDLIGHTSENSOR_PORT = 7;
         private final static double CURRENT_CHARGING_STATION_HOLD_SPEED = -0.05;
         public final static int CURRENT_ARM_RAISE_MAX_TICKS = -110;
-
         } // end class

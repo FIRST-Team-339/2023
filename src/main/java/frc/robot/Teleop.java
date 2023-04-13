@@ -72,7 +72,19 @@ public class Teleop
     public static void init()
     {
         Hardware.drive.setGear(0);
-        Hardware.drive.setGearPercentage(0, Hardware.CURRENT_GEAR1_MAX_SPEED);
+        if (Hardware.inDemoMode == true)
+            {
+            Hardware.drive.setGearPercentage(0,
+                    Hardware.DEMO_MODE_GEAR_MAX_SPEED);
+            Hardware.clawPiston.setForward(false);
+            Hardware.clawTriggerButton.setValue(true);
+            }
+        else
+            {
+            Hardware.drive.setGearPercentage(0,
+                    Hardware.CURRENT_GEAR1_MAX_SPEED);
+            Hardware.clawPiston.setForward(true);
+            }
         Hardware.leftSideMotors.set(0.0);
         Hardware.rightSideMotors.set(0.0);
         Hardware.rightBottomEncoder.reset();
@@ -80,7 +92,6 @@ public class Teleop
         // Hardware.armRaiseButton.setValue(true);
         // Piston position setting
         // Hardware.armRaisePiston.setForward(true);
-        Hardware.clawPiston.setForward(true);
 
         if (Hardware.eBrakePiston.getForward() == true)
             {
@@ -89,6 +100,10 @@ public class Teleop
 
         // Camera Settings
         Hardware.cameras.setCamera(0);
+        if (Hardware.inDemoMode == true)
+            {
+            Hardware.demoModeGearPercent = Hardware.delayPot.get(0, 1);
+            }
 
     } // end init()
 
@@ -340,13 +355,18 @@ public class Teleop
         // Checks if arm raise button has been pressed and sets the arm raise
         // piston to
         // the opposite direction each time it is pressed
-        if (Hardware.armRaiseButton.isOnCheckNow() == true)
+        // if (Hardware.inDemoMode == false)
+        // {
+        if (Hardware.inDemoMode == false)
             {
-            Hardware.armRaisePiston.setForward(true);
-            }
-        else
-            {
-            Hardware.armRaisePiston.setForward(false);
+            if (Hardware.armRaiseButton.isOnCheckNow() == true)
+                {
+                Hardware.armRaisePiston.setForward(true);
+                }
+            else
+                {
+                Hardware.armRaisePiston.setForward(false);
+                }
             }
 
         // -----------------
@@ -355,94 +375,82 @@ public class Teleop
 
         // If right operator Y value is between -0.2 and +0.2 then the
         // armRaiseMotor will equal the armControlHoldSpeed
-        if ((((Hardware.armRaiseEncoder.getRaw() > 0)
-                && (Hardware.rightOperator.getY() > 0.0))
-                || ((Hardware.armRaiseEncoder
-                        .getRaw() < Hardware.CURRENT_ARM_RAISE_MAX_TICKS)
-                        && (Hardware.rightOperator.getY() < 0.0)))
-                && (Hardware.rightOperator.getRawButton(3) == false))
+        if (Hardware.rightOperator.getY() >= -Hardware.armControlDeadband
+                && Hardware.rightOperator.getY() <= Hardware.armControlDeadband)
             {
             Hardware.armRaiseMotor.set(Hardware.armControlHoldSpeed);
             }
         else
-            if (Hardware.rightOperator.getY() >= -Hardware.armControlDeadband
-                    && Hardware.rightOperator
-                            .getY() <= Hardware.armControlDeadband)
+            {
+            // If right operator Y value is less than the armControlDeadband
+            // then the ArmRaiseMotor will equal the equation below
+
+            if (Hardware.rightOperator.getY() < -Hardware.armControlDeadband)
                 {
-                Hardware.armRaiseMotor.set(Hardware.armControlHoldSpeed);
+                Hardware.armRaiseMotor.set(((-Hardware.armRaiseMaxSpeedDown
+                        + Hardware.armRaiseMinSpeedNegative)
+                        / (-Hardware.maxJoystickOperatorValue
+                                + Hardware.minJoystickOperatorValue))
+                        * (Hardware.rightOperator.getY()
+                                + Hardware.minJoystickOperatorValue)
+                        - Hardware.armRaiseMinSpeedNegative);
+
+                } // end if
+            // If right operator Y value is greater than the
+            // armControlDeadband
+            // then the ArmRaiseMotor will equal the equation below
+            if (Hardware.rightOperator.getY() > Hardware.armControlDeadband)
+                {
+                Hardware.armRaiseMotor.set(((Hardware.armRaiseMaxSpeedUp
+                        - Hardware.armRaiseMinSpeedPositive)
+                        / (Hardware.maxJoystickOperatorValue
+                                - Hardware.minJoystickOperatorValue))
+                        * (Hardware.rightOperator.getY()
+                                - Hardware.minJoystickOperatorValue)
+                        + Hardware.armRaiseMinSpeedPositive);
+                } // end if
+            } // end else
+        // If left operator Y value is between -0.2 and +0.2 then the
+        // armLengthMotor will equal the armLengthHoldSpeed
+        if (Hardware.inDemoMode == false)
+            {
+            if (Hardware.leftOperator.getY() >= -Hardware.armLengthDeadband
+                    && Hardware.leftOperator
+                            .getY() <= Hardware.armLengthDeadband)
+                {
+                Hardware.armLengthMotor.set(Hardware.armLengthHoldSpeed);
                 } // end if
             else
                 {
-                // If right operator Y value is less than the armControlDeadband
-                // then the ArmRaiseMotor will equal the equation below
-
-                if (Hardware.rightOperator
-                        .getY() < -Hardware.armControlDeadband)
+                // If left operator Y value is less than the armLengthDeadband
+                // then
+                // the ArmLengthMotor will equal the equation below
+                if (Hardware.leftOperator.getY() < -Hardware.armLengthDeadband)
                     {
-                    Hardware.armRaiseMotor.set(((-Hardware.armRaiseMaxSpeedDown
-                            + Hardware.armRaiseMinSpeedNegative)
+                    Hardware.armLengthMotor.set(((-Hardware.armLengthMaxSpeed
+                            + Hardware.armLengthMinSpeed)
                             / (-Hardware.maxJoystickOperatorValue
                                     + Hardware.minJoystickOperatorValue))
-                            * (Hardware.rightOperator.getY()
+                            * (Hardware.leftOperator.getY()
                                     + Hardware.minJoystickOperatorValue)
-                            - Hardware.armRaiseMinSpeedNegative);
-
+                            - Hardware.armLengthMinSpeed);
                     } // end if
-                // If right operator Y value is greater than the
-                // armControlDeadband
-                // then the ArmRaiseMotor will equal the equation below
-                if (Hardware.rightOperator.getY() > Hardware.armControlDeadband)
+                // If left operator Y value is greater than the
+                // armLengthDeadband
+                // then the ArmLengthMotor will equal the equation below
+                if (Hardware.leftOperator.getY() > Hardware.armLengthDeadband)
                     {
-                    Hardware.armRaiseMotor.set(((Hardware.armRaiseMaxSpeedUp
-                            - Hardware.armRaiseMinSpeedPositive)
+                    Hardware.armLengthMotor.set(((Hardware.armLengthMaxSpeed
+                            - Hardware.armLengthMinSpeed)
                             / (Hardware.maxJoystickOperatorValue
                                     - Hardware.minJoystickOperatorValue))
-                            * (Hardware.rightOperator.getY()
+                            * (Hardware.leftOperator.getY()
                                     - Hardware.minJoystickOperatorValue)
-                            + Hardware.armRaiseMinSpeedPositive);
+                            + Hardware.armLengthMinSpeed);
                     } // end if
-                } // end else
-        // If left operator Y value is between -0.2 and +0.2 then the
-        // armLengthMotor will equal the armLengthHoldSpeed
-        if (Hardware.leftOperator.getY() >= -Hardware.armLengthDeadband
-                && Hardware.leftOperator.getY() <= Hardware.armLengthDeadband)
-            {
-            Hardware.armLengthMotor.set(Hardware.armLengthHoldSpeed);
-            } // end if
-        else
-            {
-            // If left operator Y value is less than the armLengthDeadband then
-            // the ArmLengthMotor will equal the equation below
-            if (Hardware.leftOperator.getY() < -Hardware.armLengthDeadband)
-                {
-                Hardware.armLengthMotor.set(((-Hardware.armLengthMaxSpeed
-                        + Hardware.armLengthMinSpeed)
-                        / (-Hardware.maxJoystickOperatorValue
-                                + Hardware.minJoystickOperatorValue))
-                        * (Hardware.leftOperator.getY()
-                                + Hardware.minJoystickOperatorValue)
-                        - Hardware.armLengthMinSpeed);
-                } // end if
-            // If left operator Y value is greater than the armLengthDeadband
-            // then the ArmLengthMotor will equal the equation below
-            if (Hardware.leftOperator.getY() > Hardware.armLengthDeadband)
-                {
-                Hardware.armLengthMotor.set(((Hardware.armLengthMaxSpeed
-                        - Hardware.armLengthMinSpeed)
-                        / (Hardware.maxJoystickOperatorValue
-                                - Hardware.minJoystickOperatorValue))
-                        * (Hardware.leftOperator.getY()
-                                - Hardware.minJoystickOperatorValue)
-                        + Hardware.armLengthMinSpeed);
-                } // end if
 
-            } // end else
-              // Allow for reset of arm raise top position
-        if (Hardware.rightOperator.getRawButton(6) == true
-                && Hardware.rightOperator.getRawButton(7))
-            {
-            Hardware.armRaiseEncoder.reset();
-            } // if
+                } // end else
+            }
 
     } // end of armControl()
 
@@ -521,8 +529,38 @@ public class Teleop
         // control the eBrake and
         // the arm by the operator
         // ----------------------------
+        // OLD CODE IF THERE WAS AUTOMATIC DEMO SETUP FOR THE BACK PISTON
+        // if (Hardware.inDemoMode == true)
+        // {
+        // if (armRaiseMotorInitializedDemoState == false)
+        // {
+
+        // }
+        // else
+        // if (armRaiseMotorInitializedDemoState == true
+        // && armRaisePistonInitializedDemoState == false)
+        // {
+        // Hardware.armRaisePiston.setForward(true);
+        // armRaisePistonInitializedDemoState = true;
+        // }
+        // else
+        // if (armRaiseMotorInitializedDemoState == true
+        // && armRaisePistonInitializedDemoState == true)
+        // {
+        // armControl();
+        // }
+        // }
+        // else
+        // {
+        // armControl();
+        // }
+
+        // if (Hardware.inDemoMode == false)
+        // {
+        // manageEBrake(Hardware.eBrakePiston, false);
+        // }
         armControl();
-        manageEBrake(Hardware.eBrakePiston, false);
+
         // -------------------------
         // If eBrake has not overridden our ability to
         // drive, use the drivers joysticks to drive.
@@ -535,17 +573,22 @@ public class Teleop
                         .hasElapsed(eBrakeHoldtime) == true)
                         || (Hardware.eBrakeJoystickTimerIsStopped == true)))
             {
-            Hardware.transmission.shiftGears(Hardware.rightDriver.getTrigger(),
-                    Hardware.leftDriver.getTrigger());
-            Hardware.transmission.drive(Hardware.leftDriver.getY(),
-                    Hardware.rightDriver.getY());
+            if (Hardware.inDemoMode == false)
+                {
+                Hardware.transmission.shiftGears(
+                        Hardware.rightDriver.getTrigger(),
+                        Hardware.leftDriver.getTrigger());
+                }
+            Hardware.transmission.drive(
+                    (Hardware.leftDriver.getY() * Hardware.demoModeGearPercent),
+                    (Hardware.rightDriver.getY()
+                            * Hardware.demoModeGearPercent));
             } // if
         // else
         // {
         // // Hardware.transmission.drive(0, 0);
         // }
 
-        // Hardware.clawPiston.setForward(false);
         // manageEBrake(Hardware.clawPiston);
         // --------------------------
         // update dashboard values
@@ -641,11 +684,11 @@ public class Teleop
             // ----------- CAN -------------
 
             /////////// MOTOR VALUES ///////////
-            // System.out.println("LBottomMotor = " +
-            /////////// Hardware.leftBottomMotor.get());
-            // System.out.println("LTopMotor = " + Hardware.leftTopMotor.get());
             // System.out.println(
-            // "RBottomMotor Voltage = " + Hardware.rightBottomMotor.get());
+            // "LBottomMotor Voltage= " + Hardware.leftBottomMotor.get());
+            // System.out.println("LTopMotor = " + Hardware.leftTopMotor.get());
+            // System.out.println("RBottomMotor Voltage = "
+            // + Hardware.rightBottomMotor.get());
             // System.out.println("RTopMotor = " +
             /////////// Hardware.rightTopMotor.get());
             // System.out.println("LeMotor = " + Hardware.armLengthMotor.get()
@@ -670,4 +713,7 @@ public class Teleop
     private static double cameraSwitchPoint = -70.00;
 
     private static double eBrakeHoldtime = 5.0;
+
+    private static boolean armRaiseMotorInitializedDemoState = false;
+    private static boolean armRaisePistonInitializedDemoState = false;
     } // end class
