@@ -355,8 +355,6 @@ public class Teleop
         // Checks if arm raise button has been pressed and sets the arm raise
         // piston to
         // the opposite direction each time it is pressed
-        // if (Hardware.inDemoMode == false)
-        // {
         if (Hardware.inDemoMode == false)
             {
             if (Hardware.armRaiseButton.isOnCheckNow() == true)
