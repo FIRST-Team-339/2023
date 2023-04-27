@@ -338,6 +338,8 @@ public class Teleop
      */
     private static void armControl()
     {
+        boolean limitStatus = false;
+
         // Checks if claw trigger button has been pressed and sets the claw
         // piston to
         // the opposite direction each time it is pressed
@@ -383,7 +385,16 @@ public class Teleop
             // If right operator Y value is less than the armControlDeadband
             // then the ArmRaiseMotor will equal the equation below
 
-            if (Hardware.rightOperator.getY() < -Hardware.armControlDeadband)
+            if (Hardware.inDemoMode == true)
+                {
+                limitStatus = Hardware.bottomArmSwitch.isOn();
+                } // if
+            else
+                {
+                limitStatus = false;
+                } // else
+            if ((Hardware.rightOperator.getY() < -Hardware.armControlDeadband)
+                    && limitStatus == false)
                 {
                 Hardware.armRaiseMotor.set(((-Hardware.armRaiseMaxSpeedDown
                         + Hardware.armRaiseMinSpeedNegative)
@@ -397,7 +408,16 @@ public class Teleop
             // If right operator Y value is greater than the
             // armControlDeadband
             // then the ArmRaiseMotor will equal the equation below
-            if (Hardware.rightOperator.getY() > Hardware.armControlDeadband)
+            if (Hardware.inDemoMode == true)
+                {
+                limitStatus = Hardware.topArmSwitch.isOn();
+                } // if
+            else
+                {
+                limitStatus = false;
+                } // else
+            if (Hardware.rightOperator.getY() > Hardware.armControlDeadband
+                    && limitStatus == false)
                 {
                 Hardware.armRaiseMotor.set(((Hardware.armRaiseMaxSpeedUp
                         - Hardware.armRaiseMinSpeedPositive)
@@ -677,6 +697,10 @@ public class Teleop
             // Hardware.disableAutoSwitch.isOn());
             // System.out.println("RedLight = " +
             // Hardware.redLightSensor.isOn());
+            // System.out.println(
+            // "Bottom Limit Switch = " + Hardware.bottomArmSwitch.isOn());
+            // System.out.println(
+            // "Top Limit Switch = " + Hardware.topArmSwitch.isOn());
             // ---------- ANALOG -----------
 
             // ----------- CAN -------------

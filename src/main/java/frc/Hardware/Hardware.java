@@ -134,6 +134,8 @@ public class Hardware
 
                         armLengthMotor.setInverted(true);
                         armRaiseMotor.setInverted(false);
+                        bottomArmSwitch = new LightSensor(0);
+                        topArmSwitch = new LightSensor(6);
 
                         // Encoders
                         // ==============RIO INIT==============
@@ -376,6 +378,8 @@ public class Hardware
         public static SingleThrowSwitch demoModeSwitch = null;
         public static DoubleThrowSwitch leftRightNoneSwitch = null;
         public static LightSensor redLightSensor = null;
+        public static LightSensor bottomArmSwitch = null; // 0
+        public static LightSensor topArmSwitch = null; // 6
 
         // **********************************************************
         // ANALOG I/O
