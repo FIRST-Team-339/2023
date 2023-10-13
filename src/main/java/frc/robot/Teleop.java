@@ -591,12 +591,12 @@ public class Teleop
                         .hasElapsed(eBrakeHoldtime) == true)
                         || (Hardware.eBrakeJoystickTimerIsStopped == true)))
             {
-            if (Hardware.inDemoMode == false)
-                {
-                Hardware.transmission.shiftGears(
-                        Hardware.rightDriver.getTrigger(),
-                        Hardware.leftDriver.getTrigger());
-                }
+            // if (Hardware.inDemoMode == false)
+            // {
+            // Hardware.transmission.shiftGears(
+            // Hardware.rightDriver.getTrigger(),
+            // Hardware.leftDriver.getTrigger());
+            // }
             Hardware.transmission.drive(
                     (Hardware.leftDriver.getY() * Hardware.demoModeGearPercent),
                     (Hardware.rightDriver.getY()
