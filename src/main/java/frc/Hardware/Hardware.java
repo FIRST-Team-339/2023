@@ -157,8 +157,8 @@ public class Hardware
                         else
                                 {
                                 transmission.setAllGearPercentages(
-                                                CURRENT_GEAR1_MAX_SPEED,
-                                                CURRENT_GEAR2_MAX_SPEED
+                                                CURRENT_GEAR1_MAX_SPEED
+                                // CURRENT_GEAR2_MAX_SPEED
                                 /* , CURRENT_GEAR3_MAX_SPEED */);
                                 }
 
@@ -540,7 +540,7 @@ public class Hardware
         public final static double CURRENT_ARM_CONTROL_DEADBAND = 0.2;
         public final static double CURRENT_ARM_LENGTH_DEADBAND = 0.2;
         public final static double CURRENT_EBRAKETIMER_DELAY = 0.5;
-        public final static double CURRENT_GEAR1_MAX_SPEED = 0.25;
+        public final static double CURRENT_GEAR1_MAX_SPEED = 0.45;
         private final static double CURRENT_GEAR2_MAX_SPEED = 0.62;
         private final static double CURRENT_GEAR3_MAX_SPEED = 0.42;
         public final static double DEMO_MODE_GEAR_MAX_SPEED = 0.5;
