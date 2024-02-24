@@ -431,7 +431,7 @@ public class Hardware
         public static Timer eBrakeJoystickTimer = null;
         public static Timer autoTimer = null;
         public static boolean inDemoMode = false;
-        public static double demoModeGearPercent = 1.0;
+        public static double demoModeGearPercent = .5;
 
         // ------------------------------------
         // Operator Controls
@@ -540,7 +540,7 @@ public class Hardware
         public final static double CURRENT_ARM_CONTROL_DEADBAND = 0.2;
         public final static double CURRENT_ARM_LENGTH_DEADBAND = 0.2;
         public final static double CURRENT_EBRAKETIMER_DELAY = 0.5;
-        public final static double CURRENT_GEAR1_MAX_SPEED = 0.45;
+        public final static double CURRENT_GEAR1_MAX_SPEED = 0.55;
         private final static double CURRENT_GEAR2_MAX_SPEED = 0.62;
         private final static double CURRENT_GEAR3_MAX_SPEED = 0.42;
         public final static double DEMO_MODE_GEAR_MAX_SPEED = 0.5;

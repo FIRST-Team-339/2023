@@ -74,8 +74,10 @@ public class Teleop
         Hardware.drive.setGear(0);
         if (Hardware.inDemoMode == true)
             {
+            // Hardware.drive.setGearPercentage(0,
+            // Hardware.DEMO_MODE_GEAR_MAX_SPEED);
             Hardware.drive.setGearPercentage(0,
-                    Hardware.DEMO_MODE_GEAR_MAX_SPEED);
+                    Hardware.CURRENT_GEAR1_MAX_SPEED);
             Hardware.clawPiston.setForward(false);
             Hardware.clawTriggerButton.setValue(true);
             }
@@ -89,9 +91,9 @@ public class Teleop
         Hardware.rightSideMotors.set(0.0);
         Hardware.rightBottomEncoder.reset();
         Hardware.leftBottomEncoder.reset();
-        // Hardware.armRaiseButton.setValue(true);
         // Piston position setting
-        // Hardware.armRaisePiston.setForward(true);
+        Hardware.armRaiseButton.setValue(true);
+        Hardware.armRaisePiston.setForward(true);
 
         if (Hardware.eBrakePiston.getForward() == true)
             {
@@ -102,7 +104,8 @@ public class Teleop
         Hardware.cameras.setCamera(0);
         if (Hardware.inDemoMode == true)
             {
-            Hardware.demoModeGearPercent = Hardware.delayPot.get(0, 1);
+            // Hardware.demoModeGearPercent = Hardware.delayPot.get(0, 1);
+            Hardware.demoModeGearPercent = .4;
             }
 
     } // end init()
@@ -393,8 +396,10 @@ public class Teleop
                 {
                 limitStatus = false;
                 } // else
-            if ((Hardware.rightOperator.getY() < -Hardware.armControlDeadband)
-                    && limitStatus == false)
+            if ((Hardware.rightOperator.getY() < -Hardware.armControlDeadband))// &&
+                                                                               // limitStatus
+                                                                               // ==
+                                                                               // false)
                 {
                 Hardware.armRaiseMotor.set(((-Hardware.armRaiseMaxSpeedDown
                         + Hardware.armRaiseMinSpeedNegative)
