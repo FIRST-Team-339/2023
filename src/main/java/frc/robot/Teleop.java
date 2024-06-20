@@ -104,8 +104,8 @@ public class Teleop
         Hardware.cameras.setCamera(0);
         if (Hardware.inDemoMode == true)
             {
-            // Hardware.demoModeGearPercent = Hardware.delayPot.get(0, 1);
-            Hardware.demoModeGearPercent = .4;
+            Hardware.demoModeGearPercent = Hardware.delayPot.get(0, 1);
+            Hardware.demoModeGearPercent = .55;
             }
 
     } // end init()
@@ -602,10 +602,17 @@ public class Teleop
             // Hardware.rightDriver.getTrigger(),
             // Hardware.leftDriver.getTrigger());
             // }
+            // System.out.println("demo " + Hardware.delayPot.get(0.1, 0.5));
+            // Hardware.transmission.drive(
+            // (Hardware.leftDriver.getY()
+            // * Hardware.delayPot.get(0.1, 0.5)),
+            // (Hardware.rightDriver.getY()
+            // * Hardware.delayPot.get(0.1, 0.5)));
             Hardware.transmission.drive(
-                    (Hardware.leftDriver.getY() * Hardware.demoModeGearPercent),
-                    (Hardware.rightDriver.getY()
-                            * Hardware.demoModeGearPercent));
+                    Hardware.leftDriver.getY()
+                            * Hardware.DEMO_MODE_GEAR_MAX_SPEED,
+                    Hardware.rightDriver.getY()
+                            * Hardware.DEMO_MODE_GEAR_MAX_SPEED);
             } // if
         // else
         // {
@@ -681,6 +688,7 @@ public class Teleop
             // ---------- ANALOG -----------
             // System.out.println("delayPot = " + Hardware.delayPot.get(0.0,
             // 5.0));
+            System.out.println("delayPot = " + Hardware.delayPot.get(270.0));
 
             // -------- SUBSYSTEMS ---------
 

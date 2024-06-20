@@ -431,7 +431,7 @@ public class Hardware
         public static Timer eBrakeJoystickTimer = null;
         public static Timer autoTimer = null;
         public static boolean inDemoMode = false;
-        public static double demoModeGearPercent = .5;
+        public static double demoModeGearPercent = .7; /* 0.7? */
 
         // ------------------------------------
         // Operator Controls
