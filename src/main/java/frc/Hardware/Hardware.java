@@ -22,7 +22,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.playingwithfusion.CANVenom;
-
 import edu.wpi.first.wpilibj.ADXL345_SPI;
 import edu.wpi.first.wpilibj.ADXL362;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
@@ -75,6 +74,13 @@ public class Hardware
                 {
                 CurrentYear, PrevYear
                 };
+
+        enum DriveType
+                {
+                Diff, Arcade
+                };
+
+        public static DriveType currentDrive = DriveType.Diff;
 
         public static Identifier robotIdentity = Identifier.CurrentYear;
 
@@ -460,10 +466,8 @@ public class Hardware
         // Vision stuff
         // ----------------------------
         public static KilroyUSBCamera cameras = new KilroyUSBCamera(false);
-
         // public static MomentarySwitch switchCameraViewButton11 = new
-        // MomentarySwitch(
-        // rightOperator, 11, false);
+        // MomentarySwitch(rightOperator, 11, false);
 
         // -------------------
         // Subassemblies
@@ -540,10 +544,10 @@ public class Hardware
         public final static double CURRENT_ARM_CONTROL_DEADBAND = 0.2;
         public final static double CURRENT_ARM_LENGTH_DEADBAND = 0.2;
         public final static double CURRENT_EBRAKETIMER_DELAY = 0.5;
-        public final static double CURRENT_GEAR1_MAX_SPEED = 0.55;
+        public final static double CURRENT_GEAR1_MAX_SPEED = 0.6;
         private final static double CURRENT_GEAR2_MAX_SPEED = 0.62;
         private final static double CURRENT_GEAR3_MAX_SPEED = 0.42;
-        public final static double DEMO_MODE_GEAR_MAX_SPEED = 0.5;
+        public final static double DEMO_MODE_GEAR_MAX_SPEED = 0.6;
         private final static int CURRENT_DELAY_POT_PORT = 1;
         private final static double CURRENT_DISTANCE_PER_PULSE = 0.00100001;
         private final static int CURRENT_EBRAKE_FWD_PORT = 4;

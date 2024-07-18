@@ -34,12 +34,14 @@ import java.io.ObjectInputStream.GetField;
 import org.opencv.features2d.FlannBasedMatcher;
 
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.GenericHID.HIDType;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer.Range;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.Hardware.Hardware;
@@ -61,6 +63,14 @@ import frc.Utils.Dashboard.DriveGear;
  */
 public class Teleop
     {
+    // Accepts "ARCADE" or "DIFF"
+    private static final String driveType = "DIFF";
+
+    private static double turnSpeed;
+    private static double driveSpeed;
+    private static double leftSpeed;
+    private static double rightSpeed;
+    private static double maxSpeed;
 
     /**
      * User Initialization code for teleop mode should go here. Will be called
@@ -105,8 +115,10 @@ public class Teleop
         if (Hardware.inDemoMode == true)
             {
             Hardware.demoModeGearPercent = Hardware.delayPot.get(0, 1);
-            Hardware.demoModeGearPercent = .55;
+            // Hardware.demoModeGearPercent = .55;
             }
+        maxSpeed = SmartDashboard.getNumber("DB/Slider 0", 2.5) / 5;
+        // System.out.println(Hardware.demoModeGearPercent);
 
     } // end init()
 
@@ -390,11 +402,12 @@ public class Teleop
 
             if (Hardware.inDemoMode == true)
                 {
-                limitStatus = Hardware.bottomArmSwitch.isOn();
+                limitStatus = true;
                 } // if
             else
                 {
-                limitStatus = false;
+                limitStatus = Hardware.bottomArmSwitch.isOn();
+                ;
                 } // else
             if ((Hardware.rightOperator.getY() < -Hardware.armControlDeadband))// &&
                                                                                // limitStatus
@@ -415,7 +428,7 @@ public class Teleop
             // then the ArmRaiseMotor will equal the equation below
             if (Hardware.inDemoMode == true)
                 {
-                limitStatus = Hardware.topArmSwitch.isOn();
+                limitStatus = !Hardware.topArmSwitch.isOn();
                 } // if
             else
                 {
@@ -596,24 +609,73 @@ public class Teleop
                         .hasElapsed(eBrakeHoldtime) == true)
                         || (Hardware.eBrakeJoystickTimerIsStopped == true)))
             {
-            // if (Hardware.inDemoMode == false)
-            // {
-            // Hardware.transmission.shiftGears(
-            // Hardware.rightDriver.getTrigger(),
-            // Hardware.leftDriver.getTrigger());
-            // }
+            if (Hardware.inDemoMode == false)
+                {
+                Hardware.transmission.shiftGears(
+                        Hardware.rightDriver.getTrigger(),
+                        Hardware.leftDriver.getTrigger());
+                }
+
+            // System.out.println(Hardware.delayPot.get());
             // System.out.println("demo " + Hardware.delayPot.get(0.1, 0.5));
+
             // Hardware.transmission.drive(
             // (Hardware.leftDriver.getY()
             // * Hardware.delayPot.get(0.1, 0.5)),
             // (Hardware.rightDriver.getY()
             // * Hardware.delayPot.get(0.1, 0.5)));
-            Hardware.transmission.drive(
-                    Hardware.leftDriver.getY()
-                            * Hardware.DEMO_MODE_GEAR_MAX_SPEED,
-                    Hardware.rightDriver.getY()
-                            * Hardware.DEMO_MODE_GEAR_MAX_SPEED);
-            } // if
+            if (driveType == "ARCADE")
+                {
+
+                // ARCADE DRIVE
+                turnSpeed = Hardware.rightDriver.getX() * -1;
+                driveSpeed = Hardware.leftDriver.getY();
+
+                leftSpeed = driveSpeed + turnSpeed;
+                // System.out.println(leftSpeed);
+                rightSpeed = driveSpeed - turnSpeed;
+                // System.out.println(rightSpeed);
+
+                Hardware.transmission.drive(
+                        (MathUtil.clamp(leftSpeed, -0.6, 0.6)),
+                        (MathUtil.clamp(rightSpeed, -0.6, 0.6)));
+                }
+
+            // System.out.println(Hardware.delayPot.get());
+
+            if (driveType != "ARCADE")
+                {
+                // DIFF DRIVE
+                Hardware.transmission.drive(
+                        Hardware.inDemoMode
+                                ? Hardware.leftDriver.getY() * maxSpeed
+                                : Hardware.leftDriver.getY(),
+                        Hardware.inDemoMode
+                                ? Hardware.rightDriver.getY() * maxSpeed
+                                : Hardware.rightDriver.getY());
+                // Hardware.transmission
+                // .drive(MathUtil.clamp(Hardware.leftDriver.getY()
+                // * SmartDashboard.getNumber("DB/Slider 0", 2.5)
+                // / 5// Comment
+                // // out
+                // // this
+                // // line if delaypot does not work
+                // // and set Hardware.DEMO_MODE_GEAR_MAX_SPEED to desired
+                // // max speed
+                // ,
+
+                // -Hardware.DEMO_MODE_GEAR_MAX_SPEED,
+                // Hardware.DEMO_MODE_GEAR_MAX_SPEED),
+                // MathUtil.clamp(Hardware.rightDriver.getY() * 1// Comment
+                // // out
+                // // this line if delaypot does not work
+                // // and set Hardware.DEMO_MODE_GEAR_MAX_SPEED to
+                // // desired max speed
+                // , -Hardware.DEMO_MODE_GEAR_MAX_SPEED,
+                // Hardware.DEMO_MODE_GEAR_MAX_SPEED));
+                }
+            }
+        // if
         // else
         // {
         // // Hardware.transmission.drive(0, 0);
@@ -688,7 +750,7 @@ public class Teleop
             // ---------- ANALOG -----------
             // System.out.println("delayPot = " + Hardware.delayPot.get(0.0,
             // 5.0));
-            System.out.println("delayPot = " + Hardware.delayPot.get(270.0));
+            // System.out.println("delayPot = " + Hardware.delayPot.get(270.0));
 
             // -------- SUBSYSTEMS ---------
 
