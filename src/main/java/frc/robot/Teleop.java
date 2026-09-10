@@ -56,14 +56,13 @@ public class Teleop
     public static void init()
     {
         Hardware.drive.setGear(0);
-        
-            // Hardware.drive.setGearPercentage(0,
-            // Hardware.DEMO_MODE_GEAR_MAX_SPEED);
-            Hardware.drive.setGearPercentage(0,
-                    Hardware.CURRENT_GEAR1_MAX_SPEED);
-            Hardware.clawPiston.setForward(false);
-            Hardware.clawTriggerButton.setValue(true);
-            
+
+        // Hardware.drive.setGearPercentage(0,
+        // Hardware.DEMO_MODE_GEAR_MAX_SPEED);
+        Hardware.drive.setGearPercentage(0, Hardware.CURRENT_GEAR1_MAX_SPEED);
+        Hardware.clawPiston.setForward(false);
+        Hardware.clawTriggerButton.setValue(true);
+
         Hardware.leftBottomMotor.set(0.0);
         Hardware.rightBottomMotor.set(0.0);
 
@@ -77,11 +76,6 @@ public class Teleop
         // System.out.println(Hardware.demoModeGearPercent);
 
     } // end init()
-
-
- 
-
-    
 
     /**
      * Arm control and claw control code goes here.
@@ -105,9 +99,6 @@ public class Teleop
             Hardware.clawPiston.setForward(true);
             }
 
-        
-        
-
         // -----------------
         // Arm motor controls
         // ------------------
@@ -124,7 +115,6 @@ public class Teleop
             // If right operator Y value is less than the armControlDeadband
             // then the ArmRaiseMotor will equal the equation below
 
-            
             if ((Hardware.rightOperator.getY() < -Hardware.armControlDeadband))
                 {
                 Hardware.armRaiseMotor.set(((-Hardware.armRaiseMaxSpeedDown
@@ -139,23 +129,24 @@ public class Teleop
             // If right operator Y value is greater than the
             // armControlDeadband
             // then the ArmRaiseMotor will equal the equation below
-            
+
             if (Hardware.rightOperator.getY() > Hardware.armControlDeadband)
                 {
-                Hardware.armRaiseMotor.set(((Hardware.armRaiseMaxSpeedUp
-                        - Hardware.armRaiseMinSpeedPositive)
-                        / (Hardware.maxJoystickOperatorValue
-                                - Hardware.minJoystickOperatorValue))
-                        * (Hardware.rightOperator.getY()
-                                - Hardware.minJoystickOperatorValue)
-                        + Hardware.armRaiseMinSpeedPositive);
+                if (Hardware.redLightSensor.isOn() == false)
+                    {
+                    Hardware.armRaiseMotor.set(((Hardware.armRaiseMaxSpeedUp
+                            - Hardware.armRaiseMinSpeedPositive)
+                            / (Hardware.maxJoystickOperatorValue
+                                    - Hardware.minJoystickOperatorValue))
+                            * (Hardware.rightOperator.getY()
+                                    - Hardware.minJoystickOperatorValue)
+                            + Hardware.armRaiseMinSpeedPositive);
+                    }
                 } // end if
             } // end else
 
-
         // If left operator Y value is between -0.2 and +0.2 then the
         // armLengthMotor will equal the armLengthHoldSpeed
-        
 
     } // end of armControl()
 
@@ -163,7 +154,7 @@ public class Teleop
     {
         // GYRO
         Dashboard.updateGyroInd();
-       
+
         // AUTO
         Dashboard.updateAutoModeInd(AutoModeDash.Teleop);
 
@@ -188,11 +179,10 @@ public class Teleop
 
         armControl();
 
-                // DIFF DRIVE
-                Hardware.transmission.drive(
-                        Hardware.leftDriver.getY() * maxSpeed,
-                        -Hardware.rightDriver.getY() * maxSpeed);
-                
+        // DIFF DRIVE
+        Hardware.transmission.drive(Hardware.leftDriver.getY() * maxSpeed,
+                -Hardware.rightDriver.getY() * maxSpeed);
+
         // --------------------------
         // update dashboard values
         // --------------------------
@@ -204,10 +194,7 @@ public class Teleop
         // --------------------------
         printStatements();
 
-
     } // end periodic()
-
-
 
     public static void printStatements()
     {
@@ -304,6 +291,5 @@ public class Teleop
 
             }
     } // end printStatements()
-
 
     } // end class
